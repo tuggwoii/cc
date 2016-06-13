@@ -1,0 +1,52 @@
+﻿<div class="register-form text-center" ng-controller="RegisterController">
+    <div class="logo-circle">
+        <img src="img/logo-r.png" alt="logo" />
+    </div>
+    <h1>Register and try for free </h1>
+    <form name="registerForm">
+        <div class="form-group">
+            <p class="text text-warning" ng-show="registerForm.name.$error.required && registerForm.name.$dirty">First name is required.</p>
+            <input 
+                   class="form-control" 
+                   type="text" 
+                   name="name"
+                   placeholder="Name"
+                   ng-model="model.name"
+                   ng-required="true"/>
+        </div>
+        <div class="form-group">
+            <p class="text text-warning" ng-show="registerForm.email.$error.required && registerForm.email.$dirty">E-mail is required.</p>
+            <p class="text text-warning" ng-show="registerForm.email.$error.email">E-mail is invalid.</p>
+            <p class="text text-warning" ng-show="status.exist">E-mail is already exist.</p>
+            <input class="form-control"
+                   type="email"
+                   name="email"
+                   placeholder="E-mail Address"
+                   ng-model="model.email"
+                   ng-required="true" />
+            <small>use for login to your account</small>
+        </div>
+        <div class="form-group">
+            <p class="text text-warning" ng-show="registerForm.password.$error.required && registerForm.password.$dirty">Password is required.</p>
+            <input class="form-control"
+                   type="password"
+                   name="password"
+                   placeholder="Password"
+                   ng-model="model.password"
+                   ng-required="true" />
+        </div>
+        <div class="form-group">
+            <p class="text text-warning" ng-show="model.confirm_password != model.password">Confirm password doesn't match with password</p>
+            <input class="form-control"
+                   type="password"
+                   name="confirmPassword"
+                   placeholder="Confirm Password"
+                   ng-model="model.confirm_password"
+                   ng-required="true" />
+            <small>must match with your password</small>
+        </div>
+        <p class="text text-warning" ng-show="status.error">Error occurred. Please try again.</p>
+    </form>
+    <button type="button" class="btn btn-success" ng-click="submit(registerForm)">Create an Account</button>
+    <p>I already have an account. <a href="/login">Log In</a></p>
+</div>

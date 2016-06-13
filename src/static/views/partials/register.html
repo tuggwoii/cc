@@ -1,0 +1,30 @@
+﻿<h1>สมัครใช้งานฟรี</h1>
+<form name="loginForm" ng-controller="RegisterController">
+    <div class="field">
+        <input type="text"
+               class="textbox"
+               placeholder="ชื่อเรียก"
+               ng-model="model.name"
+               ng-required="true" />
+    </div>
+    <div class="field">
+        <input type="email"
+               class="textbox"
+               placeholder="E-mail"
+               ng-model="model.email"
+               ng-required="true" />
+    </div>
+    <div class="field">
+        <input type="password"
+               class="textbox"
+               placeholder="Password"
+               ng-model="model.password"
+               ng-required="true" />
+    </div>
+
+    <button type="button">
+        Register
+    </button>
+
+    
+</form>

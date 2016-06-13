@@ -1,0 +1,28 @@
+'use strict';
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var apis = require('./src/routes/api');
+var pages = require('./src/routes/pages');
+var errors = require('./src/routes/errors');
+var log = require('./src/helpers/log');
+app.set('port', (process.env.PORT || 8000));
+app.set('views', __dirname + '/src/static/views');
+app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
+app.use('/libs', express.static(__dirname + '/node_modules'));
+app.use('/css', express.static(__dirname + '/src/static/css'));
+app.use('/js', express.static(__dirname + '/src/static/js'));
+app.use('/img', express.static(__dirname + '/src/static/img'));
+app.use('/favicon.ico', express.static(__dirname + '/src/static/img/favicon.ico'));
+app.use('/fonts', express.static(__dirname + '/src/static/fonts'));
+app.use('/resources', express.static(__dirname + '/src/static/resources'));
+app.use('/backend', express.static(__dirname + '/src/static/views/backend'));
+app.use('/partials', express.static(__dirname + '/src/static/views/partials'));
+app.use(bodyParser.json());
+app.use('/api/v1/', apis);
+app.use('/', pages);
+app.use(errors);
+app.listen(app.get('port'), function () {
+    log.write('App is running on port ' + app.get('port'));
+});

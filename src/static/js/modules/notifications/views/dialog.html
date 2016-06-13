@@ -1,0 +1,12 @@
+﻿<div ng-controller="DialogController">
+    <div class="loading" ng-if="model.isShow">
+        <div class="dialog">
+            <h2 class="uppercase">{{model.title}}</h2>
+            <p>{{model.message}}</p>
+            <div class="button-container">
+                <button class="btn btn-success" type="button" ng-click="reload()">{{strings['reload']?strings['reload']:'Reload'}}</button>
+                <button class="btn btn-default" type="button" ng-click="close()">{{strings['close']?strings['close']:'Close'}}</button>
+            </div>
+        </div>        
+    </div>
+</div>

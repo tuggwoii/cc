@@ -1,0 +1,16 @@
+﻿<div class="logo-container">
+    <div class="logo-circle">
+        <img src="img/logo-r.png" alt="logo">
+    </div>
+</div>
+<div class="menu">
+    <a href="{{item.url}}" ng-repeat="item in navs" class="nav-item {{item.active?'active':''}}" title="{{item.title}}">
+        <i class="{{item.icon}}"></i> 
+        <span class="menu-title">{{item.title}}</span>
+        <span class="arrow-left"></span>
+    </a>
+    <a ng-click="logout()" title="{{string('log_out')}}">
+        <i class="fa fa-sign-out"></i> 
+        <span class="menu-title">{{string('log_out')}}</span>
+   </a>
+</div>

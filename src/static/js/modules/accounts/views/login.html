@@ -1,0 +1,30 @@
+﻿<div id="loginForm" class="login-form text-center" ng-controller="LoginController">
+    <div class="logo-circle">
+        <img src="img/logo-r.png" alt="logo" />
+    </div>
+    <h1>Log In to your dashboard</h1>
+    <form name="loginForm">
+        <div class="form-group">
+            <label>E-mail</label>
+            <input 
+                   type="email" 
+                   class="form-control" 
+                   placeholder="Type your e-mail" 
+                   name="username"
+                   ng-model="model.email" />
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input 
+                   type="password" 
+                   class="form-control" 
+                   placeholder="Type your password" 
+                   name="password"
+                   ng-model="model.password" />
+        </div>
+        <p class="text text-warning" ng-show="status.invalid">E-mail or password is invalid</p>
+        <p class="text text-warning" ng-show="status.error">Error occurred. Please try again</p>
+    </form>
+    <button type="button" ng-click="login(loginForm)" class="btn btn-success">Log In</button> 
+    <p>Don't have an account? <a href="/register">Register</a></p>
+</div>

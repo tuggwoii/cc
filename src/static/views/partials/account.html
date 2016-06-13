@@ -1,0 +1,46 @@
+﻿<h1>แก้ไขข้อมูลส่วนตัว</h1>
+<form name="accountForm" ng-controller="AccountController" class="login-form">
+    <p class="error-message" ng-if="status.invalid">E-mail หรือ Password ไม่ถูกต้อง</p>
+    <p class="error-message" ng-if="status.error">ระบบขัดข้องกรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ</p>
+    <p class="error-message">{{status.message}}</p>
+    <div class="field">
+        <input type="text"
+               class="textbox"
+               placeholder="Name"
+               ng-model="model.name"
+               ng-required="true" />
+    </div>
+    <div class="field">
+        <input type="email"
+               class="textbox"
+               ng-disabled="true"
+               placeholder="E-mail"
+               ng-model="model.email"
+               ng-required="true" />
+    </div>
+    <hr/>
+    <h4>Change password</h4>
+    <div class="field">
+        <input type="password"
+               class="textbox"
+               placeholder="New Password"
+               ng-model="model.password" />
+    </div>
+    <div class="field">
+        <input type="password"
+               class="textbox"
+               ng-model="model.confirm_password"
+               placeholder="Confirm Password"
+               ng-required="model.password" />
+    </div>
+    <div class="field">
+        <input type="password"
+               class="textbox"
+               placeholder="Old Password"
+               ng-model="model.old_password"
+               ng-required="model.password" />
+    </div>
+    <button type="button" ng-click="update(accountForm)">
+        Update
+    </button>
+</form>

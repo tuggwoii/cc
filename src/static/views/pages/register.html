@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+        <title>REST BUILDER | Register</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/fas/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="css/register.css" rel="stylesheet" type="text/css" />
+        <link href="css/animate.css" rel="stylesheet" type="text/css" />
+        <link href="js/modules/notifications/styles/loading.css" rel="stylesheet" />
+	</head>
+	<body class="register" ng-controller="RootController" ng-cloak>
+        <div class="back"><a href="/"><i class="fa fa-arrow-left"></i> BACK</a></div>
+		<div class="container-fluid {{state.isReady}}" ng-show="state.isReady">
+            <div class="row">
+                <div class="col-md-12">
+                    <div ng-include="'js/modules/accounts/views/register.html'"></div>
+                </div>
+            </div>
+		</div>
+        <div ng-include="'js/modules/notifications/views/loading.html'"></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script type="text/javascript">
+        if(!window.jQuery) {
+            document.write("<script type=\"text/javascript\" src=\"/libs/jquery/dist/jquery.min.js\"><\/script>");
+        }
+        </script>
+        <script src="libs/angular/angular.min.js"></script>
+        <script src="libs/angular-animate/angular-animate.min.js"></script>
+        <script src="libs/angular-cookies/angular-cookies.min.js"></script>
+        <script src="js/ui-router.js"></script>
+		<script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="js/app.js"></script>
+        <!--Services-->
+        <script src="js/modules/apis/services/urls.js"></script>
+        <script src="js/modules/notifications/services/notifications.js"></script>
+        <script src="js/modules/accounts/services/accounts.js"></script>
+        <script src="js/modules/config/request.js"></script>
+        <!--Controllers-->
+        <script src="js/modules/base/controllers/root-controller.js"></script>
+        <script src="js/modules/accounts/controllers/controller-register.js"></script>
+        <script src="js/modules/notifications/controllers/loading-controller.js"></script>
+
+        <!--FIREBASE-->
+        <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+        <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyA_q3nONDUEM3ps5TCSOZtOf20no9pLHrU",
+        authDomain: "project-8365612294390378643.firebaseapp.com",
+        databaseURL: "https://project-8365612294390378643.firebaseio.com",
+        storageBucket: "project-8365612294390378643.appspot.com",
+      };
+      firebase.initializeApp(config);
+        </script>
+	</body>
+</html>

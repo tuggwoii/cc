@@ -1,0 +1,5 @@
+﻿<div ng-controller="NotifyController">
+    <div class="notify animated fadeIn {{model.type}}" ng-if="model.isShow">
+        <p><strong class="uppercase">{{model.title}}:</strong> {{model.message}} <i class="fa fa-close" ng-click="close()"></i></p>
+    </div>
+</div>

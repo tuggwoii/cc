@@ -1,0 +1,12 @@
+﻿<div ng-controller="ConfirmController">
+    <div class="loading" ng-if="model.isShow">
+        <div class="dialog">
+            <h2 class="uppercase">{{strings['confirm_header']}}</h2>
+            <p>{{strings['are_you_sure']}}</p>
+            <div class="button-container">
+                <button class="btn btn-success" type="button" ng-click="confirm()">{{strings['confirm']}}</button>
+                <button class="btn btn-default" type="button" ng-click="close()">{{strings['cancel']}}</button>
+            </div>
+        </div>        
+    </div>
+</div>

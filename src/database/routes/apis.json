@@ -1,0 +1,27 @@
+[
+  {
+    "title": "dashboard",
+    "url": "/dashboard#/",
+    "icon": "fa fa-desktop"
+  },
+  {
+    "title": "hotels",
+    "url": "/dashboard#/hotels",
+    "icon": "fa fa-university"
+  },
+  {
+    "title": "rooms",
+    "url": "/dashboard#/rooms",
+    "icon": "fa fa-bed"
+  },
+  {
+    "title": "reservation",
+    "url": "/dashboard#/reservation",
+	  "icon": "fa fa-book"
+  },
+  {
+    "title": "languages",
+    "url": "/dashboard#/languages",
+	  "icon": "fa fa-language"
+  }
+]

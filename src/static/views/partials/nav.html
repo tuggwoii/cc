@@ -1,0 +1,21 @@
+﻿<nav>
+    <div class="logo" ng-click="navigateTo('#/')">
+        CHEEPOW
+    </div>
+    <div class="user-panel" ng-if="user" ng-controller="AccountController">
+        <div ng-if="!user.id">
+            <a class="login-link" ng-click="navigateTo('#/login')">LOGIN</a>
+        </div>
+        <div class="animated fadeIn" ng-if="user.id" ng-click="displayControl = !displayControl">
+            <a class="username">{{user.name}}</a>
+            <img src="/img/noprofile.png" />
+            <div class="user-control animated fadeIn" ng-if="displayControl">
+                <img src="/img/noprofile.png" />
+                <div class="button-container">
+                    <button ng-click="edit()">Edit Profile</button>
+                    <button ng-click="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

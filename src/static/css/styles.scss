@@ -1,0 +1,165 @@
+﻿[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
+
+.ng-leave {
+    display: none !important;
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+    font-family: gotham-light;
+    src: url("/fonts/gotham-light.ttf");
+}
+
+@font-face {
+    font-family: gotham-med;
+    src: url("/fonts/gotham-med.ttf");
+}
+
+@font-face {
+    font-family: gotham-reg;
+    src: url("/fonts/gotham-reg.ttf");
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+.app {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'gotham-light', sans-serif;
+    font-size: 16px;
+    overflow-x: hidden;
+
+    h1, h2, h3, h4 {
+        font-weight: normal;
+    }
+
+    a {
+        cursor: pointer;
+        color: #999;
+        font-weight: bold;
+    }
+
+    header {
+        z-index: 999;
+        position: fixed;
+        width: 100%;
+        box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0 rgba(0,0,0,0.2);
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        height: 50px;
+        animation-duration: 0.2s;
+        -webkit-animation-duration: 0.2s;
+        -moz-animation-duration: 0.2s;
+
+        nav {
+            height: 50px;
+            padding: 0 15px;
+        }
+
+        .user-panel {
+            float: right;
+            margin-top: 5px;
+            cursor: pointer;
+            position: relative;
+
+            img {
+                width: 36px;
+                border-radius: 18px;
+                margin-left: 10px;
+            }
+
+            .login-link {
+                position: relative;
+                top: 10px;
+            }
+
+            .username {
+                position: relative;
+                top: -12px;
+            }
+
+            .user-control {
+                width: 300px;
+                padding: 10px;
+                height: 175px;
+                box-shadow: 1px 1px 5px #333;
+                position: absolute;
+                background: #fff;
+                right: -5px;
+                top: 60px;
+                animation-duration: 0.5s;
+                -webkit-animation-duration: 0.5s;
+                -moz-animation-duration: 0.5s;
+
+                img {
+                    display: block;
+                    margin: 10px auto;
+                    width: 80px;
+                    border-radius: 40px;
+                }
+
+                .button-container {
+                    position: absolute;
+                    left: 15px;
+                    bottom: 15px;
+                    width: 100%;
+
+                    button {
+                        width: 133px;
+                        min-width: 133px;
+                    }
+                }
+            }
+        }
+
+        .logo {
+            float: left;
+            cursor: pointer;
+            position: relative;
+            top: 15px;
+        }
+    }
+
+    .wrapper {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        margin-bottom: -5px;
+        margin-top: 50px;
+        min-height: 950px;
+
+        .side-bar {
+            width: 250px;
+            background-color: darkcyan;
+            height: 100%;
+            display: inline-block;
+            position: absolute;
+        }
+
+        .view {
+            display: inline-block;
+            width: 100%;
+            padding-left: 270px;
+            animation-duration: 0.2s;
+            -webkit-animation-duration: 0.2s;
+            -moz-animation-duration: 0.2s;
+
+            .tabs {
+                height: 120px;
+                display: inline-block;
+                width: 100%;
+            }
+        }
+    }
+}
