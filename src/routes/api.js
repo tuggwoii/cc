@@ -6,7 +6,8 @@ var accountApi = require('../api/account');
 var pageApi = require('../api/page');
 var fileApi = require('../api/file');
 var carApi = require('../api/car');
-var routes = [staticApi, roleApi, accountApi, pageApi, fileApi, carApi];
+var logApi = require('../api/log');
+var routes = [staticApi, roleApi, accountApi, pageApi, fileApi, carApi, logApi];
 
 module.exports = function (request, response) {
     var isFound = false;

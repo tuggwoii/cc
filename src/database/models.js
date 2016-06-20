@@ -186,3 +186,4 @@ exports.User = User;
 exports.Role = Role;
 exports.File = File;
 exports.Car = Car;
+exports.Log = Log;

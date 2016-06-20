@@ -31,8 +31,8 @@ class LogApi extends BaseApi {
 
     endpoints () {
         return [
-			{ url: '/cars', method: 'get', roles: ['admin'], response: this.getAll },
-            { url: '/cars', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] }
+			{ url: '/logs', method: 'get', roles: ['admin'], response: this.getAll },
+            { url: '/logs', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] }
         ];
     }
 }

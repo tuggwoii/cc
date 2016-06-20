@@ -36,7 +36,7 @@ class AccountApi extends BaseApi {
     }
 
     comparePassword (password, hash) {
-        return bcrypt.compareSync(password, hash);
+        return bcrypt.compareSync(password?password:'', hash);
     }
 
     findByEmail (email) {
@@ -86,13 +86,13 @@ class AccountApi extends BaseApi {
         return promise;
     }
 
-    validateRegister (data) {
+    validateRegister (data, is_facebook) {
         var me = this;
         var promise = new Promise(function (resolve, reject) {
             if (!data.email) {
                 reject({ message: 'EMAIL REQUIRED' });
             }
-            else if (!data.password) {
+            else if (!data.password && !is_facebook) {
                 reject({ message: 'PASSWORD REQUIRED' });
             }
             else {
@@ -119,7 +119,7 @@ class AccountApi extends BaseApi {
         });
     }
 
-    validateUpdate(data) {
+    validateUpdate (data) {
         var me = this;
         var promise = new Promise(function (resolve, reject) {
             if (!data.email) {
@@ -134,20 +134,26 @@ class AccountApi extends BaseApi {
 
     update (context, req, res) {
         var user = req.body;
-        User.findById(user.id, {
+        User.findById(req.user.id, {
             include: [
                 { model: Role }
             ]
         }).then(function (_user) {
             if (_user) {
+                console.log('here', _user);
                 if (_user.id === req.user.id) {
                     var valid_password_process = true;
                     if (user.password) {
-                        if (context.comparePassword(user.old_password, _user.password)) {
-                            user.password = bcrypt.hashSync(user.password);
+                        if (_user.password) {
+                            if (context.comparePassword(user.old_password, _user.password)) {
+                                user.password = bcrypt.hashSync(user.password);
+                            }
+                            else {
+                                valid_password_process = false;
+                            }
                         }
                         else {
-                            valid_password_process = false;
+                            user.password = bcrypt.hashSync(user.password);
                         }
                     }
                     if (valid_password_process) {
@@ -179,7 +185,7 @@ class AccountApi extends BaseApi {
                 context.error(req, res, 'NOT FOUND', 404);
             }
         }).catch(function (err) {
-            responseError(req, res, err, 500);
+            context.error(req, res, err, 500);
         });
     }
 
@@ -222,9 +228,9 @@ class AccountApi extends BaseApi {
 						var data = {
 							email: _res.email,
 							name: _res.name,
-							password: shortid.generate()
+                            password: ''
 						};
-						context.validateRegister(data).then(function () {
+						context.validateRegister(data, true).then(function () {
 							var user = context.registerModel(data);
 							User.create(user, { isNewRecord: true }).then(function (model) {
 								context.findByEmail(_res.email).then(function (_users) {
@@ -259,9 +265,23 @@ class AccountApi extends BaseApi {
     register (context, req, res) {
         var data = req.body;
         context.validateRegister(data).then(function () {
-            var user = context.registerModel(data);
-            User.create(user, { isNewRecord: true }).then(function (model) {
-                context.success(req, res, model);
+            var model = context.registerModel(data);
+            User.create(model, { isNewRecord: true }).then(function (_user) {
+                var user = context.loginSerializer(_user);
+                User.findById(user.id, {
+                    include: [
+                        { model: Role }
+                    ]
+                }).then(function (___user) {
+                    var auth_user = context.loginSerializer(___user);
+                    Authorize.authorizeUser(auth_user).then(function (login_user) {
+                        context.success(req, res, login_user);
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
+                }).catch(function (err) {
+                    context.error(req, res, err, 500);
+                });
             }).catch(function (err) {
                 context.error(req, res, err, 500);
             });
@@ -288,12 +308,23 @@ class AccountApi extends BaseApi {
         context.success(req, res, req.user);
     }
 
+    delete (context, req, res) {
+        if (req.params.id) {
+            User.destroy({ where: { id: req.params.id } }).then(function (model) {
+                context.success(req, res, {});
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+    }
+
     endpoints () {
         return [
             { url: '/accounts', method: 'get', roles: ['admin'], response: this.getAll },
 			{ url: '/accounts/login', method: 'post', roles: [], response: this.login },
             { url: '/accounts', method: 'post', roles: [], response: this.register },
             { url: '/accounts', method: 'patch', roles: ['admin', 'user'], response: this.update },
+            { url: '/accounts', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] },
             { url: '/accounts/me', method: 'get', roles: ['admin', 'user'], response: this.me },
             { url: '/accounts/logout', method: 'post', roles: ['admin', 'user'], response: this.logout }
         ];

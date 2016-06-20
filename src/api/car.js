@@ -30,11 +30,26 @@ class CarApi extends BaseApi {
         return promise;
     }
 
-    getAll(context, req, res) {
-        Car.all({include: [
+    getByUser (context, req, res) {
+        Car.findAll({
+            where: { owner: req.user.id },
+            include: [
             { model: User },
             { model: File }
         ]}).then(function (data) {
+            context.success(req, res, data);
+        }).catch(function (err) {
+            context.error(req, res, err, 500);
+        });
+    }
+
+    getAll (context, req, res) {
+        Car.all({
+            include: [
+                { model: User },
+                { model: File }
+            ]
+        }).then(function (data) {
             context.success(req, res, data);
         }).catch(function (err) {
             context.error(req, res, err, 500);
@@ -82,7 +97,7 @@ class CarApi extends BaseApi {
 
     endpoints() {
         return [
-			{ url: '/cars', method: 'get', roles: ['admin', 'user'], response: this.getAll },
+			{ url: '/cars', method: 'get', roles: ['admin', 'user'], response: this.getByUser },
             { url: '/cars', method: 'post', roles: ['admin', 'user'], response: this.add },
             { url: '/cars', method: 'delete', roles: ['admin', 'user'], response: this.delete, params: ['id'] }
         ];

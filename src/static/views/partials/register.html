@@ -1,5 +1,5 @@
 ﻿<h1>สมัครใช้งานฟรี</h1>
-<form name="loginForm" ng-controller="RegisterController">
+<form name="registerForm" ng-controller="RegisterController">
     <div class="field">
         <input type="text"
                class="textbox"
@@ -21,8 +21,15 @@
                ng-model="model.password"
                ng-required="true" />
     </div>
+    <div class="field">
+        <input type="password"
+               class="textbox"
+               placeholder="Confirm Password"
+               ng-model="model.confirm_password"
+               ng-required="true" />
+    </div>
 
-    <button type="button">
+    <button type="button" ng-click="submit(registerForm)">
         Register
     </button>
 

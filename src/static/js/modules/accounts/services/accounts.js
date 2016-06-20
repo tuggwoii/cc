@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.factory('AccountService', ['$http', '$q', 'URLS', function ($http, $q, URLS) {
+module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', function ($rootScope, $http, $q, $cookies, URLS) {
 	return {
         login: function (model) {
             return $http.post(URLS.model('accounts').login, model);
@@ -25,6 +25,13 @@ module.factory('AccountService', ['$http', '$q', 'URLS', function ($http, $q, UR
                     }
                 });
             });
+        },
+        setAuthenticationToken: function (res) {
+            var date = new Date();
+            var expire_date = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
+            $cookies.put('Authorization', res.data.token, { path: '/', expires: expire_date });
+            window.cheepow.user = res.data;
+            $rootScope.$broadcast('UPDATE_USER');
         }
     };
 }]);

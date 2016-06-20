@@ -31,7 +31,7 @@ exports.authorizeUser = function (user) {
             //if (userSession[user.id]) {
                 //delete tokenSession[userSession[user.id]]; 
             //}
-
+            console.log('setAutho', user);
             tokenSession[token] = user;
             userSession[user.id] = token;
             user.token = token;

@@ -2,12 +2,7 @@
 module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'AccountService', function ($scope, $rootScope, $cookies, AccountService) {
 
     function success(res) {
-        var date = new Date();
-        var expire_date = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
-        $cookies.put('Authorization', res.data.token, { path: '/', expires: expire_date });
-        console.log($cookies.get('Authorization'));
-        window.cheepow.user = res.data;
-        $rootScope.$broadcast('UPDATE_USER');
+        AccountService.setAuthenticationToken(res);
         $scope.navigateTo('#/');
     }
 
