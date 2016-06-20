@@ -1,4 +1,5 @@
-﻿var Car = require('../database/models').Car;
+﻿'use strict';
+var Car = require('../database/models').Car;
 var File = require('../database/models').File;
 var User = require('../database/models').User;
 var BaseApi = require('./base');
