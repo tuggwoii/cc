@@ -1,4 +1,5 @@
-﻿var Log = require('../database/models').Log;
+﻿'use strict';
+var Log = require('../database/models').Log;
 var User = require('../database/models').User;
 var BaseApi = require('./base');
 

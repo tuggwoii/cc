@@ -1,4 +1,5 @@
-﻿var File = require('../database/models').File;
+﻿'use strict';
+var File = require('../database/models').File;
 var shortid = require('shortid');
 var BaseApi = require('./base');
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
