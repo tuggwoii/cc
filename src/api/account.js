@@ -5,6 +5,8 @@ var User = require('../database/models').User;
 var Role = require('../database/models').Role;
 var bcrypt = require('bcrypt-nodejs');
 var salt = bcrypt.genSaltSync(10);
+var shortid = require('shortid');
+shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 var FB = require('fb'),
     fb = new FB.Facebook({version: 'v2.6'});
 	
@@ -15,7 +17,7 @@ class AccountApi extends BaseApi {
             email: data.email,
             password: bcrypt.hashSync(data.password, salt),
             name: data.name,
-            user_role: 1
+            user_role: 2
         };
     }
 
@@ -219,7 +221,8 @@ class AccountApi extends BaseApi {
 					else {
 						var data = {
 							email: _res.email,
-							name: _res.name
+							name: _res.name,
+							password: shortid.generate()
 						};
 						context.validateRegister(data).then(function () {
 							var user = context.registerModel(data);

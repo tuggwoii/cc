@@ -1,4 +1,5 @@
 'use strict';
+var Log = require('../helpers/log');
 class BaseApi {
 
     serializer (data) {
@@ -34,10 +35,14 @@ class BaseApi {
 
     serializerList (collection) {
         var json = JSON.stringify(collection);
-        return JSON.parse(json);
+        var collectios = JSON.parse(json);
+        for (var i = 0; i < collectios.length; i++) {
+            collectios[i] = this.serializer(collectios[i]);
+        }
+        return collectios;
     }
 
-    success(req, res, model, serializer) {
+    success (req, res, model, serializer) {
         if (model.length) {
             res.json({
                 data: this.serializerList(model),
@@ -64,6 +69,10 @@ class BaseApi {
             stack: err.stack ? err.stack : '',
             status: code
         };
+        if (req.user) {
+            error.user = req.user.id
+        }
+        Log.logToDatabase(error);
         res.status(code).json({
             data: [],
             error: error
