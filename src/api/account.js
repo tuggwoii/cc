@@ -17,7 +17,8 @@ class AccountApi extends BaseApi {
             email: data.email,
             password: bcrypt.hashSync(data.password, salt),
             name: data.name,
-            user_role: 2
+            user_role: 2,
+            max_car: 1
         };
     }
 
@@ -111,25 +112,42 @@ class AccountApi extends BaseApi {
         return promise;
     }
 
-    getAll (context, req, res) {
-        User.all().then(function (data) {
-            context.success(req, res, data);
-        }).catch(function (err) {
-            context.error(req, res, err, 500);
-        });
-    }
-
-    validateUpdate (data) {
+    validateUpdate(data) {
         var me = this;
         var promise = new Promise(function (resolve, reject) {
             if (!data.email) {
                 reject({ message: 'EMAIL REQUIRED' });
             }
             else {
+                if (data.max_car) {
+                    delete data['max_car'];
+                }
+                if (data.user_role) {
+                    delete data['user_role'];
+                }
                 resolve();
             }
         });
         return promise;
+    }
+
+    validateAdminUpdate (data) {
+        var me = this;
+        var promise = new Promise(function (resolve, reject) {
+            if (data.password) {
+                delete data['password'];
+            }
+            resolve(data);
+        });
+        return promise;
+    }
+
+    getAll (context, req, res) {
+        User.all().then(function (data) {
+            context.success(req, res, data);
+        }).catch(function (err) {
+            context.error(req, res, err, 500);
+        });
     }
 
     update (context, req, res) {
@@ -180,6 +198,29 @@ class AccountApi extends BaseApi {
                 else {
                     context.error(req, res, 'PERMISSION DENIED', 401);
                 }
+            }
+            else {
+                context.error(req, res, 'NOT FOUND', 404);
+            }
+        }).catch(function (err) {
+            context.error(req, res, err, 500);
+        });
+    }
+
+    adminUpdate(context, req, res) {
+        console.log(req.user);
+        var user = req.body;
+        User.findById(user.id).then(function (_user) {
+            if (_user) {
+                context.validateAdminUpdate(user).then(function (user_attributes) {
+                    _user.updateAttributes(user_attributes).then(function (data) {
+                        context.success(req, res, data);
+                    }).catch(function () {
+                        context.error(req, res, err, 500);
+                    });
+                }).catch(function () {
+                    context.error(req, res, 'UNKNOW ERROR', 500);
+                });
             }
             else {
                 context.error(req, res, 'NOT FOUND', 404);
@@ -326,7 +367,8 @@ class AccountApi extends BaseApi {
             { url: '/accounts', method: 'patch', roles: ['admin', 'user'], response: this.update },
             { url: '/accounts', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] },
             { url: '/accounts/me', method: 'get', roles: ['admin', 'user'], response: this.me },
-            { url: '/accounts/logout', method: 'post', roles: ['admin', 'user'], response: this.logout }
+            { url: '/accounts/logout', method: 'post', roles: ['admin', 'user'], response: this.logout },
+            { url: '/admin/accounts', method: 'patch', roles: ['admin'], response: this.adminUpdate },
         ];
     }
 }

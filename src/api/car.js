@@ -9,7 +9,25 @@ shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 
 class CarApi extends BaseApi {
 
-    validate(data) {
+    getCarByUserId (id) {
+        var promise = new Promise(function (resolve, reject) {
+            Car.findAll({
+                where: { owner: id },
+                include: [
+                { model: User },
+                { model: File }
+                ]
+            }).then(function (data) {
+                resolve(data);
+            }).catch(function (err) {
+                reject(err)
+            });
+        });
+        return promise;
+    }
+
+    validate (req, data) {
+        var me = this;
         var promise = new Promise(function (resolve, reject) {
             if (!data) {
                 reject('INVALID DATA');
@@ -24,19 +42,23 @@ class CarApi extends BaseApi {
                 reject('SERIAL REQUIRED');
             }
             else {
-                resolve();
+                me.getCarByUserId(req.user.id).then(function (res) {
+                    if (res.length < req.user.max_car) {
+                        resolve();
+                    }
+                    else {
+                        reject('MAX CAR');
+                    }
+                }).catch(function(err) {
+                    reject(err);
+                });
             }
-        })
+        });
         return promise;
     }
 
     getByUser (context, req, res) {
-        Car.findAll({
-            where: { owner: req.user.id },
-            include: [
-            { model: User },
-            { model: File }
-        ]}).then(function (data) {
+        context.getCarByUserId(req.user.id).then(function (data) {
             context.success(req, res, data);
         }).catch(function (err) {
             context.error(req, res, err, 500);
@@ -56,7 +78,7 @@ class CarApi extends BaseApi {
         });
     }
 
-    model(data, owner) {
+    model (data, owner) {
         return {
             name: data.name,
             serial: data.serial,
@@ -71,7 +93,7 @@ class CarApi extends BaseApi {
 
     delete (context, req, res) {
         if (req.params.id) {
-            Car.destroy({ where: { id: req.params.id } }).then(function (model) {
+            Car.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function (model) {
                 context.success(req, res, {});
             }).catch(function (err) {
                 context.error(req, res, err, 500);
@@ -80,8 +102,9 @@ class CarApi extends BaseApi {
     }
 
     add (context, req, res) {
+        console.log(req.user);
         var data = context.model(req.body, req.user.id);
-        context.validate(data).then(function () {
+        context.validate(req, data).then(function () {
             Car.create(data, { isNewRecord: true }).then(function (model) {
                 context.success(req, res, model);
             }).catch(function (err) {
@@ -95,7 +118,7 @@ class CarApi extends BaseApi {
         });
     }
 
-    endpoints() {
+    endpoints () {
         return [
 			{ url: '/cars', method: 'get', roles: ['admin', 'user'], response: this.getByUser },
             { url: '/cars', method: 'post', roles: ['admin', 'user'], response: this.add },

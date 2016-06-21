@@ -24,6 +24,10 @@ var User = sequelize.define('users', {
         type: Sequelize.INTEGER,
         field: 'roleId'
     },
+    max_car: {
+        type: Sequelize.INTEGER,
+        field: 'max_car'
+    },
     createdAt: {
         type: Sequelize.DATE,
         field: 'createdAt'

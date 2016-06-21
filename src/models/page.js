@@ -26,7 +26,6 @@ class Pages extends Base {
             var file = './src/database/routes/views.json';
             fs.writeFile(file, JSON.stringify(pages), function (err) {
                 if (err) reject(err);
-                log.write('pages saved: ' + dateTime);
                 resolve();
             });
         });
