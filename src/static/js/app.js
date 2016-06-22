@@ -12,8 +12,8 @@ var app = {
                 xfbml: true,
                 version: 'v2.6'
             });
-            angular.bootstrap(document, ['app']);
         };
+        angular.bootstrap(document, ['app']);
         this.footer();
     },
     footer: function () {
