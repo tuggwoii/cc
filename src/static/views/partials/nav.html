@@ -1,11 +1,13 @@
 ﻿<nav>
     <div class="logo" ng-click="navigateTo('#/')">
-        CHEEPOW
+        <img src="/img/logo.png" alt="logo" />
+        <span>CARCARENOTE</span>
     </div>
     <div class="user-panel" ng-if="user" ng-controller="AccountController">
         <div ng-if="!user.id">
             <a class="login-link" ng-click="navigateTo('#/login')">LOGIN</a>
         </div>
+        <!--
         <div class="animated fadeIn" ng-if="user.id" ng-click="displayControl = !displayControl">
             <a class="username">{{user.name}}</a>
             <img src="/img/noprofile.png" />
@@ -16,6 +18,6 @@
                     <button ng-click="logout()">Logout</button>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </nav>

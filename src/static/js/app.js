@@ -14,6 +14,17 @@ var app = {
             });
             angular.bootstrap(document, ['app']);
         };
+        this.footer();
+    },
+    footer: function () {
+        if ($('body').height() < $(window).height()) {
+            $('footer').css('position', 'fixed');
+            $('footer').css('bottom', '0');
+        }
+        else {
+            $('footer').css('position', 'relative');
+        }
+        $('footer').fadeIn(500);
     }
 };
 $(document).ready(function () {
