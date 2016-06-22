@@ -42,15 +42,15 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
     }
 
     function checkFacebookLoginState() {
-        if (FB) {
+        if (typeof FB === "undefined") {
+            setTimeout(checkFacebookLoginState, 500);
+        }
+        else {
             FB.getLoginStatus(function (response) {
                 statusChangeCallback(response, facebookLogin, noFacebokLogin);
             });
             notLoginState();
             doneCheckAuthentication();
-        }
-        else {
-            setTimeout(checkFacebookLoginState, 500);
         }
     }
 
