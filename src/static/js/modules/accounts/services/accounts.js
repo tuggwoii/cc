@@ -42,11 +42,16 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
     }
 
     function checkFacebookLoginState() {
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response, facebookLogin, noFacebokLogin);
-        });
-        notLoginState ();
-        doneCheckAuthentication();
+        if (FB) {
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response, facebookLogin, noFacebokLogin);
+            });
+            notLoginState();
+            doneCheckAuthentication();
+        }
+        else {
+            setTimeout(checkFacebookLoginState, 500);
+        }
     }
 
     function facebookLogin(creds) {
