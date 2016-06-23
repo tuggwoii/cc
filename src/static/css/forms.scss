@@ -1,24 +1,15 @@
-﻿.field {
-    display: block;
-    width: 100%;
-    max-width: 500px;
-    padding: 5px 0;
-
-    input {
-        width: 100%;
-        height: 40px;
-        padding: 5px 10px;
-        border: 1px solid #ccc;
-    }
+﻿input[type=text], input[type=password] {
+    background: rgba(120,120,120, 0.7);
+    border: 1px solid rgb(100,100,100);
+    color:#fff;
 }
-
-button {
-    min-width: 150px;
-    height: 40px;
-    background: none;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-    font-size: 16px;
-    cursor:pointer;
-    border-radius: 2px;
+input[type=text]:focus, input[type=password]:focus {
+    border: 1px solid rgb(100,100,100);
+    box-shadow: none;
+}
+p.error-message {
+    color: rgb(225, 65, 65);
+    animation-duration: 0.25s;
+    -moz-animation-duration: 0.25s;
+    -webkit-animation-duration: 0.25s;
 }

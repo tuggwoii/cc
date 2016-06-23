@@ -3,11 +3,31 @@
         <img src="/img/logo.png" alt="logo" />
         <span>CARCARENOTE</span>
     </div>
+
+    
+    <div class="nav-right">
+        <div class="menu">
+            <a href="#">Home</a>
+            <a href="#">Share</a>
+            <a href="#">Contact</a>
+            <a href="#">FAQ</a>
+        </div>
+
+        <div class="login-button-container" ng-if="!user.id">
+            <button type="button" class="btn btn-default" ng-click="loginToggle()">{{strings['login']}}</button>
+            <div class="login-popup animated fadeIn" ng-include="'partials/login.html'" ng-if="displayLogin"></div>
+        </div>
+        <div class="login-button-container" ng-if="user.id">
+            <button type="button" class="btn btn-default" ng-click="logout()">{{strings['logout']}}</button>
+        </div>
+    </div>
+    
+    <!--
     <div class="user-panel" ng-if="user" ng-controller="AccountController">
         <div ng-if="!user.id">
             <a class="login-link" ng-click="navigateTo('#/login')">LOGIN</a>
         </div>
-        <!--
+
         <div class="animated fadeIn" ng-if="user.id" ng-click="displayControl = !displayControl">
             <a class="username">{{user.name}}</a>
             <img src="/img/noprofile.png" />
@@ -18,6 +38,6 @@
                     <button ng-click="logout()">Logout</button>
                 </div>
             </div>
-        </div>-->
-    </div>
+        </div>
+    </div>-->
 </nav>

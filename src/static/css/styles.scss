@@ -46,6 +46,14 @@
         font-weight: bold;
     }
 
+    .uppercase {
+        text-transform:uppercase;
+    }
+
+    .capital {
+        text-transform:capitalize;
+    }
+
     header {
         z-index: 999;
         width: 100%;
@@ -63,6 +71,76 @@
             height: 50px;
             padding: 0 15px;
         }
+
+        .nav-right {
+
+            float:right;
+            
+            .menu {
+                float:left;
+                padding: 28px;
+
+                a {
+                    color:#fff;
+                    padding: 0 20px;
+                }
+                a:hover, a:active, a:focus {
+                    text-decoration: none;
+                }
+            }
+
+            .login-button-container {
+               float:left;
+               padding: 22px 25px;
+               position:relative;
+
+               .fb-login-button {
+                   margin-left: 17px;
+                   top: 4px;
+                   display:inline-block;
+                   float:right;
+                   width: 75px;
+                   height: 25px;
+               }
+
+               .button-container {
+                   margin-top: 30px;
+
+                   .button-group {
+                       height: 35px;
+                   }
+
+                   a {
+                       display:block;
+                       margin-top: 20px;
+                       color: #ddd;
+                   }
+               }
+
+               .btn.btn-default {
+                   background: rgb(207, 207, 207);
+                   color:rgb(10,10,10);
+                   min-width: 140px;
+               }
+
+               .login-popup {
+                   position:absolute;
+                   width: 300px;
+                   background: rgba(50,50,50, 0.8);
+                   height: 320px;
+                   box-shadow: 1px 1px 15px #000;
+                   top: 85px;
+                   right: 22px;
+                   z-index: 50;
+                   padding: 30px;
+                   animation-duration: 0.5s;
+                   -moz-animation-duration: 0.5s;
+                   -webkit-animation-duration: 0.5s;
+               }
+
+            }
+        }
+        
 
         .user-panel {
             float: right;
@@ -189,7 +267,7 @@
                 span {
                     display:inline-block;
                     width:100%;
-                    margin-top: 20px;
+                    margin-top: 25px;
                     font-size: 18px;
                 }
 

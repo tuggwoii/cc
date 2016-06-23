@@ -1,4 +1,11 @@
 ﻿{
+  "email": "email",
   "footer_copyright": "Copyright © 2016 All Rights Resolved.",
-  "login_by": "เข้าใช้งานโดย:"
+  "general_error": "ระบบขัดข้องกรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ",
+  "invalid_login": "E-mail หรือ Password ไม่ถูกต้อง",
+  "login": "เข้าใช้งาน",
+  "login_by": "เข้าใช้งานโดย:",
+  "logout": "ออกจากระบบ",
+  "password": "password",
+  "register": "สมัครสมาชิกฟรี"
 }

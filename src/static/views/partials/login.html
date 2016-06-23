@@ -1,26 +1,30 @@
-﻿<h1>ลงชื่อเข้าใช้งาน</h1>
-<form id="loginForm" name="loginForm" ng-controller="LoginController" class="login-form">
-    <p class="error-message" ng-if="status.invalid">E-mail หรือ Password ไม่ถูกต้อง</p>
-    <p class="error-message" ng-if="status.error">ระบบขัดข้องกรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ</p>
-    <div class="field">
-        <input 
-               type="email"
-               class="textbox"
-               placeholder="E-mail"
-               ng-model="model.email"
+﻿<form name="form" id="loginForm" ng-controller="LoginController">
+    <p class="error-message animated fadeIn" ng-if="status.invalid">{{strings['invalid_login']}}</p>
+    <p class="error-message animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
+    <div class="form-group">
+        <label class="capital">{{strings['email']}}</label>
+        <input type="text"
+               class="form-control"
+               ng-model="model.email" 
                ng-required="true" />
     </div>
-    <div class="field">
-        <input type="password"
-               class="textbox"
-               placeholder="Password"
-               ng-model="model.password"
-               ng-required="true" />
+    <div class="form-group">
+        <label class="capital">{{strings['password']}}</label>
+        <input type="password" 
+               class="form-control"
+               ng-model="model.password" 
+               ng-required="true" 
+               ng-keypress="keyPress(form, $event)"/>
     </div>
-
-    <button type="button" ng-click="login(loginForm)">
-        Login
-    </button>
-    <div class="fb-login-button" data-max-rows="1" scope="public_profile, email" onlogin="checkLoginState()" data-size="xlarge" data-show-faces="false" data-auto-logout-link="false"></div>
-    <p>ยังไม่มี Account? <a ng-click="navigateTo('#/register')">สมัครใช้งานฟรี</a></p>
+    <div class="button-container">
+        <div class="button-group">
+            <button type="button" class="btn btn-default" ng-click="login(form)">
+                {{strings['login']}}
+            </button>
+            <div class="fb-login-button" data-max-rows="1" scope="public_profile, email" onlogin="checkLoginState()" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
+        </div>
+        <a href="#/register">
+            {{strings['register']}}
+        </a>
+    </div>
 </form>

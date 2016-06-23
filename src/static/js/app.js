@@ -14,7 +14,6 @@ var app = {
             });
         };
         angular.bootstrap(document, ['app']);
-        this.footer();
     },
     footer: function () {
         if ($('body').height() < $(window).height()) {

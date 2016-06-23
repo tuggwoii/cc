@@ -45,6 +45,12 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         }
     };
 
+    $scope.keyPress = function (form, event) {
+        if (event.keyCode === 13) {
+            $scope.login(form);
+        }
+    }
+
     $scope.facebookLogin = function (creds) {
         AccountService.login(creds).success(function (res) {
             success(res);

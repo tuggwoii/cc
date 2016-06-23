@@ -11,7 +11,12 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                     $scope.strings = res;
                 })
             ]).then(function () {
-                $scope.viewReady = true;
+                $timeout(function () {
+                    $scope.viewReady = true;
+                    $timeout(function () {
+                        app.footer();
+                    }, 200);
+                }, 500);
             });
         };
 
@@ -36,6 +41,19 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         $scope.$on('$includeContentLoaded', function (event) {
            
         });
+
+        $scope.logout = function () {
+            AccountService.logout().then(function () {
+                $cookies.remove('Authorization');
+                window.location.href = '/';
+            }).catch(function () {
+                alert('ERROR');
+            });
+        };
+
+        $scope.loginToggle = function () {
+            $scope.displayLogin = !$scope.displayLogin;
+        };
 
         $scope.init();
 }]);
