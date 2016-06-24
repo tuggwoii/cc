@@ -1,17 +1,15 @@
-﻿<div class="row user-profile">
-    <div class="container">
+﻿<div class="row user-profile animated fadeIn" ng-if="user.id">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
-                <div class="profile">
-                    <img src="/img/noprofile.png" alt="profile" />
-                    <div class="profile-detail">
-                        <img src="/img/logo.png" alt="logo"/>
-                        <span>{{strings['login_by']}}</span>
-                        <span class="username">{{user.name}}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8"></div>
+            <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+            <div class="col-md-8" ng-controller="CarController" ng-include="'partials/index-car.html'"></div>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="container-fluid">
+        <div class="col-md-4" ng-include="'partials/index-notification.html'"></div>
+        <div class="col-md-4" ng-include="'partials/index-share.html'"></div>
+        <div class="col-md-4"></div>
     </div>
 </div>

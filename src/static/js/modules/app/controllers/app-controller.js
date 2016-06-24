@@ -11,6 +11,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                     $scope.strings = res;
                 })
             ]).then(function () {
+                $rootScope.$broadcast('READY');
                 $timeout(function () {
                     $scope.viewReady = true;
                     $timeout(function () {
@@ -36,6 +37,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
 
         $scope.$on('UPDATE_USER', function () {
             $scope.user = window.cheepow.user;
+            $rootScope.$broadcast('READY');
         });
 
         $scope.$on('$includeContentLoaded', function (event) {
@@ -47,7 +49,8 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                 $cookies.remove('Authorization');
                 window.location.href = '/';
             }).catch(function () {
-                alert('ERROR');
+                $cookies.remove('Authorization');
+                window.location.href = '/';
             });
         };
 

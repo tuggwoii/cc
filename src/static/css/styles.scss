@@ -54,6 +54,10 @@
         text-transform:capitalize;
     }
 
+    .container-fluid {
+
+    }
+
     header {
         z-index: 999;
         width: 100%;
@@ -224,6 +228,7 @@
         margin-bottom: -5px;
         margin-top: 0px;
         line-height: 0;
+        padding-bottom: 100px;
 
         .side-bar {
             width: 250px;
@@ -247,16 +252,25 @@
             }
         }
 
+        .profile {
+            display: inline-block;
+            width:100%;
+        }
+
         .user-profile {
             background: rgb(52,52,52);
             min-height: 200px;
             padding: 30px 0;
+            animation-duration: 0.5s;
+            -webkit-animation-duration: 0.5s;
+            -moz-animation-duration: 0.5s;
 
             img {
                 max-width: 120px;
                 display:inline-block;
                 float:left;
             }
+
             .profile-detail {
                 display:inline-block;
                 float:left;
@@ -281,6 +295,69 @@
                     max-width: 80px;
                     display:inline-block;
                     float: none;
+                }
+            }
+
+            h3 {
+                margin: 0 0 20px 0;
+
+                .fa {
+                    color: rgb(240,95,35);
+                    margin-right: 15px;
+                }
+            }
+
+            .car-item {
+                background: rgb(40,40,40);
+                display:inline-block;
+                width:100%;
+                min-height: 95px;
+                margin-bottom: 20px;
+                cursor:pointer;
+                padding: 20px;
+                animation-duration: 0.25s;
+                -webkit-animation-duration: 0.25s;
+                -moz-animation-duration: 0.25s;
+
+                img {
+                    max-width: 70px;
+                }
+
+                .detail {
+
+                    margin-left: 15px;
+                    display: inline-block;
+
+                    span {
+                        display:block;
+                        line-height: 1.4;
+                    }
+                }
+            }
+
+            .car-item.add {
+                text-align: center;
+                padding: 40px 0;
+                font-size: 20px;
+            }
+        }
+
+        .notifications {
+            display:inline-block;
+            width: 100%;
+            min-height: 300px;
+            background: #343434;
+        }
+
+        .box {
+            margin-top: 50px;
+
+            h3 {
+                margin-bottom: 20px;
+
+                .fa {
+                    color: #f05f23;
+                    margin-right: 15px;
                 }
             }
         }

@@ -8,6 +8,7 @@ input[type=text]:focus, input[type=password]:focus {
     box-shadow: none;
 }
 p.error-message {
+    font-size: 14px;
     color: rgb(225, 65, 65);
     animation-duration: 0.25s;
     -moz-animation-duration: 0.25s;

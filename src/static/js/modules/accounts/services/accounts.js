@@ -1,17 +1,18 @@
 ﻿'use strict';
 module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', function ($rootScope, $http, $q, $cookies, URLS) {
 
+    var service = 'accounts';
     var userAuthenticationCallback;
 
     function me () {
-        return $http.get(URLS.model('accounts').me);
+        return $http.get(URLS.model(service).me);
     }
 
     function login (model) {
-        return $http.post(URLS.model('accounts').login, model);
+        return $http.post(URLS.model(service).login, model);
     }
 
-    function initUserAunthentication () {
+    function initUserAuthentication() {
         if ($cookies.get('Authorization')) {
             me().success(function (res) {
                 window.cheepow.user = res.data;
@@ -41,9 +42,18 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         doneCheckAuthentication();
     }
 
+    var max_try = 20;
+    var tries = 0;
     function checkFacebookLoginState() {
         if (typeof FB === "undefined") {
-            setTimeout(checkFacebookLoginState, 500);
+            if (tries < max_try) {
+                tries++;
+                setTimeout(checkFacebookLoginState, 500);
+            }
+            else {
+                notLoginState();
+                doneCheckAuthentication();
+            }
         }
         else {
             FB.getLoginStatus(function (response) {
@@ -72,23 +82,23 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
             return login(model);
         },
         register: function (model) {
-            return $http.post(URLS.model('accounts').register, model);
+            return $http.post(URLS.model(service).register, model);
         },
         me: function () {
             return me();
         },
         update: function (model) {
-            return $http.patch(URLS.model('accounts').update, model);
+            return $http.patch(URLS.model(service).update, model);
         },
         logout: function () {
             return $q(function (resolve, reject) {
                 FB.getLoginStatus(function (crets) {
                     if (crets.authResponse) {
                         FB.logout(function (response) {
-                            $http.post(URLS.model('accounts').logout).success(resolve).error(reject);
+                            $http.post(URLS.model(service).logout).success(resolve).error(reject);
                         });
                     } else {
-                        $http.post(URLS.model('accounts').logout).success(resolve).error(reject);
+                        $http.post(URLS.model(service).logout).success(resolve).error(reject);
                     }
                 });
             });
@@ -103,7 +113,7 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         initializeUserOnLoad: function () {
             return $q(function (resolve, reject) {
                 userAuthenticationCallback = resolve;
-                initUserAunthentication();
+                initUserAuthentication();
             });
         }
     };

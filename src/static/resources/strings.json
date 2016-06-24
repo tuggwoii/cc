@@ -1,4 +1,5 @@
 ﻿{
+  "add": "เพิ่ม",
   "email": "email",
   "footer_copyright": "Copyright © 2016 All Rights Resolved.",
   "general_error": "ระบบขัดข้องกรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ",
@@ -6,6 +7,9 @@
   "login": "เข้าใช้งาน",
   "login_by": "เข้าใช้งานโดย:",
   "logout": "ออกจากระบบ",
+  "notification": "การแจ้งเตือน",
   "password": "password",
-  "register": "สมัครสมาชิกฟรี"
+  "register": "สมัครสมาชิกฟรี",
+  "shares": "แชร์บันทึกข้อมูล",
+  "your_car": "Cars"
 }

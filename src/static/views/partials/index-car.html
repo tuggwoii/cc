@@ -1,0 +1,22 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <h3><i class="fa fa-car" aria-hidden="true"></i> {{strings['your_car']}}</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-6" ng-repeat="car in cars">
+        <div class="car-item animated slideInLeft">
+            <img src="img/car.png" alt="car" />
+            <div class="detail">
+                <span>{{car.serial}}</span>
+                <span>{{car.brand}} {{car.series}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="car-item add animated slideInLeft">
+            <i class="fa fa-plus"></i>
+            <span>{{strings['add']}}</span>
+        </div>
+    </div>
+</div>

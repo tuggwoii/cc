@@ -1,11 +1,10 @@
 ﻿'use strict';
 var crypto = require('crypto');
 var tokenSession = [];
-var userSession = [];
 
 function generateToken () {
     var promise = new Promise(function (resolve, reject) {
-        crypto.randomBytes(16, function (err, buf) {
+        crypto.randomBytes(48, function (err, buf) {
             if (err) reject(err);
             var token = buf.toString('hex');
             resolve(token);
@@ -26,15 +25,8 @@ exports.getUser = function (token) {
 exports.authorizeUser = function (user) {
     var promise = new Promise(function (resolve, reject) {
         generateToken().then(function (token) {
-
-            //OPOEN FOR SINGLE DEVICE LOGIN
-            //if (userSession[user.id]) {
-                //delete tokenSession[userSession[user.id]]; 
-            //}
-            console.log('setAutho', user);
-            tokenSession[token] = user;
-            userSession[user.id] = token;
             user.token = token;
+            tokenSession[token] = user;
             resolve(user);
         }).catch(function (err) {
             reject(err);
@@ -45,24 +37,20 @@ exports.authorizeUser = function (user) {
 
 exports.updateAuthorizeUser = function (user) {
     var promise = new Promise(function (resolve, reject) {
-        var token = userSession[user.id];
-        if (token) {
-            tokenSession[token] = user;
-            resolve(user);
+        for (var token in tokenSession) {
+            if (tokenSession[token].id === user.id) {
+                tokenSession[token] = user;
+            }
         }
-        else {
-            reject('NO TOKEN');
-        }
+        resolve(user);
     });
     return promise;
 };
 
 exports.removeUser = function (user) {
     var promise = new Promise(function (resolve, reject) {
-        if (userSession[user.id]) {
-            var token = userSession[user.id];
-            delete tokenSession[token];
-            delete userSession[user.id];
+        if (tokenSession[user.token]) {
+            delete tokenSession[user.token];
             resolve();
         }
         else {

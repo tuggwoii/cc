@@ -13,7 +13,7 @@
 <body class="app" ng-controller="AppController">
     <div class="animated screen {{viewReady?'fadeIn':''}}">
         <header ng-include="'partials/nav.html'"></header>
-        <div class="wrapper">
+        <div class="wrapper container-fluid">
             <div class="row" ng-include="'partials/breadcrumb.html'"></div>
             <div class="view" ui-view></div>
         </div>
@@ -33,9 +33,11 @@
     <script src="js/modules/apis/services/urls.js"></script>
     <script src="js/modules/strings/services/strings.js"></script>
     <script src="js/modules/accounts/services/accounts.js"></script>
+    <script src="js/modules/car/services/cars.js"></script>
     <script src="js/modules/app/controllers/app-controller.js"></script>
     <script src="js/modules/accounts/controllers/login-controller.js"></script>
     <script src="js/modules/accounts/controllers/register-controller.js"></script>
     <script src="js/modules/accounts/controllers/account-controller.js"></script>
+    <script src="js/modules/car/controllers/car-controller.js"></script>
 </body>
 </html>
