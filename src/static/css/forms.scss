@@ -1,9 +1,17 @@
-﻿input[type=text], input[type=password] {
+﻿label {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color:rgb(235,235,235);
+    font-weight:normal;
+}
+input[type=text], input[type=password], input[type=email] {
     background: rgba(120,120,120, 0.7);
     border: 1px solid rgb(100,100,100);
     color:#fff;
+    max-width: 465px;
+    height: 50px;
 }
-input[type=text]:focus, input[type=password]:focus {
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
     border: 1px solid rgb(100,100,100);
     box-shadow: none;
 }
@@ -13,4 +21,28 @@ p.error-message {
     animation-duration: 0.25s;
     -moz-animation-duration: 0.25s;
     -webkit-animation-duration: 0.25s;
+}
+.btn {
+    height: 50px;
+    min-width: 140px;
+}
+.btn.btn-danger {
+    background:rgb(245,93,54);
+}
+
+#loginForm {
+    label {
+        margin:0;
+    }
+    input[type=text], input[type=password], input[type=email] {
+        height: 34px;
+    }
+}
+.login-button-container .btn {
+    height: 34px;
+}
+hr {
+    border-color: rgb(149,149,149);
+    margin-top: 40px;
+    margin-bottom: 30px;
 }

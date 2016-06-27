@@ -1,8 +1,9 @@
 ﻿'use strict';
-module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'AccountService', function ($scope, $rootScope, $cookies, AccountService) {
+module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'AccountService', 'Event', function ($scope, $rootScope, $cookies, AccountService, Event) {
 
     function success(res) {
         AccountService.setAuthenticationToken(res);
+        $rootScope.$broadcast(Event.Load.Dismiss);
         $scope.navigateTo('#/');
     }
 
@@ -19,6 +20,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
                 error: true
             };
         }
+        $rootScope.$broadcast(Event.Load.Dismiss);
     }
 
     $scope.init = function () {
@@ -37,6 +39,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
 
     $scope.login = function (form) {
         if (form.$valid) {
+            $rootScope.$broadcast(Event.Load.Display);
             AccountService.login($scope.model).success(function (res) {
                 success(res);
             }).error(function (res, code) {
@@ -52,6 +55,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
     }
 
     $scope.facebookLogin = function (creds) {
+        $rootScope.$broadcast(Event.Load.Display);
         AccountService.login(creds).success(function (res) {
             success(res);
         }).error(function (res) {

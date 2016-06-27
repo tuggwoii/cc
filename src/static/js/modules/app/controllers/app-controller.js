@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookies', '$q', 'AccountService', 'StringService', 'PageService',
-    function ($scope, $rootScope, $timeout, $cookies, $q, AccountService, StringService, PageService) {
+module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookies', '$q', 'AccountService', 'StringService', 'PageService', 'Event',
+    function ($scope, $rootScope, $timeout, $cookies, $q, AccountService, StringService, PageService, Event) {
 
         $scope.init = function () {
             $q.all([
@@ -11,11 +11,11 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                     $scope.strings = res;
                 })
             ]).then(function () {
-                $rootScope.$broadcast('READY');
+                $rootScope.$broadcast(Event.Page.Ready);
                 $timeout(function () {
                     $scope.viewReady = true;
                     $timeout(function () {
-                        app.footer();
+                        $rootScope.$broadcast(Event.Load.Dismiss);
                     }, 200);
                 }, 500);
             });
@@ -23,25 +23,28 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
 
         $scope.navigateTo = function (url) {
             if (url !== window.location.hash) {
-                $scope.screenTransition = 'fadeOut';
-                $timeout(function () {
-                    $scope.screenReady = false;
-                    $scope.screenTransition = 'fadeIn';
-                }, 200);
-                $timeout(function () {
-                    window.location.hash = url;
-                    $scope.screenReady = true;
-                }, 500);
+                $rootScope.$broadcast(Event.Load.Display);
+                $scope.displayLogin = false;
+                window.location.hash = url;
             }
         };
 
         $scope.$on('UPDATE_USER', function () {
             $scope.user = window.cheepow.user;
-            $rootScope.$broadcast('READY');
+            $rootScope.$broadcast(Event.Page.Ready);
         });
 
         $scope.$on('$includeContentLoaded', function (event) {
            
+        });
+
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+            console.log('STATE_CHANGE');
+        });
+
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            console.log('STATE_CHANGE_DONE');
+            $rootScope.$broadcast(Event.Load.Dismiss);
         });
 
         $scope.logout = function () {

@@ -1,37 +1,65 @@
-﻿<h1>สมัครใช้งานฟรี</h1>
-<form name="registerForm" ng-controller="RegisterController">
-    <div class="field">
-        <input type="text"
-               class="textbox"
-               placeholder="ชื่อเรียก"
-               ng-model="model.name"
-               ng-required="true" />
-    </div>
-    <div class="field">
-        <input type="email"
-               class="textbox"
-               placeholder="E-mail"
-               ng-model="model.email"
-               ng-required="true" />
-    </div>
-    <div class="field">
-        <input type="password"
-               class="textbox"
-               placeholder="Password"
-               ng-model="model.password"
-               ng-required="true" />
-    </div>
-    <div class="field">
-        <input type="password"
-               class="textbox"
-               placeholder="Confirm Password"
-               ng-model="model.confirm_password"
-               ng-required="true" />
-    </div>
+﻿<div class="container">
+    <div class="subpage">
+        <h1>
+            <img src="img/logo.png" />
+            <span>{{strings['register_header']}}</span>
+        </h1>
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a ng-click="navigateTo('#/')">Home ></a>
+                </li>
+                <li>Register</li>
+            </ul>
+        </div>
+        <form name="registerForm" ng-controller="RegisterController">
+            <div class="form-group">
+                <label class="capital">
+                    {{strings['name']}}
+                </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="ชื่อเรียก"
+                       ng-model="model.name"
+                       ng-required="true" />
+            </div>
+            <div class="form-group">
+                <label class="capital">
+                   {{strings['email']}}
+                </label>
+                <input type="email"
+                       class="form-control"
+                       placeholder="E-mail"
+                       ng-model="model.email"
+                       ng-required="true" />
+            </div>
+            <div class="form-group">
+                <label class="capital">
+                   {{strings['password']}}
+                </label>
+                <input type="password"
+                       class="form-control"
+                       placeholder="Password"
+                       ng-model="model.password"
+                       ng-required="true" />
+            </div>
+            <div class="form-group">
+                <label class="capital">
+                    {{strings['confirm_password']}}
+                </label>
+                <input type="password"
+                       class="form-control"
+                       placeholder="Confirm Password"
+                       ng-model="model.confirm_password"
+                       ng-required="true" />
+            </div>
+            <hr />
+            <button type="button" class="btn btn-danger" ng-click="submit(registerForm)">
+                {{strings['register']}}
+            </button>
 
-    <button type="button" ng-click="submit(registerForm)">
-        Register
-    </button>
 
+        </form>
+    </div>
     
-</form>
+</div>

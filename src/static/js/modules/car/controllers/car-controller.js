@@ -1,17 +1,19 @@
 ﻿'use strict';
-module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', 'CarService',
-    function ($scope, $rootScope, $timeout, $q, CarService) {
+module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', 'CarService', 'Event',
+    function ($scope, $rootScope, $timeout, $q, CarService, Event) {
 
         $scope.init = function () {
             $q.all([
                 CarService.get().success(function (res) {
                     $scope.cars = res.data;
-                }).error(function () { })
+                }).error(function () {
+
+                })
             ]).then(function () {
                 
             });
         };
 
-        $scope.$on('READY', $scope.init);
+        $scope.$on(Event.Page.Ready, $scope.init);
         $scope.init();
     }]);

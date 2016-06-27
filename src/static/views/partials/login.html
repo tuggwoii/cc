@@ -23,7 +23,7 @@
             </button>
             <div class="fb-login-button" data-max-rows="1" scope="public_profile, email" onlogin="checkLoginState()" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
         </div>
-        <a href="#/register">
+        <a ng-click="navigateTo('#/register')">
             {{strings['register']}}
         </a>
     </div>
