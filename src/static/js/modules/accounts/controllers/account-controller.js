@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.controller('AccountController', ['$scope', '$rootScope', '$cookies', 'AccountService', function ($scope, $rootScope, $cookies, AccountService) {
+module.controller('AccountController', ['$scope', '$rootScope', '$cookies', 'AccountService', 'Event', function ($scope, $rootScope, $cookies, AccountService, Event) {
 
     $scope.init = function () {
         $scope.status = {};
@@ -14,8 +14,8 @@ module.controller('AccountController', ['$scope', '$rootScope', '$cookies', 'Acc
         if ((($scope.model.password && $scope.model.password === $scope.model.confirm_password) || !$scope.model.password) && form.$valid) {
             $scope.status = {};
             AccountService.update($scope.model).then(function (res) {
-                window.cheepow.user = res.data.data;
-               $rootScope.$broadcast('UPDATE_USER');
+                window.carcare.user = res.data.data;
+                $rootScope.$broadcast(Event.User.Update);
             }).catch(function (res) {
                 console.log(res);
                 if (res.data && res.data.error.message === 'INVALID OLD PASSWORD') {

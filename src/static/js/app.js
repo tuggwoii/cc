@@ -2,7 +2,7 @@
 var module = angular.module('app', ['ngAnimate', 'ngCookies', 'ui.router']);
 module.config(function ($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
-    window.cheepow = {};
+    window.carcare = {};
 });
 var app = {
     init: function () {

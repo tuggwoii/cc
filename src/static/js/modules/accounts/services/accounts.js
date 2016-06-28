@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', function ($rootScope, $http, $q, $cookies, URLS) {
+module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 'Event', function ($rootScope, $http, $q, $cookies, URLS, Event) {
 
     var service = 'accounts';
     var userAuthenticationCallback;
@@ -15,8 +15,8 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
     function initUserAuthentication() {
         if ($cookies.get('Authorization')) {
             me().success(function (res) {
-                window.cheepow.user = res.data;
-                $rootScope.$broadcast('UPDATE_USER');
+                window.carcare.user = res.data;
+                $rootScope.$broadcast(Event.User.Update);
             }).error(function () {
                 $cookies.remove('Authorization');
                 checkFacebookLoginState();
@@ -30,7 +30,7 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
     }
 
     function notLoginState () {
-        window.cheepow.user = {};
+        window.carcare.user = {};
     }
 
     function doneCheckAuthentication () {
@@ -69,7 +69,7 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
             var date = new Date();
             var expire_date = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
             $cookies.put('Authorization', res.data.token, { path: '/', expires: expire_date });
-            window.cheepow.user = res.data;
+            window.carcare.user = res.data;
         }).error(function () {
             notLoginState();
         }).finally(function () {
@@ -107,8 +107,8 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
             var date = new Date();
             var expire_date = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
             $cookies.put('Authorization', res.data.token, { path: '/', expires: expire_date });
-            window.cheepow.user = res.data;
-            $rootScope.$broadcast('UPDATE_USER');
+            window.carcare.user = res.data;
+            $rootScope.$broadcast(Event.User.Update);
         },
         initializeUserOnLoad: function () {
             return $q(function (resolve, reject) {

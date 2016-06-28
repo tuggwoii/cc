@@ -5,7 +5,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         $scope.init = function () {
             $q.all([
                 AccountService.initializeUserOnLoad().then(function () {
-                    $rootScope.$broadcast('USER_LOADED');
+                    $rootScope.$broadcast(Event.User.Loaded);
                 }),
                 StringService.getStrings().success(function (res) {
                     $scope.strings = res;
@@ -29,8 +29,8 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             }
         };
 
-        $scope.$on('UPDATE_USER', function () {
-            $scope.user = window.cheepow.user;
+        $scope.$on(Event.User.Update, function () {
+            $scope.user = window.carcare.user;
             $rootScope.$broadcast(Event.Page.Ready);
         });
 

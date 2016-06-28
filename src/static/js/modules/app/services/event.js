@@ -2,6 +2,10 @@
 module.factory('Event', [function () {
 
     return {
+        User: {
+            Update: 'UPDATE_USER',
+            Loaded: 'USER_LOADED'
+        },
         Page: {
             Ready: 'READY'
         },
