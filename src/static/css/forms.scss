@@ -28,6 +28,17 @@ select.form-control:focus {
     box-shadow: none;
 }
 
+input.form-control:disabled {
+     background: rgba(120,120,120, 0.7);
+     opacity:0.5;
+}
+p.success-message {
+    font-size: 16px;
+    color: rgb(65, 200, 65);
+    animation-duration: 0.25s;
+    -moz-animation-duration: 0.25s;
+    -webkit-animation-duration: 0.25s;
+}
 p.error-message {
     font-size: 14px;
     color: rgb(225, 65, 65);
@@ -35,7 +46,7 @@ p.error-message {
     -moz-animation-duration: 0.25s;
     -webkit-animation-duration: 0.25s;
 }
-p.error-message.margin-top {
+p.margin-top {
     margin-top: 20px;
 }
 .btn {
@@ -59,8 +70,8 @@ p.error-message.margin-top {
 }
 hr {
     border-color: rgb(149,149,149);
-    margin-top: 40px;
-    margin-bottom: 30px;
+    margin-top: 30px;
+    margin-bottom: 35px;
 }
 .short-field {
     width: 50%;
@@ -73,4 +84,32 @@ hr {
 .form-group {
     display: inline-block;
     width: 100%;
+}
+
+form h4 {
+    margin-bottom: 30px;
+}
+.section {
+    display: inline-block;
+    width: 100%;
+    .fields {
+        float:left;
+        margin-right: 100px;
+        min-width: 500px;
+    }
+    .image {
+        float:left;
+        padding-top: 0;
+        width: 150px;
+        text-align: center;
+
+        img {
+            width: 100%;
+        }
+
+        .btn {
+            margin-top: 20px;
+            min-width: 152px;
+        }
+    }
 }

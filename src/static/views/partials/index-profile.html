@@ -1,5 +1,9 @@
 ﻿<div class="profile">
-    <img src="/img/noprofile.png" alt="profile" />
+    <div class="profile-image">
+        <img src="/img/noprofile.png" alt="profile" />
+        <a class="edit" ng-click="navigateTo('#/account')">{{strings['edit_profile']}}</a>
+    </div>
+    
     <div class="profile-detail">
         <img src="/img/logo.png" alt="logo" />
         <span>{{strings['login_by']}}</span>

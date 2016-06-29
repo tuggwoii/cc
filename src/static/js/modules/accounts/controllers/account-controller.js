@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.controller('AccountController', ['$scope', '$rootScope', '$cookies', 'AccountService', 'Event', function ($scope, $rootScope, $cookies, AccountService, Event) {
+module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$cookies', 'AccountService', 'Event', function ($scope, $rootScope, $timeout, $cookies, AccountService, Event) {
 
     $scope.init = function () {
         $scope.status = {};
@@ -11,28 +11,29 @@ module.controller('AccountController', ['$scope', '$rootScope', '$cookies', 'Acc
     };
 
     $scope.update = function (form) {
-        if ((($scope.model.password && $scope.model.password === $scope.model.confirm_password) || !$scope.model.password) && form.$valid) {
+        $scope.is_submit = true;
+        if ((($scope.model.password && $scope.model.password === $scope.model.confirm_password && $scope.model.old_password) || !$scope.model.password) && form.$valid) {
             $scope.status = {};
+            $rootScope.$broadcast(Event.Load.Display);
             AccountService.update($scope.model).then(function (res) {
+                $scope.status.success = true;
                 window.carcare.user = res.data.data;
+                $rootScope.$broadcast(Event.Load.Dismiss);
                 $rootScope.$broadcast(Event.User.Update);
+                $timeout(function () {
+                    $scope.status = {};
+                    $scope.is_submit = false;
+                }, 5000);
+
             }).catch(function (res) {
-                console.log(res);
                 if (res.data && res.data.error.message === 'INVALID OLD PASSWORD') {
-                    $scope.status.message = 'Invalid old password';
+                    $scope.status.invalid_password = true;
                 }
                 else {
                     $scope.status.error = true;
                 }
+                $rootScope.$broadcast(Event.Load.Dismiss);
             });
-        }
-        else {
-            if ($scope.model.password && ($scope.model.password != $scope.model.confirm_password)) {
-                $scope.status.message = 'Password not match with confirm';
-            }
-            else if ($scope.model.password && !$scope.model.old_password) {
-                $scope.status.message = 'Old password required';
-            }
         }
     };
 
