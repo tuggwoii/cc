@@ -96,11 +96,11 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         });
 
         $scope.logout = function () {
+            console.log('LOGOUT');
+            $cookies.remove('Authorization');
             AccountService.logout().then(function () {
-                $cookies.remove('Authorization');
                 window.location.href = '/';
             }).catch(function () {
-                $cookies.remove('Authorization');
                 window.location.href = '/';
             });
         };
