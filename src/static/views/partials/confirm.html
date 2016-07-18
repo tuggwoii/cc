@@ -1,0 +1,13 @@
+﻿<div class="popup-container confirm animated {{animation}}" ng-if="display">
+    <div class="confirm-container">
+        <p>{{message}}</p>
+        <div class="btn-container">
+            <button type="button" class="btn btn-danger" ng-click="callback();no();">
+                ใช่
+            </button>
+            <button type="button" class="btn btn-danger btn-delete" ng-click="no()">
+                ไม่ใช่
+            </button>
+        </div>
+    </div>
+</div>

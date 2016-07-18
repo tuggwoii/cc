@@ -6,10 +6,38 @@
         </div>
     </div>
 </div>
+<div class="row" ng-if="user.id">
+    <div class="container-fluid">
+        <div class="col-md-8" ng-include="'partials/index-notification.html'"></div>
+        <div class="col-md-4">
+            <div class="ads-box">
+                <div class="ads">
+                    <img class="ads-image" src="img/ads.png" />
+                </div>
+                <div class="ads">
+                    <img class="ads-image" src="img/ads.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="container-fluid">
-        <div class="col-md-4" ng-include="'partials/index-notification.html'"></div>
-        <div class="col-md-4" ng-include="'partials/index-share.html'"></div>
-        <div class="col-md-4"></div>
+        <div class="col-md-8" ng-include="'partials/index-share.html'"></div>
+        <div class="col-md-4">
+            <div class="ads-box">
+                <div class="ads">
+                    <img class="ads-image" src="img/ads.png" />
+                </div>
+                <div class="ads">
+                    <img class="ads-image" src="img/ads.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="container-fluid">
+        <div class="col-md-12" ng-include="'partials/index-shop.html'"></div>
     </div>
 </div>

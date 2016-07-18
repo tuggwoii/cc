@@ -1,6 +1,26 @@
-﻿<div class="box">
+﻿<div class="box" ng-controller="IndexShareController">
     <h3><i class="fa fa-share-alt" aria-hidden="true"></i> {{strings['shares']}}</h3>
-    <div class="notifications">
-
+    <div class="content-box" >
+        <p class="nodata" ng-if="!shares || !shares.length">{{strings['no_data']}}</p>
+        <div class="shares-list" ng-if="shares.length">
+            <div class="share-item animated fadeIn" ng-repeat="s in shares">
+                <div class="user-name">{{s.user.name}}</div>
+                <div class="detail">
+                    <div class="image">
+                        <img src="/img/noprofile.png" alt="profile" ng-if="!s.user.image || !s.user.image.url">
+                        <img ng-src="{{s.user.image.url}}" alt="profile" ng-if="s.user.image && s.user.image.url">
+                    </div>
+                    
+                    <div class="info">
+                        <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
+                        <div class="price">ทั้งหมด {{s.price?s.price:0}} บาท</div>
+                        <rating-star rating="s.score"></rating-star>
+                    </div>
+                </div>
+                <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop.name}}</div>
+            </div>
+        </div>
+        <a class="view-all" ng-click="navigateTo('#/shares')">{{strings['view_all']}}</a>
     </div>
+   
 </div>

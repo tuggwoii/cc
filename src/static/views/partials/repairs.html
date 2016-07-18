@@ -1,0 +1,95 @@
+﻿<div ng-controller="RepairsController" class="repairs-page">
+    <div class="row user-profile animated fadeIn" ng-if="user.id">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+                <div class="col-md-8" ng-controller="CarController" ng-include="'partials/index-car.html'"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="works">
+            <div class="container">
+                <div class="works-title">
+                    <h2>กลุ่มงานซ่อม</h2>
+                    <span>คลิ๊กเพื่อเลือกงานซ่อมที่สนใจ</span>
+                </div>
+                <div class="work-list">
+                    <div class="work-item active">{{strings['general_work']}}</div>
+                    <div class="work-item" ng-repeat="work in workgroup">{{work.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="filters">
+            <div class="container">
+                <div class="form-group">
+                    <label>ค้นหาตามหัวข้อ</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label>ราคา</label>
+                    <input type="text" class="form-control half" placeholder="ราคาต่ำสุด" />
+                    <input type="text" class="form-control half" placeholder="ราคาสูงสุด"/>
+                </div>
+                <div class="form-group">
+                    <label>คะแนน (ดาว)</label>
+                    <select class="form-control">
+                        <option value=""></option>
+                        <option value="1">1 ดาว</option>
+                        <option value="2">2 ดาว</option>
+                        <option value="3">3 ดาว</option>
+                        <option value="4">4 ดาว</option>
+                        <option value="5">5 ดาว</option>
+                    </select>
+                </div>
+                <button class="btn btn-danger"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                </li>
+                <li>{{strings['nav_repairs']}}</li>
+            </ul>
+        </div>
+        <div class="subpage">
+            <h1>
+                <img src="img/logo.png" />
+                <span>{{strings['head_repair']}}</span>
+                <button type="button" class="btn btn-danger" ng-click="navigateTo('#/repair')"><i class="fa fa-plus"></i> {{strings['add']}}</button>
+            </h1>
+            <div class="list">
+                <p>{{total?total:0}} Repairs</p>
+                <p ng-if="!repairs.length">{{strings['no_repairs']}}</p>
+                <ul ng-if="repairs.length">
+                    <li ng-repeat="repair in repairs">
+                        <span class="notification-detail">
+                            <span class="title">{{repair.title}}</span>
+                            <span class="detail">{{repair.remark}}</span>
+                            <span class="date">{{strings['repair_date_label']}}: {{repair.date_str}}</span>
+                            <span class="date">{{strings['repair_mile_label']}}: {{repair.mile}} {{strings['kilometer']}}</span>
+                        </span>
+
+                        <span class="status">
+                            <span class="state-open" ng-if="repair.share">{{strings['share']}}</span>
+                            <span class="state-close" ng-if="!repair.share">{{strings['not_share']}}</span>
+                        </span>
+                        <span class="view" ng-click="navigateTo('#/repair?id=' + repair.id)">{{strings['edit_data']}}</span>
+                    </li>
+                </ul>
+                <ul class="paging" ng-if="pages.length>1">
+                    <li ng-click="gotoPage(1)"><<</li>
+                    <li ng-click="gotoPage(page - 1)"><</li>
+                    <li ng-repeat="p in pages" class="page {{p==page?'active':''}}" ng-click="gotoPage(p)">{{p}}</li>
+                    <li ng-click="gotoPage(page + 1)">></li>
+                    <li ng-click="gotoPage(pages.length)">>></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,14 +4,15 @@
     color:rgb(235,235,235);
     font-weight:normal;
 }
-input[type=text], input[type=password], input[type=email] {
+input[type=text], input[type=password], input[type=email], input[type=number] {
     background: rgba(120,120,120, 0.7);
     border: 1px solid rgb(100,100,100);
     color:#fff;
     max-width: 465px;
     height: 50px;
+    font-size: 24px;
 }
-input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, , input[type=number]:focus {
     border: 1px solid rgb(100,100,100);
     box-shadow: none;
 }
@@ -21,11 +22,13 @@ select.form-control {
     color:#fff;
     max-width: 465px;
     height: 50px;
+    font-size: 24px;
 }
 
-select.form-control:focus {
+select.form-control:focus, input.form-control[disabled], input.form-control[readonly] {
     border: 1px solid rgb(100,100,100);
     box-shadow: none;
+    background: rgba(120,120,120, 0.7);
 }
 
 input.form-control:disabled {
@@ -33,28 +36,60 @@ input.form-control:disabled {
      opacity:0.5;
 }
 p.success-message {
-    font-size: 16px;
+    display: inline-block;
+    width: 100%;
+    line-height: 1.3;
+    font-size: 24px;
     color: rgb(65, 200, 65);
     animation-duration: 0.25s;
     -moz-animation-duration: 0.25s;
     -webkit-animation-duration: 0.25s;
+    margin:0;
+    padding:0;
 }
 p.error-message {
-    font-size: 14px;
+    display: inline-block;
+    width: 100%;
+    line-height: 1.3;
+    font-size: 22px;
     color: rgb(225, 65, 65);
     animation-duration: 0.25s;
     -moz-animation-duration: 0.25s;
     -webkit-animation-duration: 0.25s;
+    margin:0;
+    padding:0;
 }
 p.margin-top {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .btn {
     height: 50px;
     min-width: 140px;
+    font-size:24px;
+    padding:0 10px;
+
+    .fa {
+        font-size: 18px;
+    }
 }
 .btn.btn-danger {
     background:rgb(245,93,54);
+}
+
+.btn.btn-delete {
+    background-color: #d9534f;
+}
+.btn-container {
+    display:inline-block;
+    width:100%;
+    margin-top: 20px;
+
+    .btn {
+        margin-left: 20px;
+    }
+    .btn:first-child {
+        margin-left: 0;
+    }
 }
 
 #loginForm {
@@ -72,6 +107,8 @@ hr {
     border-color: rgb(149,149,149);
     margin-top: 30px;
     margin-bottom: 35px;
+    display: inline-block;
+    width: 100%;
 }
 .short-field {
     width: 50%;
@@ -79,6 +116,19 @@ hr {
     max-width: 225px;
     float: left;
     margin-right: 15px;
+}
+
+textarea.form-control {
+    background: rgba(120,120,120, 0.7);
+    border: 1px solid rgb(100,100,100);
+    color:#fff;
+    max-width: 465px;
+    min-height: 100px;
+    font-size: 24px;
+}
+textarea.form-control:focus {
+    border: 1px solid rgb(100,100,100);
+    box-shadow: none;
 }
 
 .form-group {
@@ -89,19 +139,29 @@ hr {
 form h4 {
     margin-bottom: 30px;
 }
+.section-container {
+display: inline-block;
+    width: 100%;
+}
+
 .section {
     display: inline-block;
-    width: 100%;
+    width: 40%;
+    max-width: 500px;
+    float:left;
+    margin-right: 5%;
+
     .fields {
         float:left;
         margin-right: 100px;
-        min-width: 500px;
+        width: 100%;
     }
     .image {
-        float:left;
         padding-top: 0;
         width: 150px;
         text-align: center;
+        margin: 20px auto;
+        display:block;
 
         img {
             width: 100%;
@@ -111,5 +171,56 @@ form h4 {
             margin-top: 20px;
             min-width: 152px;
         }
+    }
+}
+.section.left {
+     width: 55%;
+}
+.section.right {
+     width: 35%;
+}
+#fileUpload {
+    display:none;
+}
+.toggle {
+    width: 200px;
+    height: 52px;
+
+    span.choice {
+        opacity: 0.5;
+        padding: 10px 20px;
+        width:50%;
+        display:inline-block;
+        float:left;
+        cursor:pointer;
+        text-align:center;
+    }
+    span.yes {
+        background: #f55d36;
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+    }
+    span.no {
+        background: #d9534f;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+    }
+     span.choice.active {
+         opacity: 1;
+     }
+}
+.form-control.half {
+    width: 45%;
+}
+.field-helper {
+    font-size: 18px;
+    color:#999999;
+    display:block;
+    margin-top: 5px;
+}
+.repair-form {
+    
+    textarea.form-control {
+        min-height: 160px;
     }
 }

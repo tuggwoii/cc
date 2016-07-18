@@ -1,0 +1,10 @@
+﻿<div class="box">
+    <h3><i class="fa fa-map-marker" aria-hidden="true"></i> {{strings['rates_shop']}}</h3>
+    <div class="filter-box">
+        <div class="filter-item active">{{strings['general_work']}}</div>
+        <div class="filter-item" ng-repeat="work in workgroup">{{work.name}}</div>
+    </div>
+    <div class="content-box">
+        <p class="nodata">{{strings['no_data']}}</p>
+    </div>
+</div>

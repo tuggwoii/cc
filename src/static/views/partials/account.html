@@ -13,7 +13,8 @@
             </ul>
         </div>
         <form name="form" ng-controller="AccountController" class="login-form">
-            <div class="section">
+            <span class="sr-only" ng-init="setForm(form)"></span>
+            <div class="section left">
                 <div class="fields">
                     <div class="form-group">
                         <label class="capital">
@@ -42,58 +43,69 @@
                                ng-required="true" />
                     </div>
                 </div>
+            </div>
+            <div class="section right">
                 <div class="image">
-                    <img src="/img/noprofile.png" alt="profile">
-                    <button class="btn btn-danger"><i class="fa fa-photo"></i> {{strings['select_image']}}</button>
+                    <div ng-if="!user.image">
+                        <img src="/img/noprofile.png" alt="profile" ng-if="!user.image">
+                        <button ng-if="!uploading" class="btn btn-danger" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['select_image']}}</button>
+                        <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                    </div>
+                    <div ng-if="user.image">
+                        <img class="user-profile-image" ng-src="{{user.image.url}}" alt="profile">
+                        <button class="btn btn-danger" ng-if="!uploading" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['change_image']}}</button>
+                        <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                    </div>
                 </div>
             </div>
             <hr />
             <h4>{{strings['change_password']}}</h4>
-            <div class="form-group">
-                <label class="capital">
-                    {{strings['password']}}
-                </label>
-                <input name="password"
-                       type="password"
-                       class="form-control"
-                       placeholder="New Password"
-                       ng-model="model.password" />
-                <p class="error-message margin-top animated fadeIn"
-                   ng-if="form.password.$error.required && form.password.$dirty">
-                    {{strings['required']}} {{strings['password']}}
-                </p>
-            </div>
-            <div class="form-group">
-                <label class="capital">
-                    {{strings['confirm_password']}}
-                </label>
-                <input type="password"
-                       class="form-control"
-                       ng-model="model.confirm_password"
-                       placeholder="Confirm Password"
-                       ng-required="model.password" />
-                <p class="error-message margin-top animated fadeIn"
-                   ng-if="model.password && model.password!==model.confirm_password && is_submit">
-                    {{strings['password_mismatch']}}
-                </p>
-            </div>
-            <div class="form-group">
-                <label class="capital">
-                    {{strings['old_password']}}
-                </label>
-                <input type="password"
-                       class="form-control"
-                       placeholder="Old Password"
-                       ng-model="model.old_password" />
-                <p class="error-message margin-top animated fadeIn"
-                   ng-if="model.password && !model.old_password && is_submit">
-                    {{strings['required']}} {{strings['old_password']}}
-                </p>
-                <p class="error-message margin-top animated fadeIn"
-                   ng-if="status.invalid_password">
-                    {{strings['invalid_old_password']}}
-                </p>
-                
+            <div class="section left">
+                <div class="form-group">
+                    <label class="capital">
+                        {{strings['password']}}
+                    </label>
+                    <input name="password"
+                           type="password"
+                           class="form-control"
+                           placeholder="New Password"
+                           ng-model="model.password" />
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="form.password.$error.required && form.password.$dirty">
+                        {{strings['required']}} {{strings['password']}}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="capital">
+                        {{strings['confirm_password']}}
+                    </label>
+                    <input type="password"
+                           class="form-control"
+                           ng-model="model.confirm_password"
+                           placeholder="Confirm Password"
+                           ng-required="model.password" />
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="model.password && model.password!==model.confirm_password && is_submit">
+                        {{strings['password_mismatch']}}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="capital">
+                        {{strings['old_password']}}
+                    </label>
+                    <input type="password"
+                           class="form-control"
+                           placeholder="Old Password"
+                           ng-model="model.old_password" />
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="model.password && !model.old_password && is_submit">
+                        {{strings['required']}} {{strings['old_password']}}
+                    </p>
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="status.invalid_password">
+                        {{strings['invalid_old_password']}}
+                    </p>
+                </div>
             </div>
             <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
             <p class="success-message margin-top animated fadeIn" ng-if="status.success">{{strings['update_success']}}</p>

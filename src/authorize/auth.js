@@ -13,6 +13,16 @@ function generateToken () {
     return promise;
 }
 
+function permission (res) {
+    res.status(401).json({
+        data: [],
+        error: {
+            message: 'PERMISSION DENIED'
+        },
+        meta: []
+    });
+}
+
 exports.getUser = function (token) {
     if (tokenSession[token]) {
         return tokenSession[token];
@@ -71,4 +81,21 @@ exports.isAuthorize = function (request, roles) {
         return false;
     }
     return roles.indexOf(user.role.name) > -1;
+};
+
+exports.protectPath = function (request, response, next) {
+    var token = request.headers['authorization'];
+    if (!token) {
+        permission(response);
+    }
+    else {
+        var user = tokenSession[token];
+        if (user) {
+            request.user = user;
+            next();
+        }
+        else {
+            permission(response);
+        }
+    }    
 };

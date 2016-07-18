@@ -1,6 +1,7 @@
 ﻿[ng\:cloak], [ng-cloak], .ng-cloak, .ng-leave {
     display: none !important;
 }
+
 * {
     -webkit-font-smoothing: antialiased;
 }
@@ -20,6 +21,21 @@
     src: url("/fonts/gotham-reg.ttf");
 }
 
+@font-face {
+    font-family: saraban-new;
+    src: url("/fonts/THSarabunNew.ttf");
+}
+
+@font-face {
+    font-family: saraban-bold;
+    src: url("/fonts/THSarabunNew-Bold.ttf");
+}
+
+@font-face {
+    font-family: saraban-italic;
+    src: url("/fonts/THSarabunNew-Italic.ttf");
+}
+
 * {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
@@ -29,8 +45,8 @@
     margin: 0;
     padding: 0;
     width: 100%;
-    font-family: 'gotham-light', sans-serif;
-    font-size: 16px;
+    font-family: 'saraban-new', 'gotham-light', sans-serif;
+    font-size: 24px;
     overflow-x: hidden;
     background: rgb(27,21,21);
     color: #fff;
@@ -39,10 +55,18 @@
         font-weight: normal;
     }
 
+    h4 {
+        font-size: 26px;
+    }
+
     a {
         cursor: pointer;
         color: #999;
-        font-weight: bold;
+        line-height: 1.3;
+    }
+
+    span, p {
+        line-height: 1.3;
     }
 
     .uppercase {
@@ -53,7 +77,26 @@
         text-transform: capitalize;
     }
 
-    .container-fluid {
+    img {
+        vertical-align: top;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            display: inline-block;
+
+            a {
+                display: inline-block;
+            }
+
+            a:hover, a:focus, a:active {
+                text-decoration: none;
+            }
+        }
     }
 
     header {
@@ -79,7 +122,11 @@
 
             .menu {
                 float: left;
-                padding: 28px;
+                padding: 23px;
+
+                .menu-item.active {
+                    color: #f05f23;
+                }
 
                 a {
                     color: #fff;
@@ -98,9 +145,8 @@
 
                 .fb-login-button {
                     margin-left: 17px;
-                    top: 4px;
+                    top: -4px;
                     display: inline-block;
-                    float: right;
                     width: 75px;
                     height: 25px;
                 }
@@ -129,7 +175,7 @@
                     position: absolute;
                     width: 300px;
                     background: rgba(50,50,50, 0.8);
-                    height: 320px;
+                    height: 350px;
                     box-shadow: 1px 1px 15px #000;
                     top: 85px;
                     right: 22px;
@@ -141,7 +187,6 @@
                 }
             }
         }
-
 
         .user-panel {
             float: right;
@@ -163,6 +208,7 @@
             .username {
                 position: relative;
                 top: -12px;
+                line-height: 1.3;
             }
 
             .user-control {
@@ -213,7 +259,7 @@
             }
 
             img {
-                max-width: 250px;
+                max-width: 330px;
             }
         }
     }
@@ -226,6 +272,13 @@
         margin-top: 0px;
         line-height: 0;
         padding-bottom: 100px;
+
+        .stars {
+            i {
+                font-size: 16px;
+                color: #f05f23;
+            }
+        }
 
         .side-bar {
             width: 250px;
@@ -247,6 +300,10 @@
                 display: inline-block;
                 width: 100%;
             }
+
+            .container {
+                padding: 0;
+            }
         }
 
         .profile {
@@ -255,7 +312,7 @@
         }
 
         .user-profile {
-            background: rgb(52,52,52);
+            background: rgba(52,52,52, 0.4);
             min-height: 200px;
             padding: 30px 0;
             animation-duration: 0.5s;
@@ -266,17 +323,36 @@
             .profile-image {
                 display: inline-block;
                 float: left;
-                width: 120px;
+                width: 50%;
+                max-width: 150px;
 
                 img {
                     max-width: 120px;
                 }
+            }
 
-                .edit {
-                    text-align:center;
-                    display:block;
-                    margin-top: 20px;
-                    color:#fff;
+            .user-menu {
+                margin-top: 20px;
+
+                h3 {
+                    color: #f05f23;
+                    font-size: 24px;
+                    margin: 0;
+                    margin-bottom: 10px;
+                    display: block;
+
+                    span {
+                    }
+                }
+
+                .user-menu-item {
+                    display: block;
+                    color: #fff;
+                    font-size: 22px;
+                    display: inline-block;
+                    text-decoration: none;
+                    width: 100%;
+                    border-bottom: 1px dashed #959595;
                 }
             }
 
@@ -284,20 +360,21 @@
                 display: inline-block;
                 float: left;
                 text-align: center;
-                margin-left: 20px;
-                width: 150px;
+                padding-left: 20px;
+                width: 50%;
+                max-width: 200px;
 
                 span {
                     display: inline-block;
                     width: 100%;
-                    margin-top: 25px;
-                    font-size: 18px;
+                    margin-top: 10px;
+                    font-size: 24px;
                 }
 
                 .username {
                     display: inline-block;
                     width: 100%;
-                    font-size: 18px;
+                    font-size: 26px;
                 }
 
                 img {
@@ -309,65 +386,599 @@
 
             h3 {
                 margin: 0 0 20px 0;
+                font-size: 30px;
 
                 .fa {
                     color: rgb(240,95,35);
                     margin-right: 15px;
+                    font-size: 24px;
                 }
             }
 
             .car-item {
-                background: rgb(40,40,40);
                 display: inline-block;
                 width: 100%;
-                min-height: 95px;
+                height: 90px;
                 margin-bottom: 20px;
                 cursor: pointer;
-                padding: 20px;
+                padding: 10px;
+                background: rgba(40,40,40, 0.7);
                 animation-duration: 0.25s;
                 -webkit-animation-duration: 0.25s;
                 -moz-animation-duration: 0.25s;
 
                 img {
                     max-width: 70px;
+                    border: 3px solid rgb(53, 55, 56);
+                    border-radius: 3px;
+                    background: rgb(53, 55, 56);
+                    height: 70px;
                 }
 
                 .detail {
                     margin-left: 15px;
                     display: inline-block;
+                    width: calc(100% - 95px);
+                    overflow: hidden;
 
                     span {
                         display: block;
-                        line-height: 1.4;
+                        width: 500px;
                     }
+                }
+
+                .noti-count {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                    background: #f75d22;
+                    border-radius: 15px;
+                    width: 25px;
+                    height: 25px;
+                    text-align: center;
+                    font-size: 22px;
                 }
             }
 
             .car-item.add {
                 text-align: center;
-                padding: 37px 0;
-                font-size: 20px;
+                padding: 32px 0;
+                font-size: 24px;
+
+                .fa {
+                    font-size: 18px;
+                }
             }
         }
 
-        .notifications {
+        .content-box {
             box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0 rgba(0,0,0,0.2);
             display: inline-block;
             width: 100%;
             min-height: 300px;
             background: #343434;
+            padding: 20px 35px 70px 35px;
+
+            .dates, .miles {
+                width: 50%;
+                display: inline-block;
+                float: left;
+            }
+
+            .nodata {
+                font-size: 20px;
+            }
+
+            .dates {
+                padding-left: 10px;
+            }
+
+            .miles {
+                padding-right: 10px;
+            }
+
+
+            ul {
+                li {
+                    line-height: 1;
+                    font-size: 20px;
+                    display: inline-block;
+                    width: 100%;
+                    margin-top: 20px;
+                    cursor: pointer;
+
+                    span {
+                        display: block;
+                    }
+
+                    .title {
+                        color: rgb(247, 93, 34);
+                    }
+
+                    .date {
+                        color: rgb(99, 99, 99);
+                    }
+
+                    .car {
+                        color: rgb(150, 150, 150);
+                    }
+                }
+            }
         }
 
         .box {
             margin-top: 50px;
-            
+            position: relative;
+
+            .filter-box {
+                box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0 rgba(0,0,0,0.2);
+                display: inline-block;
+                width: 100%;
+                background: #343434;
+                padding: 0 10px 10px 10px;
+                margin-bottom: 5px;
+
+                .filter-item {
+                    margin-top: 10px;
+                    float: left;
+                    line-height: 1.3;
+                    background: rgb(59,59,59);
+                    padding: 10px 30px;
+                    cursor: pointer;
+                }
+
+                .filter-item.active {
+                    background-color: rgb(208, 93, 49);
+                }
+            }
+
             h3 {
                 margin-bottom: 20px;
                 text-shadow: 1px 1px 20px #333;
+                font-size: 30px;
 
                 .fa {
                     color: #f05f23;
                     margin-right: 15px;
+                    font-size: 24px;
+                }
+            }
+
+            h4 {
+                font-size: 26px;
+
+                .fa {
+                    font-size: 16px;
+                }
+
+                span {
+                    border-bottom: 2px solid #f55d22;
+                }
+            }
+
+            .view-all {
+                position: absolute;
+                bottom: 20px;
+                right: 40px;
+                color: #eee;
+                font-weight: normal;
+                font-size: 20px;
+            }
+        }
+
+        .user-profile-image {
+            border: 3px solid #333;
+            border-radius: 2px;
+        }
+
+        .upload-warning {
+            margin-top: 10px;
+            line-height: 1.3;
+            padding: 0;
+            margin-bottom: -5px;
+            font-size: 14px;
+        }
+
+        .ads-box {
+            padding-top: 88px;
+
+            .ads {
+                margin-top: 15px;
+                text-align: right;
+
+                .ads-image {
+                    width: 100%;
+                    max-width: 400px;
+                    box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0 rgba(0,0,0,0.2);
+                }
+            }
+        }
+
+        .works {
+            display: inline-block;
+            width: 100%;
+            background: rgba(27,27,27,0.7);
+
+            .works-title {
+                width: 200px;
+                float: left;
+
+                h2 {
+                    font-size: 55px;
+                }
+
+                span {
+                    color: #999;
+                    font-size: 22px;
+                    margin-top: -10px;
+                    display: inline-block;
+                }
+            }
+
+            .work-list {
+                float: left;
+                width: calc(100% - 200px);
+                padding: 10px;
+
+                .work-item {
+                    display: inline-block;
+                    float: left;
+                    line-height: 1.3;
+                    padding: 10px 20px;
+                    margin-top: 15px;
+                    cursor: pointer;
+                }
+
+                .work-item.active {
+                    background: rgb(208, 93, 49);
+                }
+            }
+        }
+
+        .filters {
+            background: rgba(52,52,52,0.4);
+            padding: 30px 0;
+
+            .form-group {
+                display: inline-block;
+                float: left;
+                max-width: 305px;
+                margin-left: 5%;
+                width: 27%;
+
+                label {
+                    font-size: 34px;
+                    display: block;
+                }
+
+                .form-control.half {
+                    margin-left: 5%;
+                    display: inline-block;
+                    float: left;
+                }
+
+                .form-control.half:first-of-type {
+                    margin-left: 0;
+                }
+            }
+
+            .form-group:first-child {
+                margin-left: 0;
+            }
+
+            .btn {
+                min-width: 70px;
+                float: left;
+                margin-left: 5%;
+                margin-top: 40px;
+            }
+        }
+
+        .repair-form {
+
+            .sm-load {
+                position: absolute;
+                top: 5px;
+                right: 0;
+            }
+
+            .form-group {
+                position: relative;
+            }
+
+            .selected-shop {
+
+                h3 {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .shop-detail {
+                    margin-top: 15px;
+                    display: inline-block;
+                    width: 100%;
+                    margin-bottom: 70px;
+
+                    img {
+                        width: 100px;
+                        height: 100px;
+                        float: left;
+                    }
+
+                    .shop-name {
+                        font-size: 28px;
+                        line-height: 1;
+                    }
+
+                    .change-shop {
+                        display: block;
+                        font-size: 20px;
+                        line-height: 1;
+                        margin-top: 5px;
+
+                        .txt {
+                            cursor: pointer;
+                            border-bottom: 1px solid #ccc;
+                        }
+                    }
+
+                    .text {
+                        margin-top: -3px;
+                        display: inline-block;
+                        width: calc(100% - 100px);
+                        float: left;
+                        padding-left: 15px;
+                    }
+                }
+            }
+
+            .shop-list {
+                padding: 20px;
+                margin-top: 10px;
+                background-color: #454545;
+                position: absolute;
+                width: 100%;
+                z-index: 999;
+                border-radius: 3px;
+                box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0 rgba(0,0,0,0.2);
+
+                li {
+                    width: 100%;
+                    margin-top: 5px;
+                    cursor: pointer;
+                    padding: 10px 0;
+
+                    img {
+                        width: 50px;
+                        height: 50px;
+                        float: left;
+                    }
+
+                    .fa {
+                        font-size: 18px;
+                        position: relative;
+                        top: 2px;
+                    }
+
+                    .shop-name {
+                        width: calc(100% - 50px);
+                        padding-left: 10px;
+                        display: inline-block;
+                        float: left;
+                        padding-top: 7px;
+                        font-size: 28px;
+                    }
+                }
+
+                li.add-new {
+                    padding: 20px 0;
+                }
+            }
+
+            .works {
+                padding: 20px;
+                margin-top: 20px;
+                background-color: #454545;
+                width: 100%;
+                margin-top: 30px;
+                border-radius: 3px;
+
+                h3 {
+                    padding: 0;
+                    margin: 0;
+                    margin-bottom: 10px;
+                    font-size: 30px;
+                    border-bottom: 2px solid #f55d22;
+
+                    span.count {
+                        float: right;
+                    }
+                }
+
+                p.instruction {
+                    color: #999999;
+                    font-size: 20px;
+                }
+
+                p.price-sum {
+                    color: #eee;
+                    font-size: 28px;
+                    margin-top: 20px;
+                }
+
+                .btn {
+                    margin-top: 20px;
+                }
+
+                .work-item {
+                    border-bottom: 1px dashed #ccc;
+                    margin-top: 10px;
+                    position: relative;
+
+                    .delete {
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+
+                        .btn {
+                            height: 40px;
+                            width: 90px;
+                            max-width: 90px;
+                            min-width: 90px;
+
+                            i {
+                                margin-right: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .shares-list {
+
+            .share-item {
+                display: inline-block;
+                width: 33.333%;
+                float: left;
+                line-height: 1;
+                margin-top: 10px;
+                height: 145px;
+
+                .shop {
+                    font-size: 20px;
+                    color: #aaa;
+                    margin-top: -5px;
+
+                    .fa {
+                            font-size: 16px;
+                        }
+                }
+
+                .detail {
+                    display: inline-block;
+                    width: 100%;
+
+                    .image {
+                        width: 70px;
+                        height: 70px;
+                        float: left;
+
+                        img {
+                            width: 100%;
+                            position: relative;
+                            top: 50%;
+                            transform: translateY(-50%);
+                        }
+                    }
+
+                    .info {
+                        width: calc(100% - 70px);
+                        padding-left: 10px;
+                        float: left;
+
+                        .title {
+                            font-size: 22px;
+                        }
+
+                        .price {
+                            font-size: 20px;
+                            color: #bbb;
+                            margin-top: 5px;
+                            margin-bottom: 5px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .shares-page {
+
+            .user-profile {
+                .car-item.add {
+                    display: inline-block;
+                }
+
+                h3 {
+                    display: block;
+                }
+            }
+
+            .container {
+                padding: 20px 0;
+
+                .shares-list {
+                    display:inline-block;
+                    width: 103.33%;
+                    margin-left: -3.33%;
+                }
+
+                .loadMore {
+                    margin-top: 50px;
+                }
+
+                .share-item {
+                    display: inline-block;
+                    width: 30%;
+                    margin-left: 3.333%;
+                    float: left;
+                    line-height: 1;
+                    margin-top: 30px;
+                    height: 200px;
+                    background: rgb(65,65,65);
+                    padding:20px;
+
+                    .shop {
+                        font-size: 20px;
+                        color: #fff;
+                        margin-bottom: 10px;
+
+                        .fa {
+                            font-size: 16px;
+                        }
+                    }
+
+                    .detail {
+                        display: inline-block;
+                        width: 100%;
+
+                        .image {
+                            width: 70px;
+                            height: 70px;
+                            float: left;
+
+                            img {
+                                width: 100%;
+                                position: relative;
+                                top: 50%;
+                                transform: translateY(-50%);
+                            }
+                        }
+
+                        .info {
+                            width: calc(100% - 70px);
+                            padding-left: 20px;
+                            float: left;
+                            margin-top: -25px;
+
+                            .workgroup {
+                                font-size: 22px;
+                                color:rgb(134,186,255);
+                                 margin-bottom: 5px;
+                            }
+
+                            .title {
+                                font-size: 22px;
+                            }
+
+                            .price {
+                                font-size: 20px;
+                                color: rgb(84,193,97);
+                                margin-top: 5px;
+                                margin-bottom: 10px;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -383,46 +994,64 @@
 
     .bg {
         position: relative;
-        height: 100px;
+        height: 60px;
 
         img {
             width: 100%;
-            position:absolute;
+            position: absolute;
             opacity: 0.4;
+        }
+
+        .f-bg {
+            display: inline-block;
+        }
+
+        .s-bg {
+            display: none;
         }
     }
 
-    footer {       
+    footer {
         width: 100%;
-        display:block;
+        display: block;
+
         img {
             width: 100%;
             max-width: 100%;
         }
-        .footer {
-             background: rgb(2, 2, 2);
-             height: 50px;
 
-             p {
-                 padding: 15px 0;
+        .footer {
+            background: rgb(2, 2, 2);
+            height: 50px;
+
+            p {
+                padding: 12px 0;
                 text-align: center;
-                font-size: 14px;
+                font-size: 20px;
                 color: #fff;
-                margin:0;
-             }
+                margin: 0;
+            }
         }
+    }
+
+    .breadcrumb {
+        background: none;
+        margin-bottom: 40px;
+        padding: 8px 0;
     }
 
     .subpage {
         margin-top: 50px;
-        background:rgb(60, 60, 60);
+        background: rgb(60, 60, 60);
         padding: 20px 80px 80px 80px;
         box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0 rgba(0,0,0,0.2);
+        display: inline-block;
+        width: 100%;
 
         h1 {
-            
-            display:inline-block;
+            display: inline-block;
             margin-bottom: 20px;
+            width: 100%;
 
             img {
                 width: 80px;
@@ -431,55 +1060,155 @@
             span {
                 border-bottom: 2px solid rgb(245, 93, 34);
             }
+
+            .btn {
+                float: right;
+            }
+        }
+
+        .list {
+            margin-top: 20px;
+            display: inline-block;
+            width: 100%;
+
+            ul {
+                margin-top: 30px;
+
+                li {
+                    border-top: 1px solid #000;
+                    border-bottom: 1px solid #000;
+                    margin-top: -1px;
+                    padding: 20px;
+                    width: 100%;
+                    position: relative;
+
+                    span {
+                        display: block;
+                        line-height: 1.3;
+                    }
+
+                    .title {
+                        color: rgb(247, 93, 34);
+                        font-size: 28px;
+                        margin-bottom: 10px;
+                    }
+
+                    .date {
+                        font-size: 20px;
+                        color: rgb(99, 99, 99);
+                        margin-top: 10px;
+                    }
+
+                    .view {
+                        position: absolute;
+                        bottom: 20px;
+                        right: 0px;
+                        width: 90px;
+                        font-size: 22px;
+                        cursor: pointer;
+                        color: #999999;
+                    }
+
+                    .status {
+                        width: 70px;
+                        text-align: center;
+                        position: absolute;
+                        top: 22px;
+                        right: 5px;
+
+                        .state-open {
+                            background: #f55d36;
+                            padding: 0px 10px;
+                        }
+
+                        .state-close {
+                            background: #d9534f;
+                            padding: 0px 10px;
+                        }
+                    }
+
+                    .notification-detail {
+                        width: calc(100% - 80px);
+                    }
+                }
+            }
+
+            ul.paging {
+
+                li {
+                    float: left;
+                    width: auto;
+                    border: none;
+                    padding: 10px;
+                    font-size: 30px;
+                    cursor: pointer;
+                }
+
+                li.active {
+                    color: #f75d22;
+                }
+            }
+        }
+    }
+
+    .opacity-theme {
+        .user-profile {
+            background: rgba(52,52,52, 0.4);
+
+            h3 {
+                display: none;
+            }
+
+            .car-item {
+                background: rgba(40,40,40, 0.7);
+            }
+
+            .car-item.add {
+                display: none;
+            }
+
+            .car-item.active {
+                border-bottom: 2px solid #f55d22;
+                background: rgba(110,110,110, 1);
+            }
+        }
+
+        .bg {
+            height: 0;
+
+            .f-bg {
+                display: none;
+            }
+
+            .s-bg {
+                display: inline-block;
+            }
         }
 
         .breadcrumb {
             background: none;
-            margin-bottom: 40px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
 
-            ul {
-                list-style: none;
-                padding:0;
-                margin:0;
-
-                li {
-                    display: inline-block;
-
-                    a {
-                        display: inline-block;
-                    }
-
-                    a:hover, a:focus, a:active {
-                        text-decoration: none;
-                    }
-                }
-
-            }
+        .subpage {
+            margin-top: 10px;
         }
     }
-}
 
-.load {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    top: 0;
-    left: 0;
-    animation-duration: 0.5s;
-    -webkit-animation-duration: 0.5s;
-    -moz-animation-duration: 0.5s;
-
-    .load-container {
-        position:absolute;
-        margin-top: -60px;
-        margin-left: -75px;
-        top: 50%;
-        left:50%;
-        width: 130px;
-        background: #000;
-        padding: 15px 32px;
-        border-radius: 5px;
+    .select-car-description {
+        font-size: 22px;
+        color: #999999;
     }
 
+    .sm-load {
+        width: 26px;
+        height: 26px;
+        display: inline-block;
+
+        .uil-default-css {
+            width: 0px;
+            height: 0px;
+        }
+    }
 }

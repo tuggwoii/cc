@@ -30,31 +30,38 @@ class BaseApi {
             delete model['updatedAt'];
             delete model['user_role'];
         }
+        if (model.file) {
+            model.image = model.file;
+            delete model.image['createdAt'];
+            delete model.image['updatedAt'];
+            delete model['file'];
+        }
         return model;
     }
 
-    serializerList (collection) {
+    serializerList (collection, serializer) {
         var json = JSON.stringify(collection);
+        var serializer = serializer ? serializer : this.serializer
         var collectios = JSON.parse(json);
         for (var i = 0; i < collectios.length; i++) {
-            collectios[i] = this.serializer(collectios[i]);
+            collectios[i] = serializer(collectios[i]);
         }
         return collectios;
     }
 
-    success (req, res, model, serializer) {
+    success (req, res, model, meta, serializer) {
         if (model.length) {
             res.json({
-                data: this.serializerList(model),
+                data: this.serializerList(model, serializer),
                 error: [],
-                meta: {}
+                meta: meta ? meta : {}
             });
         }
         else {
             res.json({
                 data: serializer ? serializer(model) : this.serializer(model),
                 error: [],
-                meta: {}
+                meta: meta ? meta : {}
             });
         }
     }
@@ -74,8 +81,29 @@ class BaseApi {
         }
         Log.logToDatabase(error);
         res.status(code).json({
-            data: [],
-            error: error
+            data: {},
+            error: error,
+            meta: {}
+        });
+    }
+
+    denied (res) {
+        res.status(401).json({
+            data: {},
+            error: {
+                message: 'PERMISSION DENIED'
+            },
+            meta: {}
+        });
+    }
+
+    notfound (res) {
+        res.status(404).json({
+            data: {},
+            error: {
+                message: 'NOT FOUND'
+            },
+            meta: {}
         });
     }
 

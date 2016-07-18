@@ -20,5 +20,20 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('car', {
           url: "/car",
           templateUrl: "partials/car.html"
+      }).state('notifications', {
+          url: "/notifications",
+          templateUrl: "partials/notifications.html"
+      }).state('notification', {
+          url: "/notification",
+          templateUrl: "partials/notification.html"
+      }).state('repairs', {
+          url: "/repairs",
+          templateUrl: "partials/repairs.html"
+      }).state('repair', {
+          url: "/repair",
+          templateUrl: "partials/repair.html"
+      }).state('shares', {
+          url: "/shares",
+          templateUrl: "partials/shares.html"
       });
 });

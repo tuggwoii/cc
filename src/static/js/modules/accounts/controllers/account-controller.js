@@ -1,6 +1,10 @@
 ﻿'use strict';
 module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$cookies', 'AccountService', 'Event', function ($scope, $rootScope, $timeout, $cookies, AccountService, Event) {
 
+    $scope.setForm = function (form) {
+        $scope.form = form;
+    };
+
     $scope.init = function () {
         $scope.status = {};
         $scope.model = angular.copy($scope.user);
@@ -46,6 +50,14 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
         });
     };
 
-    $scope.$on('USER_LOADED', $scope.init);
+    $scope.setProfileImage = function (event, file) {
+        $scope.model.image = file;
+        window.carcare.user.image = file;
+        $rootScope.$broadcast(Event.User.Update);
+        $scope.update($scope.form);
+    };
+
+    $scope.$on(Event.User.Loaded, $scope.init);
+    $scope.$on(Event.File.Success, $scope.setProfileImage)
     $scope.init();
 }]);

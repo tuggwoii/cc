@@ -3,6 +3,7 @@ var Authorize = require('../authorize/auth');
 var BaseApi = require('./base');
 var User = require('../database/models').User;
 var Role = require('../database/models').Role;
+var File = require('../database/models').File;
 var bcrypt = require('bcrypt-nodejs');
 var salt = bcrypt.genSaltSync(10);
 var shortid = require('shortid');
@@ -45,7 +46,8 @@ class AccountApi extends BaseApi {
             User.findAll({
                 where: { email: email },
                 include: [
-                    { model: Role }
+                    { model: Role },
+                    { model: File }
                 ]
             }).then(function (users) {
                 resolve(users);
@@ -112,7 +114,7 @@ class AccountApi extends BaseApi {
         return promise;
     }
 
-    validateUpdate(data) {
+    validateUpdate (data) {
         var me = this;
         var promise = new Promise(function (resolve, reject) {
             if (!data.email) {
@@ -158,7 +160,6 @@ class AccountApi extends BaseApi {
             ]
         }).then(function (_user) {
             if (_user) {
-                console.log('here', _user);
                 if (_user.id === req.user.id) {
                     var valid_password_process = true;
                     if (user.password) {
@@ -176,15 +177,27 @@ class AccountApi extends BaseApi {
                     }
                     if (valid_password_process) {
                         user.email = _user.email;
+                        if (user.image && user.image.id) {
+                            user.image = user.image.id;
+                        }
                         context.validateUpdate(user).then(function () {
                             _user.updateAttributes(user).then(function (data) {
-                                var aut_user = context.loginSerializer(data);
-                                Authorize.updateAuthorizeUser(aut_user).then(function () {
-                                    context.success(req, res, data);
-                                }).catch(function (err) {
+                                context.findByEmail(user.email).then(function (_users) {
+                                    if (_users.length) {
+                                        var aut_user = context.loginSerializer(_users[0]);
+                                        Authorize.updateAuthorizeUser(aut_user).then(function () {
+                                            context.success(req, res, _users[0]);
+                                        }).catch(function (err) {
+                                            context.error(req, res, err, 500);
+                                        });
+                                    }
+                                    else {
+                                        context.error(req, res, 'NOT FOUND', 404);
+                                    }
+                                }).catch(function () {
                                     context.error(req, res, err, 500);
                                 });
-                            }).catch(function () {
+                            }).catch(function (err) {
                                 context.error(req, res, err, 500);
                             });
                         }).catch(function (err) {
@@ -207,7 +220,7 @@ class AccountApi extends BaseApi {
         });
     }
 
-    adminUpdate(context, req, res) {
+    adminUpdate (context, req, res) {
         console.log(req.user);
         var user = req.body;
         User.findById(user.id).then(function (_user) {

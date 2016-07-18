@@ -1,27 +1,81 @@
 ﻿'use strict';
-module.factory('NotificationService', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+module.factory('NotificationService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', function ($rootScope, $http, $q, $cookies, URLS) {
+
+    var service = 'notifications';
+    var cache = {};
+
     return {
-        loading: function () {
-            $rootScope.$broadcast('Loading');
+        get: function (t, p, c) {
+            var key = URLS.model(service).all + (t ? '?t=' + t : '') + (p ? (t ? '&p=' + p : '?p=' + p) : '') + (c ? '&c=' + c : '');
+            return $q(function (resolve, reject) {
+                if (cache[key]) {
+                    resolve(cache[key]);
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        cache[key] = res;
+                        resolve(res);
+                    }).error(function (res) {
+                        reject(res);
+                    });
+                }
+            });
         },
-        stopLoading: function () {
-            $rootScope.$broadcast('StopLoading');
-            $rootScope.$broadcast('Ready');
+        getById: function (id) {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).one.replace('{id}', id);
+                if (cache[key]) {
+                    resolve(cache[key]);
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        cache[key] = res.data;
+                        resolve(res.data);
+                    }).error(function (res) {
+                        reject(res);
+                    });
+                }
+            });
         },
-        openDialog: function (model) {
-            $timeout(function () {
-                $rootScope.$broadcast('OpenDialog', model);
-            }, 500);
+        getByType: function (type) {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).all +'/type/' + type;
+                if (cache[key]) {
+                    resolve(cache[key]);
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        cache[key] = res.data;
+                        resolve(res.data);
+                    }).error(function (res) {
+                        reject(res);
+                    });
+                }
+            });
         },
-        openNotify: function (model) {
-            $timeout(function () {
-                $rootScope.$broadcast('OpenNotify', model);
-            }, 500);
+        create: function (model) {
+            return $q(function (resolve, reject) {
+                $http.post(URLS.model(service).all, model).success(function (res) {
+                    cache = {};
+                    resolve(res);
+                }).error(reject);
+            });
         },
-        confirm: function (callback) {
-            $timeout(function () {
-                $rootScope.$broadcast('OpenConfirm', callback);
-            }, 100);
+        update: function (model) {
+            return $q(function (resolve, reject) {
+                $http.patch(URLS.model(service).all, model).success(function (res) {
+                    cache = {};
+                    resolve(res.data);
+                }).error(reject);
+            });
         },
+        delete: function (id) {
+            return $q(function (resolve, reject) {
+                $http.delete(URLS.model(service).one.replace('{id}', id)).success(function (res) {
+                    cache = {};
+                    resolve(res)
+                }).error(reject);
+            });
+        }
     };
 }]);
