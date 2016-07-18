@@ -6,13 +6,11 @@ module.config(function ($httpProvider) {
 });
 var app = {
     init: function () {
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '1722927571299619',
-                xfbml: true,
-                version: 'v2.7'
-            });
-        };
+        FB.init({
+            appId: '1722927571299619',
+            xfbml: true,
+            version: 'v2.7'
+        });
         angular.bootstrap(document, ['app']);
     }
 };
