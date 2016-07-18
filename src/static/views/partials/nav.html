@@ -12,42 +12,11 @@
             <a href="#">FAQ</a>
         </div>
 
-        <div class="login-button-container" ng-show="!user.id">
+        <div class="login-button-container" ng-if="!user.id">
             <button type="button" class="btn btn-default" ng-click="loginToggle()">{{strings['login']}}</button>
-            <div class="login-popup animated fadeIn" ng-show="displayLogin">
-                <form name="form" id="loginForm" ng-controller="LoginController">
-                    <p class="error-message animated fadeIn" ng-if="status.invalid">{{strings['invalid_login']}}</p>
-                    <p class="error-message animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
-                    <div class="form-group">
-                        <label class="capital">{{strings['email']}}</label>
-                        <input type="text"
-                               class="form-control"
-                               ng-model="model.email"
-                               ng-required="true" />
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">{{strings['password']}}</label>
-                        <input type="password"
-                               class="form-control"
-                               ng-model="model.password"
-                               ng-required="true"
-                               ng-keypress="keyPress(form, $event)" />
-                    </div>
-                    <div class="button-container">
-                        <div class="button-group">
-                            <button type="button" class="btn btn-default" ng-click="login(form)">
-                                {{strings['login']}}
-                            </button>
-                            <div class="fb-login-button" data-max-rows="1" scope="public_profile, email" onlogin="checkLoginState()" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
-                        </div>
-                        <a ng-click="navigateTo('#/register')">
-                            {{strings['register_header']}}
-                        </a>
-                    </div>
-                </form>
-            </div>
+            <div class="login-popup animated fadeIn" ng-include="'partials/login.html'" ng-show="displayLogin"></div>
         </div>
-        <div class="login-button-container" ng-show="user.id">
+        <div class="login-button-container" show-if="user.id">
             <button type="button" class="btn btn-default" ng-click="logout()">{{strings['logout']}}</button>
         </div>
     </div>
