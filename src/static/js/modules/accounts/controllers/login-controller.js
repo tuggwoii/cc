@@ -53,8 +53,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         }
     }
 
-    $scope.facebookLogin = function (creds) {
-        console.log('here');
+    function Facebook_login() {
         FB.getLoginStatus(function (response) {
             console.log(response);
             if (response.status === 'connected') {
@@ -62,6 +61,13 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
 
             }
         });
+    }
+
+    $scope.facebookLogin = function (creds) {
+        console.log('here');
+        console.log(FB);
+        FB.login(Facebook_login);
+       
 
         /*
         $rootScope.$broadcast(Event.Load.Display);
