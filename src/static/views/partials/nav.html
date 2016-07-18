@@ -16,7 +16,7 @@
             <button type="button" class="btn btn-default" ng-click="loginToggle()">{{strings['login']}}</button>
             <div class="login-popup animated fadeIn" ng-include="'partials/login.html'" ng-show="displayLogin"></div>
         </div>
-        <div class="login-button-container" show-if="user.id">
+        <div class="login-button-container" ng-if="user.id">
             <button type="button" class="btn btn-default" ng-click="logout()">{{strings['logout']}}</button>
         </div>
     </div>

@@ -106,6 +106,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         };
 
         $scope.loginToggle = function () {
+            FB.XFBML.parse();
             $scope.displayLogin = !$scope.displayLogin;
         };
 
