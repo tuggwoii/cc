@@ -42,8 +42,9 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         doneCheckAuthentication();
     }
 
-
-    function checkFacebookLoginState() {        
+    var max_try = 20;
+    var tries = 0;
+    function checkFacebookLoginState() {
         FB.getLoginStatus(function (response) {
             statusChangeCallback(response, facebookLogin, noFacebokLogin);
         });
@@ -79,7 +80,15 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         },
         logout: function () {
             return $q(function (resolve, reject) {
-                $http.post(URLS.model(service).logout).success(resolve).error(reject);
+                FB.getLoginStatus(function (crets) {
+                    if (crets.authResponse) {
+                        FB.logout(function (response) {
+                            $http.post(URLS.model(service).logout).success(resolve).error(reject);
+                        });
+                    } else {
+                        $http.post(URLS.model(service).logout).success(resolve).error(reject);
+                    }
+                });
             });
         },
         setAuthenticationToken: function (res) {
