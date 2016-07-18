@@ -92,15 +92,7 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         },
         logout: function () {
             return $q(function (resolve, reject) {
-                FB.getLoginStatus(function (crets) {
-                    if (crets.authResponse) {
-                        FB.logout(function (response) {
-                            $http.post(URLS.model(service).logout).success(resolve).error(reject);
-                        });
-                    } else {
-                        $http.post(URLS.model(service).logout).success(resolve).error(reject);
-                    }
-                });
+                $http.post(URLS.model(service).logout).success(resolve).error(reject);
             });
         },
         setAuthenticationToken: function (res) {
