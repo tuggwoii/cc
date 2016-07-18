@@ -110,7 +110,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             if ($scope.displayLogin) {
                 $timeout(function () {
                     FB.XFBML.parse();
-                }, 1000);
+                }, 100);
             }
         };
 

@@ -42,26 +42,13 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         doneCheckAuthentication();
     }
 
-    var max_try = 20;
-    var tries = 0;
-    function checkFacebookLoginState() {
-        if (typeof FB === "undefined") {
-            if (tries < max_try) {
-                tries++;
-                setTimeout(checkFacebookLoginState, 500);
-            }
-            else {
-                notLoginState();
-                doneCheckAuthentication();
-            }
-        }
-        else {
-            FB.getLoginStatus(function (response) {
-                statusChangeCallback(response, facebookLogin, noFacebokLogin);
-            });
-            notLoginState();
-            doneCheckAuthentication();
-        }
+
+    function checkFacebookLoginState() {        
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response, facebookLogin, noFacebokLogin);
+        });
+        notLoginState();
+        doneCheckAuthentication();
     }
 
     function facebookLogin(creds) {
