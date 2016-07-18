@@ -54,12 +54,22 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
     }
 
     $scope.facebookLogin = function (creds) {
+        console.log('here');
+        FB.getLoginStatus(function (response) {
+            console.log(response);
+            if (response.status === 'connected') {
+                window.location = "THE URL TO PROCESS THE LOGIN";
+
+            }
+        });
+
+        /*
         $rootScope.$broadcast(Event.Load.Display);
         AccountService.login(creds).success(function (res) {
             success(res);
         }).error(function (res) {
             error(res, 500)
-        });
+        });*/
     };
 
     $scope.init();

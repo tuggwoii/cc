@@ -264,6 +264,16 @@
         }
     }
 
+    .fb-login {
+
+        float:right;
+        cursor: pointer;
+
+        img {
+            height: 35px;
+        }
+    }
+
     .wrapper {
         display: inline-block;
         position: relative;

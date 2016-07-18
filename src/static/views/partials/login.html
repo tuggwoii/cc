@@ -21,7 +21,9 @@
             <button type="button" class="btn btn-default" ng-click="login(form)">
                 {{strings['login']}}
             </button>
-            <div class="fb-login-button" data-max-rows="1" scope="public_profile, email" onlogin="checkLoginState()" data-size="large" data-show-faces="false" data-auto-logout-link="false"></div>
+            <div class="fb-login" ng-click="facebookLogin()">
+                <img src="img/fb_login.png" alt="fb-login" />
+            </div>
         </div>
         <a ng-click="navigateTo('#/register')">
             {{strings['register_header']}}
