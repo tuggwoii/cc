@@ -6,6 +6,7 @@ module.config(function ($httpProvider) {
 });
 var app = {
     init: function () {
+        console.log('CALL FB INIT');
         FB.init({
             appId: '1722927571299619',
             xfbml: true,
