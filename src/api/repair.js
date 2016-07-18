@@ -421,7 +421,12 @@ class RepairApi extends BaseApi {
                     reject(err);
                 });
             }
-            updates(current, index, works);
+            if (works.length > 0) {
+                updates(current, index, works);
+            }
+            else {
+                resolve();
+            }
         });
         return promise;
     }
