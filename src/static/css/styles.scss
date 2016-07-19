@@ -686,6 +686,20 @@
 
         .repair-form {
 
+            .works {
+                .work-list {
+                    width: 100%;
+                    padding:0;
+                    display: inline-block;
+                    float: none;
+
+                    .work-item {
+                        width: 100%;
+                        padding:0;
+                    }
+                }
+            }
+
             .sm-load {
                 position: absolute;
                 top: 5px;
