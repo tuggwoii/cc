@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>CARCARENOTE</title>
@@ -18,23 +18,7 @@
         <div class="wrapper container-fluid opacity-theme">
             <div class="row" ng-include="'/partials/background.html'"></div>
             <div class="view animated fadeIn">
-                <div class="container">
-                    <div class="breadcrumb">
-                        <ul>
-                            <li>
-                                <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
-                            </li>
-                            <li>{{strings['nav_error']}}</li>
-                        </ul>
-                    </div>
-                    <div class="subpage">
-                        <h1>
-                            <img src="/img/logo.png" />
-                            <span>{{strings['server_error_title']}}</span>
-                        </h1>
-                        <p>{{strings['server_error_message']}}</p>
-                    </div>
-                </div>
+                <p><%= title %></p>
             </div>
         </div>
         <footer ng-include="'/partials/footer.html'"></footer>

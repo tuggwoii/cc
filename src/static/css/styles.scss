@@ -868,6 +868,7 @@
                 line-height: 1;
                 margin-top: 10px;
                 height: 145px;
+                cursor: pointer;
 
                 .shop {
                     font-size: 20px;
@@ -951,6 +952,7 @@
                     height: 200px;
                     background: rgb(65,65,65);
                     padding:20px;
+                    cursor: pointer;
 
                     .shop {
                         font-size: 20px;
@@ -1038,6 +1040,8 @@
     footer {
         width: 100%;
         display: block;
+        position:fixed;
+        bottom:0;
 
         img {
             width: 100%;
@@ -1047,7 +1051,7 @@
         .footer {
             background: rgb(2, 2, 2);
             height: 50px;
-
+            
             p {
                 padding: 12px 0;
                 text-align: center;
@@ -1071,6 +1075,7 @@
         box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0 rgba(0,0,0,0.2);
         display: inline-block;
         width: 100%;
+        min-height: 300px;
 
         h1 {
             display: inline-block;

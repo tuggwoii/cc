@@ -12,7 +12,6 @@ class PagesApi extends BaseApi {
                 context.success(response, data);
             }).catch(function (err) {
                 context.error(response, 'Internal server error', 500);
-                log.file(err.message);
             });
         }
         else {

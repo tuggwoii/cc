@@ -51,7 +51,7 @@
     <div class="container">
         <div class="shares-list">
             <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
-            <div class="share-item animated fadeIn" ng-repeat="s in shares">
+            <div class="share-item animated fadeIn" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
                 <div class="user-name">{{s.user.name}}</div>
                 <div class="detail">
                     <div class="image">
@@ -66,7 +66,6 @@
                         <rating-star rating="s.score"></rating-star>
                     </div>
                 </div>
-
             </div>
         </div>
         <button class="btn btn-danger loadMore" ng-click="loadMore()" ng-if="hasMore">โหลดเพิ่ม</button>

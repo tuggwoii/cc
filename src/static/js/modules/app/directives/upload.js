@@ -1,7 +1,7 @@
 ﻿module.directive('fileUpload', ['$timeout', 'Event', function ($timeout, Event) {
     return {
         restrict: 'E',
-        templateUrl: 'partials/upload.html',
+        templateUrl: '/partials/upload.html',
         scope: {
             callback: '=upload'
         },

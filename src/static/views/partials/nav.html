@@ -5,15 +5,15 @@
     
     <div class="nav-right">
         <div class="menu">
-            <a href="#" class="menu-item {{isHomePage?'active':''}}">Home</a>
-            <a href="#/shares" class="menu-item {{isSharePage?'active':''}}">Share</a>
-            <a href="#">Contact</a>
-            <a href="#">FAQ</a>
+            <a href="/#/" class="menu-item {{isHomePage?'active':''}}">Home</a>
+            <a href="/#/shares" class="menu-item {{isSharePage?'active':''}}">Share</a>
+            <a href="/#/">Contact</a>
+            <a href="/#/">FAQ</a>
         </div>
 
         <div class="login-button-container" ng-if="!user.id">
             <button type="button" class="btn btn-default" ng-click="loginToggle()">{{strings['login']}}</button>
-            <div class="login-popup animated fadeIn" ng-include="'partials/login.html'" ng-show="displayLogin"></div>
+            <div class="login-popup animated fadeIn" ng-include="'/partials/login.html'" ng-show="displayLogin"></div>
         </div>
         <div class="login-button-container" ng-if="user.id">
             <button type="button" class="btn btn-default" ng-click="logout()">{{strings['logout']}}</button>

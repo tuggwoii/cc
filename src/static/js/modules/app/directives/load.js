@@ -1,7 +1,7 @@
 ﻿module.directive('load', ['$timeout', 'Event', function ($timeout, Event) {
     return {
         restrict: 'E',
-        templateUrl: 'partials/load.html',
+        templateUrl: '/partials/load.html',
         scope: {
             
         },
