@@ -1,4 +1,5 @@
-﻿exports.default = function (data) {
+﻿var ratings = ['ไม่ระบุ', 'แย่มาก', 'แย่', 'พอได้', 'ดี', 'ดีมาก']
+exports.default = function (data) {
     if (!data.id) {
         if (data['null']) {
             data['id'] = data['null'];
@@ -21,6 +22,7 @@
             model.repair_works[i].work = model.repair_works[i].work + '';
         }
     }
+    
     return model;
 }
 
@@ -75,6 +77,12 @@ exports.share = function (data) {
         for (var i = 0; i < model.repair_works.length; i++) {
             model.repair_works[i].work = model.repair_works[i].work + '';
         }
+    }
+    if (model.score) {
+        model.rating_text = ratings[model.score];
+    }
+    else {
+        model.rating_text = ratings[0];
     }
     return model;
 }

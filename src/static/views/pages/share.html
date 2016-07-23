@@ -32,14 +32,18 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="subpage share-detail-page" ng-cotroller="ShareController">
+                    <div class="subpage share-detail-page">
                         <h1>
                             <img src="/img/logo.png" />
                             <span><%= title %></span>
                         </h1>
+                        <div class="social">
+                            <div class="addthis_native_toolbox"></div>
+                        </div>
+                        <h2>แชร์โดย</h2>
                         <div class="detail-section">
                             <div class="image">
-                                <img src="<%= user.image.url %>" />
+                                <img src="<%= user.image?user.image.url:'/img/noprofile.png' %>" alt="user-image" />
                             </div>
                             <div class="info">
                                 <div class="title">
@@ -63,27 +67,83 @@
                         <h2>รถที่ทำการซ่อมบำรุง</h2>
                         <div class="detail-section">
                             <div class="image">
-                                <img src="<%= user.image.url %>" />
+                                <img src="<%= car.file?car.file.url:'/img/no-photo.jpg' %>" alt="car-image" />
+
                             </div>
                             <div class="info">
-                               
                                 <div class="title">
-                                    <label>แชร์โดย: </label>
-                                    <span><%= user.name %></span>
+                                    <label>ยี่ห้อ: </label>
+                                    <span><%= car.brand %></span>
                                 </div>
                                 <div class="title">
-                                    <label>ทำเมื่อ: </label>
-                                    <time val="'<%= date %>'" dateonly="true"></time>
+                                    <label>รุ่น: </label>
+                                    <span><%= car.series %></span>
                                 </div>
                                 <div class="title">
-                                    <label>แชร์เมื่อ: </label>
-                                    <time val="'<%= createdAt %>'"></time>
+                                    <label>ทะเบียน: </label>
+                                    <span><%= car.serial %></span>
                                 </div>
                                 <div class="title">
-                                    <label>อัพเด็ดล่าสุดเมื่อ: </label>
-                                    <time val="'<%= updatedAt %>'"></time>
+                                    <label>สีตัวรถ: </label>
+                                    <span><%= car.color %></span>
                                 </div>
                             </div>
+                        </div>
+                        <h2>ร้านที่ทำการซ่อมบำรุง</h2>
+                        <div class="detail-section">
+                            <div class="image">
+                                <img src="<%= shop.file?shop.file.url:'/img/no-photo.jpg' %>" alt="shop-image" />
+
+                            </div>
+                            <div class="info">
+                                <div class="title">
+                                    <label>ชื่อร้าน: </label>
+                                    <span><%= shop.name %></span>
+                                </div>
+                                <div class="title">
+                                    <label>เจ้าของร้าน: </label>
+                                    <span><%= shop.owner_name? shop.owner_name:'ไม่ระบุ' %></span>
+                                </div>
+                                <div class="title">
+                                    <label>ที่อยู่: </label>
+                                    <span><%= shop.address? shop.address:'ไม่ระบุ' %></span>
+                                </div>
+                                <div class="title">
+                                    <label>เบอร์โทรศัพท์: </label>
+                                    <span><%= shop.telephone? shop.telephone:'ไม่ระบุ' %></span>
+                                </div>
+                                <div class="title">
+                                    <label>Rating: </label>
+                                    <rating-star rating="<%= shop.rating %>"></rating-star>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>รายการซ่อมบำรุง <span class="count">(<%= repair_works.length?repair_works.length:0 %>)</span></h2>
+                        <div class="detail-section">
+                            <% if(!repair_works.length) {%>
+                                <p>ไม่มีงานซ่อมบำรุง</p>
+                            <% } %>
+                            <% for(var i=0; i < repair_works.length; i++) { %>
+                            <div class="works-item">
+                                <div class="title">
+                                    <label>กลุ่มงาน: </label>
+                                    <span><%= repair_works[i].workgroup.name %></span>
+                                </div>
+                                <div class="title">
+                                    <label>รายละเอียด: </label>
+                                    <span><%= repair_works[i].detail %></span>
+                                </div>
+                                <div class="title">
+                                    <label>ราคา: </label>
+                                    <span><%= repair_works[i].price %> บาท</span>
+                                </div>
+                            </div>
+                            <% } %>
+                            <p class="summary-price">รวมทั้งหมด: <%= price %></p>
+                            <p class="summary-score">
+                                ให้คะแนนการซ่อมบำรุงในครั้งนี้: 
+                                <rating-star rating="<%= score %>"></rating-star> (<%= rating_text %>)
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -135,5 +195,8 @@
     <script src="/js/modules/repairs/controllers/repairs-controller.js"></script>
     <script src="/js/modules/shares/controllers/index-share-controller.js"></script>
     <script src="/js/modules/shares/controllers/shares-controller.js"></script>
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5793b03b9c677f27"></script>
+
 </body>
 </html>

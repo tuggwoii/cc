@@ -888,6 +888,7 @@
                         width: 70px;
                         height: 70px;
                         float: left;
+                        overflow:hidden;
 
                         img {
                             width: 100%;
@@ -1014,11 +1015,31 @@
         }
 
         .share-detail-page {
+
+            position:relative;
+
             label {
                 color:#f55d22;
                 font-weight: bold;
-                font-size: 28px;
+                font-size: 24px;
+                width: 110px;
             }
+
+            .social {
+                position:absolute;
+                top: 53px;
+                right: 50px;
+            }
+
+            h2 {
+                margin: 35px 0 -10px 0;
+                border-bottom: 2px solid #f55d22;
+
+                .count {
+                    float: right;
+                }
+            }
+
             .detail-section {
                 margin-top: 20px;
                 background: rgb(51,51,51);
@@ -1026,19 +1047,46 @@
                 display:inline-block;
                 width: 100%;
 
+                .stars {
+                    display: inline;
+                }
+               
                 .image {
                     float: left;
+                    border: 2px solid #444;
+                    background: #444;
+                    width: 150px;
+                    height: 150px;
+                    overflow: hidden;
+
                     img {
-                        width: 150px;
+                        width: 100%;
+                        position: relative;
+                        margin-top: 50%;
+                        transform: translateY(-50%);
                     }
                 }
+
                 .info {
                     float:left;
                     padding-left: 50px;
 
                     span {
-                        font-size: 26px;
+                        font-size: 24px;
                     }
+                }
+
+                .works-item {
+                    border-bottom: 1px dashed #444;
+                    padding: 15px 5px;
+                }
+                .summary-price,  .summary-score {
+                    padding: 20px 5px 0 5px;
+                    color: #fff;
+                    font-size: 30px;
+                }
+                .summary-score  {
+                    padding-top: 0px;
                 }
             }
         }

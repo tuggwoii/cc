@@ -16,11 +16,11 @@ class Share extends Base {
             Repair.findOne({
                 where: { share: true, id: req.params.id },
                 include: [
-                    { model: Car },
+                    { model: Car, include: [{ model: File }] },
                     { model: Work },
                     { model: User, include: [{ model: File }] },
-                    { model: Shop },
-                    { model: RepairWork }
+                    { model: Shop, include: [{ model: File }] },
+                    { model: RepairWork, include: [{ model: Work }] }
                 ]
             }).then(function (_data) {
                 if (_data) {
