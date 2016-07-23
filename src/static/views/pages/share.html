@@ -127,19 +127,19 @@
                             <div class="works-item">
                                 <div class="title">
                                     <label>กลุ่มงาน: </label>
-                                    <span><%= repair_works[i].workgroup.name %></span>
+                                    <span><%= repair_works[i].workgroup?repair_works[i].workgroup.name:'ไม่ระบุ' %></span>
                                 </div>
                                 <div class="title">
                                     <label>รายละเอียด: </label>
-                                    <span><%= repair_works[i].detail %></span>
+                                    <span><%= repair_works[i].detail?repair_works[i].detail:'ไม่ระบุ' %></span>
                                 </div>
                                 <div class="title">
                                     <label>ราคา: </label>
-                                    <span><%= repair_works[i].price %> บาท</span>
+                                    <span><%= repair_works[i].price?repair_works[i].price:0 %> บาท</span>
                                 </div>
                             </div>
                             <% } %>
-                            <p class="summary-price">รวมทั้งหมด: <%= price %></p>
+                            <p class="summary-price">รวมทั้งหมด: <%= price?price:0 %> บาท</p>
                             <p class="summary-score">
                                 ให้คะแนนการซ่อมบำรุงในครั้งนี้: 
                                 <rating-star rating="<%= score %>"></rating-star> (<%= rating_text %>)
