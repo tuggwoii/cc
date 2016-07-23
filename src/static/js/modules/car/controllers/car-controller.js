@@ -159,10 +159,6 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
             }
         };
 
-        $scope.$on(Event.Page.Ready, function () {
-            $scope.init();
-        });
-
         $scope.init();
         $scope.$on(Event.File.Success, $scope.setImage);
 }]);

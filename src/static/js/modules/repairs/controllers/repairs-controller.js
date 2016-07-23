@@ -2,6 +2,7 @@
 module.controller('RepairsController', ['$scope', '$timeout', '$rootScope', '$q', 'RepairService', 'Helper', 'Event', function ($scope, $timeout, $rootScope, $q, RepairService, Helper, Event) {
 
     $scope.isRepairsPage = true;
+    $scope.query = {};
 
     function initModel(items) {
         angular.forEach(items, function (i) {
@@ -18,13 +19,10 @@ module.controller('RepairsController', ['$scope', '$timeout', '$rootScope', '$q'
 
     $scope.getAll = function () {
         $rootScope.$broadcast(Event.Load.Display, 'GET_REPAIR');
-        $q.all([
-        RepairService.get($scope.page, $scope.carId).then(function (res) {
+        RepairService.get($scope.page, $scope.query).then(function (res) {
             $scope.repairs = res.data;
             initModel($scope.repairs);
             $scope.pagings(res.meta);
-        })])
-        .then(function () {
             $rootScope.$broadcast(Event.Load.Dismiss, 'GET_REPAIR');
         }).catch(function () {
             $rootScope.$broadcast(Event.Load.Dismiss, 'GET_REPAIR');
@@ -32,7 +30,7 @@ module.controller('RepairsController', ['$scope', '$timeout', '$rootScope', '$q'
     };
 
     $scope.$on(Event.Car.PickCar, function (event, carId) {
-        $scope.carId = carId;
+        $scope.query.car = carId;
         $scope.page = 1;
         $scope.getAll();
     });
@@ -47,6 +45,28 @@ module.controller('RepairsController', ['$scope', '$timeout', '$rootScope', '$q'
         if ($scope.page != page) {
             $scope.page = page;
             $scope.getAll();
+        }
+    };
+
+    $scope.selectWorkgroup = function (work) {
+        if (work) {
+            if (!work.active) {
+                angular.forEach($scope.workgroup, function (w) {
+                    w.active = false;
+                });
+                work.active = true;
+                $scope.query.work = work.id;
+                $scope.getAll();
+            }
+        }
+        else {
+            angular.forEach($scope.workgroup, function (w) {
+                w.active = false;
+            });
+            if ($scope.query.work) {
+                delete $scope.query['work'];
+                $scope.getAll();
+            }
         }
     };
 

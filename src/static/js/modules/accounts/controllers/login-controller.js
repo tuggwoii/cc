@@ -3,7 +3,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
 
     function success(res) {
         AccountService.setAuthenticationToken(res);
-        $rootScope.$broadcast(Event.Load.Dismiss);
+        $rootScope.$broadcast(Event.Load.Dismiss, 'LOG_IN');
         $scope.navigateTo('#/');
     }
 
@@ -20,7 +20,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
                 error: true
             };
         }
-        $rootScope.$broadcast(Event.Load.Dismiss);
+        $rootScope.$broadcast(Event.Load.Dismiss, 'LOG_IN');
     }
 
     $scope.init = function () {
@@ -38,7 +38,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
 
     $scope.login = function (form) {
         if (form.$valid) {
-            $rootScope.$broadcast(Event.Load.Display);
+            $rootScope.$broadcast(Event.Load.Display, 'LOG_IN');
             AccountService.login($scope.model).success(function (res) {
                 success(res);
             }).error(function (res, code) {
@@ -54,7 +54,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
     }
 
     $scope.facebookLogin = function (creds) {
-        $rootScope.$broadcast(Event.Load.Display);
+        $rootScope.$broadcast(Event.Load.Display, 'LOG_IN');
         AccountService.login(creds).success(function (res) {
             success(res);
         }).error(function (res) {

@@ -15,8 +15,8 @@
                     <span>คลิ๊กเพื่อเลือกงานซ่อมที่สนใจ</span>
                 </div>
                 <div class="work-list">
-                    <div class="work-item active">{{strings['general_work']}}</div>
-                    <div class="work-item" ng-repeat="work in workgroup">{{work.name}}</div>
+                    <div class="work-item {{query.work?'':'active'}}" ng-click="selectWorkgroup()">{{strings['general_work']}}</div>
+                    <div class="work-item {{work.active?'active':''}}" ng-repeat="work in workgroup" ng-click="selectWorkgroup(work)">{{work.name}}</div>
                 </div>
             </div>
         </div>
@@ -26,16 +26,16 @@
             <div class="container">
                 <div class="form-group">
                     <label>ค้นหาตามหัวข้อ</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" ng-model="query.title"/>
                 </div>
                 <div class="form-group">
                     <label>ราคา</label>
-                    <input type="text" class="form-control half" placeholder="ราคาต่ำสุด" />
-                    <input type="text" class="form-control half" placeholder="ราคาสูงสุด" />
+                    <input type="text" class="form-control half" ng-model="query.lp" placeholder="ราคาต่ำสุด" />
+                    <input type="text" class="form-control half" ng-model="query.hp" placeholder="ราคาสูงสุด" />
                 </div>
                 <div class="form-group">
                     <label>คะแนน (ดาว)</label>
-                    <select class="form-control">
+                    <select class="form-control" ng-model="query.rating">
                         <option value=""></option>
                         <option value="1">1 ดาว</option>
                         <option value="2">2 ดาว</option>
@@ -44,7 +44,7 @@
                         <option value="5">5 ดาว</option>
                     </select>
                 </div>
-                <button class="btn btn-danger"><i class="fa fa-search"></i></button>
+                <button class="btn btn-danger"  ng-click="getAll()"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
     <div class="content-box" >
         <p class="nodata" ng-if="!shares || !shares.length">{{strings['no_data']}}</p>
         <div class="shares-list" ng-if="shares.length">
-            <div class="share-item animated fadeIn" ng-repeat="s in shares">
+            <div class="share-item animated fadeIn" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
                 <div class="user-name">{{s.user.name}}</div>
                 <div class="detail">
                     <div class="image">

@@ -18,7 +18,75 @@
         <div class="wrapper container-fluid opacity-theme">
             <div class="row" ng-include="'/partials/background.html'"></div>
             <div class="view animated fadeIn">
-                <p><%= title %></p>
+                <div class="container">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a ng-click="navigateTo('/#/')">{{strings['nav_home']}} ></a>
+                            </li>
+                            <li>
+                                <a ng-click="navigateTo('/#/shares')">{{strings['nav_share']}} ></a>
+                            </li>
+                            <li>
+                                <%= title %>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="subpage share-detail-page" ng-cotroller="ShareController">
+                        <h1>
+                            <img src="/img/logo.png" />
+                            <span><%= title %></span>
+                        </h1>
+                        <div class="detail-section">
+                            <div class="image">
+                                <img src="<%= user.image.url %>" />
+                            </div>
+                            <div class="info">
+                                <div class="title">
+                                    <label>แชร์โดย: </label>
+                                    <span><%= user.name %></span>
+                                </div>
+                                <div class="title">
+                                    <label>ทำเมื่อ: </label>
+                                    <time val="'<%= date %>'" dateonly="true"></time>
+                                </div>
+                                <div class="title">
+                                    <label>แชร์เมื่อ: </label>
+                                    <time val="'<%= createdAt %>'"></time>
+                                </div>
+                                <div class="title">
+                                    <label>อัพเด็ดล่าสุดเมื่อ: </label>
+                                    <time val="'<%= updatedAt %>'"></time>
+                                </div>
+                            </div>
+                        </div>
+                        <h2>รถที่ทำการซ่อมบำรุง</h2>
+                        <div class="detail-section">
+                            <div class="image">
+                                <img src="<%= user.image.url %>" />
+                            </div>
+                            <div class="info">
+                               
+                                <div class="title">
+                                    <label>แชร์โดย: </label>
+                                    <span><%= user.name %></span>
+                                </div>
+                                <div class="title">
+                                    <label>ทำเมื่อ: </label>
+                                    <time val="'<%= date %>'" dateonly="true"></time>
+                                </div>
+                                <div class="title">
+                                    <label>แชร์เมื่อ: </label>
+                                    <time val="'<%= createdAt %>'"></time>
+                                </div>
+                                <div class="title">
+                                    <label>อัพเด็ดล่าสุดเมื่อ: </label>
+                                    <time val="'<%= updatedAt %>'"></time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <footer ng-include="'/partials/footer.html'"></footer>
@@ -39,6 +107,7 @@
     <script src="/js/modules/app/directives/stars.js"></script>
     <script src="/js/modules/app/directives/confirm.js"></script>
     <script src="/js/modules/app/directives/upload.js"></script>
+    <script src="/js/modules/app/directives/time.js"></script>
     <script src="/js/modules/app/services/event.js"></script>
     <script src="/js/modules/configs/request.js"></script>
     <script src="/js/modules/app/services/helper.js"></script>

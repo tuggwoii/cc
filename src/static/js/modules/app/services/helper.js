@@ -21,6 +21,22 @@ module.factory('Helper', [function () {
         readableDate: function (_date) {
             var date = new Date(_date);
             return date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + date.getFullYear();
+        },
+        readableDateTime: function (_date) {
+            var date = new Date(_date);
+            var hour = date.getHours();
+            var min = date.getMinutes();
+            var sec = date.getSeconds();
+            if(hour < 10) {
+                hour = '0' + hour;
+            }
+            if(min < 10) {
+                min = '0' + min;
+            }
+            if(sec < 10) {
+                sec = '0' + sec;
+            }
+            return hour+':'+min+':'+sec+ ', ' + date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + date.getFullYear();
         }
     };
 }]);

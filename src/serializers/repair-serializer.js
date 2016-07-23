@@ -50,7 +50,7 @@ exports.share = function (data) {
     if (model.share) {
         delete model['share'];
     }
-    if (model.user.file) {
+    if (model.user && model.user.file) {
         model.user.image = model.user.file;
         delete model.user['file'];
     }

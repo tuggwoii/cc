@@ -164,16 +164,10 @@ class RepairApi extends BaseApi {
         return promise;
     }
 
-    getRepairByUserId(id, carId, limits, skip) {
+    getRepairByUserId(id, queries, limits, skip) {
         var promise = new Promise(function (resolve, reject) {
-            var conditions = {
-                owner: id
-            };
-            if (carId) {
-                conditions['for_car'] = carId;
-            }
             Repair.findAll({
-                where: conditions,
+                where: queries,
                 order: [["createdAt", "DESC"]],
                 include: [
                     { model: Car },
@@ -193,15 +187,11 @@ class RepairApi extends BaseApi {
         return promise;
     }
 
-    countRepairByUserId(id, carId) {
+    countRepairByUserId(id, queries) {
         var promise = new Promise(function (resolve, reject) {
-            var conditions = {
-                owner: id
-            };
-            if (carId) {
-                conditions['for_car'] = carId;
-            }
-            Repair.count({ where: conditions }).then(function (count) {
+            Repair.count({
+                where: queries
+            }).then(function (count) {
                 resolve(count)
             }).catch(function (err) {
                 reject(err)
@@ -233,17 +223,39 @@ class RepairApi extends BaseApi {
         var params = url.parse(req.url, true);
         var queries = params.query;
         var p = 1;
-        var carId;
         if (queries['p']) {
             p = parseInt(queries['p']);
         }
-        if (queries['c']) {
-            carId = parseInt(queries['c']);
-        }
         var skip = limits * (p - 1);
 
-        context.getRepairByUserId(req.user.id, carId, limits, skip).then(function (data) {
-            context.countRepairByUserId(req.user.id, carId).then(function (count) {
+        var q = {
+            owner: req.user.id,
+            price: { }
+        };
+        if (queries['car']) {
+            q.for_car = parseInt(queries['car']);
+        }
+        if (queries['work']) {
+            q.work = parseInt(queries['work']);
+        }
+        if (queries['title']) {
+            q.title = { like: '%' + queries['title'] + '%' };
+        }
+        if (queries['lp']) {
+            q.price.$gte = parseInt(queries['lp']);
+        }
+        if (queries['hp']) {
+            q.price.$lte = parseInt(queries['hp']);
+        }
+        if (!q.price.$gte && !q.price.$lte) {
+            delete q['price'];
+        }
+        if (queries['rating']) {
+            q.score = parseInt(queries['rating']);
+        }
+
+        context.getRepairByUserId(req.user.id, q, limits, skip).then(function (data) {
+            context.countRepairByUserId(req.user.id, q).then(function (count) {
                 var meta = {
                     count: count,
                     limits: limits
@@ -269,8 +281,31 @@ class RepairApi extends BaseApi {
             items = parseInt(queries['limits']);
         }
         var skip = items * (p - 1);
+
+        var q = {
+            share: true,
+            price: {}
+        };
+        if (queries['work']) {
+            q.work = parseInt(queries['work']);
+        }
+        if (queries['title']) {
+            q.title = { like: '%' + queries['title'] + '%' };
+        }
+        if (queries['lp']) {
+            q.price.$gte = parseInt(queries['lp']);
+        }
+        if (queries['hp']) {
+            q.price.$lte = parseInt(queries['hp']);
+        }
+        if (!q.price.$gte && !q.price.$lte) {
+            delete q['price'];
+        }
+        if (queries['rating']) {
+            q.score = parseInt(queries['rating']);
+        }
         Repair.all({
-            where: { share: true },
+            where: q,
             order: [["updatedAt", "DESC"]],
             include: [
                 { model: Car },
@@ -282,7 +317,7 @@ class RepairApi extends BaseApi {
             offset: skip,
             limit: items
         }).then(function (data) {
-            Repair.count({ share: true }).then(function (count) {
+            Repair.count(q).then(function (count) {
                 var meta = {
                     count: count,
                     limits: items
@@ -410,7 +445,6 @@ class RepairApi extends BaseApi {
             function updates(work, index, works) {
                 context.updateWork(work, context).then(function () {
                     var next = index + 1;
-                    console.log('NEXT: ' + next);
                     if (next < works.length) {
                         updates(works[next], next, works);
                     }

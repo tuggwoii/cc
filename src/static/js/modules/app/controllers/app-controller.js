@@ -6,15 +6,17 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             $q.all([
                 AccountService.initializeUserOnLoad().then(function () {
                     $rootScope.$broadcast(Event.User.Loaded);
+                    if ($scope.user && $scope.user.id) {
+                        CarService.get().then(function (res) {
+                            $scope.cars = res.data;
+                        });
+                    }
                 }),
-                StringService.getStrings().success(function (res) {
-                    $scope.strings = res;
+                StringService.getStrings().success(function (strings) {
+                    $scope.strings = strings;
                 }),
-                WorkgroupService.get().then(function (res) {
-                    $scope.workgroup = res;
-                }),
-                CarService.get().then(function (res) {
-                    $scope.cars = res.data;
+                WorkgroupService.get().then(function (data) {
+                    $scope.workgroup = angular.copy(data);
                 })
             ]).then(function () {
                 $rootScope.$broadcast(Event.Page.Ready);
@@ -36,12 +38,13 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         };
 
         $scope.navigateTo = function (url, isRedirect) {
-            $rootScope.$broadcast(Event.Load.Display, 'PAGE_CHANGE');
             if (isRedirect) {
+                $rootScope.$broadcast(Event.Load.Display, 'PAGE_CHANGE');
                 window.location.href = url;
             }
             else {
                 if (url !== window.location.hash) {
+                    $rootScope.$broadcast(Event.Load.Display, 'PAGE_CHANGE');
                     if (!window.location.hash) {
                         if (url == '#/') {
                             window.location.href = '/';
@@ -66,9 +69,9 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                 $scope.uploadSave = true;
                 $timeout(function () {
                     $scope.uploadSave = false;
-                }, 50000)
+                }, 5000)
             }).catch(function () {
-
+                alert('UPLOAD ERROR');
             });
         };
 
@@ -78,8 +81,8 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         });
 
         $scope.$on(Event.Car.Clear, function () {
-            angular.forEach($scope.cars, function (c) {
-                c.active = false;
+            angular.forEach($scope.cars, function (car) {
+                car.active = false;
             });
         });
 
@@ -108,11 +111,13 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             $rootScope.$broadcast(Event.Load.Dismiss, 'PAGE_CHANGE');
+            angular.forEach($scope.workgroup, function (w) {
+                w.active = false;
+            });
             recursiveFooter();
         });
 
         $scope.logout = function () {
-            console.log('LOGOUT');
             $cookies.remove('Authorization');
             AccountService.logout().then(function () {
                 window.location.href = '/';

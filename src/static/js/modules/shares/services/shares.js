@@ -5,8 +5,11 @@ module.factory('ShareService', ['$http', '$q', 'URLS', function ($http, $q, URLS
     var cache = {};
 
     return {
-        get: function (p, limits) {
-            var key = URLS.model(service).all + ('?p=' + p) + ('&limits=' + limits);
+        get: function (p, q) {
+            var key = URLS.model(service).all + ('?p=' + p) + ('&limits=' + q['limits'])
+                + (q['work'] ? '&work=' + q['work'] : '') + (q['title'] ? '&title=' + q['title'] : '')
+                + (q['lp'] ? '&lp=' + q['lp'] : '') + (q['hp'] ? '&hp=' + q['hp'] : '')
+                + (q['rating'] ? '&rating=' + q['rating'] : '');;
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);

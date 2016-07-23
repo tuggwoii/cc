@@ -866,7 +866,7 @@
                 width: 33.333%;
                 float: left;
                 line-height: 1;
-                margin-top: 10px;
+                margin-top: 20px;
                 height: 145px;
                 cursor: pointer;
 
@@ -914,6 +914,10 @@
                         }
                     }
                 }
+            }
+
+            p {
+                margin-left: 3.33%;
             }
         }
 
@@ -1004,6 +1008,36 @@
                                 margin-bottom: 10px;
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        .share-detail-page {
+            label {
+                color:#f55d22;
+                font-weight: bold;
+                font-size: 28px;
+            }
+            .detail-section {
+                margin-top: 20px;
+                background: rgb(51,51,51);
+                padding:20px;
+                display:inline-block;
+                width: 100%;
+
+                .image {
+                    float: left;
+                    img {
+                        width: 150px;
+                    }
+                }
+                .info {
+                    float:left;
+                    padding-left: 50px;
+
+                    span {
+                        font-size: 26px;
                     }
                 }
             }

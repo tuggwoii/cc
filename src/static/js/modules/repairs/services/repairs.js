@@ -5,8 +5,11 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
     var cache = {};
 
     return {
-        get: function (p, c) {
-            var key = URLS.model(service).all + ('?p=' + p) + (c ? '&c=' + c : '');
+        get: function (p, q) {
+            var key = URLS.model(service).all + ('?p=' + p) + (q['car'] ? '&car=' + q['car'] : '')
+                + (q['work'] ? '&work=' + q['work'] : '') + (q['title'] ? '&title=' + q['title'] : '')
+                + (q['lp'] ? '&lp=' + q['lp'] : '') + (q['hp'] ? '&hp=' + q['hp'] : '')
+                + (q['rating'] ? '&rating=' + q['rating'] : '');
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);
