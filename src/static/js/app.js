@@ -21,12 +21,12 @@ var app = {
             FB.init({
                 appId: '1722927571299619',
                 xfbml: true,
-                version: 'v2.7'
+                version: 'v2.6'
             });
             angular.bootstrap(document, ['app']);
         }
-        recursiveFooter();
-    }
+    },
+    debug: true
 };
 $(document).ready(function () {
     app.init();
@@ -38,7 +38,7 @@ $(window).resize(function () {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) { return; }
     js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/all.js";
+    js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 function recursiveFooter () {
@@ -64,4 +64,5 @@ function footer() {
     else {
         $('footer').css('position', 'relative');
     }
+    $('footer').css('display', 'block');
 }

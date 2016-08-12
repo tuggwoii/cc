@@ -1,25 +1,36 @@
 ﻿'use strict';
-module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'ShareService', 'Event', 'Helper',
-    function ($scope, $rootScope, $timeout, $q, $location, ShareService, Event, Helper) {
+module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'ShareService', 'WorkgroupService', 'Event', 'Helper',
+    function ($scope, $rootScope, $timeout, $q, $location, ShareService, WorkgroupService, Event, Helper) {
 
         $scope.query = {
             limits: 20
         };
 
-        $scope.init = function () {
+        $scope.sharesPage = function () {
             $scope.currentPage = 1;
-            $scope.getAll();
+            $q.all([
+                 $scope.getAll(),
+                 WorkgroupService.get().then(function (data) {
+                     $scope.workgroup = angular.copy(data);
+                 })
+            ]).then(function () {
+                $scope.displayView();
+            });
         };
 
-        $scope.getAll = function () {
-            $rootScope.$broadcast(Event.Load.Display, 'LOAD_SHARES');
+        $scope.getAll = function (notify) {
+            if (notify) {
+                $rootScope.$broadcast(Event.Load.Display);
+            }
+            
             ShareService.get($scope.currentPage, $scope.query).then(function (res) {
                 $scope.shares = res.data;
                 $scope.meta(res.meta);
-                $rootScope.$broadcast(Event.Load.Dismiss, 'LOAD_SHARES');
+                if (notify) {
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                }
             }).catch(function () {
-                alert('ERROR');
-                console.log('ERROR');
+                window.location.reload();
             });
         };
 
@@ -34,15 +45,15 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
 
         $scope.loadMore = function () {
             $scope.currentPage++;
-            $rootScope.$broadcast(Event.Load.Display, 'LOAD_SHARES');
+            $rootScope.$broadcast(Event.Load.Display);
             ShareService.get($scope.currentPage, 20).then(function (res) {
                 $scope.shares = $scope.shares.concat(res.data);
                 $scope.meta(res.meta);
-                $rootScope.$broadcast(Event.Load.Dismiss, 'LOAD_SHARES');
+                $rootScope.$broadcast(Event.Load.Dismiss);
             }).catch(function () {
                 alert('ERROR');
                 console.log('ERROR');
-                $rootScope.$broadcast(Event.Load.Display, 'LOAD_SHARES');
+                $rootScope.$broadcast(Event.Load.Display);
             });
         }
 
@@ -54,7 +65,7 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                     });
                     work.active = true;
                     $scope.query.work = work.id;
-                    $scope.getAll();
+                    $scope.getAll(true);
                 }
             }
             else {
@@ -63,10 +74,10 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                 });
                 if ($scope.query.work) {
                     delete $scope.query['work'];
-                    $scope.getAll();
+                    $scope.getAll(true);
                 }
             }
         };
 
-        $scope.init();
+        $scope.sharesPage();
     }]);

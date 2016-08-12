@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
-                <div class="col-md-8" ng-controller="CarController" ng-include="'partials/index-car.html'"></div>
+                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
             </div>
         </div>
     </div>
@@ -13,7 +13,10 @@
                 <li>
                     <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
                 </li>
-                <li>
+                <li ng-if="from_car">
+                    <a ng-click="navigateTo('#/car?id='+carId)">Car ></a>
+                </li>
+                <li ng-if="!from_car">
                     <a ng-click="navigateTo('#/notifications')">{{strings['nav_notifications']}} ></a>
                 </li>
                 <li>{{strings['nav_notification']}}</li>
@@ -23,157 +26,53 @@
             <div class="subpage">
                 <h1>
                     <img src="img/logo.png" />
-                    <span ng-if="!isNotificationDetail">{{strings['head_add_notification']}}</span>
-                    <span ng-if="isNotificationDetail">{{strings['head_edit_notification']}}</span>
+                    <span >{{model.title}}</span>
                 </h1>
-                <form name="form">
-                    <span class="sr-only" ng-init="setForm(form)"></span>
-
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['notification_title']}}
-                        </label>
-                        <input name="title"
-                               type="text"
-                               class="form-control"
-                               placeholder="หัวข้อเรื่องที่จะแจ้งเตือน"
-                               ng-model="model.title"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.title.$error.required && form.title.$dirty">
-                            {{strings['required']}}{{strings['notification_title']}}
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['select_car']}}
-                        </label>
-                        <select name="car"
-                                type="text"
-                                class="form-control"
-                                ng-model="model.car"
-                                ng-change="carChange()"
-                                ng-required="true">
-                            <option value=""></option>
-                            <option value="{{car.id}}" ng-repeat="car in cars">{{car.brand}} {{car.series}} {{car.serial}}</option>
-                        </select>
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.car.$error.required && form.car.$dirty">
-                            {{strings['required']}}{{strings['select_car']}}
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['notification_type']}}
-                        </label>
-                        <select name="type"
-                                type="text"
-                                class="form-control"
-                                ng-change="typeChange()"
-                                ng-model="model.type"
-                                ng-required="true">
-                            <option value="1">{{strings['notification_type_time']}}</option>
-                            <option value="2">{{strings['notification_type_kilo']}}</option>
-                        </select>
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.type.$error.required && form.type.$dirty">
-                            {{strings['required']}}{{strings['notification_type']}}
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['notification_workgroup']}}
-                        </label>
-                        <select name="group"
-                                type="text"
-                                class="form-control"
-                                ng-model="model.work"
-                                ng-required="true">
-                            <option value=""></option>
-                            <option value="{{work.id}}" ng-repeat="work in workgroup">{{work.name}}</option>
-                        </select>
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.group.$error.required && form.group.$dirty">
-                            {{strings['required']}}{{strings['notification_workgroup']}}
-                        </p>
-                    </div>
-                    <div class="form-group" ng-if="model.type == 2">
-                        <label class="capital">
-                            {{strings['notification_mile']}}
-                        </label>
-                        <input name="mile"
-                               type="number"
-                               class="form-control"
-                               placeholder="เลขกิโลเมตรที่จะแจ้งเตือน"
-                               ng-model="model.mile"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.mile.$error.required && form.mile.$dirty">
-                            {{strings['required']}}{{strings['notification_mile']}}
-                        </p>
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.mile.$error.number && form.mile.$dirty">
-                            {{strings['only_number']}}
-                        </p>
-                    </div>
-                    <div class="form-group" ng-if="model.type == 1">
-                        <label class="capital">
-                            {{strings['notification_date']}}
-                        </label>
-                        <input type="text"
-                               name="date"
-                               data-value="{{model.date_str}}"
-                               class="form-control datepicker"
-                               placeholder="เวลาที่จะแจ้งเตือน"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="empty_date">
-                            {{strings['required']}}{{strings['notification_date']}}
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['notification_detail']}}
-                        </label>
-                        <textarea type="text"
-                               class="form-control"
-                               placeholder="กรอกรายละเอียดเพิ่มเติม/หมายเหตุ"
-                               ng-model="model.detail"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['notification_enable']}}
-                        </label>
-                        <div class="toggle">
-                            <span class="choice yes {{model.enable?'active':''}}" ng-click="model.enable=true">{{strings['open']}}</span>
-                            <span class="choice no {{model.enable?'':'active'}}" ng-click="model.enable=false">{{strings['close']}}</span>
+               
+                <h2><i class="fa fa-bell"></i> รายละเอียดการแจ้งเตือน</h2>
+                <div class="detail-section notification-detail-section">
+                    <div class="info">
+                        <div class="info-column">
+                            <div class="title">
+                                <label>เรื่อง: </label>
+                                <span>{{model.title}}</span>
+                            </div>
+                            <div class="title">
+                                <label>รถ: </label>
+                                <span>{{model.car.brand}} {{model.car.series}}</span>
+                            </div>
+                            <div class="title">
+                                <label>ประเภทการเตือน: </label>
+                                <span>{{model.type==1?'เตือนตามเวลา':'เตือนตามระยะทาง'}}</span>
+                            </div>
+                            <div class="title">
+                                <label>กลุ่มงาน: </label>
+                                <span>{{model.workgroup.name}}</span>
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <div class="title" ng-if="model.type==1">
+                                <label>วันที่แจ้งเตือน: </label>
+                                <span>{{model.date_str}}</span>
+                            </div>
+                            <div class="title" ng-if="model.type==2">
+                                <label>เลขกิโลที่แจ้งเตือน: </label>
+                                <span>{{model.mile}} กิโลเมตร</span>
+                            </div>
+                            <div class="title">
+                                <label>รายละเอียด: </label>
+                                <span>{{model.detail}}</span>
+                            </div>
                         </div>
                     </div>
-
-                    <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
-                    <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
-                    <p class="error-message margin-top animated fadeIn" ng-if="status.car_expire">{{strings['car_expire_message']}}</p>
-                    <p class="success-message margin-top animated fadeIn" ng-if="status.success">{{strings['update_success']}}</p>
-                    <hr />
-
-                    <div class="btn-container" ng-if="!isNotificationDetail">
-                        <button type="button" class="btn btn-danger" ng-click="add(form)">
-                            {{strings['add']}}
-                        </button>
-                    </div>
-
-                    <div class="btn-container" ng-if="isNotificationDetail">
-                        <button type="button" class="btn btn-danger" ng-click="update(form)">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i> {{strings['update']}}
-                        </button>
-
-                        <button type="button" class="btn btn-danger btn-delete" ng-click="remove()">
-                            <i class="fa fa-remove"></i> {{strings['delete']}}
-                        </button>
-                    </div>
-
-                </form>
+                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-notification?id=' + model.id +'&car=' + carId)" ng-if="from_car">
+                        แก้ไขข้อมูล
+                    </button>
+                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-notification?id=' + model.id)" ng-if="!from_car">
+                        แก้ไขข้อมูล
+                    </button>
+                </div>
+         
             </div>
 
         </div>

@@ -1,10 +1,16 @@
-﻿<div class="container" ng-controller="CarController">
-    <div class="subpage">
-        <h1>
-            <img src="img/logo.png" />
-            <span ng-if="!isCarDetail">{{strings['head_car']}}</span>
-            <span ng-if="isCarDetail">{{strings['head_car_update']}}</span>
-        </h1>
+﻿<div ng-controller="CarController">
+
+
+    <div class="row user-profile animated fadeIn" ng-if="user.id">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+                <div class="col-md-8" ng-controller="CarController" ng-include="'partials/index-car.html'"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+
         <div class="breadcrumb">
             <ul>
                 <li>
@@ -13,156 +19,149 @@
                 <li>{{strings['nav_car']}}</li>
             </ul>
         </div>
-        <form name="form">
-            <span class="sr-only" ng-init="setForm(form)"></span>
-            <div class="section left">
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['brand']}}
-                    </label>
-                    <input name="brand"
-                           type="text"
-                           class="form-control"
-                           placeholder="Toyota, Honda, ETC."
-                           ng-model="model.brand"
-                           ng-required="true" />
-                    <p class="error-message margin-top animated fadeIn"
-                       ng-if="form.brand.$error.required && form.brand.$dirty">
-                        {{strings['required']}}{{strings['brand']}}
-                    </p>
-                </div>
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['series']}}
-                    </label>
-                    <input name="series"
-                           type="text"
-                           class="form-control"
-                           placeholder="Series"
-                           ng-model="model.series"
-                           ng-required="true" />
-                    <p class="error-message margin-top animated fadeIn"
-                       ng-if="form.series.$error.required && form.series.$dirty">
-                        {{strings['required']}}{{strings['series']}}
-                    </p>
-                </div>
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['serial']}}
-                    </label>
-                    <input name="serial"
-                           type="text"
-                           class="form-control"
-                           placeholder="เลขทะเบียรถ"
-                           ng-model="model.serial"
-                           ng-required="true" />
-                    <p class="error-message margin-top animated fadeIn"
-                       ng-if="form.serial.$error.required && form.serial.$dirty">
-                        {{strings['required']}}{{strings['serial']}}
-                    </p>
-                </div>
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['engine_size']}}
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="ขนาดของเครื่องยนต์"
-                           ng-model="model.engine"
-                           ng-required="true" />
-                </div>
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['color']}}
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="สีของรถ"
-                           ng-model="model.color" />
-                </div>
-                <div class="form-group">
-                    <div class="short-field">
-                        <label class="capital">
-                            {{strings['car_date']}}
-                        </label>
-                        <select class="form-control"
-                                placeholder="ปีที่ออกรถ เป็น ค.ศ."
-                                ng-model="model.day"
-                                ng-required="true">
-                            <option ng-repeat="date in dates" value="{{date}}">{{date}}</option>
-                        </select>
-                    </div>
-                    <div class="short-field">
-                        <label class="capital">
-                            {{strings['car_month']}}
-                        </label>
-                        <select class="form-control"
-                                placeholder="ปีที่ออกรถ เป็น ค.ศ."
-                                ng-model="model.month"
-                                ng-required="true">
-                            <option ng-repeat="month in months" value="{{month}}">{{month}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['car_year']}}
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="ปีที่ออกรถ เป็น ค.ศ."
-                           ng-model="model.year"
-                           ng-required="true" />
-                </div>
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['other']}}
-                    </label>
-                    <textarea class="form-control"
-                              placeholder="อื่นๆ โปรดระบุ"
-                              ng-model="model.detail"></textarea>
-                </div>
-            </div>
-            <div class="section right">
+
+        <div class="subpage car-page">
+            <h1>
+                <img src="img/logo.png" />
+                <span>{{car.brand}} {{car.series}}</span>
+            </h1>
+            <h2><i class="fa fa-car"></i> ข้อมูลรถ</h2>
+            <div class="detail-section">
                 <div class="image">
-                    <div ng-if="!model.image">
-                        <img src="/img/no-photo.jpg" alt="profile" ng-if="!model.image">
-                        <button ng-if="!uploading" class="btn btn-danger" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['select_image']}}</button>
-                        <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                    <img ng-src="{{car.image?car.image.url:'/img/no-photo.jpg'}}" alt="car-image" />
+                </div>
+                <div class="info">
+                    <div class="info-column">
+                        <div class="title">
+                            <label>ยี่ห้อ: </label>
+                            <span>{{car.brand}}</span>
+                        </div>
+                        <div class="title">
+                            <label>รุ่น: </label>
+                            <span>{{car.series}}</span>
+                        </div>
+                        <div class="title">
+                            <label>ทะเบียน: </label>
+                            <span>{{car.serial}}</span>
+                        </div>
+                        <div class="title">
+                            <label>สีตัวรถ: </label>
+                            <span>{{car.color?car.color:'ไม่ระบุ'}}</span>
+                        </div>
+                        <div class="title">
+                            <label>ขนาดเครื่องยนต์: </label>
+                            <span>{{car.engine}}</span>
+                        </div>
                     </div>
-                    <div ng-if="model.image">
-                        <img class="user-profile-image" ng-src="{{model.image.url}}" alt="profile">
-                        <button class="btn btn-danger" ng-if="!uploading" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['change_image']}}</button>
-                        <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                    <div class="info-column">
+                        <div class="title">
+                            <label>วันที่ออกรถ: </label>
+                            <span>{{car.date_str}}</span>
+                        </div>
+                        <div class="title">
+                            <label>วันหมดอายุ: </label>
+                            <span>{{car.exp_date_str}}</span>
+                        </div>
+                        <div class="title">
+                            <label>อื่นๆ: </label>
+                            <span>{{car.detail}}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
-            <p class="error-message margin-top animated fadeIn" ng-if="status.maxcar">{{strings['max_car_message']}}</p>
-            <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
-            <p class="error-message margin-top animated fadeIn" ng-if="status.error_remove">{{strings['error_remove_car']}}</p>
-            <p class="error-message margin-top animated fadeIn" ng-if="status.car_expire">{{strings['car_expire_message']}}</p>
-            <p class="success-message margin-top animated fadeIn" ng-if="status.success">{{strings['update_success']}}</p>
-
-            <hr />
-            <div class="btn-container" ng-if="!isCarDetail">
-                <button type="button" class="btn btn-danger" ng-click="add(form)" >
-                    {{strings['add']}}
+                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-car?id=' + car.id)">
+                    แก้ไขข้อมูล
                 </button>
             </div>
 
-            <div class="btn-container" ng-if="isCarDetail">
-                <button type="button" class="btn btn-danger" ng-click="update(form)">
-                    <i class="fa fa-floppy-o" aria-hidden="true"></i> {{strings['update']}}
-                </button>
-
-                <button type="button" class="btn btn-danger btn-delete" ng-click="remove()">
-                    <i class="fa fa-remove"></i> {{strings['delete']}}
+            <h2><i class="fa fa fa-bell"></i> การแจ้งเตือน</h2>
+            <div class="car-notifications">
+                <div class="notification-half-box">
+                    <h4>
+                        <i class="fa fa-road" aria-hidden="true"></i>
+                        <span>ระยะทาง ({{mileTotal}})</span>
+                    </h4>
+                    <p class="nodata" ng-if="!noti_miles.length">{{strings['no_data']}}</p>
+                    <ul ng-if="noti_miles.length" class="notilist">
+                        <li ng-repeat="n in noti_miles" ng-click="navigateTo('#/notification?id='+n.id + '&car=' + car.id)">
+                            <span class="title">{{n.title}}</span>
+                            <span class="detail">{{n.detail}}</span>
+                            <span class="date">กิโลเมตรที่: {{n.mile}}</span>
+                            <span class="status">
+                                <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
+                                <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="paging" ng-if="milePagings.length>1">
+                        <li ng-click="gotoMilePage(1)"><<</li>
+                        <li ng-click="gotoMilePage(milePage - 1)"><</li>
+                        <li ng-repeat="p in milePagings" class="page {{p==milePage?'active':''}}" ng-click="gotoMilePage(p)">{{p}}</li>
+                        <li ng-click="gotoMilePage(milePage + 1)">></li>
+                        <li ng-click="gotoMilePage(milePagings.length)">>></li>
+                    </ul>
+                </div>
+                <div class="notification-half-box">
+                    <h4>
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <span>เวลา ({{dateTotal}})</span>
+                    </h4>
+                    <p class="nodata" ng-if="!noti_date.length">{{strings['no_data']}}</p>
+                    <ul class="notilist" ng-if="noti_date.length">
+                        <li ng-repeat="n in noti_date" ng-click="navigateTo('#/notification?id='+n.id + '&car=' + car.id)">
+                            <span class="title">{{n.title}}</span>
+                            <span class="detail">{{n.detail}}</span>
+                            <span class="date">{{n.date_str}}</span>
+                            <span class="status">
+                                <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
+                                <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="paging" ng-if="datePagings.length>1">
+                        <li ng-click="gotoDatePage(1)"><<</li>
+                        <li ng-click="gotoDatePage(datePage - 1)"><</li>
+                        <li ng-repeat="p in datePagings" class="page {{p==datePage?'active':''}}" ng-click="gotoDatePage(p)">{{p}}</li>
+                        <li ng-click="gotoDatePage(datePage + 1)">></li>
+                        <li ng-click="gotoDatePage(datePagings.length)">>></li>
+                    </ul>
+                </div>
+                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/new-notification?car=' + car.id)">
+                    <i class="fa fa-plus"></i>
+                    สร้าง
                 </button>
             </div>
 
-        </form>
+            <h2><i class="fa fa-wrench" aria-hidden="true"></i> รายการซ่อมบำรุง ({{repairTotal?repairTotal:0}})</h2>
+            <div class="detail-section">
+                <div class="list car-repairlist">
+                    <p ng-if="!repairs.length">{{strings['no_repairs']}}</p>
+                    <ul ng-if="repairs.length">
+                        <li ng-repeat="repair in repairs" ng-click="navigateTo('#/repair?id=' + repair.id + '&car='+ car.id)">
+                            <span class="notification-detail">
+                                <span class="title">{{repair.title}}</span>
+                                <span class="detail">{{repair.remark}}</span>
+                                <span class="date">{{strings['repair_date_label']}}: {{repair.date_str}}</span>
+                                <span class="date">{{strings['repair_mile_label']}}: {{repair.mile}} {{strings['kilometer']}}</span>
+                            </span>
+
+                            <span class="status">
+                                <span class="state-open" ng-if="repair.share">{{strings['share']}}</span>
+                                <span class="state-close" ng-if="!repair.share">{{strings['not_share']}}</span>
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="paging" ng-if="repairPagings.length > 1">
+                        <li ng-click="gotoRepairPage(1)"><<</li>
+                        <li ng-click="gotoRepairPage(page - 1)"><</li>
+                        <li ng-repeat="p in repairPagings" class="page {{p==repairPage?'active':''}}" ng-click="gotoRepairPage(p)">{{p}}</li>
+                        <li ng-click="gotoRepairPage(repairPage + 1)">></li>
+                        <li ng-click="gotoRepairPage(repairPagings.length)">>></li>
+                    </ul>
+                </div>
+                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/new-repair?car=' + car.id)">
+                    สร้าง
+                </button>
+            </div>
+        </div>
     </div>
-
 </div>

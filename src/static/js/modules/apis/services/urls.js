@@ -16,7 +16,9 @@ module.factory('URLS', function () {
     function modelEndpoints (model) {
         return {
             all: base + model,
-            one: base + model + '/{id}'
+            one: base + model + '/{id}',
+            image: base + model + '/image',
+            image_id: base + model + '/image/{id}'
         };
     }
 

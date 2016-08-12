@@ -7,10 +7,6 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       .state('index', {
           url: "/",
           templateUrl: "partials/index.html"
-      })
-      .state('login', {
-          url: "/login",
-          templateUrl: "partials/login.html"
       }).state('register', {
           url: "/register",
           templateUrl: "partials/register.html"
@@ -20,12 +16,24 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('car', {
           url: "/car",
           templateUrl: "partials/car.html"
+      }).state('editcar', {
+          url: "/edit-car",
+          templateUrl: "partials/edit-car.html"
+      }).state('newcar', {
+          url: "/new-car",
+          templateUrl: "partials/new-car.html"
       }).state('notifications', {
           url: "/notifications",
           templateUrl: "partials/notifications.html"
       }).state('notification', {
           url: "/notification",
           templateUrl: "partials/notification.html"
+      }).state('editnotification', {
+          url: "/edit-notification",
+          templateUrl: "partials/edit-notification.html"
+      }).state('newnotification', {
+          url: "/new-notification",
+          templateUrl: "partials/new-notification.html"
       }).state('repairs', {
           url: "/repairs",
           templateUrl: "partials/repairs.html"
@@ -35,5 +43,11 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('shares', {
           url: "/shares",
           templateUrl: "partials/shares.html"
+      }).state('new-repair', {
+          url: "/new-repair",
+          templateUrl: "partials/new-repair.html"
+      }).state('edit-repair', {
+          url: "/edit-repair",
+          templateUrl: "partials/edit-repair.html"
       });
 });

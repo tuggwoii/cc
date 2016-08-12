@@ -25,6 +25,18 @@ module.factory('Event', [function () {
         },
         File: {
             Success: 'UPLOAD_SUCCESS'
+        },
+        Share: {
+            Ready: 'SHARE_READY'
+        },
+        Shop: {
+            DispayPopup:'DISPLAY_SHOP_POPUP'
+        },
+        Notification: {
+            Ready: 'NOTIFICATION_READY'
+        },
+        Work: {
+            DisplayPopup: 'DISPLAY_WORK_POPUP'
         }
     };
 }]);

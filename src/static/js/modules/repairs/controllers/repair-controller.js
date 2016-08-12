@@ -1,237 +1,137 @@
 ﻿'use strict';
-module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'RepairService', 'Event', 'Helper', 'ShopService', 'WorkService',
-    function ($scope, $rootScope, $timeout, $q, $location, RepairService, Event, Helper, ShopService, WorkService) {
-
-        $scope.status = {};
-        $scope.search = { key:''};
-        $scope.dates = Helper.dateArray();
-        $scope.months = Helper.monthArray();
-        $scope.process = [];
+module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'RepairService', 'CarService', 'WorkgroupService', 'WorkService', 'Event', 'Helper',
+    function ($scope, $rootScope, $timeout, $q, $location, RepairService, CarService, WorkgroupService, WorkService, Event, Helper) {
+        $scope.ratings = ['ไม่ระบุ', 'แย่มาก', 'แย่', 'พอได้', 'ดี', 'ดีมาก']
         $scope.params = $location.search();
-        $scope.isRepairPage = $location.$$path.indexOf('/repair') > -1 && $location.$$path.indexOf('/repairs') == -1;
-        $scope.isRepairDetail = $scope.params.id && $scope.isRepairPage;
+        $scope.from_car = $scope.params.car ? true : false;
+        if ($scope.from_car) {
+            $scope.carId = $scope.params.car;
+        }
+        var lightbox = lity();
 
         function getById() {
-            RepairService.getById($scope.params.id).then(function (data) {
-                $scope.model = angular.copy(data);
-                setInitModel($scope.model);
-            }).catch(function () {
+            $q.all([
+                RepairService.getById($scope.params.id).then(function (data) {
+                    $scope.model = data;
+                    initModel($scope.model);
 
+                }).catch(function () {
+                    alert('ERROR LOAD REPAIR');
+                }),
+                CarService.get().then(function (res) {
+                    $scope.cars = angular.copy(res.data);
+                }),
+                WorkgroupService.get().then(function (data) {
+                    $scope.workgroup = angular.copy(data);
+                })
+            ]).then(function () {
+                $scope.displayView();
+                angular.forEach($scope.cars, function (_car) {
+                    if (_car.id == $scope.model.for_car) {
+                        _car.active = true;
+                    }
+                });
             });
         }
 
-        function setInitModel(model) {
-            model.car = model.for_car + '';
-            model.type = model.type + '';
-            model.work = model.work + '';
-            model.score = model.score + '';
+        function initModel(model) {
             if (model.date) {
                 var date = new Date(model.date);
-                var year = date.getFullYear();
-                var month = date.getMonth() + 1;
-                if (month < 10) {
-                    month = '0' + month;
-                }
-                var date = date.getDate();
-                if (date < 10) {
-                    date = '0' + date;
-                }
-                model.date_str = year + '/' + month + '/' + date;
+                model.date_str = Helper.readableDate(date);
             }
-            datePicker();
-            $rootScope.$broadcast(Event.Car.SetActive, model.car);
+            $scope.calPrice();
+            watch();
         }
 
-        function setSubmitModelDate() {
-            if ($('input[name=prefix__date__suffix]').val()) {
-                $scope.model.date = new Date($('input[name=prefix__date__suffix]').val());
-                $scope.empty_date = false;
-            }
-            else {
-                $scope.empty_date = true;
-            }
+        function isValid() {
+            return $scope.params.id && $scope.user && $scope.user.id;
         }
 
-        function datePicker() {
-            $timeout(function () {
-                $('.datepicker').pickadate({
-                    monthsShort: Helper.monthsShort,
-                    monthsFull: Helper.monthsFull,
-                    format: 'dd mmmm, yyyy',
-                    formatSubmit: 'yyyy/mm/dd',
-                    hiddenPrefix: 'prefix__',
-                    hiddenSuffix: '__suffix'
-                });
-            }, 500);
-        }
-
-        $scope.init = function () {
-            $scope.model = {};
-            if ($scope.params.id && $scope.isRepairDetail) {
-                getById();
+        var watchScore;
+        var watchShare;
+        function watch() {
+            if (watchShare) {
+                watchShare();
             }
-            else {
-                datePicker();
+            if (watchScore) {
+                watchScore();
             }
-        };
-
-        $scope.setForm = function (form) {
-            $scope.form = form;
-        };
-
-        $scope.carChange = function () {
-            $rootScope.$broadcast(Event.Car.SetActive, $scope.model.car);
-        }
-
-        $scope.setModelCar = function (event, carId) {
-            $scope.model.car = carId + '';
-        };
-
-        $scope.add = function (form) {
-            angular.forEach(form.$error.required, function (field) {
-                field.$setDirty();
+            watchScore = $scope.$watch('model.score', function (newValue, oldValue) {
+                $scope.save();
+                
             });
-            setSubmitModelDate();
-            $scope.form_submit = true;
-            if (form.$valid && $scope.model.shop) {
-                if (!$scope.empty_date) {
-                    $rootScope.$broadcast(Event.Load.Display, 'SAVE_REPAIR');
-                    $scope.status = {};
-                    RepairService.create($scope.model).then(function (res) {
-                        $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_REPAIR');
-                        $scope.params.id = res.data.id;
-                        $scope.isRepairDetail = true;
-                        $scope.status.success = true;
-                        $scope.model.id = res.data.id;
-                        $scope.navigateTo('#/repair?id=' + res.data.id);
-                        $timeout(function () {
-                            $rootScope.$broadcast(Event.Load.Dismiss, 'PAGE_CHANGE');
-                            $scope.status = {};
-                        }, 5000);
-                    }).catch(function (res) {
-                        if (res.error.message == 'CAR EXPIRE') {
-                            $scope.status.car_expire = true;
-                        }
-                        else {
-                            $scope.status.error = true;
-                        }
-                        
-                        $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_REPAIR');
-                    });
+            watchShare = $scope.$watch('model.share', function (newValue, oldValue) {
+                $scope.save();
+            });
+        }
+
+        $scope.notificationPage = function () {
+            if ($scope.user_ready) {
+                if (isValid()) {
+                    getById();
+                }
+                else {
+                    window.location.hash = '#/';
                 }
             }
             else {
-                $scope.status.invalid = true;
+                $timeout(function () {
+                    $scope.notificationPage();
+                }, 200);
             }
         };
 
-        $scope.update = function (form) {
-            angular.forEach(form.$error.required, function (field) {
-                field.$setDirty();
+        $scope.reload = function () {
+            RepairService.getById($scope.params.id).then(function (data) {
+                $scope.model = data;
+                initModel($scope.model);
+            }).catch(function () {
+                alert('ERROR LOAD REPAIR');
+            })
+        }
+
+        $scope.save = function () {
+            $rootScope.$broadcast(Event.Load.Display);
+            RepairService.update($scope.model).then(function (res) {
+                $rootScope.$broadcast(Event.Load.Dismiss);
+            }).catch(function (res) {
+                $rootScope.$broadcast(Event.Load.Dismiss);
+                alert('Save Error');
             });
-            setSubmitModelDate();
-            if (form.$valid) {
-                $rootScope.$broadcast(Event.Load.Display, 'SAVE_NOTIFICATION');
-                $scope.status = {};
-                RepairService.update($scope.model).then(function (res) {
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_NOTIFICATION');
-                    $scope.status.success = true;
-                    $timeout(function () {
-                        $scope.status = {};
-                    }, 5000);
-                }).catch(function (res) {
-                    $scope.status.error = true;
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_NOTIFICATION');
-                });
-            }
-            else {
-                $scope.status.invalid = true;
-            }
-        };
+        }
 
-        $scope.remove = function () {
-            $rootScope.$broadcast(Event.Confirm.Display, function () {
-                $rootScope.$broadcast(Event.Load.Display, 'SAVE_REPAIR');
-                RepairService.delete($scope.params.id).then(function () {
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_REPAIR');
-                    $scope.navigateTo('#/repairs');
-                }).catch(function () {
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_REPAIR');
-                    alert('ERROR');
-                });
+        $scope.openShop = function () {
+            $rootScope.$broadcast(Event.Shop.DisplayPopup, function (shop) {
+                $scope.model.shop = shop;
+                $scope.save();
             });
         };
 
-        var shopSearchTask = {};
-        $scope.searchShop = function () {
-            $timeout.cancel(shopSearchTask);
-            $scope.trySearch = false;
-            if ($scope.search.key) {
-                if (!$scope.onSearchShop) {
-                    shopSearchTask = $timeout(function () {
-                        $scope.onSearchShop = true;
-                        ShopService.getAll($scope.search.key).then(function (res) {
-                            $scope.shops = res.data;
-                            $timeout(function () {
-                                $scope.onSearchShop = false;
-                                $scope.trySearch = true;
-                                $timeout(function () {
-                                    $('#searchShop').focus();
-                                }, 200);
-                            }, 500);
-                        });
-                    }, 1500);
-                }
-            }
-            else {
-                $scope.shops = [];
-            }
-        };
-
-        $scope.createShop = function () {
-            $rootScope.$broadcast(Event.Confirm.Display, function () {
-                $rootScope.$broadcast(Event.Load.Display, 'SAVE_SHOP');
-                ShopService.create({ name: $scope.search.key }).then(function (res) {
-                    console.log(res.data);
-                    $scope.model.shop = res.data;
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_SHOP');
-                }).catch(function () {
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_SHOP');
-                    alert('ERROR');
+        $scope.openWork = function () {
+            $rootScope.$broadcast(Event.Work.DisplayPopup,
+                { repair: $scope.model.id, work: $scope.model.work + '' },
+                $scope.workgroup,
+                function () {
+                    $scope.reload();
                 });
-            }, 'คุณยืนยันที่จะสร้างร้าน "' + $scope.search.key + '" หรือไม่?');
         };
 
-        $scope.addWork = function () {
-            if ($scope.model.id) {
-                $rootScope.$broadcast(Event.Load.Display, 'SAVE_WORK');
-                $scope.status.work_error = false;
-                WorkService.create({
-                    repair: $scope.model.id
-                }).then(function (res) {
-                    if (!$scope.model.repair_works) {
-                        $scope.model.repair_works = [];
-                    }
-                    $scope.model.repair_works.push(res.data);
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'PAGE_CHANGE');
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_WORK');
-                }).catch(function (err) {
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'PAGE_CHANGE');
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_WORK');
-                    $scope.status.work_error = true;
+        $scope.editWork = function (work) {
+            $rootScope.$broadcast(Event.Work.DisplayPopup,
+                work,
+                $scope.workgroup,
+                function () {
+                    $scope.reload();
                 });
-            }
         };
 
-        $scope.deleteWork = function (index, work) {
+        $scope.deleteWork = function (work) {
             $rootScope.$broadcast(Event.Confirm.Display, function () {
-                $rootScope.$broadcast(Event.Load.Display, 'SAVE_WORK');
+                $rootScope.$broadcast(Event.Load.Display);
                 WorkService.delete(work.id).then(function (res) {
-                    $scope.model.repair_works.splice(index, 1);
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_WORK');
+                    $scope.reload();
                 }).catch(function () {
-                    $rootScope.$broadcast(Event.Load.Dismiss, 'SAVE_WORK');
-                    alert('ERROR');
+                    alert('DELETE WORK ERROR');
                 });
             });
         };
@@ -241,22 +141,47 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             angular.forEach($scope.model.repair_works, function (i) {
                 price += i.price;
             });
-            $scope.model.price = price;
+            if ($scope.model.price != price) {
+                $scope.model.price = price;
+                $scope.save();
+            }
         };
 
-        $scope.selectShop = function (shop) {
-            $scope.model.shop = shop;
+        $scope.pickCar = function (car) {
+            $scope.navigateTo('#/car?id=' + car.id);
         };
 
-        $scope.$on(Event.Page.Ready, function () {
-            $scope.init();
-        });
+        $scope.rated = function (score) {
+            $scope.model.score = score;
+        };
 
-        $scope.init();
-        $scope.$on(Event.Car.PickCar, $scope.setModelCar);
+        $scope.saveImage = function (event, file) {
+            var fileData = {
+                repair_id: $scope.model.id,
+                image_id: file.id
+            };
+            RepairService.uploadImage(fileData).then(function () {
+                $scope.reload()
+            }).catch(function () {
+                alert('Upload Error');
+            });
+        };
+
+        $scope.removeImage = function (image) {
+            $rootScope.$broadcast(Event.Confirm.Display, function () {
+                $rootScope.$broadcast(Event.Load.Display);
+                RepairService.deleteImage(image).then(function () {
+                    $scope.reload()
+                }).catch(function () {
+                    alert('Upload Error');
+                });
+            });
+        };
+
+        $scope.lightbox = function (url) {
+            lightbox(url);
+        };
+
+        $scope.$on(Event.File.Success, $scope.saveImage);
+        $scope.notificationPage();
     }]);
-$(document).on("keydown", function (e) {
-    if (e.which === 8 && !$(e.target).is("input, textarea")) {
-        e.preventDefault();
-    }
-});

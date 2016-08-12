@@ -1,10 +1,12 @@
 ﻿'use strict';
+var fs = require('fs');
 var Repair = require('../database/models').Repair;
 var User = require('../database/models').User;
 var Car = require('../database/models').Car;
 var Work = require('../database/models').Workgroup;
 var Shop = require('../database/models').Shop;
 var File = require('../database/models').File;
+var RepairImage = require('../database/models').RepairImage;
 var RepairWork = require('../database/models').RepairWork;
 var RepairSerializer = require('../serializers/repair-serializer');
 var BaseApi = require('./base');
@@ -28,6 +30,7 @@ class RepairApi extends BaseApi {
         };
         if (data.id) {
             model.id = data.id;
+            model.for_car = data.car.id
             if (data.repair_works) {
                 model.repair_works = data.repair_works;
             }
@@ -57,12 +60,6 @@ class RepairApi extends BaseApi {
             }
             else if (!data.date) {
                 reject('DATE REQUIRED');
-            }
-            else if (!data.score) {
-                reject('SCORE REQUIRED');
-            }
-            else if (!data.repair_shop) {
-                reject('SHOP REQUIRED');
             }
             else {
                 if (data.for_car) {
@@ -122,12 +119,6 @@ class RepairApi extends BaseApi {
             }
             else if (!data.date) {
                 reject('DATE REQUIRED');
-            }
-            else if (!data.score) {
-                reject('SCORE REQUIRED');
-            }
-            else if (!data.repair_shop) {
-                reject('SHOP REQUIRED');
             }
             else {
                 if (data.for_car) {
@@ -208,7 +199,8 @@ class RepairApi extends BaseApi {
                     { model: Work },
                     { model: User },
                     { model: Shop },
-                    { model: RepairWork }
+                    { model: RepairWork, include: [{ model: Work }] },
+                    { model: RepairImage, include: [{ model: File }] }
                 ]
             }).then(function (data) {
                 resolve(data);
@@ -308,7 +300,7 @@ class RepairApi extends BaseApi {
             where: q,
             order: [["updatedAt", "DESC"]],
             include: [
-                { model: Car },
+                { model: Car, include: [{ model: File }]},
                 { model: Work },
                 { model: User, include: [{ model: File }] },
                 { model: Shop },
@@ -470,11 +462,7 @@ class RepairApi extends BaseApi {
         var shopId = repair.repair_shop;
         context.validateCreate(repair).then(function () {
             Repair.create(repair, { isNewRecord: true }).then(function (_repair) {
-                context.updateShopScore(context, shopId).then(function () {
-                    context.success(req, res, _repair, {}, RepairSerializer.default);
-                }).catch(function () {
-                    context.error(req, res, err, 500);
-                });
+                context.success(req, res, _repair, {}, RepairSerializer.default);
             }).catch(function (err) {
                 context.error(req, res, err, 500);
             });
@@ -495,33 +483,27 @@ class RepairApi extends BaseApi {
                     var owner = _repair.owner;
                     var score = _repair.score;
                     var old_shopId = _repair.repair_shop;
-                    var works = repair.repair_works;
-
                     if (req.user.id === owner) {
                         _repair.updateAttributes(repair).then(function (_updated_repair) {
-                            context.updateWorks(context, works).then(function () {
-                                if (repair.score != score || shopId != old_shopId) {
-                                    context.updateShopScore(context, shopId).then(function () {
-                                        if (shopId != old_shopId) {
-                                            context.updateShopScore(context, old_shopId).then(function () {
-                                                context.success(req, res, _updated_repair, {}, RepairSerializer.default);
-                                            }).catch(function (err) {
-                                                context.error(req, res, err, 500);
-                                            });
-                                        }
-                                        else {
-                                            context.success(req, res, _updated_repair);
-                                        }
-                                    }).catch(function (err) {
-                                        context.error(req, res, err, 500);
-                                    });
-                                }
-                                else {
-                                    context.success(req, res, _updated_repair);
-                                }
-                            }).catch(function (err) {
-                                context.error(req, res, err, 500);
-                            });
+                            if (repair.score && (repair.score != score || shopId != old_shopId)) {
+                                context.updateShopScore(context, shopId).then(function () {
+                                    if (shopId != old_shopId) {
+                                        context.updateShopScore(context, old_shopId).then(function () {
+                                            context.success(req, res, _updated_repair, {}, RepairSerializer.default);
+                                        }).catch(function (err) {
+                                            context.error(req, res, err, 500);
+                                        });
+                                    }
+                                    else {
+                                        context.success(req, res, _updated_repair);
+                                    }
+                                }).catch(function (err) {
+                                    context.error(req, res, err, 500);
+                                });
+                            }
+                            else {
+                                context.success(req, res, _updated_repair);
+                            }
                         }).catch(function (err) {
                             context.error(req, res, err, 500);
                         });
@@ -586,6 +568,62 @@ class RepairApi extends BaseApi {
         }
     }
 
+    saveImage (context, req, res) {
+        var file = req.body;
+        if (file.repair_id && file.image_id) {
+            file.owner = req.user.id;
+            RepairImage.create(file, { isNewRecord: true }).then(function (_file) {
+                context.success(req, res, _file);
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+        else {
+            context.error(req, res, { message:'INVALID MOEL'}, 400);
+        }
+    }
+
+    deleteImage(context, req, res) {
+        if (req.params.id) {
+            RepairImage.findById(req.params.id, {
+                include: [
+                    { model: User },
+                    { model: File }
+                ]
+            }).then(function (_repair_image) {
+                if (_repair_image) {
+                    var owner = _repair_image.owner;
+                    var image_id = _repair_image.image_id;
+                    var file_url = appRoot + _repair_image.file.url;
+                    if (req.user.id === owner) {
+                        RepairImage.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function () {
+                            File.destroy({ where: { id: image_id, owner: req.user.id } }).then(function () {
+                                console.log('REMOVE FILE====' + file_url);
+                                fs.unlinkSync(file_url);
+                                context.success(req, res, {});
+                            }).catch(function (err) {
+                                context.error(req, res, err, 500);
+                            });
+                        }).catch(function (err) {
+                            context.error(req, res, err, 500);
+                        });
+                    }
+                    else {
+                        context.denied(res);
+                    }
+                }
+                else {
+                    context.notfound(res);
+                }
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+        else {
+            context.notfound(res);
+        }
+    }
+
     endpoints() {
         return [
             { url: '/shares', method: 'get', roles: [], response: this.getAll },
@@ -593,7 +631,9 @@ class RepairApi extends BaseApi {
             { url: '/repairs', method: 'get', roles: ['admin', 'user'], response: this.getById, params: ['id'] },
             { url: '/repairs', method: 'post', roles: ['admin', 'user'], response: this.add },
             { url: '/repairs', method: 'patch', roles: ['admin', 'user'], response: this.update },
-            { url: '/repairs', method: 'delete', roles: ['admin', 'user'], response: this.delete, params: ['id'] }
+            { url: '/repairs', method: 'delete', roles: ['admin', 'user'], response: this.delete, params: ['id'] },
+            { url: '/repairs/image', method: 'post', roles: ['admin', 'user'], response: this.saveImage },
+            { url: '/repairs/image', method: 'delete', roles: ['admin', 'user'], response: this.deleteImage, params: ['id'] },
         ];
     }
 }

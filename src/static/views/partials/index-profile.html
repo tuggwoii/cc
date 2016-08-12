@@ -3,10 +3,11 @@
         <img src="/img/noprofile.png" alt="profile" ng-if="!user.image" />
         <img class="user-profile-image" ng-src="{{user.image.url}}" alt="profile" ng-if="user.image" />
         <div class="user-menu">
-            <h3><span>จัดการข้อมูล</span></h3>
+            <h3 ng-click="navigateTo('#/account')"><span><i class="fa fa-user" aria-hidden="true"></i> {{strings['edit_profile']}}</span></h3>
+            <!--
             <a class="user-menu-item" ng-click="navigateTo('#/account')">{{strings['edit_profile']}}</a>
             <a class="user-menu-item" ng-click="navigateTo('#/repairs')">รายการซ่อมบำรุง</a>
-            <a class="user-menu-item" ng-click="navigateTo('#/notifications')">รายการแจ้งเตือน</a>
+            <a class="user-menu-item" ng-click="navigateTo('#/notifications')">รายการแจ้งเตือน</a>-->
         </div>
         
     </div>

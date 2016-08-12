@@ -5,6 +5,7 @@ module.factory('httpRequestInterceptor', ['$cookies', function ($cookies) {
             var authorization = $cookies.get('Authorization');
             if (authorization) {
                 config.headers['Authorization'] = authorization;
+                config.timeout = 15000;
             }
             return config;
         }

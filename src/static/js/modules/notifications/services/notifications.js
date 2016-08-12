@@ -5,8 +5,8 @@ module.factory('NotificationService', ['$rootScope', '$http', '$q', '$cookies', 
     var cache = {};
 
     return {
-        get: function (t, p, c) {
-            var key = URLS.model(service).all + (t ? '?t=' + t : '') + (p ? (t ? '&p=' + p : '?p=' + p) : '') + (c ? '&c=' + c : '');
+        get: function (p, t, c) {
+            var key = URLS.model(service).all + ('?p=' + p) + (t ? '&t=' + t : '') + (c ? '&c=' + c : '');
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);

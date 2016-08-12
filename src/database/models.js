@@ -349,6 +349,10 @@ var RepairWork = sequelize.define('repair_works', {
         type: Sequelize.DATE,
         field: 'updatedAt'
     },
+    title: {
+        type: Sequelize.STRING,
+        field: 'title'
+    },
     detail: {
         type: Sequelize.STRING,
         field: 'detail'
@@ -435,6 +439,35 @@ var Shop = sequelize.define('shops', {
     }
 });
 
+var RepairImage = sequelize.define('repair_images', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        field: 'id'
+    },
+    createdAt: {
+        type: Sequelize.DATE,
+        field: 'createdAt'
+    },
+    updatedAt: {
+        type: Sequelize.DATE,
+        field: 'updatedAt'
+    },
+    repair_id: {
+        type: Sequelize.INTEGER,
+        field: 'repairId'
+    },
+    
+    image_id: {
+        type: Sequelize.INTEGER,
+        field: 'imageId'
+    },
+    owner: {
+        type: Sequelize.INTEGER,
+        field: 'owner'
+    }
+});
+
 User.belongsTo(Role, { foreignKey: 'user_role' });
 User.belongsTo(File, { foreignKey: 'image' });
 File.belongsTo(User, { foreignKey: 'owner' });
@@ -451,6 +484,7 @@ Repair.belongsTo(Car, { foreignKey: 'for_car' });
 Repair.belongsTo(Shop, { foreignKey: 'repair_shop' });
 Repair.belongsTo(Workgroup, { foreignKey: 'work' });
 Repair.hasMany(RepairWork, { foreignKey: 'for_repair' });
+Repair.hasMany(RepairImage, { foreignKey: 'repair_id' });
 RepairWork.belongsTo(Repair, { foreignKey: 'for_repair' });
 RepairWork.belongsTo(User, { foreignKey: 'owner' });
 RepairWork.belongsTo(Workgroup, { foreignKey: 'work' });
@@ -458,6 +492,9 @@ Shop.belongsTo(User, { foreignKey: 'create_by', as: 'create_user' });
 Shop.belongsTo(User, { foreignKey: 'update_by', as: 'update_user' });
 Shop.belongsTo(File, { foreignKey: 'image' });
 Shop.hasMany(Repair, { foreignKey: 'repair_shop' });
+RepairImage.belongsTo(File, { foreignKey: 'image_id' });
+RepairImage.belongsTo(Repair, { foreignKey: 'repair_id' });
+RepairImage.belongsTo(User, { foreignKey: 'owner' });
 
 exports.User = User;
 exports.Role = Role;
@@ -469,3 +506,4 @@ exports.Notification = Notification;
 exports.Repair = Repair;
 exports.Shop = Shop;
 exports.RepairWork = RepairWork;
+exports.RepairImage = RepairImage;

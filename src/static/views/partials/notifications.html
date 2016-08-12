@@ -1,12 +1,14 @@
 ﻿<div ng-controller="NotificationsController">
+
     <div class="row user-profile animated fadeIn" ng-if="user.id">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
-                <div class="col-md-8" ng-controller="CarController" ng-include="'partials/index-car.html'"></div>
+                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
             </div>
         </div>
     </div>
+
     <div class="container">
         <div class="breadcrumb">
             <ul>
@@ -26,10 +28,11 @@
                 <p>{{total}} Notifications</p>
                 <p ng-if="!notifications.length">{{strings['no_notification']}}</p>
                 <ul ng-if="notifications.length">
-                    <li ng-repeat="notification in notifications">
+                    <li class="notification-item" ng-repeat="notification in notifications" ng-click="navigateTo('#/notification?id=' + notification.id)">
                         <span class="notification-detail">
                             <span class="title">{{notification.title}}</span>
                             <span class="detail">{{notification.detail}}</span>
+                            <span class="car">{{notification.car.brand}} {{notification.car.series}}</span>
                             <span class="date" ng-if="notification.type==1">{{strings['notification_by_date']}}: {{notification.date_str}}</span>
                             <span class="date" ng-if="notification.type==2">{{strings['notification_by_mile']}}: {{notification.mile}} {{strings['kilometer']}}</span>
                         </span>
@@ -38,7 +41,6 @@
                             <span class="state-open" ng-if="notification.enable">{{strings['open']}}</span>
                             <span class="state-close" ng-if="!notification.enable">{{strings['close']}}</span>
                         </span>
-                        <span class="view" ng-click="navigateTo('#/notification?id=' + notification.id)">{{strings['edit_data']}}</span>
                     </li>
                 </ul>
                 <ul class="paging" ng-if="pages.length>1">

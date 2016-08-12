@@ -137,16 +137,10 @@ class NotificationApi extends BaseApi {
         return promise;
     }
 
-    getNotificationByUserId(id, carId, limits, skip) {
+    getNotificationByUserId(queries, limits, skip) {
         var promise = new Promise(function (resolve, reject) {
-            var conditions = {
-                owner: id
-            };
-            if (carId) {
-                conditions['for_car'] = carId;
-            }
             Notification.findAll({
-                where: conditions,
+                where: queries,
                 order: [["createdAt", "DESC"]],
                 include: [
                     { model: Car },
@@ -164,15 +158,11 @@ class NotificationApi extends BaseApi {
         return promise;
     }
 
-    countNotificationByUserId(id, carId) {
+    countNotificationByUserId(queries) {
         var promise = new Promise(function (resolve, reject) {
-            var conditions = {
-                owner: id
-            };
-            if (carId) {
-                conditions['for_car'] = carId;
-            }
-            Notification.count({ where: conditions }).then(function (count) {
+            Notification.count({
+                where: queries
+            }).then(function (count) {
                 resolve(count)
             }).catch(function (err) {
                 reject(err)
@@ -201,21 +191,28 @@ class NotificationApi extends BaseApi {
     getByUser(context, req, res) {
         var params = url.parse(req.url, true);
         var queries = params.query;
+        var _limits = limits;
         var p = 1;
-        var carId;
+        var q = {
+            owner: req.user.id
+        };
         if (queries['p']) {
             p = parseInt(queries['p']);
         }
         if (queries['c']) {
-            carId = parseInt(queries['c']);
+            q.for_car = parseInt(queries['c']);
         }
-        var skip = limits * (p - 1);
+        if (queries['t']) {
+            q.type = parseInt(queries['t']);
+            _limits = 5;
+        }
+        var skip = _limits * (p - 1);
 
-        context.getNotificationByUserId(req.user.id, carId, limits, skip).then(function (data) {
-            context.countNotificationByUserId(req.user.id, carId).then(function (count) {
+        context.getNotificationByUserId(q, _limits, skip).then(function (data) {
+            context.countNotificationByUserId(q).then(function (count) {
                 var meta = {
                     count: count,
-                    limits: limits
+                    limits: _limits
                 };
                 context.success(req, res, data, meta);
             }).catch(function (err) {
@@ -235,7 +232,6 @@ class NotificationApi extends BaseApi {
                 enable: true
             };
             if (req.params.id == 1) {
-                conditions.date = { $gt: new Date(new Date() - 24 * 60 * 60 * 1000) };
                 orders = [["date", "ASC"]]
             }
             else if (req.params.id == 2) {

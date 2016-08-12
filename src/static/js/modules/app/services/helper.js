@@ -20,7 +20,7 @@ module.factory('Helper', [function () {
         },
         readableDate: function (_date) {
             var date = new Date(_date);
-            return date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + date.getFullYear();
+            return date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);
         },
         readableDateTime: function (_date) {
             var date = new Date(_date);
@@ -36,7 +36,7 @@ module.factory('Helper', [function () {
             if(sec < 10) {
                 sec = '0' + sec;
             }
-            return hour+':'+min+':'+sec+ ', ' + date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + date.getFullYear();
+            return hour+':'+min+':'+sec+ ', ' + date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);
         }
     };
 }]);

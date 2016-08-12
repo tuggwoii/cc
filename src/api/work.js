@@ -9,29 +9,34 @@ var BaseApi = require('./base');
 var url = require('url');
 var limits = 10;
 
-class RepairApi extends BaseApi {
+class WorkApi extends BaseApi {
 
-    model(data, user) {
-        var model = {
+    model (data, user) {
+        var work = {
+            title: data.title,
             detail: data.detail,
             work: data.work,
             owner: user,
-            price: 0.00,
+            price: data.price ? data.price : 0.00,
             for_repair: data.repair
         };
         if (data.id) {
-            model.id = data.id;
+            work.id = data.id;
             if (data.price) {
-                model.price = data.price;
+                work.price = data.price;
             }
+            delete work['for_repair']
         }
-        return model;
+        return work;
     }
 
     validateCreate(data) {
         var promise = new Promise(function (resolve, reject) {
             if (!data) {
                 reject('INVALID DATA');
+            }
+            else if (!data.title) {
+                reject('TITLE REQUIRED');
             }
             else if (!data.for_repair) {
                 reject('REPAIR REQUIRED');
@@ -66,171 +71,39 @@ class RepairApi extends BaseApi {
 
     validateUpdate(data) {
         var promise = new Promise(function (resolve, reject) {
-            var promise = new Promise(function (resolve, reject) {
-                if (!data) {
-                    reject('INVALID DATA');
-                }
-                else if (!data.id) {
-                    reject('ID REQUIRED');
-                }
-                else if (!data.for_repair) {
-                    reject('REPAIR REQUIRED');
-                }
-                else {
-                    if (data.for_repair) {
-                        Repair.findById(data.for_repair).then(function (_repair) {
-                            if (_repair) {
-                                var repair = _repair.dataValues;
-                                var owner = repair.owner;
-                                if (owner == data.owner) {
-                                    resolve();
-                                }
-                                else {
-                                    reject('REPAIR NOT OWNER');
-                                }
-                            }
-                            else {
-                                reject('REPAIR NOT FOUND');
-                            }
-                        }).catch(function (err) {
-                            reject(err);
-                        });
-                    }
-                    else {
-                        reject('INVALID REPAIR');
-                    }
-                }
-            });
-        });
-        return promise;
-    }
-
-    getRepairByUserId(id, carId, limits, skip) {
-        var promise = new Promise(function (resolve, reject) {
-            var conditions = {
-                owner: id
-            };
-            Repair.findAll({
-                where: conditions,
-                order: [["createdAt", "DESC"]],
-                include: [
-                    { model: Work },
-                    { model: User },
-                    { model: Repair }
-                ],
-                offset: skip,
-                limit: limits
-            }).then(function (data) {
-                resolve(data);
-            }).catch(function (err) {
-                reject(err)
-            });
-        });
-        return promise;
-    }
-
-    countRepairByUserId(id, carId) {
-        var promise = new Promise(function (resolve, reject) {
-            var conditions = {
-                owner: id
-            };
-            if (carId) {
-                conditions['for_car'] = carId;
+            if (!data) {
+                reject('INVALID DATA');
             }
-            Repair.count({ where: conditions }).then(function (count) {
-                resolve(count)
-            }).catch(function (err) {
-                reject(err)
-            });
-        });
-        return promise;
-    }
-
-    getRepairById(id) {
-        var promise = new Promise(function (resolve, reject) {
-            Repair.findById(id, {
-                include: [
-                    { model: Car },
-                    { model: Work },
-                    { model: User },
-                    { model: Shop }
-                ]
-            }).then(function (data) {
-                resolve(data);
-            }).catch(function (err) {
-                reject(err);
-            });
-        });
-        return promise;
-    }
-
-    getByUser(context, req, res) {
-        var params = url.parse(req.url, true);
-        var queries = params.query;
-        var p = 1;
-        var carId;
-        if (queries['p']) {
-            p = parseInt(queries['p']);
-        }
-        if (queries['c']) {
-            carId = parseInt(queries['c']);
-        }
-        var skip = limits * (p - 1);
-
-        context.getRepairByUserId(req.user.id, carId, limits, skip).then(function (data) {
-            context.countRepairByUserId(req.user.id, carId).then(function (count) {
-                var meta = {
-                    count: count,
-                    limits: limits
-                };
-                context.success(req, res, data, meta);
-            }).catch(function (err) {
-                context.error(req, res, err, 500);
-            });
-        }).catch(function (err) {
-            context.error(req, res, err, 500);
-        });
-    }
-
-    getAll(context, req, res) {
-        Notification.all({
-            include: [
-                { model: Car },
-                { model: Work },
-                { model: User }
-            ]
-        }).then(function (data) {
-            context.success(req, res, data);
-        }).catch(function (err) {
-            context.error(req, res, err, 500);
-        });
-    }
-
-    getById(context, req, res) {
-        if (req.params.id) {
-            context.getRepairById(req.params.id).then(function (_repair) {
-                if (_repair) {
-                    var owner = _repair.owner;
-                    if (req.user.id === owner) {
-                        context.success(req, res, _repair);
+            else if (!data.id) {
+                reject('ID REQUIRED');
+            }
+            else if (!data.title) {
+                reject('TITLE REQUIRED');
+            }
+            else {
+                RepairWork.findById(data.id).then(function (_work) {
+                    if (_work) {
+                        var work = _work.dataValues;
+                        if (work.owner == data.owner) {
+                            resolve(_work);
+                        }
+                        else {
+                            reject('WORK NOT OWNER');
+                        }
                     }
                     else {
-                        context.denied(res);
+                        reject('WORK NOT FOUND');
                     }
-                }
-                else {
-                    context.notfound(res);
-                }
-            }).catch(function (err) {
-                context.error(req, res, err, 500);
-            });
-        }
-        else {
-            context.notfound(res);
-        }
+                }).catch(function (err) {
+                    reject(err);
+                });
+            }
+        });
+        return promise;
     }
 
-    add(context, req, res) {
+
+    add (context, req, res) {
         var work = context.model(req.body, req.user.id);
         context.validateCreate(work).then(function () {
             RepairWork.create(work, { isNewRecord: true }).then(function (_work) {
@@ -247,49 +120,26 @@ class RepairApi extends BaseApi {
     }
 
     update(context, req, res) {
-        var repair = context.model(req.body, req.user.id);
-        var shopId = repair.repair_shop;
-        context.validateUpdate(repair).then(function () {
-            context.getRepairById(repair.id).then(function (_repair) {
-                if (_repair) {
-                    var owner = _repair.owner;
-                    var score = _repair.score;
-                    var old_shopId = _repair.repair_shop;
-                    if (req.user.id === owner) {
-                        _repair.updateAttributes(repair).then(function (_updated_repair) {
-                            if (repair.score != score || shopId != old_shopId) {
-                                context.updateShopScore(context, req, res, shopId).then(function () {
-                                    if (shopId != old_shopId) {
-                                        context.updateShopScore(context, req, res, old_shopId).then(function () {
-                                            context.success(req, res, _updated_repair);
-                                        }).catch(function (err) {
-                                            context.error(req, res, err, 500);
-                                        });
-                                    }
-                                    else {
-                                        context.success(req, res, _updated_repair);
-                                    }
-                                }).catch(function (err) {
-                                    context.error(req, res, err, 500);
-                                });
-                            }
-                            else {
-                                context.success(req, res, _updated_repair);
-                            }
-                        }).catch(function (err) {
-                            context.error(req, res, err, 500);
-                        });
-                    }
-                    else {
-                        context.denied(res);
-                    }
+        console.log('here');
+        var work = context.model(req.body, req.user.id);
+        console.log(work);
+        context.validateUpdate(work).then(function (_work) {
+            if (_work) {
+                var owner = _work.owner;
+                if (req.user.id === owner) {
+                    _work.updateAttributes(work).then(function (_updated_work) {
+                        context.success(req, res, _updated_work);
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
                 }
                 else {
-                    context.notfound(res);
+                    context.denied(res);
                 }
-            }).catch(function (err) {
-                context.error(req, res, error, 500);
-            });
+            }
+            else {
+                context.notfound(res);
+            }
         }).catch(function (err) {
             var error = {
                 message: err
@@ -332,8 +182,6 @@ class RepairApi extends BaseApi {
 
     endpoints() {
         return [
-            { url: '/works', method: 'get', roles: ['admin', 'user'], response: this.getByUser },
-            { url: '/works', method: 'get', roles: ['admin', 'user'], response: this.getById, params: ['id'] },
             { url: '/works', method: 'post', roles: ['admin', 'user'], response: this.add },
             { url: '/works', method: 'patch', roles: ['admin', 'user'], response: this.update },
             { url: '/works', method: 'delete', roles: ['admin', 'user'], response: this.delete, params: ['id'] }
@@ -341,4 +189,4 @@ class RepairApi extends BaseApi {
     }
 }
 
-module.exports = new RepairApi();
+module.exports = new WorkApi();

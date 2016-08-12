@@ -17,6 +17,12 @@ exports.default = function (data) {
         delete model.user['createdAt'];
         delete model.user['updatedAt'];
     }
+    if (model.car) {
+        if (model.car.file) {
+            model.car.image = model.car.file;
+            delete model.car['file'];
+        }
+    }
     if (model.repair_works && model.repair_works.length) {
         for (var i = 0; i < model.repair_works.length; i++) {
             model.repair_works[i].work = model.repair_works[i].work + '';
@@ -52,15 +58,16 @@ exports.share = function (data) {
     if (model.share) {
         delete model['share'];
     }
-    if (model.user && model.user.file) {
-        model.user.image = model.user.file;
-        delete model.user['file'];
-    }
+    
     if (model.car) {
         delete model.car['exp_date'];
         delete model.car['createdAt'];
         delete model.car['updatedAt'];
         delete model.car['date'];
+        if (model.car.file) {
+            model.car.image = model.car.file;
+            delete model.car['file'];
+        }
     }
     if (model.workgroup) {
         delete model.workgroup['createdAt'];
@@ -72,6 +79,10 @@ exports.share = function (data) {
         delete model.user['password'];
         delete model.user['createdAt'];
         delete model.user['updatedAt'];
+        if (model.user.file) {
+            model.user.image = model.user.file;
+            delete model.user['file'];
+        }
     }
     if (model.repair_works && model.repair_works.length) {
         for (var i = 0; i < model.repair_works.length; i++) {

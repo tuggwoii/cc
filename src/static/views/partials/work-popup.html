@@ -1,0 +1,75 @@
+﻿<div class="popup-container animated {{animation}}" ng-if="display">
+    <div class="popup-panel workpopup">
+        <i class="fa fa-remove" ng-click="close()"></i>
+        <div class="work-popup">
+            <h2 ng-if="!work.id">เพิ่มงาน</h2>
+            <h2 ng-if="work.id">แก้ไขงาน</h2>
+            <form class="form" name="form" novalidate>
+                <div class="form-group">
+                    <label class="capital">
+                        หัวข้อรายการ
+                        <span class="required">*</span>
+                    </label>
+                    <input name="title"
+                           type="text"
+                           class="form-control"
+                           ng-model="work.title"
+                           ng-required="true" />
+                    <p class="error-message animated fadeIn"
+                       ng-if="form.title.$error.required && form.title.$dirty">
+                        กรุณากรอกหัวข้อรายการ
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="capital">
+                        กลุ่มงาน
+                        <span class="required">*</span>
+                    </label>
+                    <select name="group"
+                            type="text"
+                            class="form-control"
+                            ng-model="work.work"
+                            ng-required="true">
+                        <option value=""></option>
+                        <option value="{{w.id}}" ng-repeat="w in works">{{w.name}}</option>
+                    </select>
+                    <p class="error-message animated fadeIn"
+                       ng-if="form.group.$error.required && form.group.$dirty">
+                        กรุณากรอกกลุ่มงาน
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="capital">
+                        ราคา
+                        <span class="required">*</span>
+                    </label>
+                    <input name="price"
+                           type="number"
+                           class="form-control"
+                           ng-model="work.price" 
+                            ng-required="true"
+                           ng-change="calPrice()" />
+                    <p class="error-message animated fadeIn"
+                       ng-if="form.price.$error.required && form.price.$dirty">
+                        กรุณากรอกราคา
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="capital">
+                        หมายเหตุ
+                    </label>
+                    <textarea class="form-control"
+                              ng-model="work.detail"></textarea>
+
+                </div>
+                <p class="error-message animated fadeIn" ng-if="error">พบปัญหาบางอย่างกรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ</p>
+                <div class="delete">
+                    <button class="btn btn-danger btn-delete" ng-click="save(form)">
+                       Save ข้อมูล
+                    </button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>

@@ -1,13 +1,31 @@
 ﻿'use strict';
 module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$cookies', 'AccountService', 'Event', function ($scope, $rootScope, $timeout, $cookies, AccountService, Event) {
 
+    function isValid() {
+        return $scope.user.id;
+    }
+
     $scope.setForm = function (form) {
         $scope.form = form;
     };
 
-    $scope.init = function () {
-        $scope.status = {};
-        $scope.model = angular.copy($scope.user);
+    $scope.accountPage = function () {
+        
+        if ($scope.user_ready) {
+            if (isValid()) {
+                $scope.status = {};
+                $scope.model = angular.copy($scope.user);
+                $scope.displayView();
+            }
+            else {
+                window.location.hash = '#/';
+            }
+        }
+        else {
+            $timeout(function () {
+                $scope.accountPage();
+            }, 200);
+        }
     };
 
     $scope.edit = function () {
@@ -57,7 +75,6 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
         $scope.update($scope.form);
     };
 
-    $scope.$on(Event.User.Loaded, $scope.init);
-    $scope.$on(Event.File.Success, $scope.setProfileImage)
-    $scope.init();
+    $scope.$on(Event.File.Success, $scope.setProfileImage);
+    $scope.accountPage();
 }]);

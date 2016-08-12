@@ -11,6 +11,7 @@ var file = require('./src/api/file');
 var multer = require('multer');
 var storage = file.config();
 var upload = multer({ storage: storage });
+global.appRoot = __dirname;
 app.set('port', (process.env.PORT || 8000));
 app.set('views', __dirname + '/src/static/views');
 app.set('view engine', 'ejs');

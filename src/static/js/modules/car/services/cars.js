@@ -2,47 +2,46 @@
 module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', function ($rootScope, $http, $q, $cookies, URLS) {
 
     var service = 'cars';
-    var car;
-    var cache;
+    var cache = {};
 
     return {
         get: function (model) {
-            if (cache) {
-                return $q(function (resolve) {
-                    resolve(cache);
-                });
-            }
-            else {
-                return $q(function (resolve, reject) {
+            var key = URLS.model(service).all;
+            return $q(function (resolve, reject) {
+                if (cache[key]) {
+                    resolve(cache[key]);
+                }
+                else {
                     $http.get(URLS.model(service).all).success(function (res) {
-                        cache = res;
+                        cache[key] = res;
                         resolve(res);
                     }).error(function (res) {
                         reject(res);
                     });
-                });
-            }
+                }
+            });
         },
         getById: function (id) {
-            if (car && car.id == id) {
-                return $q(function (resolve) {
-                    resolve(car);
-                });
-            }
-            else {
-                return $q(function (resolve, reject) {
+            var key = URLS.model(service).one.replace('{id}', id);
+            return $q(function (resolve, reject) {
+                if (cache[key]) {
+                    resolve(angular.copy(cache[key]));
+                }
+                else {
                     $http.get(URLS.model(service).one.replace('{id}', id)).success(function (res) {
                         resolve(res.data);
+                        cache[key] = res.data;
                     }).error(function (res) {
                         reject(res);
                     });
-                });
-            }
+                }
+            });
+            
         },
         create: function (model) {
             return $q(function (resolve, reject) {
                 $http.post(URLS.model(service).all, model).success(function (res) {
-                    cache = undefined;
+                    cache = {};
                     resolve(res);
                 }).error(reject);
             });
@@ -50,8 +49,7 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
         update: function (model) {
             return $q(function (resolve, reject) {
                 $http.patch(URLS.model(service).all, model).success(function (res) {
-                    cache = undefined;
-                    car = undefined;
+                    cache = {};
                     resolve(res.data);
                 }).error(reject);
             });
@@ -59,17 +57,10 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
         delete: function (id) {
             return $q(function (resolve, reject) {
                 $http.delete(URLS.model(service).one.replace('{id}', id)).success(function (res) {
-                    cache = undefined;
-                    car = undefined;
+                    cache = {};
                     resolve(res)
                 }).error(reject);
             });
-        },
-        saveCurrent: function (_car) {
-            car = _car;
-        },
-        getCurrent: function () {
-            return car;
         }
     };
 }]);

@@ -2,9 +2,9 @@
 module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'AccountService', 'Event', function ($scope, $rootScope, $cookies, AccountService, Event) {
 
     function success(res) {
-        AccountService.setAuthenticationToken(res);
-        $rootScope.$broadcast(Event.Load.Dismiss, 'LOG_IN');
-        $scope.navigateTo('#/');
+        AccountService.setAuthenticationToken(res).then(function () {
+            window.location.href = '/';
+        });
     }
 
     function error (res, code) {
@@ -54,7 +54,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
     }
 
     $scope.facebookLogin = function (creds) {
-        $rootScope.$broadcast(Event.Load.Display, 'LOG_IN');
+        $rootScope.$broadcast(Event.Load.Display);
         AccountService.login(creds).success(function (res) {
             success(res);
         }).error(function (res) {

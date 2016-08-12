@@ -6,6 +6,7 @@ var Work = require('../database/models').Workgroup;
 var User = require('../database/models').User;
 var Shop = require('../database/models').Shop;
 var RepairWork = require('../database/models').RepairWork;
+var RepairImage = require('../database/models').RepairImage;
 var File = require('../database/models').File;
 var serializer = require('../serializers/repair-serializer');
 
@@ -20,7 +21,8 @@ class Share extends Base {
                     { model: Work },
                     { model: User, include: [{ model: File }] },
                     { model: Shop, include: [{ model: File }] },
-                    { model: RepairWork, include: [{ model: Work }] }
+                    { model: RepairWork, include: [{ model: Work }] },
+                     { model: RepairImage, include: [{ model: File }] }
                 ]
             }).then(function (_data) {
                 if (_data) {

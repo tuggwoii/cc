@@ -1,6 +1,6 @@
-﻿<nav>
+﻿<!--<nav>
     <div class="logo" ng-click="navigateTo('#/')">
-        <img src="/img/logo_top.png" alt="logo" />
+        
     </div>
     
     <div class="nav-right">
@@ -17,6 +17,36 @@
         </div>
         <div class="login-button-container" ng-if="user.id">
             <button type="button" class="btn btn-default" ng-click="logout()">{{strings['logout']}}</button>
+        </div>
+    </div>
+</nav>-->
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand logo" href="/"><img src="/img/logo_top.png" alt="logo" /></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="menu-item {{isHomePage?'active':''}}"><a href="/#/">Home</a></li>
+                <li class="menu-item {{isSharePage?'active':''}}"><a href="/#/shares">Share</a></li>
+                <li class="menu-item"><a href="/#/shares">Contact</a></li>
+                <li class="menu-item"><a href="/#/shares">FAQ</a></li>
+                <li>
+                    <div class="login-button-container" ng-if="!user.id">
+                        <button type="button" class="btn btn-default" ng-click="loginToggle()">{{strings['login']}}</button>
+                        <div class="login-popup animated fadeIn" ng-include="'/partials/login.html'" ng-show="displayLogin"></div>
+                    </div>
+                    <div class="login-button-container" ng-if="user.id">
+                        <button type="button" class="btn btn-default" ng-click="logout()">{{strings['logout']}}</button>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

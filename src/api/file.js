@@ -1,9 +1,11 @@
 ﻿'use strict';
+var path = require('path');
 var File = require('../database/models').File;
 var shortid = require('shortid');
 var multer = require('multer');
 var mime = require('mime');
 var BaseApi = require('./base');
+var Jimp = require("jimp");
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 
 class FileApi extends BaseApi {
@@ -44,22 +46,6 @@ class FileApi extends BaseApi {
         }
     }
 
-    add (context, req, res) {
-        var data = context.model(req.body);
-        context.validate(data).then(function () {
-            Role.create(data, { isNewRecord: true }).then(function (model) {
-                context.success(req, res, model);
-            }).catch(function (err) {
-                context.error(req, res, err, 500);
-            });
-        }).catch(function (err) {
-            var error = {
-                message: err
-            };
-            context.error(req, res, error, 400);
-        });
-    }
-
     config () {
         return multer.diskStorage({
             destination: function (req, file, cb) {
@@ -72,18 +58,37 @@ class FileApi extends BaseApi {
     }
 
     upload (context, req, res) {
-        console.log(req.file);
+        var path = '/files/' + req.file.filename;
+        var full_path = appRoot + path;
         var file = {
-            url: '/files/' + req.file.filename,
+            url: path,
             size: req.file.size,
             owner: req.user.id,
             is_use: false
         };
-        File.create(file, { isNewRecord: true }).then(function (_file) {
-            context.success(req, res, _file);
-        }).catch(function (err) {
-            context.error(req, res, err, 500);
-        });
+        var mb_size = (file.size / (1024 * 1024));
+        if (mb_size > 1) {
+            Jimp.read(full_path, function (err, image) {
+                if (err) {
+                    context.error(req, res, err, 500);
+                }
+                else {
+                    image.resize(600, Jimp.AUTO).write(full_path);
+                    File.create(file, { isNewRecord: true }).then(function (_file) {
+                        context.success(req, res, _file);
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
+                }
+            });
+        }
+        else {
+            File.create(file, { isNewRecord: true }).then(function (_file) {
+                context.success(req, res, _file);
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
     }
 
     endpoints () {

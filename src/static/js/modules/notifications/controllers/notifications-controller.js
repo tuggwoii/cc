@@ -1,7 +1,13 @@
 ﻿'use strict';
-module.controller('NotificationsController', ['$scope', '$timeout', '$rootScope', '$q', 'NotificationService', 'Helper', 'Event', function ($scope, $timeout, $rootScope, $q, NotificationService, Helper, Event) {
+module.controller('NotificationsController', ['$scope', '$timeout', '$rootScope', '$q', 'NotificationService', 'CarService', 'Helper', 'Event',
+function ($scope, $timeout, $rootScope, $q, NotificationService, CarService, Helper, Event) {
 
     $scope.isNotificationsPage = true;
+    
+    function isValid() {
+        $scope.page = 1;
+        return true;
+    }
 
     function initModel(items) {
         angular.forEach(items, function (i) {
@@ -9,40 +15,46 @@ module.controller('NotificationsController', ['$scope', '$timeout', '$rootScope'
         });
     }
 
-    $scope.init = function () {
-        $scope.page = 1;
-        $rootScope.$broadcast(Event.Car.Clear);
-        $scope.getAll();
+    $scope.notificationsPage = function () {
+        if ($scope.user_ready) {
+            if (isValid()) {
+                $scope.getAll();
+            }
+            else {
+                window.location.hash = '#/';
+            }
+        }
+        else {
+            $timeout(function () {
+                $scope.notificationsPage();
+            }, 200);
+        }
     };
 
     $scope.getAll = function () {
-        $rootScope.$broadcast(Event.Load.Display, 'GET_NOTIFICATION');
         $q.all([
-        NotificationService.get(0, $scope.page, $scope.carId).then(function (res) {
+            CarService.get().then(function (res) {
+                $scope.cars = angular.copy(res.data);
+            }),
+            NotificationService.get($scope.page, 0, $scope.carId).then(function (res) {
+                $scope.notifications = res.data;
+                $scope.pagings(res.meta);
+                initModel($scope.notifications);
+            })
+        ]).then(function () {
+            $scope.displayView();
+        });
+    };
+
+    $scope.filter = function () {
+        $rootScope.$broadcast(Event.Load.Display);
+        NotificationService.get($scope.page, 0, $scope.carId).then(function (res) {
             $scope.notifications = res.data;
             $scope.pagings(res.meta);
             initModel($scope.notifications);
-        }),
-        NotificationService.getByType(1).then(function (res) {
-            $scope.dateNotifications = res;
-            initModel($scope.dateNotifications);
-        }),
-        NotificationService.getByType(2).then(function (res) {
-            $scope.mileNotifications = res;
-            initModel($scope.mileNotifications);
-        })])
-        .then(function () {
-            $rootScope.$broadcast(Event.Load.Dismiss, 'GET_NOTIFICATION');
-        }).catch(function () {
-            $rootScope.$broadcast(Event.Load.Dismiss, 'GET_NOTIFICATION');
-        })
+            $rootScope.$broadcast(Event.Load.Dismiss);
+        });
     };
-
-    $scope.$on(Event.Car.PickCar, function (event, carId) {
-        $scope.carId = carId;
-        $scope.page = 1;
-        $scope.getAll();
-    });
 
     $scope.gotoPage = function (page) {
         if (page > $scope.pages.length) {
@@ -53,7 +65,7 @@ module.controller('NotificationsController', ['$scope', '$timeout', '$rootScope'
         }
         if ($scope.page != page) {
             $scope.page = page;
-            $scope.getAll();
+            $scope.filter();
         }
     };
 
@@ -68,5 +80,21 @@ module.controller('NotificationsController', ['$scope', '$timeout', '$rootScope'
         }
     };
 
-    $scope.init();
+    $scope.pickCar = function (car) {
+        if ($scope.carId != car.id) {
+            $scope.carId = car.id;
+            angular.forEach($scope.cars, function (_car) {
+                _car.active = false;
+            });
+            car.active = true;
+        }
+        else {
+            car.active = false;
+            $scope.carId = undefined;
+        }
+        $scope.page = 1;
+        $scope.filter();
+    };
+
+    $scope.notificationsPage();
 }]);

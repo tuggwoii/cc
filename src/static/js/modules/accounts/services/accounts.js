@@ -3,6 +3,8 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
 
     var service = 'accounts';
     var userAuthenticationCallback;
+    var userAuthenticationReject;
+    var facebookResponseFired = false;
 
     function me () {
         return $http.get(URLS.model(service).me);
@@ -14,42 +16,35 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
 
     function initUserAuthentication() {
         if ($cookies.get('Authorization')) {
+            if (app.debug) {
+                console.log('HAS USER COOKIE');
+            }
             me().success(function (res) {
+                if (app.debug) {
+                    console.log('SUCCESS ON GET ME INFO');
+                }
                 window.carcare.user = res.data;
                 $rootScope.$broadcast(Event.User.Update);
+                userAuthenticationCallback();
             }).error(function () {
+                if (app.debug) {
+                    console.error('ERROR ON GET ME INFO');
+                }
                 $cookies.remove('Authorization');
-                checkFacebookLoginState();
-            }).finally(function () {
-                doneCheckAuthentication();
+                userAuthenticationReject();
             });
         }
         else {
-            checkFacebookLoginState();
+            if (app.debug) {
+                console.log('NO AUTHENTICATION COOKIE');
+            }
+            notLoginState();
+            userAuthenticationReject();
         }
     }
 
     function notLoginState () {
         window.carcare.user = {};
-    }
-
-    function doneCheckAuthentication () {
-        userAuthenticationCallback();
-    }
-
-    function noFacebokLogin() {
-        notLoginState();
-        doneCheckAuthentication();
-    }
-
-    var max_try = 20;
-    var tries = 0;
-    function checkFacebookLoginState() {
-        FB.getLoginStatus(function (response) {
-            statusChangeCallback(response, facebookLogin, noFacebokLogin);
-        });
-        notLoginState();
-        doneCheckAuthentication();
     }
 
     function facebookLogin(creds) {
@@ -61,7 +56,7 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         }).error(function () {
             notLoginState();
         }).finally(function () {
-            doneCheckAuthentication();
+            userAuthenticationCallback();
         });
     }
 
@@ -92,15 +87,18 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
             });
         },
         setAuthenticationToken: function (res) {
-            var date = new Date();
-            var expire_date = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
-            $cookies.put('Authorization', res.data.token, { path: '/', expires: expire_date });
-            window.carcare.user = res.data;
-            $rootScope.$broadcast(Event.User.Update);
+            return $q(function (resolve) {
+                var date = new Date();
+                var expire_date = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
+                $cookies.put('Authorization', res.data.token, { path: '/', expires: expire_date });
+                window.carcare.user = res.data;
+                resolve();
+            });
         },
         initializeUserOnLoad: function () {
             return $q(function (resolve, reject) {
                 userAuthenticationCallback = resolve;
+                userAuthenticationReject = reject;
                 initUserAuthentication();
             });
         }

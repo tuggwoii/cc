@@ -1,10 +1,17 @@
 ﻿'use strict';
-module.controller('ShareController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'ShareService', 'Event', 'Helper',
-    function ($scope, $rootScope, $timeout, $q, $location, ShareService, Event, Helper) {
+module.controller('ShareController', ['$scope',
+    function ($scope) {
 
-        $scope.dateTime = function (date) {
-            console.log(date);
-            return Helper.readableDateTime(date);
-        }
+        var lightbox = lity();
+
+        $scope.loadShare = function () {
+            $scope.displayView();
+        };
+
+        $scope.lightbox = function (url) {
+            lightbox(url);
+        };
+
+        $scope.loadShare();
         
     }]);

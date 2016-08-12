@@ -1,7 +1,85 @@
-﻿@media screen and (min-width: 992px) {
-   
+﻿@media screen and (max-width: 992px) {
+    .app header nav {
+        .navbar-header {
+            float: none;
+        }
+
+        .navbar-toggle {
+            display: block;
+            float: right;
+            position: relative;
+        }
+
+        .navbar-collapse {
+            background: #333;
+            padding: 0;
+        }
+
+        .collapse {
+            display: none !important;
+        }
+
+        .collapse.in {
+            display: block !important;
+        }
+
+        .container-fluid {
+            padding: 0;
+        }
+
+        .navbar-nav {
+            padding: 20px;
+        }
+    }
+    .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+        margin-left:0;
+    }
 }
 
-@media screen and (min-width: 768px) {
-     
+@media screen and (max-width: 768px) {
+
+    .app header nav {
+        .navbar-nav {
+            float: none;
+            width: 100%;
+            position:relative;
+        }
+
+        .navbar-right {
+            li {
+                display: block;
+                position: static;
+
+                .login-button-container {
+                    position: absolute;
+                    right: 30px;
+                    top: 20px;
+                }
+            }
+        }
+
+        .navbar-header {
+            padding: 0 15px;
+        }
+
+        .navbar-collapse.in {
+            overflow: visible;
+        }
+    }
+    .app header .logo img {
+        max-width: 280px;
+    }
+    .app header .logo {
+        top: 20px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+
+    .app header .logo img {
+        max-width: 220px;
+    }
+    .app header .logo {
+        top: 22px;
+    }
 }

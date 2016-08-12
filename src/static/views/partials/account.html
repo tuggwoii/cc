@@ -53,6 +53,7 @@
                     </div>
                     <div ng-if="user.image">
                         <img class="user-profile-image" ng-src="{{user.image.url}}" alt="profile">
+                        <p class="error-message" id="invalidFile">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
                         <button class="btn btn-danger" ng-if="!uploading" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['change_image']}}</button>
                         <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
                     </div>

@@ -1,0 +1,38 @@
+﻿<div class="popup-container animated {{animation}}" ng-if="display">
+    
+    <div class="popup-panel">
+        <i class="fa fa-remove" ng-click="close()"></i>
+        <div class="shop-popup">
+            <h2>ค้นหาร้าน</h2>
+            <div class="form-group">
+                <input name="search"
+                       id="searchShop"
+                       type="text"
+                       class="form-control"
+                       ng-model="search.key"
+                       ng-change="searchShop()"
+                       ng-disabled="onSearchShop"
+                       placeholder="ใส่ชื่อร้านเพื่อให้ระบบเริ่มค้นหา" />
+                <p class="error-message margin-top animated fadeIn"
+                   ng-if="!model.shop && form_submit">
+                    {{strings['required']}}{{strings['repair_shop']}}
+                </p>
+                <span class="field-helper">
+                    พิมพ์ชื่อร้านเพื่อค้นหาร้าน เมื่อผลลัพท์แสดงกรุณาหาร้านจากรายการ ถ้าไม่มีผลค้นหาหรือผลลัพท์ให้กดที่ "สร้างใหม่เพราะไม่มีในรายการค้นหา" กรุณาหาจากผลการค้นหาก่อนสร้างร้านใหม่เพื่อป้องกันการสร้างร้านซ้ำซ้อน
+                </span>
+                <div class="sm-load" ng-include="'partials/sm-load.html'" ng-show="onSearchShop"></div>
+            </div>
+            <ul class="shop-list" ng-if="search.key && !onSearchShop && trySearch">
+                <li ng-repeat="s in shops" ng-click="selectShop(s)">
+                    <img ng-src="{{s.image.url}}" ng-if="s.image" />
+                    <img src="img/no-photo.jpg" ng-if="!s.image" />
+                    <span class="shop-name">{{s.name}}</span>
+                </li>
+                <li ng-if="search.key && trySearch" class="add-new" ng-click="createShop()">
+                    <i class="fa fa-plus"></i>
+                    <span>สร้างใหม่เพราะไม่มีในรายการค้นหา</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

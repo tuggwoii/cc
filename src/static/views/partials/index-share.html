@@ -1,14 +1,14 @@
-﻿<div class="box" ng-controller="IndexShareController">
+﻿<div class="box">
     <h3><i class="fa fa-share-alt" aria-hidden="true"></i> {{strings['shares']}}</h3>
     <div class="content-box" >
         <p class="nodata" ng-if="!shares || !shares.length">{{strings['no_data']}}</p>
         <div class="shares-list" ng-if="shares.length">
             <div class="share-item animated fadeIn" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
-                <div class="user-name">{{s.user.name}}</div>
+                <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
                 <div class="detail">
                     <div class="image">
-                        <img src="/img/noprofile.png" alt="profile" ng-if="!s.user.image || !s.user.image.url">
-                        <img ng-src="{{s.user.image.url}}" alt="profile" ng-if="s.user.image && s.user.image.url">
+                        <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
+                        <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
                     </div>
                     
                     <div class="info">

@@ -66,6 +66,24 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
                     resolve(res)
                 }).error(reject);
             });
+        },
+        uploadImage: function (model) {
+            return $q(function (resolve, reject) {
+                $http.post(URLS.model(service).image, model).success(function (res) {
+                    cache = {};
+                    ShareService.clearCache();
+                    resolve(res)
+                }).error(reject);
+            });
+        },
+        deleteImage: function (model) {
+            return $q(function (resolve, reject) {
+                $http.delete(URLS.model(service).image_id.replace('{id}', model.id)).success(function (res) {
+                    cache = {};
+                    ShareService.clearCache();
+                    resolve(res)
+                }).error(reject);
+            });
         }
     };
 }]);

@@ -8,9 +8,7 @@ module.factory('WorkgroupService', ['$q', '$http', 'URLS', function ($q, $http, 
         get: function () {
             return $q(function (resolve, reject) {
                 if (cache) {
-                    return $q(function (resolve) {
-                        resolve(cache);
-                    });
+                    resolve(cache);
                 }
                 else {
                     $http.get(URLS.model(service).all).success(function (res) {

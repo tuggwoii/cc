@@ -1,0 +1,179 @@
+﻿<div ng-controller="EditRepairController">
+    <div class="row user-profile animated fadeIn" ng-if="user.id">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                </li>
+                <li ng-if="!from_car">
+                    <a ng-click="navigateTo('#/repairs')">{{strings['nav_repairs']}} ></a>
+                </li>
+                <li ng-if="from_car">
+                    <a ng-click="navigateTo('#/car?id=' + carId)">Car ></a>
+                </li>
+                <li><a ng-click="navigateTo('#/repair?id=' + model.id + (from_car? ('&car=' + carId):''))">Repair ></a></li>
+                <li>Edit</li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="subpage">
+                <h1>
+                    <img src="img/logo.png" />
+                    <span ng-if="!isRepairDetail">{{strings['head_add_repair']}}</span>
+                    <span ng-if="isRepairDetail">{{strings['head_edit_repair']}}</span>
+                </h1>
+                <form name="form" class="repair-form">
+                    <span class="sr-only" ng-init="setForm(form)"></span>
+                    <!--TITLE-->
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['repair_title']}}
+                            <span class="required">*</span>
+                        </label>
+                        <input name="title"
+                               type="text"
+                               class="form-control"
+                               placeholder="หัวข้อเรื่องการซ่อมบำรุง"
+                               ng-model="model.title"
+                               ng-required="true" />
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="form.title.$error.required && form.title.$dirty">
+                            {{strings['required']}}{{strings['repair_title']}}
+                        </p>
+                    </div>
+
+                    <!--WORKGROUP-->
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['repair_workgroup']}}
+                            <span class="required">*</span>
+                        </label>
+                        <select name="group"
+                                type="text"
+                                class="form-control"
+                                ng-model="model.work"
+                                ng-required="true">
+                            <option value=""></option>
+                            <option value="{{work.id}}" ng-repeat="work in workgroup">{{work.name}}</option>
+                        </select>
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="form.group.$error.required && form.group.$dirty">
+                            {{strings['required']}}{{strings['repair_workgroup']}}
+                        </p>
+                    </div>
+
+                    <!--MILE-->
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['repair_mile']}}
+                            <span class="required">*</span>
+                        </label>
+                        <input name="mile"
+                               type="number"
+                               class="form-control"
+                               placeholder="เลขกิโลที่ทำการซ่อมบำรุง"
+                               ng-model="model.mile"
+                               ng-required="true" />
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="form.mile.$error.required && form.mile.$dirty">
+                            {{strings['required']}}{{strings['repair_mile']}}
+                        </p>
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="form.mile.$error.number && form.mile.$dirty">
+                            {{strings['only_number']}}
+                        </p>
+                    </div>
+
+                    <!--DATE-->
+                    <div class="form-group">
+                        <div class="short-field">
+                            <label class="capital">
+                                วันที่
+                                <span class="required">*</span>
+                            </label>
+                            <select class="form-control"
+                                    name="day"
+                                    ng-model="model.day"
+                                    ng-required="true">
+                                <option ng-repeat="date in dates" value="{{date}}">{{date}}</option>
+                            </select>
+                            <p class="error-message margin-top animated fadeIn"
+                               ng-if="form.day.$error.required && form.day.$dirty">
+                                กรุณาเลือกวันที่
+                            </p>
+                        </div>
+                        <div class="short-field">
+                            <label class="capital">
+                                เดือน
+                                <span class="required">*</span>
+                            </label>
+                            <select name="month"
+                                    class="form-control"
+                                    ng-model="model.month"
+                                    ng-required="true">
+                                <option ng-repeat="month in months" value="{{month}}">{{month}}</option>
+                            </select>
+                            <p class="error-message margin-top animated fadeIn"
+                               ng-if="form.month.$error.required && form.month.$dirty">
+                                กรุณาเลือกเดือน
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            ปี (พ.ศ.)
+                            <span class="required">*</span>
+                        </label>
+                        <input name="year"
+                               type="text"
+                               class="form-control"
+                               placeholder="ปี พ.ศ."
+                               ng-model="model.year"
+                               ng-required="true" />
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="form.year.$error.required && form.year.$dirty">
+                            กรุณากรอกปี
+                        </p>
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="status.invalid_year">
+                            ปีไม่ถูกต้อง
+                        </p>
+                    </div>
+
+                    <!--REMARK-->
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['repair_remark']}}
+                        </label>
+                        <textarea type="text"
+                                  class="form-control"
+                                  placeholder="กรอกรายละเอียดเพิ่มเติม/หมายเหตุ"
+                                  ng-model="model.remark"></textarea>
+                    </div>
+
+                    <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
+                    <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
+                    <p class="success-message margin-top animated fadeIn" ng-if="status.success">{{strings['update_success']}}</p>
+                    <p class="error-message margin-top animated fadeIn" ng-if="status.car_expire">{{strings['car_expire_message']}}</p>
+                    <hr />
+
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-danger" ng-click="update(form)">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i> {{strings['update']}}
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

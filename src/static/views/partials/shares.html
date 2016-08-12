@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
-                <div class="col-md-8" ng-controller="CarController" ng-include="'partials/index-car.html'"></div>
+                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
                         <option value="5">5 ดาว</option>
                     </select>
                 </div>
-                <button class="btn btn-danger"  ng-click="getAll()"><i class="fa fa-search"></i></button>
+                <button class="btn btn-danger"  ng-click="getAll(true)"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
@@ -52,11 +52,11 @@
         <div class="shares-list">
             <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
             <div class="share-item animated fadeIn" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
-                <div class="user-name">{{s.user.name}}</div>
+                <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
                 <div class="detail">
                     <div class="image">
-                        <img src="/img/noprofile.png" alt="profile" ng-if="!s.user.image || !s.user.image.url">
-                        <img ng-src="{{s.user.image.url}}" alt="profile" ng-if="s.user.image && s.user.image.url">
+                        <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
+                        <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
                     </div>
                     <div class="info">
                         <div class="workgroup">{{s.workgroup.name}}</div>
@@ -71,4 +71,3 @@
         <button class="btn btn-danger loadMore" ng-click="loadMore()" ng-if="hasMore">โหลดเพิ่ม</button>
     </div>
 </div>
-

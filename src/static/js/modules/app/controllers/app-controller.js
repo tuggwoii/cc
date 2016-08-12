@@ -1,50 +1,55 @@
 ﻿'use strict';
-module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookies', '$q', 'AccountService', 'StringService', 'PageService', 'Event', 'FileService', 'WorkgroupService', 'CarService',
-    function ($scope, $rootScope, $timeout, $cookies, $q, AccountService, StringService, PageService, Event, FileService, WorkgroupService, CarService) {
+module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookies', '$q', 'AccountService', 'StringService', 'Event', 'FileService', 'WorkgroupService', 'CarService',
+    function ($scope, $rootScope, $timeout, $cookies, $q, AccountService, StringService, Event, FileService, WorkgroupService, CarService) {
+
+        $scope.strings_ready = false;
+        $scope.user_ready = false;
+
+        function clearWorksState() {
+            angular.forEach($scope.workgroup, function (w) {
+                w.active = false;
+            });
+        }
+
+        $scope.displayView = function () {
+            recursiveFooter();
+            $timeout(function () {
+                $rootScope.$broadcast(Event.Load.Dismiss);
+                $timeout(function () {
+                    $scope.viewReady = true;
+                }, 500);
+            }, 100);
+        };
 
         $scope.init = function () {
-            $q.all([
-                AccountService.initializeUserOnLoad().then(function () {
-                    $rootScope.$broadcast(Event.User.Loaded);
-                    if ($scope.user && $scope.user.id) {
-                        CarService.get().then(function (res) {
-                            $scope.cars = res.data;
-                        });
-                    }
-                }),
-                StringService.getStrings().success(function (strings) {
-                    $scope.strings = strings;
-                }),
-                WorkgroupService.get().then(function (data) {
-                    $scope.workgroup = angular.copy(data);
-                })
-            ]).then(function () {
-                $rootScope.$broadcast(Event.Page.Ready);
-                $timeout(function () {
-                    $scope.viewReady = true;
-                    $timeout(function () {
-                        $rootScope.$broadcast(Event.Load.Dismiss);
-                    }, 200);
-                }, 500);
-            }).catch(function () {
-                $rootScope.$broadcast(Event.Page.Ready);
-                $timeout(function () {
-                    $scope.viewReady = true;
-                    $timeout(function () {
-                        $rootScope.$broadcast(Event.Load.Dismiss);
-                    }, 200);
-                }, 500);
+            AccountService.initializeUserOnLoad().then(function () {
+                $scope.user_ready = true;
+                if (app.debug) {
+                    console.log('LOGIN BY', $scope.user);
+                }
+            }).catch(function (err) {
+                if (app.debug) {
+                    console.log('NOT LOGIN, ANONIMOUS USER');
+                }
+                $scope.user_ready = true;
             });
+            StringService.getStrings().success(function (strings) {
+                $scope.strings = strings;
+                $scope.strings_ready = true;
+            });
+            if (error_404 || error_500) {
+                $scope.displayView();
+            }
         };
 
         $scope.navigateTo = function (url, isRedirect) {
             if (isRedirect) {
-                $rootScope.$broadcast(Event.Load.Display, 'PAGE_CHANGE');
+                $rootScope.$broadcast(Event.Load.Display);
                 window.location.href = url;
             }
             else {
                 if (url !== window.location.hash) {
-                    $rootScope.$broadcast(Event.Load.Display, 'PAGE_CHANGE');
+                    $rootScope.$broadcast(Event.Load.Display);
                     if (!window.location.hash) {
                         if (url == '#/') {
                             window.location.href = '/';
@@ -63,21 +68,30 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
 
         $scope.upload = function (files) {
             $scope.uploading = true;
-            FileService.upload(files[0]).then(function (file) {
-                $rootScope.$broadcast(Event.File.Success, file);
-                $scope.uploading = false;
-                $scope.uploadSave = true;
-                $timeout(function () {
-                    $scope.uploadSave = false;
-                }, 5000)
-            }).catch(function () {
-                alert('UPLOAD ERROR');
-            });
+            $('#invalidFile').hide();
+            if (files && files.length) {
+                var file = files[0];
+                console.log(file.type);
+                if (file.type == 'image/jpeg' || file.type == 'image/jpg' || file.type == 'image/png' || file.type == 'image/gif') {
+                    FileService.upload(files[0]).then(function (file) {
+                        $rootScope.$broadcast(Event.File.Success, file);
+                        $scope.uploading = false;
+                        $('#fileUpload').val('');
+                    }).catch(function () {
+                        $('#fileUpload').val('');
+                        alert('UPLOAD ERROR');
+                    });
+                }
+                else {
+                    $('#fileUpload').val('');
+                    $scope.uploading = false;
+                    $('#invalidFile').show();
+                }
+            }
         };
 
         $scope.$on(Event.User.Update, function () {
             $scope.user = window.carcare.user;
-            $rootScope.$broadcast(Event.Page.Ready);
         });
 
         $scope.$on(Event.Car.Clear, function () {
@@ -106,24 +120,20 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         });
 
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
-
+            $rootScope.$broadcast(Event.Load.Display);
+            $scope.viewReady = false;
+            $('footer').hide();
         });
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            $rootScope.$broadcast(Event.Load.Dismiss, 'PAGE_CHANGE');
-            angular.forEach($scope.workgroup, function (w) {
-                w.active = false;
-            });
-            recursiveFooter();
+     
         });
 
         $scope.logout = function () {
+            $rootScope.$broadcast(Event.Load.Display, 'PAGE_CHANGE');
+            AccountService.logout();
             $cookies.remove('Authorization');
-            AccountService.logout().then(function () {
-                window.location.href = '/';
-            }).catch(function () {
-                window.location.href = '/';
-            });
+            window.location.href = '/';
         };
 
         $scope.loginToggle = function () {
