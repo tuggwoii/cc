@@ -1,4 +1,14 @@
-﻿@media screen and (max-width: 992px) {
+﻿@media screen and (max-width: 1200px) {
+    .app .subpage {
+        padding: 20px 30px 50px 30px;
+    }
+    .app .wrapper .shares-list .share-item {
+        width: 50%;
+        padding-right: 10px;
+    }
+}
+
+@media screen and (max-width: 992px) {
     .app header nav {
         .navbar-header {
             float: none;
@@ -31,8 +41,39 @@
             padding: 20px;
         }
     }
-    .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
-        margin-left:0;
+
+    .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+        margin-left: 0;
+    }
+
+    .view .container {
+        width: 100%;
+    }
+
+    .app .wrapper .user-profile h3 {
+        margin: 10px 0 5px 0;
+    }
+
+    .app .wrapper .ads-box {
+        padding-top: 10px;
+        display: inline-block;
+        width: 100%;
+
+        .ads {
+            float: left;
+            width: 49%;
+            text-align: left;
+            margin-left: 2%;
+
+            .ads-image {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        .ads:first-child {
+              margin-left: 0;
+        }
     }
 }
 
@@ -42,7 +83,7 @@
         .navbar-nav {
             float: none;
             width: 100%;
-            position:relative;
+            position: relative;
         }
 
         .navbar-right {
@@ -66,11 +107,20 @@
             overflow: visible;
         }
     }
+
     .app header .logo img {
         max-width: 280px;
     }
+
     .app header .logo {
         top: 20px;
+    }
+
+    .col-md-8, .col-md-4, .col-md-12 {
+        padding: 0;
+    }
+    .car-col, .user-col {
+        padding: 0 15px;
     }
 }
 
@@ -79,6 +129,7 @@
     .app header .logo img {
         max-width: 220px;
     }
+
     .app header .logo {
         top: 22px;
     }

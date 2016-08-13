@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'ShareService', 'WorkgroupService', 'Event', 'Helper',
-    function ($scope, $rootScope, $timeout, $q, $location, ShareService, WorkgroupService, Event, Helper) {
+module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'ShareService', 'WorkgroupService', 'CarService', 'Event', 'Helper',
+    function ($scope, $rootScope, $timeout, $q, $location, ShareService, WorkgroupService, CarService, Event, Helper) {
 
         $scope.query = {
             limits: 20
@@ -12,6 +12,9 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                  $scope.getAll(),
                  WorkgroupService.get().then(function (data) {
                      $scope.workgroup = angular.copy(data);
+                 }),
+                 CarService.get().then(function (res) {
+                     $scope.cars = angular.copy(res.data);
                  })
             ]).then(function () {
                 $scope.displayView();

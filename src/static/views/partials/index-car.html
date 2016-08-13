@@ -1,10 +1,10 @@
 ﻿<div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 car-col">
         <h3><i class="fa fa-car" aria-hidden="true"></i> {{strings['your_car']}}</h3>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-4 col-md-6" ng-repeat="car in cars">
+    <div class="col-lg-4 col-md-6 col-xs-6" ng-repeat="car in cars">
         <div class="car-item {{car.active?'active':''}}" title="{{car.brand}} {{car.series}}">
             <a ng-click="pickCar(car)">
                 <img src="img/car.png" alt="car" ng-if="!car.image" />
@@ -18,7 +18,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-4 col-md-6 col-xs-6">
         <div class="car-item add" ng-click="navigateTo('#/new-car')">
             <i class="fa fa-plus"></i>
             <span>{{strings['add']}}</span>

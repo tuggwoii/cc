@@ -37,6 +37,9 @@ module.factory('Event', [function () {
         },
         Work: {
             DisplayPopup: 'DISPLAY_WORK_POPUP'
+        },
+        Repair: {
+            DisplayCaptionPopup: 'DISPLAY_IMAGE_CAPTION_POPUP'
         }
     };
 }]);
