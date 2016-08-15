@@ -84,6 +84,15 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
                     resolve(res)
                 }).error(reject);
             });
+        },
+        saveImage: function (model) {
+            return $q(function (resolve, reject) {
+                $http.patch(URLS.model(service).image, model).success(function (res) {
+                    cache = {};
+                    ShareService.clearCache();
+                    resolve(res)
+                }).error(reject);
+            });
         }
     };
 }]);

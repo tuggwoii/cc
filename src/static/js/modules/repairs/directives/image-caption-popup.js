@@ -1,4 +1,4 @@
-﻿module.directive('imageCaptionPopup', ['$timeout', '$rootScope', 'Event', 'WorkService', function ($timeout, $rootScope, Event, WorkService) {
+﻿module.directive('imageCaptionPopup', ['$timeout', '$rootScope', 'Event', 'RepairService', function ($timeout, $rootScope, Event, RepairService) {
     return {
         restrict: 'E',
         templateUrl: '/partials/image-caption-popup.html',
@@ -22,13 +22,23 @@
             scope.$on(Event.Repair.DisplayCaptionPopup, function (event, model, callback) {
                 if (!scope.display) {
                     scope.display = true;
+                    scope.error = false;
                     scope.animation = 'fadeIn';
+                    scope.model = angular.copy(model);
                     scope.callback = callback;
                 }
             });
 
             scope.save = function (form) {
-                
+                $rootScope.$broadcast(Event.Load.Display);
+                RepairService.saveImage(scope.model).then(function () {
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                    scope.callback(scope.model);
+                    scope.close();
+                }).catch(function () {
+                    scope.error = true;
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                });
             };
         }
     };

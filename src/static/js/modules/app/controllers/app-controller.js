@@ -132,7 +132,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         $scope.logout = function () {
             $rootScope.$broadcast(Event.Load.Display, 'PAGE_CHANGE');
             AccountService.logout();
-            $cookies.remove('Authorization');
+            $cookies.remove('Authorization', { path: '/' });
             window.location.href = '/';
         };
 

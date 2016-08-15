@@ -22,6 +22,7 @@
             scope.$on(Event.Work.DisplayPopup, function (event, model, works, callback) {
                 if (!scope.display) {
                     scope.display = true;
+                    scope.error = false;
                     scope.animation = 'fadeIn';
                     scope.work = angular.copy(model);
                     scope.works = works;

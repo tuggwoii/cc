@@ -73,7 +73,7 @@
     }
 
     .popup-panel.workpopup {
-         height: 700px;
+          height: 700px;
           margin-top: -350px;
 
           .form-group {
@@ -83,6 +83,11 @@
           .btn {
               margin-top: 10px;
           }
+    }
+
+    .popup-panel.image-caption {
+        height: 320px;
+         margin-top: -160px;
     }
 
 }

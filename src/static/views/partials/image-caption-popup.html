@@ -3,8 +3,11 @@
         <i class="fa fa-remove" ng-click="close()"></i>
         <div class="work-popup">
             <h2>Caption รูป</h2>
-            
-
+            <div class="form-group">
+                <textarea ng-model="model.caption" class="form-control" placeholder="ใส่คำบรรยายของรูปภาพ"></textarea>
+            </div>
+            <p class="error-message animated fadeIn" ng-if="error">พบปัญหาบางอย่างกรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ</p>
+            <button type="button" ng-click="save()" class="btn btn-danger">Save</button>
         </div>
     </div>
 </div>

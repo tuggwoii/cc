@@ -128,6 +128,7 @@ body {
 
             .navbar-collapse {
                 padding: 22px 15px;
+                border-color: #333;
             }
 
             .navbar-toggle {
@@ -137,10 +138,6 @@ body {
 
             .navbar-header {
                 height: 80px;
-            }
-
-            .navbar-collapse {
-                border-color: #333;
             }
         }
 
@@ -323,12 +320,13 @@ body {
         }
 
         .view {
+            position:relative;
             display: inline-block;
             width: 100%;
             animation-duration: 1s;
             -webkit-animation-duration: 1s;
             -moz-animation-duration: 1s;
-
+            z-index: 5;
             .tabs {
                 height: 120px;
                 display: inline-block;
@@ -646,7 +644,7 @@ body {
             .ads {
                 margin-top: 15px;
                 text-align: right;
-                cursor:pointer;
+                cursor: pointer;
 
                 .ads-image {
                     width: 100%;
@@ -1154,31 +1152,46 @@ body {
             }
 
             .repair-images {
-                width: calc(100% + 30px);
+                width: calc(100% + 40px);
                 display: inline-block;
+                
+                .repair-image {
+                    margin-right: 30px;
+                    width: 285px;
+                    height: 220px;
+                    margin-bottom: 100px;
+                    position: relative;
+                    cursor: pointer;
+                    border: 5px solid #444;
+                    overflow: visible;
+                }
 
-            }
+                .caption {
+                    bottom: -70px;
+                    left: -5px;
+                    position: absolute;
+                    width: calc(100% + 10px);
+                    height: 60px;
+                    background: rgba(0,0,0,0.6);
+                    overflow:hidden; 
+                    padding: 7px 10px;
+                    font-size: 20px;
+                    box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0 rgba(0,0,0,0.2);
+                    border-radius: 2px;
+                    line-height: 1.3;
+                }
 
-            .repair-image {
-                margin-right: 30px;
-                width: 290px;
-                height: 250px;
-                margin-bottom: 30px;
-                position:relative;
-                cursor:pointer;
-                border: 5px solid #444;
-
-                 .controls {
-                   display:none;  
-                    top:0;
-                    left:0;
-                    position:absolute;
+                .controls {
+                    display: none;
+                    bottom: 0;
+                    left: 0;
+                    position: absolute;
                     width: 100%;
                     height: 100%;
                     background: rgba(0,0,0,0.5);
 
                     .del, .cap {
-                        position:absolute;
+                        position: absolute;
                         top: 50%;
                         left: 50%;
                         color: #f05f23;
@@ -1188,22 +1201,22 @@ body {
                         margin-left: 25px;
                         margin-top: -22px;
                     }
+
                     .cap {
-                        margin-left: -25px;
+                        margin-left: -40px;
                         margin-top: -20px;
                     }
-                 }
+                }
             }
 
             .repair-image:hover {
 
                 .controls {
-                   
-                    display:block;
-
+                    display: block;
+                }
+                .caption {
                     
                 }
-
             }
 
             .info {
@@ -1584,8 +1597,8 @@ body {
     }
 
     .repair-detail, .share-detail-page {
-       
-         .info.noimage {
+
+        .info.noimage {
             padding-left: 0;
         }
 
@@ -1696,5 +1709,4 @@ body {
             background-color: #666;
         }
     }
-
 }

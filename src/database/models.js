@@ -462,6 +462,10 @@ var RepairImage = sequelize.define('repair_images', {
         type: Sequelize.INTEGER,
         field: 'imageId'
     },
+    caption: {
+        type: Sequelize.STRING,
+        field: 'caption'
+    },
     owner: {
         type: Sequelize.INTEGER,
         field: 'owner'

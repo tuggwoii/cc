@@ -583,6 +583,39 @@ class RepairApi extends BaseApi {
         }
     }
 
+    updateImage(context, req, res) {
+        var file = req.body;
+        if (file.id) {
+            RepairImage.findById(file.id, {
+                include: [
+                    { model: User }
+                ]
+            }).then(function (_repair_image) {
+                if (_repair_image) {
+                    var owner = _repair_image.owner;
+                    if (req.user.id === owner) {
+                        _repair_image.updateAttributes(file).then(function (_updated_repair_image) {
+                            context.success(req, res, _updated_repair_image);
+                        }).catch(function (err) {
+                            context.error(req, res, err, 500);
+                        });
+                    }
+                    else {
+                        context.denied(res);
+                    }
+                }
+                else {
+                    context.notfound(res);
+                }
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+        else {
+            context.error(req, res, { message: 'INVALID MOEL' }, 400);
+        }
+    }
+
     deleteImage(context, req, res) {
         if (req.params.id) {
             RepairImage.findById(req.params.id, {
@@ -634,6 +667,7 @@ class RepairApi extends BaseApi {
             { url: '/repairs', method: 'delete', roles: ['admin', 'user'], response: this.delete, params: ['id'] },
             { url: '/repairs/image', method: 'post', roles: ['admin', 'user'], response: this.saveImage },
             { url: '/repairs/image', method: 'delete', roles: ['admin', 'user'], response: this.deleteImage, params: ['id'] },
+            { url: '/repairs/image', method: 'patch', roles: ['admin', 'user'], response: this.updateImage }
         ];
     }
 }

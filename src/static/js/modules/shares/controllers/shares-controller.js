@@ -8,17 +8,36 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
 
         $scope.sharesPage = function () {
             $scope.currentPage = 1;
-            $q.all([
-                 $scope.getAll(),
-                 WorkgroupService.get().then(function (data) {
-                     $scope.workgroup = angular.copy(data);
-                 }),
-                 CarService.get().then(function (res) {
-                     $scope.cars = angular.copy(res.data);
-                 })
-            ]).then(function () {
-                $scope.displayView();
-            });
+            if ($scope.user_ready) {
+                if ($scope.user && $scope.user.id) {
+                    $q.all([
+                         $scope.getAll(),
+                         WorkgroupService.get().then(function (data) {
+                             $scope.workgroup = angular.copy(data);
+                         }),
+                         CarService.get().then(function (res) {
+                             $scope.cars = angular.copy(res.data);
+                         })
+                    ]).then(function () {
+                        $scope.displayView();
+                    });
+                }
+                else {
+                    $q.all([
+                         $scope.getAll(),
+                         WorkgroupService.get().then(function (data) {
+                             $scope.workgroup = angular.copy(data);
+                         })
+                    ]).then(function () {
+                        $scope.displayView();
+                    });
+                }
+            }
+            else {
+                $timeout(function () {
+                    $scope.sharesPage();
+                }, 200);
+            }
         };
 
         $scope.getAll = function (notify) {

@@ -178,6 +178,13 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             });
         };
 
+        $scope.imageCaption = function (image, index) {
+            $rootScope.$broadcast(Event.Repair.DisplayCaptionPopup, image, function (model) {
+                console.log(model);
+                $scope.model.repair_images[index] = model;
+            });
+        };
+
         $scope.lightbox = function (url) {
             lightbox(url);
         };
