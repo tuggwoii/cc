@@ -7,6 +7,7 @@ var File = require('../database/models').File;
 var bcrypt = require('bcrypt-nodejs');
 var salt = bcrypt.genSaltSync(10);
 var shortid = require('shortid');
+var IP = require('ipware')().get_ip;
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 var FB = require('fb'),
     fb = new FB.Facebook({version: 'v2.6'});
@@ -286,7 +287,9 @@ class AccountApi extends BaseApi {
 						};
 						context.validateRegister(data, true).then(function () {
 							var user = context.registerModel(data);
-							User.create(user, { isNewRecord: true }).then(function (model) {
+							var ip = IP(req);
+							user.ip = ip.clientIp;
+						    User.create(user, { isNewRecord: true }).then(function (model) {
 								context.findByEmail(_res.email).then(function (_users) {
 									if(_users.length) {
 										var _user = context.loginSerializer(_users[0]);
@@ -318,8 +321,11 @@ class AccountApi extends BaseApi {
 
     register (context, req, res) {
         var data = req.body;
+        var ip = IP(req);
+        console.log('IP ADDRESS: '+ ip);
         context.validateRegister(data).then(function () {
             var model = context.registerModel(data);
+            model.ip = ip.clientIp;
             User.create(model, { isNewRecord: true }).then(function (_user) {
                 var user = context.loginSerializer(_user);
                 User.findById(user.id, {

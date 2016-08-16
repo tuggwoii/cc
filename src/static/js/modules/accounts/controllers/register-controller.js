@@ -4,8 +4,8 @@ module.controller('RegisterController', ['$scope', '$rootScope', 'AccountService
     $scope.model = {};
     $scope.status = {};
 
-    $scope.onLoad = function () {
-       
+    $scope.registerPage = function () {
+        $scope.displayView();
     };
 
     $scope.submit = function (form) {
@@ -40,6 +40,6 @@ module.controller('RegisterController', ['$scope', '$rootScope', 'AccountService
         }
     };
 
-    $scope.onLoad();
+    $scope.registerPage();
 
 }]);
