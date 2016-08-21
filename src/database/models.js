@@ -231,6 +231,10 @@ var Notification = sequelize.define('notifications', {
     enable: {
         type: Sequelize.BOOLEAN,
         field: 'enable'
+    },
+    repair_id: {
+        type: Sequelize.INTEGER,
+        field: 'repairId'
     }
 });
 
@@ -487,12 +491,14 @@ Log.belongsTo(User, { foreignKey: 'by' });
 Notification.belongsTo(Car, { foreignKey: 'for_car' });
 Notification.belongsTo(Workgroup, { foreignKey: 'work' });
 Notification.belongsTo(User, { foreignKey: 'owner' });
+Notification.belongsTo(Repair, { foreignKey: 'repair_id' });
 Repair.belongsTo(User, { foreignKey: 'owner' });
 Repair.belongsTo(Car, { foreignKey: 'for_car' });
 Repair.belongsTo(Shop, { foreignKey: 'repair_shop' });
 Repair.belongsTo(Workgroup, { foreignKey: 'work' });
 Repair.hasMany(RepairWork, { foreignKey: 'for_repair' });
 Repair.hasMany(RepairImage, { foreignKey: 'repair_id' });
+Repair.hasMany(Notification, { foreignKey: 'repair_id' });
 RepairWork.belongsTo(Repair, { foreignKey: 'for_repair' });
 RepairWork.belongsTo(User, { foreignKey: 'owner' });
 RepairWork.belongsTo(Workgroup, { foreignKey: 'work' });

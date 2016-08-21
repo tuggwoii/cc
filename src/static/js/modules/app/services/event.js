@@ -33,7 +33,8 @@ module.factory('Event', [function () {
             DispayPopup:'DISPLAY_SHOP_POPUP'
         },
         Notification: {
-            Ready: 'NOTIFICATION_READY'
+            Ready: 'NOTIFICATION_READY',
+            DisplayPopup: 'DISPLAY_NOTIFICATION_POPUP'
         },
         Work: {
             DisplayPopup: 'DISPLAY_WORK_POPUP'

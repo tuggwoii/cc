@@ -6,6 +6,7 @@ var Car = require('../database/models').Car;
 var Work = require('../database/models').Workgroup;
 var Shop = require('../database/models').Shop;
 var File = require('../database/models').File;
+var Notification = require('../database/models').Notification;
 var RepairImage = require('../database/models').RepairImage;
 var RepairWork = require('../database/models').RepairWork;
 var RepairSerializer = require('../serializers/repair-serializer');
@@ -200,7 +201,8 @@ class RepairApi extends BaseApi {
                     { model: User },
                     { model: Shop },
                     { model: RepairWork, include: [{ model: Work }] },
-                    { model: RepairImage, include: [{ model: File }] }
+                    { model: RepairImage, include: [{ model: File }] },
+                    { model: Notification }
                 ]
             }).then(function (data) {
                 resolve(data);

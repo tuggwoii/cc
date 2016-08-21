@@ -136,6 +136,15 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             });
         };
 
+        $scope.openNotification = function () {
+            $rootScope.$broadcast(Event.Notification.DisplayPopup,
+                { repair: $scope.model.id, work: $scope.model.work + '' },
+                $scope.workgroup,
+                function () {
+                    $scope.reload();
+                });
+        };
+
         $scope.calPrice = function () {
             var price = 0.0;
             angular.forEach($scope.model.repair_works, function (i) {
