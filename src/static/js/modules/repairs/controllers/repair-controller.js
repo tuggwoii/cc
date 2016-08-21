@@ -138,7 +138,8 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
 
         $scope.openNotification = function () {
             $rootScope.$broadcast(Event.Notification.DisplayPopup,
-                { repair: $scope.model.id, work: $scope.model.work + '' },
+                { car: $scope.model.car.id, repair: $scope.model.id, work: $scope.model.work + '', enable: true },
+                $scope.strings,
                 $scope.workgroup,
                 function () {
                     $scope.reload();

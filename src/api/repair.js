@@ -311,7 +311,7 @@ class RepairApi extends BaseApi {
             offset: skip,
             limit: items
         }).then(function (data) {
-            Repair.count(q).then(function (count) {
+            Repair.count({ where: q }).then(function (count) {
                 var meta = {
                     count: count,
                     limits: items

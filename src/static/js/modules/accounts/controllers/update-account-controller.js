@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$cookies', 'AccountService', 'CarService', 'Event', function ($scope, $rootScope, $timeout, $cookies, AccountService, CarService, Event) {
+module.controller('UpdateAccountController', ['$scope', '$rootScope', '$timeout', '$cookies', 'AccountService', 'Event', function ($scope, $rootScope, $timeout, $cookies, AccountService, Event) {
 
     function isValid() {
         return $scope.user && $scope.user.id;
@@ -9,17 +9,13 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
         $scope.form = form;
     };
 
-    $scope.accountPage = function () {
-
+    $scope.updateAccountPage = function () {
+        
         if ($scope.user_ready) {
             if (isValid()) {
                 $scope.status = {};
                 $scope.model = angular.copy($scope.user);
-
-                CarService.get().then(function (res) {
-                    $scope.cars = angular.copy(res.data);
-                    $scope.displayView();
-                });
+                $scope.displayView();
             }
             else {
                 window.location.hash = '#/';
@@ -42,15 +38,9 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
             $scope.status = {};
             $rootScope.$broadcast(Event.Load.Display);
             AccountService.update($scope.model).then(function (res) {
-                $scope.status.success = true;
                 window.carcare.user = res.data.data;
-                $rootScope.$broadcast(Event.Load.Dismiss);
                 $rootScope.$broadcast(Event.User.Update);
-                $timeout(function () {
-                    $scope.status = {};
-                    $scope.is_submit = false;
-                }, 5000);
-
+                $scope.navigateTo('#/account');
             }).catch(function (res) {
                 if (res.data && res.data.error.message === 'INVALID OLD PASSWORD') {
                     $scope.status.invalid_password = true;
@@ -79,14 +69,6 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
         $scope.update($scope.form);
     };
 
-    $scope.editAccount = function () {
-        $scope.navigateTo('#/update-account');
-    };
-
-    $scope.pickCar = function (car) {
-        $scope.navigateTo('#/car?id=' + car.id);
-    };
-
     $scope.$on(Event.File.Success, $scope.setProfileImage);
-    $scope.accountPage();
+    $scope.updateAccountPage();
 }]);

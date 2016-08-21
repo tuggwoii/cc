@@ -87,10 +87,10 @@
                                 <label>เบอร์โทรศัพท์: </label>
                                 <span>{{model.shop.telephone? model.shop.telephone:'ไม่ระบุ'}}</span>
                             </div>
-                            <div class="title">
+                            <!--<div class="title">
                                 <label>Rating: </label>
                                 <rating-star rating="model.shop.rating"></rating-star>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <p ng-if="!model.shop || !model.shop.id">ยังไม่ได้ระบุร้าน</p>
@@ -115,7 +115,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="work in model.repair_works">
-                                <td>{{work.detail?work.detail:'ไม่ระบุ'}}</td>
+                                <td>{{work.title?work.title:'ไม่ระบุ'}}</td>
                                 <td>{{work.workgroup?work.workgroup.name:'ไม่ระบุ'}}</td>
                                 <td>{{work.detail?work.detail:''}}</td>
                                 <td>{{work.price ? work.price : 0}} บาท</td>
@@ -155,6 +155,23 @@
                     <button ng-if="uploading"  class="btn btn-danger edit-link" disabled>กำลังอัพรูป...</button>
                 </div>
 
+                <h2><i class="fa fa-bell" aria-hidden="true"></i> การแจ้งเตือนที่สร้างจากรายการนี้</h2>
+                <div class="detail-section">
+
+                    <div class="notification-link">
+                        <p ng-if="!model.notifications.length">ไม่มีการแจ้งเตือนที่สร้างจากรายการนี้</p>
+                        <ul>
+                            <li ng-repeat="n in model.notifications">
+                                <a href="#/notification?id={{n.id}}&car={{model.car.id}}">{{n.title}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-danger edit-link" ng-click="openNotification()">
+                        เพิ่มรายการ
+                    </button>
+                </div>
+
                 <h2><i class="fa fa-star" aria-hidden="true"></i> ให้คะแนน/share</h2>
                 <div class="detail-section">
                     <p class="summary-score">
@@ -172,13 +189,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-
-                <h2><i class="fa fa-bell" aria-hidden="true"></i> การแจ้งเตือนที่สร้างจากรายการนี้</h2>
-                <div class="detail-section">
-                    <button class="btn btn-danger edit-link" ng-click="openNotification()">
-                        เพิ่มรายการ
-                    </button>
                 </div>
             </div>
         </div>

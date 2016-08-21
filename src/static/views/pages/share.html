@@ -97,6 +97,35 @@
                             </div>
                         </div>
 
+                        <h2><i class="fa fa-map-marker" aria-hidden="true"></i> ร้านที่ทำการซ่อมบำรุง</h2>
+                        <div class="detail-section">
+                            <div class="image">
+                                <img src="<%= shop.file?shop.file.url:'/img/no-photo.jpg' %>" alt="shop-image" />
+                            </div>
+                            <div class="info">
+                                <div class="title">
+                                    <label>ชื่อร้าน: </label>
+                                    <span><%= shop.name %></span>
+                                </div>
+                                <div class="title">
+                                    <label>เจ้าของร้าน: </label>
+                                    <span><%= shop.owner_name? shop.owner_name:'ไม่ระบุ' %></span>
+                                </div>
+                                <div class="title">
+                                    <label>ที่อยู่: </label>
+                                    <span><%= shop.address? shop.address:'ไม่ระบุ' %></span>
+                                </div>
+                                <div class="title">
+                                    <label>เบอร์โทรศัพท์: </label>
+                                    <span><%= shop.telephone? shop.telephone:'ไม่ระบุ' %></span>
+                                </div>
+                                <!--<div class="title">
+                                    <label>Rating: </label>
+                                    <rating-star rating="<%= shop.rating %>"></rating-star>
+                                </div>-->
+                            </div>
+                        </div>
+
                         <h2><i class="fa fa-wrench" aria-hidden="true"></i> รายการซ่อมบำรุง <span class="count">(<%= repair_works.length?repair_works.length:0 %>)</span></h2>
                         <div class="detail-section">
                             <% if(!repair_works.length) {%>
@@ -157,34 +186,6 @@
                            
                         </div>
 
-                        <h2><i class="fa fa-map-marker" aria-hidden="true"></i> ร้านที่ทำการซ่อมบำรุง</h2>
-                        <div class="detail-section">
-                            <div class="image">
-                                <img src="<%= shop.file?shop.file.url:'/img/no-photo.jpg' %>" alt="shop-image" />
-                            </div>
-                            <div class="info">
-                                <div class="title">
-                                    <label>ชื่อร้าน: </label>
-                                    <span><%= shop.name %></span>
-                                </div>
-                                <div class="title">
-                                    <label>เจ้าของร้าน: </label>
-                                    <span><%= shop.owner_name? shop.owner_name:'ไม่ระบุ' %></span>
-                                </div>
-                                <div class="title">
-                                    <label>ที่อยู่: </label>
-                                    <span><%= shop.address? shop.address:'ไม่ระบุ' %></span>
-                                </div>
-                                <div class="title">
-                                    <label>เบอร์โทรศัพท์: </label>
-                                    <span><%= shop.telephone? shop.telephone:'ไม่ระบุ' %></span>
-                                </div>
-                                <div class="title">
-                                    <label>Rating: </label>
-                                    <rating-star rating="<%= shop.rating %>"></rating-star>
-                                </div>
-                            </div>
-                        </div>
 
                         <h2><i class="fa fa-user"></i> แชร์โดย</h2>
                         <div class="detail-section">

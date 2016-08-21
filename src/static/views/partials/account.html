@@ -1,119 +1,69 @@
-﻿<div class="container">
-    <div class="subpage away-top">
-        <h1>
-            <img src="img/logo.png" />
-            <span>{{strings['edit_profile_header']}}</span>
-        </h1>
-        <div class="breadcrumb">
-            <ul>
-                <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
-                </li>
-                <li>{{strings['nav_edit_profile']}}</li>
-            </ul>
+﻿<div ng-controller="AccountController">
+
+
+    <div class="row user-profile animated fadeIn" ng-if="user.id">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
+            </div>
         </div>
-        <form name="form" ng-controller="AccountController" class="login-form">
-            <span class="sr-only" ng-init="setForm(form)"></span>
-            <div class="section left">
-                <div class="fields">
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['name']}}
-                        </label>
-                        <input name="name"
-                               type="text"
-                               class="form-control"
-                               placeholder="Name"
-                               ng-model="model.name"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.name.$error.required && form.name.$dirty">
-                            {{strings['required']}}{{strings['name']}}
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['email']}}
-                        </label>
-                        <input type="email"
-                               class="form-control"
-                               ng-disabled="true"
-                               placeholder="E-mail"
-                               ng-model="model.email"
-                               ng-required="true" />
-                    </div>
-                </div>
+    </div>
+    <div class="container">
+        <div class="subpage away-top">
+            <h1>
+                <img src="img/logo.png" />
+                <span>ข้อมูลส่วนตัว</span>
+            </h1>
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    </li>
+                    <li>Account</li>
+                </ul>
             </div>
-            <div class="section right">
+
+            <div class="detail-section">
                 <div class="image">
-                    <div ng-if="!user.image">
-                        <img src="/img/noprofile.png" alt="profile" ng-if="!user.image">
-                        <button ng-if="!uploading" class="btn btn-danger" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['select_image']}}</button>
-                        <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                    <img ng-if="!user.image || !user.image.url" src="/img/noprofile.png" alt="profile">
+                    <img ng-if="user.image && user.image.url" class="user-profile-image" ng-src="{{user.image.url}}" alt="profile">
+                </div>
+                <div class="info">
+                    <div class="title">
+                        <label>ชื่อที่แสดง:</label>
+                        <span>{{user.name}}</span>
                     </div>
-                    <div ng-if="user.image">
-                        <img class="user-profile-image" ng-src="{{user.image.url}}" alt="profile">
-                        <p class="error-message" id="invalidFile">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
-                        <button class="btn btn-danger" ng-if="!uploading" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['change_image']}}</button>
-                        <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                    <div class="title">
+                        <label>
+                            E-mail:
+                        </label>
+                        <span>{{user.email}}</span>
+                    </div>
+                    <div class="title">
+                        <label>
+                            เบอร์โทร:
+                        </label>
+                        <span>{{user.telephone?user.telephone:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>
+                            ที่อยู่:
+                        </label>
+                        <span>{{user.address?user.address:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>
+                            จำนวนรถที่มีได้:
+                        </label>
+                        <span>{{user.max_car}} คัน</span>
                     </div>
                 </div>
+
+                <button class="btn btn-danger edit-link" ng-click="editAccount()">
+                    แก้ไขข้อมูล
+                </button>
             </div>
-            <hr />
-            <h4>{{strings['change_password']}}</h4>
-            <div class="section left">
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['password']}}
-                    </label>
-                    <input name="password"
-                           type="password"
-                           class="form-control"
-                           placeholder="New Password"
-                           ng-model="model.password" />
-                    <p class="error-message margin-top animated fadeIn"
-                       ng-if="form.password.$error.required && form.password.$dirty">
-                        {{strings['required']}} {{strings['password']}}
-                    </p>
-                </div>
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['confirm_password']}}
-                    </label>
-                    <input type="password"
-                           class="form-control"
-                           ng-model="model.confirm_password"
-                           placeholder="Confirm Password"
-                           ng-required="model.password" />
-                    <p class="error-message margin-top animated fadeIn"
-                       ng-if="model.password && model.password!==model.confirm_password && is_submit">
-                        {{strings['password_mismatch']}}
-                    </p>
-                </div>
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['old_password']}}
-                    </label>
-                    <input type="password"
-                           class="form-control"
-                           placeholder="Old Password"
-                           ng-model="model.old_password" />
-                    <p class="error-message margin-top animated fadeIn"
-                       ng-if="model.password && !model.old_password && is_submit">
-                        {{strings['required']}} {{strings['old_password']}}
-                    </p>
-                    <p class="error-message margin-top animated fadeIn"
-                       ng-if="status.invalid_password">
-                        {{strings['invalid_old_password']}}
-                    </p>
-                </div>
-            </div>
-            <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
-            <p class="success-message margin-top animated fadeIn" ng-if="status.success">{{strings['update_success']}}</p>
-            <hr />
-            <button type="button" class="btn btn-danger" ng-click="update(form)">
-                {{strings['save']}}
-            </button>
-        </form>
+        </div>
     </div>
 </div>

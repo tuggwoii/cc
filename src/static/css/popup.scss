@@ -8,14 +8,14 @@
     animation-duration: 0.5s;
     -webkit-animation-duration: 0.5s;
     -moz-animation-duration: 0.5s;
-     z-index: 997;
+    z-index: 997;
 
     .load-container {
-        position:absolute;
+        position: absolute;
         margin-top: -60px;
         margin-left: -75px;
         top: 50%;
-        left:50%;
+        left: 50%;
         width: 130px;
         background: #000;
         padding: 15px 32px;
@@ -23,9 +23,9 @@
     }
 
     .popup-panel {
-        position:absolute;
+        position: absolute;
         top: 50%;
-        left:50%;
+        left: 50%;
         width: 600px;
         height: 600px;
         margin-top: -300px;
@@ -39,70 +39,90 @@
         }
 
         .fa-remove {
-            position:absolute;
+            position: absolute;
             right: 20px;
             top: 20px;
-            color:#ccc;
-            cursor:pointer;
+            color: #ccc;
+            cursor: pointer;
         }
 
         label {
             padding: 0;
-            margin:0;
+            margin: 0;
         }
 
         input, select, textarea {
-                width: 100%;
-                max-width: 999px;
+            width: 100%;
+            max-width: 999px;
         }
 
 
         .shop-popup {
-            
+
             .form-group {
-                position:relative;
+                position: relative;
             }
 
             .sm-load {
-                position:absolute;
+                position: absolute;
                 top: 10px;
                 right: 15px;
             }
-
         }
     }
 
     .popup-panel.workpopup {
-          height: 700px;
-          margin-top: -350px;
+        height: 700px;
+        margin-top: -350px;
 
-          .form-group {
-              margin-bottom: 10px;
-          }
+        .form-group {
+            margin-bottom: 10px;
+        }
 
-          .btn {
-              margin-top: 10px;
-          }
+        .btn {
+            margin-top: 10px;
+        }
     }
 
     .popup-panel.image-caption {
         height: 320px;
-         margin-top: -160px;
+        margin-top: -160px;
     }
 
+    .popup-panel.notification {
+        overflow-y: auto;
+
+        .notification-popup {
+            input, select {
+                height: 40px;
+                font-size: 22px;
+            }
+
+            .short-field {
+                max-width: 500px;
+                width: 48%;
+                margin-right: 4%;
+            }
+
+            .short-field:last-child {
+                margin-right: 0;
+            }
+        }
+    }
 }
 
 .popup-container.confirm {
     animation-duration: 0.15s;
-    -webkit-animation-duration:0.15s;
+    -webkit-animation-duration: 0.15s;
     -moz-animation-duration: 0.15s;
     z-index: 998;
+
     .confirm-container {
-        position:absolute;
+        position: absolute;
         margin-top: -100px;
         margin-left: -125px;
         top: 50%;
-        left:50%;
+        left: 50%;
         width: 280px;
         height: auto;
         background: #000;
@@ -114,7 +134,6 @@
             min-width: 80px;
             height: 35px;
         }
-
     }
 }
 

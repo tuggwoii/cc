@@ -14,7 +14,7 @@ module.controller('EditNotificationController', ['$scope', '$rootScope', '$timeo
         function getById() {
             $q.all([
                 NotificationService.getById($scope.params.id).then(function (data) {
-                    $scope.model = data;
+                    $scope.model = angular.copy(data);
                     setInitModel($scope.model);
 
                 }).catch(function () {

@@ -3,6 +3,7 @@ var Notification = require('../database/models').Notification;
 var User = require('../database/models').User;
 var Car = require('../database/models').Car;
 var Work = require('../database/models').Workgroup;
+var Repair = require('../database/models').Repair;
 var BaseApi = require('./base');
 var url = require('url');
 var limits = 10;
@@ -19,6 +20,7 @@ class NotificationApi extends BaseApi {
             work: data.work,
             for_car: data.car,
             owner: user,
+            repair_id: data.repair,
             enable: data.enable,
         };
         if (data.id) {
@@ -177,7 +179,8 @@ class NotificationApi extends BaseApi {
                 include: [
                     { model: Car },
                     { model: Work },
-                    { model: User }
+                    { model: User },
+                    { model: Repair }
                 ]
             }).then(function (data) {
                 resolve(data);

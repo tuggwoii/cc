@@ -68,7 +68,7 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
         $scope.loadMore = function () {
             $scope.currentPage++;
             $rootScope.$broadcast(Event.Load.Display);
-            ShareService.get($scope.currentPage, 20).then(function (res) {
+            ShareService.get($scope.currentPage, { limits: 20}).then(function (res) {
                 $scope.shares = $scope.shares.concat(res.data);
                 $scope.meta(res.meta);
                 $rootScope.$broadcast(Event.Load.Dismiss);

@@ -13,6 +13,9 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('account', {
           url: "/account",
           templateUrl: "partials/account.html"
+      }).state('update-account', {
+          url: "/update-account",
+          templateUrl: "partials/update-account.html"
       }).state('car', {
           url: "/car",
           templateUrl: "partials/car.html"

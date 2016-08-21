@@ -11,7 +11,7 @@ module.controller('NotificationController', ['$scope', '$rootScope', '$timeout',
         function getById() {
             $q.all([
                 NotificationService.getById($scope.params.id).then(function (data) {
-                    $scope.model = data;
+                    $scope.model = angular.copy(data);
                     setInitModel($scope.model);
 
                 }).catch(function () {
@@ -41,7 +41,7 @@ module.controller('NotificationController', ['$scope', '$rootScope', '$timeout',
         }
 
         function isValid() {
-            return $scope.params.id;
+            return $scope.params.id && $scope.user && $scope.user.id;
         }
 
         $scope.notificationPage = function () {
