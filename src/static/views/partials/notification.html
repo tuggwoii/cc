@@ -57,7 +57,7 @@
                             </div>
                             <div class="title" ng-if="model.type==2">
                                 <label>เลขกิโลที่แจ้งเตือน: </label>
-                                <span>{{model.mile}} กิโลเมตร</span>
+                                <span>{{model.mile.formatMoney(0, '.', ',')}} กิโลเมตร</span>
                             </div>
                             <div class="title">
                                 <label>รายละเอียด: </label>

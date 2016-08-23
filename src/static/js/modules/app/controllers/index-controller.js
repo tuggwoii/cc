@@ -36,10 +36,12 @@ module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupServ
                 NotificationService.getByType(1).then(function (res) {
                     $scope.dateNotifications = res;
                     initModel($scope.dateNotifications);
+                    $scope.dateNotifications = groupNotificationByCar($scope.dateNotifications);
                 }),
                 NotificationService.getByType(2).then(function (res) {
                     $scope.mileNotifications = res;
                     initModel($scope.mileNotifications);
+                    $scope.mileNotifications = groupNotificationByCar($scope.mileNotifications);
                 }),
                 ShareService.get(1, { limits: 12 }).then(function (res) {
                     $scope.shares = res.data;
@@ -52,6 +54,26 @@ module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupServ
                 $scope.displayView();
             });
         };
+
+        function groupNotificationByCar(items) {
+            var results = [];
+            angular.forEach(items, function (noti) {
+                var exist = false;
+                angular.forEach(results, function (car) {
+                    if (car.id == noti.car.id) {
+                        car.notifications.push(noti);
+                        exist = true;
+                    }
+                });
+                if (!exist) {
+                    var noti_car = angular.copy(noti.car);
+                    noti_car.notifications = [];
+                    noti_car.notifications.push(noti);
+                    results.push(noti_car);
+                }
+            });
+            return results;
+        }
 
         $scope.loadIndex = function () {
             if ($scope.user_ready && $scope.strings_ready) {

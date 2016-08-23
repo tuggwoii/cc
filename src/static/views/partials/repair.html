@@ -123,7 +123,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p class="summary-price">รวมทั้งหมด: {{model.price?model.price: 0}} บาท</p>
+                    <p class="summary-price">รวมทั้งหมด: <span class="price">{{model.price?model.price.formatMoney(2, '.', ',') : 0}} บาท</span></p>
                     <button class="btn btn-danger edit-link" ng-click="openWork()">
                         เพิ่มรายการ
                     </button>
@@ -189,6 +189,8 @@
                             </div>
                         </div>
                     </form>
+
+                    <a class="share-link" href="/share/{{model.id}}">ไปยังหน้า Share ของรายการนี้ <i class="fa fa-angle-right" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>

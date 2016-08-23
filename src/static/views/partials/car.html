@@ -78,18 +78,20 @@
                 <div class="notification-half-box">
                     <h4>
                         <i class="fa fa-road" aria-hidden="true"></i>
-                        <span>ระยะทาง ({{mileTotal}})</span>
+                        <span>ตามระยะทาง ({{mileTotal}})</span>
                     </h4>
                     <p class="nodata" ng-if="!noti_miles.length">{{strings['no_data']}}</p>
                     <ul ng-if="noti_miles.length" class="notilist">
                         <li ng-repeat="n in noti_miles" ng-click="navigateTo('#/notification?id='+n.id + '&car=' + car.id)">
+                            <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
                             <span class="title">{{n.title}}</span>
+                            <!--<span class="title">{{n.title}}</span>
                             <span class="detail">{{n.detail}}</span>
                             <span class="date">กิโลเมตรที่: {{n.mile}}</span>
                             <span class="status">
                                 <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
                                 <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
-                            </span>
+                            </span>-->
                         </li>
                     </ul>
                     <ul class="paging" ng-if="milePagings.length>1">
@@ -103,18 +105,20 @@
                 <div class="notification-half-box">
                     <h4>
                         <i class="fa fa-calendar" aria-hidden="true"></i>
-                        <span>เวลา ({{dateTotal}})</span>
+                        <span>ตามกำหนดวัน ({{dateTotal}})</span>
                     </h4>
                     <p class="nodata" ng-if="!noti_date.length">{{strings['no_data']}}</p>
                     <ul class="notilist" ng-if="noti_date.length">
                         <li ng-repeat="n in noti_date" ng-click="navigateTo('#/notification?id='+n.id + '&car=' + car.id)">
+                            <span>{{n.date_str}} | </span>
                             <span class="title">{{n.title}}</span>
+                            <!--<span class="title">{{n.title}}</span>
                             <span class="detail">{{n.detail}}</span>
                             <span class="date">{{n.date_str}}</span>
                             <span class="status">
                                 <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
                                 <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
-                            </span>
+                            </span>-->
                         </li>
                     </ul>
                     <ul class="paging" ng-if="datePagings.length>1">

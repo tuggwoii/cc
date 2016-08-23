@@ -153,7 +153,7 @@
                                 </tbody>
                             </table>
                             <% } %>
-                            <p class="summary-price">รวมทั้งหมด: <%= price?price:0 %> บาท</p>
+                            <p class="summary-price">รวมทั้งหมด: <span class="price"><%= price?price:0 %> บาท</span></p>
                             <p class="summary-score">
                                 ให้คะแนนการซ่อมบำรุงในครั้งนี้:
                                 <rating-star rating="<%= score %>"></rating-star> (<%= rating_text %>)

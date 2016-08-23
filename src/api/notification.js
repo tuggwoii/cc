@@ -141,9 +141,16 @@ class NotificationApi extends BaseApi {
 
     getNotificationByUserId(queries, limits, skip) {
         var promise = new Promise(function (resolve, reject) {
+            var order = [["createdAt", "DESC"]];
+            if (queries.type == 1) {
+                order = [["date", "ASC"]];
+            }
+            else if (queries.type == 2) {
+                order = [["mile", "ASC"]];
+            }
             Notification.findAll({
                 where: queries,
-                order: [["createdAt", "DESC"]],
+                order: order,
                 include: [
                     { model: Car },
                     { model: Work },

@@ -320,13 +320,14 @@ body {
         }
 
         .view {
-            position:relative;
+            position: relative;
             display: inline-block;
             width: 100%;
             animation-duration: 1s;
             -webkit-animation-duration: 1s;
             -moz-animation-duration: 1s;
             z-index: 5;
+
             .tabs {
                 height: 120px;
                 display: inline-block;
@@ -541,17 +542,15 @@ body {
                     line-height: 1;
                     font-size: 20px;
                     display: inline-block;
-                    width: 100%;
-                    margin-top: 20px;
+                    min-width: 51%;
+                    margin-top: 5px;
                     cursor: pointer;
 
-                    span {
-                        display: block;
-                    }
 
                     .title {
                         color: rgb(247, 93, 34);
                         font-size: 24px;
+                        display:inline;
                     }
 
                     .date {
@@ -1156,7 +1155,7 @@ body {
             .repair-images {
                 width: calc(100% + 40px);
                 display: inline-block;
-                
+
                 .repair-image {
                     margin-right: 30px;
                     width: 285px;
@@ -1175,7 +1174,7 @@ body {
                     width: calc(100% + 10px);
                     height: 60px;
                     background: rgba(0,0,0,0.6);
-                    overflow:hidden; 
+                    overflow: hidden;
                     padding: 7px 10px;
                     font-size: 20px;
                     box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14),0 3px 3px -2px rgba(0,0,0,0.12),0 1px 8px 0 rgba(0,0,0,0.2);
@@ -1216,8 +1215,8 @@ body {
                 .controls {
                     display: block;
                 }
+
                 .caption {
-                    
                 }
             }
 
@@ -1252,6 +1251,18 @@ body {
                 padding: 20px 5px 0 5px;
                 color: #fff;
                 font-size: 26px;
+            }
+
+            .summary-price {
+                text-align: right;
+                color: #f55d22;
+                font-weight: bold;
+
+                .price {
+                    font-size: 35px;
+                    color: #44ff50;
+                    font-family: saraban-bold;
+                }
             }
 
             .summary-score {
@@ -1294,7 +1305,7 @@ body {
                 .title {
                     font-size: 26px;
                     color: #f75d22;
-                    display: block;
+                    display: inline;
                 }
 
                 .detail {
@@ -1717,16 +1728,47 @@ body {
             width: 100%;
             padding: 5px 10px;
             border-top: 1px dashed #666;
+
             a {
                 color: #fff;
             }
         }
+
         li:first-child {
-             border-top: none;
+            border-top: none;
         }
     }
 
     .away-top {
         margin-top: 20px;
+    }
+
+    .share-link {
+        margin-top: 25px;
+        display: inline-block;
+
+        .fa {
+            margin-left: 10px;
+            position: relative;
+            top: 2px;
+        }
+    }
+
+    .wrapper .content-box ul .index-car-noti {
+        cursor:default;
+
+        span.car-model {
+             display: inline-block;
+             margin-bottom: 10px;
+             margin-top: 10px;
+        } 
+
+        .index-noti-item {
+            padding-left: 15px;
+        }
+        .fa {
+            font-size: 14px;
+            margin-right: 5px;
+        }
     }
 }

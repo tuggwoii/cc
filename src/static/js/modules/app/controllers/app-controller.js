@@ -43,27 +43,34 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         };
 
         $scope.navigateTo = function (url, isRedirect) {
-            if (isRedirect) {
-                $rootScope.$broadcast(Event.Load.Display);
-                window.location.href = url;
+            if (url === '#/new-car' && $scope.user.max_car < $('.car-item').length) {
+                $scope.max_car = true;
             }
             else {
-                if (url !== window.location.hash) {
+                $scope.max_car = false;
+                if (isRedirect) {
                     $rootScope.$broadcast(Event.Load.Display);
-                    if (!window.location.hash) {
-                        if (url == '#/') {
-                            window.location.href = '/';
+                    window.location.href = url;
+                }
+                else {
+                    if (url !== window.location.hash) {
+                        $rootScope.$broadcast(Event.Load.Display);
+                        if (!window.location.hash) {
+                            if (url == '#/') {
+                                window.location.href = '/';
+                            }
+                            else {
+                                window.location.href = url;
+                            }
                         }
                         else {
-                            window.location.href = url;
+                            $scope.displayLogin = false;
+                            window.location.hash = url;
                         }
-                    }
-                    else {
-                        $scope.displayLogin = false;
-                        window.location.hash = url;
                     }
                 }
             }
+            
         };
 
         $scope.upload = function (files) {

@@ -2,6 +2,9 @@
     <div class="col-md-12 car-col">
         <h3><i class="fa fa-car" aria-hidden="true"></i> {{strings['your_car']}}</h3>
     </div>
+    <div class="col-md-12" ng-if="max_car">
+        <p class="error-message margin-top animated fadeIn">{{strings['max_car_message']}}</p>
+    </div>
 </div>
 <div class="row">
     <div class="col-lg-4 col-md-6 col-xs-6" ng-repeat="car in cars">
