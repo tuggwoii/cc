@@ -1,10 +1,22 @@
 ﻿@media screen and (max-width: 1200px) {
-    .app .subpage {
-        padding: 20px 30px 50px 30px;
-    }
-    .app .wrapper .shares-list .share-item {
-        width: 50%;
-        padding-right: 10px;
+    .app {
+
+        .wrapper {
+            .subpage {
+                padding: 20px 30px 50px 30px;
+            }
+
+            .filters {
+                .field-container {
+                    width: 106%;
+
+                    .form-group {
+                        max-width: 999px;
+                        width: 45%;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -73,7 +85,7 @@
         }
 
         .ads:first-child {
-              margin-left: 0;
+            margin-left: 0;
         }
     }
 }
@@ -117,14 +129,58 @@
         top: 20px;
     }
 
-    .col-md-8, .col-md-4, .col-md-12 {
-        padding: 0;
+    .app {
+        .wrapper {
+            .works {
+                .works-title, .work-list {
+                    display: block;
+                    width: 100%;
+                }
+            }
+        }
     }
-    .car-col, .user-col {
-        padding: 0 15px;
+
+    .app .wrapper {
+        .content-box .miles {
+            width: 100%;
+            border-bottom:1px dashed #666;
+            padding-bottom: 30px;
+        }
+        .content-box .dates {
+            margin-top:20px;
+            width: 100%;
+        }
     }
 }
+@media screen and (max-width: 550px) {
 
+    .app {
+        .wrapper {
+            .filters {
+                .field-container {
+                     width: 100%;
+
+                    .form-group {
+                        width:100%;
+                    }
+                    .form-control.half {
+                        width: 47.5%;
+                    }
+                    .form-control.half:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+            .ads-box .ads {
+                width:100%;
+                margin-left:0;
+            }
+            .content-box {
+                padding: 20px 15px 70px 15px;
+            }
+        }
+    }
+}
 @media screen and (max-width: 500px) {
 
     .app header .logo img {
@@ -133,5 +189,13 @@
 
     .app header .logo {
         top: 22px;
+    }
+    .container {
+        padding: 0;
+    }
+    .view {
+        .container-fluid {
+            padding: 0;
+        }
     }
 }
