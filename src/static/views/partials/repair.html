@@ -137,7 +137,7 @@
                             <div class="image repair-image" ng-repeat="image in model.repair_images">
                                 <img ng-src="{{image.file?image.file.url:'/img/no-photo.jpg'}}" alt="images" />
                                 <div class="caption">{{image.caption}}</div>
-                                <div class="controls" ng-click="lightbox(image.file.url)">
+                                <div class="controls" ng-click="lightbox(image.file.url, image.caption, $index)">
                                     <div class="cap" ng-click="imageCaption(image, $index);$event.stopPropagation()">
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </div>

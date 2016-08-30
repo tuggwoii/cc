@@ -1759,3 +1759,34 @@ body {
         }
     }
 }
+
+.lity-container {
+    max-width: 650px;
+    
+    .lb-caption {
+        max-width: 650px;
+        position:absolute;
+        line-height:1;
+        padding: 10px;
+    }
+    .lb-next {
+         position:absolute;
+         right:0;
+          cursor:pointer;
+         top: 40%;
+         .fa {
+             font-size: 70px;
+             color:#fff;
+         }
+    }
+    .lb-prev {
+         position:absolute;
+         left:0;
+         cursor:pointer;
+         top: 40%;
+         .fa {
+             font-size: 70px;
+             color:#fff;
+         }
+    }
+}
