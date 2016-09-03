@@ -9,12 +9,21 @@ module.controller('NewRepairController', ['$scope', '$rootScope', '$timeout', '$
         $scope.from_car = $scope.params.car ? true : false;
         $scope.carId = $scope.params.car;
 
+        function initModel () {
+            $scope.model = {
+                car: $scope.carId,
+                date: new Date()
+            };
+            $scope.model.year = ($scope.model.date.getFullYear() + 543) + '';
+            $scope.model.month = ($scope.model.date.getMonth() + 1) + '';
+            $scope.model.day = $scope.model.date.getDate() + '';
+            console.log($scope.model);
+        }
+
         $scope.newRepair = function () {
             if ($scope.user_ready) {
                 if ($scope.user && $scope.user.id) {
-                    $scope.model = {
-                        car: $scope.carId
-                    };
+                    
                     $q.all([
                         CarService.get().then(function (res) {
                             $scope.cars = angular.copy(res.data);
@@ -30,6 +39,7 @@ module.controller('NewRepairController', ['$scope', '$rootScope', '$timeout', '$
                             $scope.workgroup = angular.copy(data);
                         })
                     ]).then(function () {
+                        initModel();
                         $scope.displayView();
                     });
                 }

@@ -6,7 +6,7 @@
 
         },
         link: function (scope, element, attrs) {
-
+            
             scope.close = function () {
                 if (scope.display) {
                     $timeout(function () {
@@ -66,7 +66,7 @@
                 scope.callback(shop);
             };
 
-            scope.$on(Event.Shop.DisplayPopup, function (event, callback) {
+            scope.$on(Event.Shop.DisplayPopup, function (event, prev_shops, callback) {
                 if (!scope.display) {
                     scope.animation = 'fadeIn';
                     $timeout.cancel(scope.shopSearchTask);
@@ -76,11 +76,23 @@
                     scope.search = {};
                     scope.trySearch = false;
                     scope.onSearchShop = false;
+                    scope.prev_shops = prev_shops;
                     scope.callback = callback;
+                    scope.shop = {
+                        selected: ''
+                    }
                 }
             });
 
-
+            scope.shopChange = function () {
+                if (scope.shop.selected) {
+                    var selected_shop = JSON.parse(scope.shop.selected);
+                    if (selected_shop.id) {
+                        scope.close();
+                        scope.callback(selected_shop);
+                    }
+                }
+            }
         }
     };
 }]);

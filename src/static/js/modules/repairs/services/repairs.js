@@ -67,6 +67,20 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
                 }).error(reject);
             });
         },
+        getPreviousShop: function () {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).shops;
+                if (cache[key]) {
+                    resolve(cache[key]);
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        cache[key] = res;
+                        resolve(res)
+                    }).error(reject);
+                }
+            });
+        },
         uploadImage: function (model) {
             return $q(function (resolve, reject) {
                 $http.post(URLS.model(service).image, model).success(function (res) {

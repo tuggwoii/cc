@@ -659,6 +659,21 @@ class RepairApi extends BaseApi {
         }
     }
 
+    getPreviousShop(context, req, res) {
+        Repair.all({
+            where: {
+                owner: req.user.id
+            },
+            include: [
+                { model: Shop }
+            ]
+        }).then(function (data) {
+            context.success(req, res, { repairs: data }, {}, RepairSerializer.shops);
+        }).catch(function (err) {
+            context.error(req, res, err, 500);
+        });
+    }
+
     endpoints() {
         return [
             { url: '/shares', method: 'get', roles: [], response: this.getAll },
@@ -669,7 +684,8 @@ class RepairApi extends BaseApi {
             { url: '/repairs', method: 'delete', roles: ['admin', 'user'], response: this.delete, params: ['id'] },
             { url: '/repairs/image', method: 'post', roles: ['admin', 'user'], response: this.saveImage },
             { url: '/repairs/image', method: 'delete', roles: ['admin', 'user'], response: this.deleteImage, params: ['id'] },
-            { url: '/repairs/image', method: 'patch', roles: ['admin', 'user'], response: this.updateImage }
+            { url: '/repairs/image', method: 'patch', roles: ['admin', 'user'], response: this.updateImage },
+            { url: '/repair/shops', method: 'get', roles: ['admin', 'user'], response: this.getPreviousShop }
         ];
     }
 }

@@ -333,11 +333,6 @@ body {
                 display: inline-block;
                 width: 100%;
             }
-
-            .container {
-                padding: 0;
-                padding-right: 15px;
-            }
         }
 
         .profile {
@@ -359,7 +354,6 @@ body {
                 float: left;
                 width: 50%;
                 max-width: 150px;
-                text-align: center;
 
                 img {
                     max-width: 120px;
@@ -677,7 +671,6 @@ body {
             .work-list {
                 float: left;
                 width: calc(100% - 200px);
-                padding: 10px;
 
                 .work-item {
                     display: inline-block;
@@ -696,14 +689,15 @@ body {
 
         .filters {
             background: rgba(52,52,52,0.4);
-            padding: 30px 0;
+            padding: 30px 15px;
 
             .form-group {
                 display: inline-block;
                 float: left;
                 max-width: 305px;
-                margin-left: 5%;
-                width: 27%;
+                margin-right: 5%;
+                width: 26.285%;
+                min-width: 200px;
 
                 label {
                     font-size: 34px;
@@ -711,7 +705,7 @@ body {
                 }
 
                 .form-control.half {
-                    margin-left: 5%;
+                    margin-right: 5%;
                     display: inline-block;
                     float: left;
                 }
@@ -728,7 +722,6 @@ body {
             .btn {
                 min-width: 70px;
                 float: left;
-                margin-left: 5%;
                 margin-top: 40px;
             }
         }
@@ -869,8 +862,7 @@ body {
 
             .share-item {
                 display: inline-block;
-                width: 33.333%;
-                float: left;
+                width: 100%;
                 line-height: 1;
                 margin-top: 20px;
                 height: 145px;
@@ -942,12 +934,9 @@ body {
             }
 
             .container {
-                padding: 20px 0;
 
                 .shares-list {
                     display: inline-block;
-                    width: 103.33%;
-                    margin-left: -3.33%;
                 }
 
                 .loadMore {
@@ -955,16 +944,13 @@ body {
                 }
 
                 .share-item {
-                    display: inline-block;
-                    width: 30%;
-                    margin-left: 3.333%;
-                    float: left;
                     line-height: 1;
                     margin-top: 30px;
                     height: 200px;
                     background: rgb(65,65,65);
                     padding: 20px;
                     cursor: pointer;
+                    width:100%;
 
                     .shop {
                         font-size: 20px;
@@ -1380,6 +1366,7 @@ body {
         img {
             width: 100%;
             max-width: 100%;
+            min-height:46px;
         }
 
         .footer {
@@ -1770,5 +1757,36 @@ body {
             font-size: 14px;
             margin-right: 5px;
         }
+    }
+}
+
+.lity-container {
+    max-width: 650px;
+    
+    .lb-caption {
+        max-width: 650px;
+        position:absolute;
+        line-height:1;
+        padding: 10px;
+    }
+    .lb-next {
+         position:absolute;
+         right:0;
+          cursor:pointer;
+         top: 40%;
+         .fa {
+             font-size: 70px;
+             color:#fff;
+         }
+    }
+    .lb-prev {
+         position:absolute;
+         left:0;
+         cursor:pointer;
+         top: 40%;
+         .fa {
+             font-size: 70px;
+             color:#fff;
+         }
     }
 }

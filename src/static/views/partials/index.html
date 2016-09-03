@@ -1,45 +1,35 @@
 ﻿<div class="homepage" ng-controller="IndexController">
     <div class="row user-profile animated fadeIn" ng-if="user.id">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4 user-col" ng-include="'partials/index-profile.html'"></div>
-                <div class="col-md-8 car-col" ng-include="'partials/index-car.html'"></div>
-            </div>
-        </div>
+        <div class="col-md-4 user-col" ng-include="'partials/index-profile.html'"></div>
+        <div class="col-md-8 car-col" ng-include="'partials/index-car.html'"></div>
     </div>
     <div class="row" ng-if="user.id">
-        <div class="container-fluid">
-            <div class="col-md-8" ng-include="'partials/index-notification.html'"></div>
-            <div class="col-md-4">
-                <div class="ads-box">
-                    <div class="ads">
-                        <img class="ads-image" src="img/ads.png" />
-                    </div>
-                    <div class="ads">
-                        <img class="ads-image" src="img/ads.png" />
-                    </div>
+        <div class="col-md-8" ng-include="'partials/index-notification.html'"></div>
+        <div class="col-md-4">
+            <div class="ads-box">
+                <div class="ads">
+                    <img class="ads-image" src="img/ads.png" />
+                </div>
+                <div class="ads">
+                    <img class="ads-image" src="img/ads.png" />
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="container-fluid">
-            <div class="col-md-8" ng-include="'partials/index-share.html'"></div>
-            <div class="col-md-4">
-                <div class="ads-box">
-                    <div class="ads">
-                        <img class="ads-image" src="img/ads.png" />
-                    </div>
-                    <div class="ads">
-                        <img class="ads-image" src="img/ads.png" />
-                    </div>
+        <div class="col-md-8" ng-include="'partials/index-share.html'"></div>
+        <div class="col-md-4">
+            <div class="ads-box">
+                <div class="ads">
+                    <img class="ads-image" src="img/ads.png" />
+                </div>
+                <div class="ads">
+                    <img class="ads-image" src="img/ads.png" />
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="container-fluid">
-            <div class="col-md-12" ng-include="'partials/index-shop.html'"></div>
-        </div>
+        <div class="col-md-12" ng-include="'partials/index-shop.html'"></div>
     </div>
 </div>

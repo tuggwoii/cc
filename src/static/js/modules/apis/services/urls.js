@@ -18,6 +18,7 @@ module.factory('URLS', function () {
             all: base + model,
             one: base + model + '/{id}',
             image: base + model + '/image',
+            shops: base + model.slice(0, -1) + '/shops',
             image_id: base + model + '/image/{id}'
         };
     }

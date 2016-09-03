@@ -1,14 +1,10 @@
 ﻿<div ng-controller="SharesController" class="shares-page">
     <div class="row user-profile animated fadeIn" ng-if="user.id">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
-                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
-            </div>
-        </div>
+        <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+        <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
     </div>
     <div class="row">
-        <div class="works">
+        <div class="col-xs-12 works">
             <div class="container">
                 <div class="works-title">
                     <h2>กลุ่มงานซ่อม</h2>
@@ -22,52 +18,61 @@
         </div>
     </div>
     <div class="row">
-        <div class="filters">
+        <div class="filters col-xs-12">
             <div class="container">
-                <div class="form-group">
-                    <label>ค้นหาตามหัวข้อ</label>
-                    <input type="text" class="form-control" ng-model="query.title"/>
+                <div class="field-container">
+                    <div class="form-group">
+                        <label>ค้นหาตามหัวข้อ</label>
+                        <input type="text" class="form-control" ng-model="query.title" />
+                    </div>
+                    <div class="form-group">
+                        <label>ราคา</label>
+                        <input type="text" class="form-control half" ng-model="query.lp" placeholder="ราคาต่ำสุด" />
+                        <input type="text" class="form-control half" ng-model="query.hp" placeholder="ราคาสูงสุด" />
+                    </div>
+                    <div class="form-group">
+                        <label>คะแนน (ดาว)</label>
+                        <select class="form-control" ng-model="query.rating">
+                            <option value=""></option>
+                            <option value="1">1 ดาว</option>
+                            <option value="2">2 ดาว</option>
+                            <option value="3">3 ดาว</option>
+                            <option value="4">4 ดาว</option>
+                            <option value="5">5 ดาว</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-danger" ng-click="getAll(true)"><i class="fa fa-search"></i></button>
                 </div>
-                <div class="form-group">
-                    <label>ราคา</label>
-                    <input type="text" class="form-control half" ng-model="query.lp" placeholder="ราคาต่ำสุด" />
-                    <input type="text" class="form-control half" ng-model="query.hp" placeholder="ราคาสูงสุด" />
-                </div>
-                <div class="form-group">
-                    <label>คะแนน (ดาว)</label>
-                    <select class="form-control" ng-model="query.rating">
-                        <option value=""></option>
-                        <option value="1">1 ดาว</option>
-                        <option value="2">2 ดาว</option>
-                        <option value="3">3 ดาว</option>
-                        <option value="4">4 ดาว</option>
-                        <option value="5">5 ดาว</option>
-                    </select>
-                </div>
-                <button class="btn btn-danger"  ng-click="getAll(true)"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="shares-list">
-            <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
-            <div class="share-item animated fadeIn" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
-                <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
-                <div class="detail">
-                    <div class="image">
-                        <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
-                        <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
-                    </div>
-                    <div class="info">
-                        <div class="workgroup">{{s.workgroup.name}}</div>
-                        <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
-                        <div class="price">ทั้งหมด {{s.price?s.price:0}} บาท</div>
-                        <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop.name}}</div>
-                        <rating-star rating="s.score"></rating-star>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="container">
+                <div class="shares-list row">
+                    <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
+                        <div class="share-item animated fadeIn">
+                            <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
+                            <div class="detail">
+                                <div class="image">
+                                    <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
+                                    <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
+                                </div>
+                                <div class="info">
+                                    <div class="workgroup">{{s.workgroup.name}}</div>
+                                    <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
+                                    <div class="price">ทั้งหมด {{s.price?s.price:0}} บาท</div>
+                                    <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop.name}}</div>
+                                    <rating-star rating="s.score"></rating-star>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <button class="btn btn-danger loadMore" ng-click="loadMore()" ng-if="hasMore">โหลดเพิ่ม</button>
             </div>
         </div>
-        <button class="btn btn-danger loadMore" ng-click="loadMore()" ng-if="hasMore">โหลดเพิ่ม</button>
     </div>
+
 </div>

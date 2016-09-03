@@ -23,6 +23,9 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 }),
                 WorkgroupService.get().then(function (data) {
                     $scope.workgroup = angular.copy(data);
+                }),
+                RepairService.getPreviousShop().then(function (res) {
+                    $scope.previous_shops = res.data;
                 })
             ]).then(function () {
                 $scope.displayView();
@@ -101,7 +104,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         }
 
         $scope.openShop = function () {
-            $rootScope.$broadcast(Event.Shop.DisplayPopup, function (shop) {
+            $rootScope.$broadcast(Event.Shop.DisplayPopup, $scope.previous_shops, function (shop) {
                 $scope.model.shop = shop;
                 $scope.save();
             });
@@ -195,8 +198,39 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             });
         };
 
-        $scope.lightbox = function (url) {
+        $scope.lightbox = function (url, caption, index) {
             lightbox(url);
+            $timeout(function () {
+                if (caption) {
+                    var items = $('.repair-image');
+                    $('.lity-container').append('<p class="lb-caption animated fadeIn">' + caption + '</p>');
+                    if (items.length > 1) {
+                        $('.lity-container').append('<span class="lb-next animated fadeIn"><i class="fa fa-angle-right"></i></span>');
+                        $('.lity-container').append('<span class="lb-prev animated fadeIn"><i class="fa fa-angle-left"></i></span>');
+
+                        $('.lb-next').click(function () {
+                            index++;
+                            if (index >= items.length) {
+                                index = 0;
+                            }
+                            var image_src = $($(items[index]).find('img')[0]).attr('src');
+                            var image_caption = $($(items[index]).find('.caption')[0]).text();
+                            $('.lity-container').find('img').attr('src', image_src);
+                            $('.lity-container').find('.lb-caption').text(image_caption);
+                        })
+                        $('.lb-prev').click(function () {
+                            index--;
+                            if (index < 0) {
+                                index = items.length - 1;
+                            }
+                            var image_src = $($(items[index]).find('img')[0]).attr('src');
+                            var image_caption = $($(items[index]).find('.caption')[0]).text();
+                            $('.lity-container').find('img').attr('src', image_src);
+                            $('.lity-container').find('.lb-caption').text(image_caption);
+                        })
+                    }
+                }
+            }, 100);
         };
 
         $scope.$on(Event.File.Success, $scope.saveImage);
