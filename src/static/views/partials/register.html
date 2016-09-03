@@ -78,6 +78,28 @@
                     {{strings['password_mismatch']}}
                 </p>
             </div>
+            <div class="form-group">
+                <label class="capital">
+                    กรอกรหัสความปลอดภัย
+                </label>
+                <div class="captcha">
+                    {{captcha.captcha}}
+                </div>
+                <input type="text"
+                       class="form-control"
+                       placeholder="captcha"
+                       ng-model="model.captcha"
+                       ng-required="true"
+                       ng-keypress="keyPress($event, form)" />
+                <p class="error-message margin-top animated fadeIn"
+                   ng-if="!model.captcha && is_submit">
+                    กรุณากรอกรหัสความปลอดภัย
+                </p>
+                <p class="error-message margin-top animated fadeIn"
+                   ng-if="model.captcha != captcha.captcha  && is_submit">
+                    รหัสความปลอดภัยไม่ถูกต้อง
+                </p>
+            </div>
             <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
             <hr />
             <button type="button" class="btn btn-danger" ng-click="submit(form)">

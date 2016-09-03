@@ -8,7 +8,8 @@ module.factory('URLS', function () {
             register: base + 'accounts',
             me: base + 'accounts/me',
             logout: base + 'accounts/logout',
-            update: base + 'accounts'
+            update: base + 'accounts',
+            captcha: base + 'accounts/captcha'
         },
         strings: '/resources/strings.json'
     };
