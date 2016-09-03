@@ -21,8 +21,8 @@ module.factory('ShopService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 
                 }
             });
         },
-        get: function (q) {
-            var key = URLS.model(service).all + ('?p=' + p) + (c ? '&c=' + c : '');
+        get: function (p,q) {
+            var key = URLS.model(service).all + ('?p=' + p) + (q? ('&q=' + q):'');
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);

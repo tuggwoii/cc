@@ -5,6 +5,16 @@
         <div class="filter-item" ng-repeat="work in workgroup">{{work.name}}</div>
     </div>
     <div class="content-box">
-        <p class="nodata">{{strings['no_data']}}</p>
+        <p class="nodata" ng-if="!shops.length">{{strings['no_data']}}</p>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shops">
+                <div class="index-shop">
+                    <div><i class="fa fa-map-marker"></i> {{s.name}}</div>
+                    <div><i class="fa fa-map-o"></i> จังหวัด: {{s.city?s.city:'ไม่ระบุ'}}</div>
+                    <div><i class="fa fa-asterisk"></i> จำนวนการใช้บริการ: 10</div>
+                    <rating-star rating="s.rating"></rating-star>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
