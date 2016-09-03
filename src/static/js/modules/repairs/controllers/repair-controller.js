@@ -23,6 +23,9 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 }),
                 WorkgroupService.get().then(function (data) {
                     $scope.workgroup = angular.copy(data);
+                }),
+                RepairService.getPreviousShop().then(function (res) {
+                    $scope.previous_shops = res.data;
                 })
             ]).then(function () {
                 $scope.displayView();
@@ -101,7 +104,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         }
 
         $scope.openShop = function () {
-            $rootScope.$broadcast(Event.Shop.DisplayPopup, function (shop) {
+            $rootScope.$broadcast(Event.Shop.DisplayPopup, $scope.previous_shops, function (shop) {
                 $scope.model.shop = shop;
                 $scope.save();
             });

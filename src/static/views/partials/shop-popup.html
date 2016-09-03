@@ -3,6 +3,11 @@
     <div class="popup-panel">
         <i class="fa fa-remove" ng-click="close()"></i>
         <div class="shop-popup">
+            <h2>ร้านที่เคยใช้บริการ</h2>
+            <select ng-model="shop.selected" ng-change="shopChange()">
+                <option value=""></option>
+                <option ng-repeat="s in prev_shops" value="{{s}}">{{s.name}}</option>
+            </select>
             <h2>ค้นหาร้าน</h2>
             <div class="form-group">
                 <input name="search"

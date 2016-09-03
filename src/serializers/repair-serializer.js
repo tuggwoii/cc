@@ -97,3 +97,21 @@ exports.share = function (data) {
     }
     return model;
 }
+exports.shops = function (data) {
+    var shops = [];
+    data = JSON.parse(JSON.stringify(data));
+    for (var i = 0; i < data.repairs.length; i++) {
+        if (data.repairs[i].shop) {
+            var has = false;
+            for (var j = 0; j < shops.length; j++) {
+                if (data.repairs[i].shop.id == shops[j].id) {
+                    has = true;
+                }
+            }
+            if (!has) {
+                shops.push(data.repairs[i].shop);
+            }
+        }
+    }
+    return shops;
+}
