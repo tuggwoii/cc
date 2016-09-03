@@ -8,6 +8,8 @@ var bcrypt = require('bcrypt-nodejs');
 var salt = bcrypt.genSaltSync(10);
 var shortid = require('shortid');
 var IP = require('ipware')().get_ip;
+var randomstring = require('randomstring');
+var captchas = {};
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 var FB = require('fb'),
     fb = new FB.Facebook({version: 'v2.6'});
@@ -99,12 +101,16 @@ class AccountApi extends BaseApi {
             else if (!data.password && !is_facebook) {
                 reject({ message: 'PASSWORD REQUIRED' });
             }
+            else if (!data.captcha || !data.key || !captchas[data.key] || (captchas[data.key] && (captchas[data.key] != data.captcha))) {
+                reject({ message: 'INVALID CAPTCHA' });
+            }
             else {
                 me.findByEmail(data.email).then(function (users) {
                     if (users.length) {
                         reject({ message: 'EMAIL EXIST' });
                     }
                     else {
+                        delete captchas[data.key];
                         resolve();
                     }
                 }).catch(function (err) {
@@ -222,7 +228,6 @@ class AccountApi extends BaseApi {
     }
 
     adminUpdate (context, req, res) {
-        console.log(req.user);
         var user = req.body;
         User.findById(user.id).then(function (_user) {
             if (_user) {
@@ -322,7 +327,6 @@ class AccountApi extends BaseApi {
     register (context, req, res) {
         var data = req.body;
         var ip = IP(req);
-        console.log('IP ADDRESS: '+ ip);
         context.validateRegister(data).then(function () {
             var model = context.registerModel(data);
             model.ip = ip.clientIp;
@@ -378,6 +382,19 @@ class AccountApi extends BaseApi {
         }
     }
 
+    captcha(context, req, res) {
+        var key = randomstring.generate({
+            length: 6,
+            charset: '0123456789'
+        });
+        var captcha = {
+            key: key,
+            captcha: randomstring.generate(6)
+        };
+        captchas[key] = captcha.captcha;
+        context.success(req, res, captcha);
+    }
+
     endpoints () {
         return [
             { url: '/accounts', method: 'get', roles: ['admin'], response: this.getAll },
@@ -386,6 +403,7 @@ class AccountApi extends BaseApi {
             { url: '/accounts', method: 'patch', roles: ['admin', 'user'], response: this.update },
             { url: '/accounts', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] },
             { url: '/accounts/me', method: 'get', roles: ['admin', 'user'], response: this.me },
+            { url: '/accounts/captcha', method: 'get', roles: [], response: this.captcha },
             { url: '/accounts/logout', method: 'post', roles: ['admin', 'user'], response: this.logout },
             { url: '/admin/accounts', method: 'patch', roles: ['admin'], response: this.adminUpdate },
         ];

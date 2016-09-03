@@ -73,6 +73,9 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         update: function (model) {
             return $http.patch(URLS.model(service).update, model);
         },
+        captcha: function () {
+            return $http.get(URLS.model(service).captcha);
+        },
         logout: function () {
             return $q(function (resolve, reject) {
                 FB.getLoginStatus(function (crets) {

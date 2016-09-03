@@ -3,9 +3,17 @@ module.controller('RegisterController', ['$scope', '$rootScope', 'AccountService
 
     $scope.model = {};
     $scope.status = {};
-
+    $scope.captcha = {};
     $scope.registerPage = function () {
-        $scope.displayView();
+        AccountService.captcha().success(function (res) {
+            $scope.captcha = res.data;
+            $scope.model.key = $scope.captcha.key;
+        }).error(function () {
+
+        }).finally(function () {
+            $scope.displayView();
+        });
+        
     };
 
     $scope.submit = function (form) {
@@ -14,7 +22,7 @@ module.controller('RegisterController', ['$scope', '$rootScope', 'AccountService
             field.$setDirty();
         });
         $scope.is_submit = true;
-        if (form.$valid && $scope.model.password === $scope.model.confirm_password) {
+        if (form.$valid && $scope.model.password === $scope.model.confirm_password && $scope.model.captcha === $scope.captcha.captcha) {
             $rootScope.$broadcast(Event.Load.Display);
             AccountService.register($scope.model)
                 .success(function (res) {
