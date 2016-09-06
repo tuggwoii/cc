@@ -1,0 +1,185 @@
+﻿<div class="editshop" ng-controller="EditShopController">
+    <div class="row user-profile animated fadeIn" ng-if="user.id">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" ng-controller="EditCarController">
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                </li>
+                <li>
+                    <a ng-click="navigateTo('#/car?id=' + model.id)">
+                        {{strings['nav_car']}} >
+                    </a>
+                </li>
+                <li>Edit</li>
+            </ul>
+        </div>
+        <div class="subpage">
+            <h1>
+                <img src="img/logo.png" />
+                <span>{{strings['head_car_update']}}</span>
+            </h1>
+
+            <form name="form">
+                <span class="sr-only" ng-init="setForm(form)"></span>
+                <div class="section left">
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['brand']}}
+                            <span class="required">*</span>
+                        </label>
+                        <input name="brand"
+                               type="text"
+                               class="form-control"
+                               placeholder="Toyota, Honda, ETC."
+                               ng-model="model.brand"
+                               ng-required="true" />
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="form.brand.$error.required && form.brand.$dirty">
+                            {{strings['required']}}{{strings['brand']}}
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['series']}}
+                            <span class="required">*</span>
+                        </label>
+                        <input name="series"
+                               type="text"
+                               class="form-control"
+                               placeholder="Series"
+                               ng-model="model.series"
+                               ng-required="true" />
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="form.series.$error.required && form.series.$dirty">
+                            {{strings['required']}}{{strings['series']}}
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['serial']}}
+                            <span class="required">*</span>
+                        </label>
+                        <input name="serial"
+                               type="text"
+                               class="form-control"
+                               placeholder="เลขทะเบียรถ"
+                               ng-model="model.serial"
+                               ng-required="true" />
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="form.serial.$error.required && form.serial.$dirty">
+                            {{strings['required']}}{{strings['serial']}}
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['engine_size']}}
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="ขนาดของเครื่องยนต์"
+                               ng-model="model.engine"
+                               ng-required="true" />
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['color']}}
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="สีของรถ"
+                               ng-model="model.color" />
+                    </div>
+                    <div class="form-group">
+                        <div class="short-field">
+                            <label class="capital">
+                                {{strings['car_date']}}
+                            </label>
+                            <select class="form-control"
+                                    placeholder="ปีที่ออกรถ เป็น ค.ศ."
+                                    ng-model="model.day"
+                                    ng-required="true">
+                                <option ng-repeat="date in dates" value="{{date}}">{{date}}</option>
+                            </select>
+                        </div>
+                        <div class="short-field">
+                            <label class="capital">
+                                {{strings['car_month']}}
+                            </label>
+                            <select class="form-control"
+                                    placeholder="ปีที่ออกรถ เป็น ค.ศ."
+                                    ng-model="model.month"
+                                    ng-required="true">
+                                <option ng-repeat="month in months" value="{{month}}">{{month}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['car_year']}}
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="ปีที่ออกรถ เป็น ค.ศ."
+                               ng-model="model.year"
+                               ng-required="true" />
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="status.invalid_year">
+                            ปีที่ออกรถไม่ถูกต้อง
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            {{strings['other']}}
+                        </label>
+                        <textarea class="form-control"
+                                  placeholder="อื่นๆ โปรดระบุ"
+                                  ng-model="model.detail"></textarea>
+                    </div>
+                </div>
+                <div class="section right">
+                    <div class="image">
+                        <p class="error-message" ng-if="invalid_filetype">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
+                        <div ng-if="!model.image">
+                            <img src="/img/no-photo.jpg" alt="profile" ng-if="!model.image">
+                            <button ng-if="!uploading" class="btn btn-danger" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['select_image']}}</button>
+                            <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                        </div>
+                        <div ng-if="model.image">
+                            <img class="user-profile-image" ng-src="{{model.image.url}}" alt="profile">
+                            <button class="btn btn-danger" ng-if="!uploading" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['change_image']}}</button>
+                            <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
+                <p class="error-message margin-top animated fadeIn" ng-if="status.maxcar">{{strings['max_car_message']}}</p>
+                <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
+                <p class="error-message margin-top animated fadeIn" ng-if="status.error_remove">{{strings['error_remove_car']}}</p>
+                <p class="error-message margin-top animated fadeIn" ng-if="status.car_expire">{{strings['car_expire_message']}}</p>
+                <p class="success-message margin-top animated fadeIn" ng-if="status.success">{{strings['update_success']}}</p>
+
+                <hr />
+                <div class="btn-container">
+                    <button type="button" class="btn btn-danger" ng-click="update(form)">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i> {{strings['update']}}
+                    </button>
+                    <button type="button" class="btn btn-danger btn-delete" ng-click="remove()">
+                        <i class="fa fa-remove"></i> {{strings['delete']}}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>

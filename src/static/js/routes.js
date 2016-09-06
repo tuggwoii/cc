@@ -52,5 +52,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('edit-repair', {
           url: "/edit-repair",
           templateUrl: "partials/edit-repair.html"
+      }).state('edit-shop', {
+          url: "/edit-shop",
+          templateUrl: "partials/edit-shop.html"
       });
 });
