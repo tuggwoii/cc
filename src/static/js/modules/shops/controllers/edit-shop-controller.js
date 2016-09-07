@@ -20,7 +20,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         }
 
         function initModel(model) {
-            console.log(model);
+            
         }
 
         function createProvinces(model) {
