@@ -50,6 +50,9 @@ module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupServ
                 }),
                 ShareService.get(1, { limits: 12 }).then(function (res) {
                     $scope.shares = res.data;
+                }),
+                ShopService.get($scope.shopPage).then(function (res) {
+                    $scope.shops = res.data;
                 })
             ])
             .then(function () {

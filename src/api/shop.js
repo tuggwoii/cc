@@ -17,6 +17,7 @@ class ShopApi extends BaseApi {
             update_by: user,
             address: data.address,
             city: data.city,
+            province: data.province,
             lat: data.lat,
             lon: data.lon,
             map: data.map
@@ -58,6 +59,9 @@ class ShopApi extends BaseApi {
             }
             else if (!data.name) {
                 reject('NAME REQUIRED');
+            }
+            else if (!data.province) {
+                reject('PROVINCE REQUIRED');
             }
             else {
                 resolve();
@@ -114,9 +118,9 @@ class ShopApi extends BaseApi {
         var promise = new Promise(function (resolve, reject) {
             Shop.findById(id, {
                 include: [
-                    { model: create_by },
-                    { model: update_by },
-                    { model: image }
+                    { model: User, as: 'create_user', include: [{ model: Image }] },
+                    { model: User, as: 'update_user', include: [{ model: Image }] },
+                    { model: Image }
                 ]
             }).then(function (data) {
                 resolve(data);
@@ -163,15 +167,9 @@ class ShopApi extends BaseApi {
 
     getById(context, req, res) {
         if (req.params.id) {
-            context.getShopById(req.params.id).then(function (_notification) {
-                if (_notification) {
-                    var owner = _notification.dataValues.user.dataValues;
-                    if (req.user.id === owner.id) {
-                        context.success(req, res, _notification);
-                    }
-                    else {
-                        context.denied(res);
-                    }
+            context.getShopById(req.params.id).then(function (_shop) {
+                if (_shop) {
+                    context.success(req, res, _shop);
                 }
                 else {
                     context.notfound(res);
@@ -206,8 +204,8 @@ class ShopApi extends BaseApi {
         context.validateUpdate(shop).then(function () {
             context.getShopById(shop.id).then(function (_shop) {
                 if (_shop) {
-                    _shop.updateAttributes(notification).then(function (_updated_notification) {
-                        context.success(req, res, _updated_notification);
+                    _shop.updateAttributes(shop).then(function (_updated_shop) {
+                        context.success(req, res, _updated_shop);
                     }).catch(function (err) {
                         context.error(req, res, err, 500);
                     });
@@ -261,7 +259,7 @@ class ShopApi extends BaseApi {
     endpoints() {
         return [
             { url: '/shops', method: 'get', roles: [], response: this.getAll },
-            { url: '/shops', method: 'get', roles: ['admin', 'user'], response: this.getById, params: ['id'] },
+            { url: '/shops', method: 'get', roles: [], response: this.getById, params: ['id'] },
             { url: '/shops', method: 'post', roles: ['admin', 'user'], response: this.add },
             { url: '/shops', method: 'patch', roles: ['admin', 'user'], response: this.update },
             { url: '/shops', method: 'delete', roles: ['admin', 'user'], response: this.delete, params: ['id'] }

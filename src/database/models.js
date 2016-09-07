@@ -429,6 +429,10 @@ var Shop = sequelize.define('shops', {
         type: Sequelize.STRING,
         field: 'city'
     },
+    province: {
+        type: Sequelize.STRING,
+        field: 'province'
+    },
     lat: {
         type: Sequelize.DECIMAL,
         field: 'lat'

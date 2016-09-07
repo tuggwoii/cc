@@ -17,7 +17,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 }),
                 CarService.get().then(function (res) {
                      $scope.cars = angular.copy(res.data);
-                 })
+                })
             ]).then(function () {
                 $scope.displayView();
                 angular.forEach($scope.cars, function (_car) {

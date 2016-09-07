@@ -8,15 +8,15 @@
         </div>
     </div>
 
-    <div class="container" ng-controller="EditCarController">
+    <div class="container">
         <div class="breadcrumb">
             <ul>
                 <li>
                     <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li>
-                    <a ng-click="navigateTo('#/car?id=' + model.id)">
-                        {{strings['nav_car']}} >
+                    <a ng-click="navigateTo('#/shop?id=' + model.id)">
+                        {{model.name}} >
                     </a>
                 </li>
                 <li>Edit</li>
@@ -25,124 +25,81 @@
         <div class="subpage">
             <h1>
                 <img src="img/logo.png" />
-                <span>{{strings['head_car_update']}}</span>
+                <span>แก้ไขข้อมูลร้าน</span>
             </h1>
 
-            <form name="form">
+            <form name="form" ng-if="user.id">
                 <span class="sr-only" ng-init="setForm(form)"></span>
                 <div class="section left">
                     <div class="form-group">
                         <label class="capital">
-                            {{strings['brand']}}
+                            ชื่อร้าน
                             <span class="required">*</span>
                         </label>
-                        <input name="brand"
+                        <input name="name"
                                type="text"
                                class="form-control"
-                               placeholder="Toyota, Honda, ETC."
-                               ng-model="model.brand"
+                               placeholder="ชื่อร้าน"
+                               ng-model="model.name"
                                ng-required="true" />
                         <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.brand.$error.required && form.brand.$dirty">
-                            {{strings['required']}}{{strings['brand']}}
+                           ng-if="form.name.$error.required && form.name.$dirty">
+                            กรุณากรอกชื่อร้าน
                         </p>
                     </div>
                     <div class="form-group">
                         <label class="capital">
-                            {{strings['series']}}
-                            <span class="required">*</span>
+                            ชื่อเจ้าของร้าน
                         </label>
-                        <input name="series"
+                        <input name="name"
                                type="text"
                                class="form-control"
-                               placeholder="Series"
-                               ng-model="model.series"
-                               ng-required="true" />
+                               placeholder="ชื่อเจ้าของร้าน"
+                               ng-model="model.owner_name" />
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            ที่อยู่
+                        </label>
+                        <textarea name="address"
+                                  class="form-control"
+                                  placeholder="ที่อยู่ร้าน"
+                                  ng-model="model.address" />
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            เขต/อำเภอ
+                        </label>
+                        <input name="city"
+                               type="text"
+                               class="form-control"
+                               placeholder="เขต/อำเภอ"
+                               ng-model="model.city" />
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            จังหวัด
+                        </label>
+                        <select name="province"
+                                class="form-control"
+                                ng-model="model.province"
+                                ng-required="true">
+                            <option value=""></option>
+                            <option ng-repeat="p in provinces" value="{{p.key}}">{{p.th}}</option>
+                        </select>
                         <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.series.$error.required && form.series.$dirty">
-                            {{strings['required']}}{{strings['series']}}
+                           ng-if="form.province.$error.required && form.province.$dirty">
+                            กรุณากรอกจังหวัด
                         </p>
                     </div>
                     <div class="form-group">
                         <label class="capital">
-                            {{strings['serial']}}
-                            <span class="required">*</span>
-                        </label>
-                        <input name="serial"
-                               type="text"
-                               class="form-control"
-                               placeholder="เลขทะเบียรถ"
-                               ng-model="model.serial"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.serial.$error.required && form.serial.$dirty">
-                            {{strings['required']}}{{strings['serial']}}
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['engine_size']}}
+                            เบอร์โทรศัพท์
                         </label>
                         <input type="text"
                                class="form-control"
-                               placeholder="ขนาดของเครื่องยนต์"
-                               ng-model="model.engine"
-                               ng-required="true" />
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['color']}}
-                        </label>
-                        <input type="text"
-                               class="form-control"
-                               placeholder="สีของรถ"
-                               ng-model="model.color" />
-                    </div>
-                    <div class="form-group">
-                        <div class="short-field">
-                            <label class="capital">
-                                {{strings['car_date']}}
-                            </label>
-                            <select class="form-control"
-                                    placeholder="ปีที่ออกรถ เป็น ค.ศ."
-                                    ng-model="model.day"
-                                    ng-required="true">
-                                <option ng-repeat="date in dates" value="{{date}}">{{date}}</option>
-                            </select>
-                        </div>
-                        <div class="short-field">
-                            <label class="capital">
-                                {{strings['car_month']}}
-                            </label>
-                            <select class="form-control"
-                                    placeholder="ปีที่ออกรถ เป็น ค.ศ."
-                                    ng-model="model.month"
-                                    ng-required="true">
-                                <option ng-repeat="month in months" value="{{month}}">{{month}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['car_year']}}
-                        </label>
-                        <input type="text"
-                               class="form-control"
-                               placeholder="ปีที่ออกรถ เป็น ค.ศ."
-                               ng-model="model.year"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="status.invalid_year">
-                            ปีที่ออกรถไม่ถูกต้อง
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['other']}}
-                        </label>
-                        <textarea class="form-control"
-                                  placeholder="อื่นๆ โปรดระบุ"
-                                  ng-model="model.detail"></textarea>
+                               placeholder="เบอร์โทรศัพท์"
+                               ng-model="model.telephone" />
                     </div>
                 </div>
                 <div class="section right">
@@ -161,23 +118,35 @@
                     </div>
                 </div>
 
-                <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
-                <p class="error-message margin-top animated fadeIn" ng-if="status.maxcar">{{strings['max_car_message']}}</p>
-                <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
-                <p class="error-message margin-top animated fadeIn" ng-if="status.error_remove">{{strings['error_remove_car']}}</p>
-                <p class="error-message margin-top animated fadeIn" ng-if="status.car_expire">{{strings['car_expire_message']}}</p>
-                <p class="success-message margin-top animated fadeIn" ng-if="status.success">{{strings['update_success']}}</p>
 
                 <hr />
+
+                <h2>Map</h2>
+
+                <div class="section left">
+                    <div class="form-group">
+                        <label class="capital">
+                            แผนที่ร้าน (Google Map iframe)
+                        </label>
+                        <textarea type="text"
+                                  class="form-control"
+                                  ng-model="model.map"
+                                  placeholder="Google Map iframe"></textarea>
+                    </div>
+                </div>
+                <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
+                <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
+
+                <hr />
+
                 <div class="btn-container">
                     <button type="button" class="btn btn-danger" ng-click="update(form)">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i> {{strings['update']}}
                     </button>
-                    <button type="button" class="btn btn-danger btn-delete" ng-click="remove()">
-                        <i class="fa fa-remove"></i> {{strings['delete']}}
-                    </button>
                 </div>
             </form>
+
+            <p ng-if="!user.id">กรุณาเข้าสู่ระบบก่อนทำการแก้ไขข้อมูลร้าน</p>
         </div>
 
     </div>

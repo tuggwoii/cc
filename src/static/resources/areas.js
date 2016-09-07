@@ -164,6 +164,11 @@ var areas = [
          en: 'Central Region',
          areas: [
              {
+                 key: 'krung_thep_maha_nakhon',
+                 th: 'กรุงเทพมหานครฯ',
+                 en: 'Krung Thep Maha Nakhon'
+             },
+             {
                  key: 'kamphaeng_phet',
                  th: 'กำแพงเพชร',
                  en: 'Kamphaeng Phet'
