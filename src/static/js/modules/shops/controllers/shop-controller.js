@@ -43,8 +43,8 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
         }
 
         function loadResource() {
+            createProvinces();
             if ($scope.user && $scope.user.id) {
-                createProvinces();
                 $q.all([
                     getById(),
                     CarService.get().then(function (res) {
@@ -55,7 +55,11 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
                 });
             }
             else {
-                $scope.displayView();
+                $q.all([
+                    getById()
+                ]).then(function () {
+                    $scope.displayView();
+                });
             }
         }
 
