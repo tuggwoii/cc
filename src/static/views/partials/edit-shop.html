@@ -16,7 +16,7 @@
                 </li>
                 <li>
                     <a ng-click="navigateTo('#/shop?id=' + model.id)">
-                        {{model.name}} >
+                        {{model.name?model.name:'ไม่ระบุ'}} >
                     </a>
                 </li>
                 <li>Edit</li>
