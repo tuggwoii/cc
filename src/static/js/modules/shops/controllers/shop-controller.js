@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'Event', 'Helper', 'ShopService', 'WorkService', 'CarService', 'WorkgroupService',
+module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'Event', 'Helper', 'ShopService', 'WorkService', 'CarService', 'WorkgroupService',
     function ($scope, $rootScope, $timeout, $q, $location, Event, Helper, ShopService, WorkService, CarService, WorkgroupService) {
 
         $scope.status = {};
@@ -20,7 +20,17 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         }
 
         function initModel(model) {
-            
+            model.update_str = Helper.readableDateTime(model.updatedAt);
+            angular.forEach($scope.provinces, function (p) {
+                if (p.key == model.province) {
+                    model.province_str = p.th;
+                }
+            });
+            if (model.map) {
+                $timeout(function () {
+                    $('.map').append(model.map);
+                }, 500);
+            } 
         }
 
         function createProvinces(model) {
@@ -69,7 +79,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
             if ($scope.form.$valid) {
                 $rootScope.$broadcast(Event.Load.Display);
                 ShopService.update($scope.model).then(function () {
-                    window.location.href = '/#/shop?id=' + $scope.model.id;
+                    $rootScope.$broadcast(Event.Load.Dismiss);
                 }).catch(function () {
                     $rootScope.$broadcast(Event.Load.Dismiss);
                     $scope.status.error = true;

@@ -1325,6 +1325,30 @@ body {
                 }
             }
         }
+
+        .shop-page {
+
+            .detail-section {
+
+                .image {
+                    width: 200px;
+                    height: 180px;
+                }
+
+                .info {
+                        width: calc(100% - 200px);
+                }
+
+            }
+
+            .map {
+                iframe {
+                    width: 100%;
+                    min-height: 500px;
+                }
+            }
+
+        }
     }
 
     .screen {

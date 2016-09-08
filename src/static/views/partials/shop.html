@@ -1,0 +1,74 @@
+﻿<div ng-controller="ShopController">
+    <div class="row user-profile animated fadeIn" ng-if="user.id">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                </li>
+                <li>{{model.name}}</li>
+            </ul>
+        </div>
+        <div class="subpage car-page shop-page">
+            <h1>
+                <img src="img/logo.png" />
+                <span>{{model.name}}</span>
+            </h1>
+            <h2><i class="fa fa-wrench" aria-hidden="true"></i> ข้อมูลร้าน</h2>
+
+            <div class="detail-section">
+                <div class="image">
+                    <img ng-src="{{model.image?model.image.url:'/img/no-photo.jpg'}}" alt="shop-image" />
+                </div>
+                <div class="info">
+                    <div class="title">
+                        <label>ชื่อร้าน: </label>
+                        <span>{{model.name}}</span>
+                    </div>
+                    <div class="title">
+                        <label>ชื่อเจ้าของ: </label>
+                        <span>{{model.owner_name?model.owner_name:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>ที่อยู่: </label>
+                        <span>{{model.address?model.address:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>เขต/อำเภอ: </label>
+                        <span>{{model.city?model.city:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>จังหวัด: </label>
+                        <span>{{model.province?model.province_str:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>แก้ไขล่าสุด: </label>
+                        <span>{{model.update_user?model.update_user.name:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>แก้ไขเมื่อ: </label>
+                        <span>{{model.updatedAt?model.update_str:'ไม่ระบุ'}}</span>
+                    </div>
+                </div>
+                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-shop?id=' + model.id)">
+                    แก้ไขข้อมูล
+                </button>
+            </div>
+
+
+            <h2><i class="fa fa-map"></i> แผนที่</h2>
+
+            <div class="detail-section">
+                <p ng-if="!model.map">ยังไม่มีแผนที่ร้าน</p>
+                <div class="map" ng-if="model.map"></div>
+            </div>
+        </div>
+    </div>
+</div>
