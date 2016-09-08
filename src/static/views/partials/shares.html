@@ -62,7 +62,7 @@
                                 <div class="info">
                                     <div class="workgroup">{{s.workgroup.name}}</div>
                                     <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
-                                    <div class="price">ทั้งหมด {{s.price?s.price:0}} บาท</div>
+                                    <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
                                     <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop.name}}</div>
                                     <rating-star rating="s.score"></rating-star>
                                 </div>

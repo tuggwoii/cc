@@ -61,6 +61,10 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', 'CarService',
             }, 100);
         };
 
+        $scope.money = function (num) {
+            return num.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        };
+
         $scope.pickCar = function (car) {
             $scope.navigateTo('#/car?id=' + car.id);
         };
