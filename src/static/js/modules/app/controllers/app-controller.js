@@ -12,13 +12,16 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         }
 
         $scope.displayView = function () {
-            recursiveFooter();
             $timeout(function () {
                 $rootScope.$broadcast(Event.Load.Dismiss);
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 0);
                 $timeout(function () {
+                    footer();
                     $scope.viewReady = true;
                 }, 500);
-            }, 100);
+            }, 1000);
         };
 
         $scope.init = function () {
@@ -152,6 +155,18 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             }
         };
 
+        var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarsPage', 'isWorksPage'];
+        $scope.setNavActive = function (active) {
+            angular.forEach(navs, function (n) {
+                if (n === active) {
+                    $scope[active] = true;
+                }
+                else {
+                    $scope[n] = false;
+                }
+            });
+        };
+
         $scope.$watch(function () {
             return location.hash
         }, function (value) {
@@ -162,16 +177,22 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                 $scope.mainClass = '';
             }
             if (location.hash == '/#/' || location.hash == '#/') {
-                $scope.isHomePage = true;
-                $scope.isSharePage = false;
+                $scope.setNavActive('isHomePage');
             }
             else if (location.hash.indexOf('shares') > -1 || location.href.indexOf('share') > -1) {
-                $scope.isHomePage = false;
-                 $scope.isSharePage = true;
+                $scope.setNavActive('isSharePage');
+            }
+            else if (location.hash.indexOf('users') > -1) {
+                $scope.setNavActive('isUsersPage');
+            }
+            else if (location.hash.indexOf('cars') > -1) {
+                $scope.setNavActive('isCarsPage');
+            }
+            else if (location.hash.indexOf('works') > -1) {
+                $scope.setNavActive('isWorksPage');
             }
             else {
-                $scope.isSharePage = false;
-                $scope.isHomePage = false;
+                $scope.setNavActive('');
             }
         });
 

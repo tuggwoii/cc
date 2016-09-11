@@ -1,6 +1,4 @@
 ﻿'use strict';
-var max_try = 20;
-var tries = 0;
 var module = angular.module('app', ['ngAnimate', 'ngCookies', 'ui.router']);
 module.config(function ($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
@@ -9,13 +7,9 @@ module.config(function ($httpProvider) {
 var app = {
     init: function () {
         if (typeof FB === "undefined") {
-            if (tries < max_try) {
-                tries++;
-                setTimeout(app.init, 500);
-            }
-            else {
-                angular.bootstrap(document, ['app']);
-            }
+            setTimeout(function () {
+                app.init();
+            }, 1000);
         }
         else {
             FB.init({
@@ -41,20 +35,8 @@ $(window).resize(function () {
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
-function recursiveFooter () {
-    var count = 0;
-    var max = 20;
-    countFooter(count, max);
-}
-function countFooter(count, max) {
-    setTimeout(function () {
-        if (count < max) {
-            count++
-            footer();
-            countFooter(count, max);
-        }
-    }, 250);
-}
+
+
 function footer() {
     var window_height = $(window).height();
     var body_height = $('body').height() + 150;

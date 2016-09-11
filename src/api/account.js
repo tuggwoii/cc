@@ -7,6 +7,7 @@ var File = require('../database/models').File;
 var bcrypt = require('bcrypt-nodejs');
 var salt = bcrypt.genSaltSync(10);
 var shortid = require('shortid');
+var url = require('url');
 var IP = require('ipware')().get_ip;
 var randomstring = require('randomstring');
 var captchas = {};
@@ -151,8 +152,34 @@ class AccountApi extends BaseApi {
         return promise;
     }
 
-    getAll (context, req, res) {
-        User.all().then(function (data) {
+    getAll(context, req, res) {
+
+        var params = url.parse(req.url, true);
+        var queries = params.query;
+        var p = 1;
+        var q = {};
+        if (queries['p']) {
+            p = parseInt(queries['p']);
+        }
+        //var skip = limits * (p - 1);
+
+        if (queries['q']) {
+            q.name = { like: '%' + queries['q'] + '%' };
+        }
+        if (queries['e']) {
+            q.email = { like: '%' + queries['e'] + '%' };
+        }
+        if (queries['r']) {
+            q.user_role = parseInt(queries['r']);
+        }
+
+        User.all({
+            where: q,
+            order: [["name", "ASC"]],
+            include: [
+                { model: Role }
+            ]
+        }).then(function (data) {
             context.success(req, res, data);
         }).catch(function (err) {
             context.error(req, res, err, 500);

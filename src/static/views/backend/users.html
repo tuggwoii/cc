@@ -1,0 +1,69 @@
+﻿<div class="container backend-user">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#/')">Admin ></a>
+            </li>
+            <li>
+                Users
+            </li>
+        </ul>
+    </div>
+
+    <div class="subpage" ng-controller="UsersController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>Users</span>
+        </h1>
+
+        <div class="user-filter">
+            <h2>ค้นหา</h2>
+            <div class="filter-field">
+                <div class="form-group">
+                    <label>ชื่อผู้ใช้</label>
+                    <input type="text" class="form-control" ng-model="query.q" />
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="text" class="form-control" ng-model="query.e" />
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select class="form-control" ng-model="query.r">
+                        <option value=""></option>
+                        <option value="1">Admin</option>
+                        <option value="2">User</option>
+                    </select>
+                </div>
+                <button class="btn btn-danger" ng-if="!status.loading" ng-click="search()">
+                    <i class="fa fa-search"></i>
+                </button>
+                <button class="btn btn-danger" ng-if="status.loading" disabled>
+                    LOADING...
+                </button>
+            </div>
+        </div>
+
+        <div class="users-list">
+            <h2>Users ({{users.length}})</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>ชื่อผู้ใช้</td>
+                        <td>E-mail</td>
+                        <td>Role</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="user in users">
+                        <td>{{user.name}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.role.name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

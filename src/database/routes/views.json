@@ -10,5 +10,11 @@
     "roles": [ ],
     "params": [ "id" ],
     "model": "share"
+  },
+  {
+    "url": "/admin",
+    "view": "pages/admin.html",
+    "roles": ["admin"],
+    "params": [ ]
   }
 ]

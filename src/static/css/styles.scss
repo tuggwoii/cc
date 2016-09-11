@@ -865,7 +865,7 @@ body {
                 width: 100%;
                 line-height: 1;
                 margin-top: 20px;
-                height: 145px;
+                height: 165px;
                 cursor: pointer;
 
                 .shop {
@@ -937,6 +937,7 @@ body {
 
                 .shares-list {
                     display: inline-block;
+                    width: 100%;
                 }
 
                 .loadMore {
@@ -946,7 +947,7 @@ body {
                 .share-item {
                     line-height: 1;
                     margin-top: 30px;
-                    height: 200px;
+                    height: 220px;
                     background: rgb(65,65,65);
                     padding: 20px;
                     cursor: pointer;
@@ -983,7 +984,6 @@ body {
                             width: calc(100% - 70px);
                             padding-left: 45px;
                             float: left;
-                            margin-top: -28px;
 
                             .workgroup {
                                 font-size: 22px;
@@ -1348,6 +1348,66 @@ body {
                 }
             }
 
+        }
+
+        .backend-user {
+            h2 {
+                margin: 35px 0 -10px 0;
+                border-bottom: 2px solid #f55d22;
+            }
+
+            .table {
+
+                margin-top: 25px;
+
+                tr {
+                    cursor: pointer;
+
+                    td {
+                        border-top: 1px dashed #666;
+                    }
+                }
+                tr:hover {
+                    background: #444;
+                }
+
+                thead {
+                    tr {
+                        td {
+                            border-top: none;
+                            color: #f55d22;
+                            font-weight: bold;
+                        }
+                    }
+                    tr:hover {
+                        background: none;
+                    }
+                }
+            }
+
+            .user-filter {
+                display: inline-block;
+                width: 100%;
+
+                label {
+                    color: #f55d22;
+                    font-weight: bold;
+                }
+                .form-group {
+                    float: left;
+                    display:inline-block;
+                    width: 31%;
+                    margin-left: 3.34%;
+                }
+                .form-group:first-child {
+                    margin-left: 0;
+                }
+                .filter-field {
+                    margin-top: 30px;
+                    display: inline-block;
+                    width: 100%;
+                }
+            }
         }
     }
 

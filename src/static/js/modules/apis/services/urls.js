@@ -9,7 +9,8 @@ module.factory('URLS', function () {
             me: base + 'accounts/me',
             logout: base + 'accounts/logout',
             update: base + 'accounts',
-            captcha: base + 'accounts/captcha'
+            captcha: base + 'accounts/captcha',
+            all: base + 'accounts',
         },
         strings: '/resources/strings.json'
     };

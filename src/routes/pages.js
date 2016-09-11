@@ -1,6 +1,7 @@
 'use strict';
 var Pages = require('../models/page');
 var Share = require('../models/share');
+var authorize = require('../authorize/auth');
 
 module.exports = function (req, res) {
 
@@ -29,15 +30,23 @@ module.exports = function (req, res) {
             }
         }
         if (paramsValid) {
+            var permission = true;
             if (requestUrl.toLowerCase() === route.url.toLowerCase()) {
-                isFound = true;
-                if (route.model && route.model === 'share') {
-                    Share.response(Share, req, res, route);
+                if (route.roles.length) {
+                    if (!authorize.isPageAuthorize(req, route.roles)) {
+                        permission = false;
+                    }
                 }
-                else {
-                    res.status(200).render(routes[i].view);
+                if (permission) {
+                    isFound = true;
+                    if (route.model && route.model === 'share') {
+                        Share.response(Share, req, res, route);
+                    }
+                    else {
+                        res.status(200).render(routes[i].view);
+                    }
+                    break;
                 }
-                break;
             }
         }
         else {

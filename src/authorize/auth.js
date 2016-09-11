@@ -83,6 +83,19 @@ exports.isAuthorize = function (request, roles) {
     return roles.indexOf(user.role.name) > -1;
 };
 
+exports.isPageAuthorize = function (req, roles) {
+    var token = req.cookies.Authorization;
+    if (!token) {
+        return false;
+    }
+    var user = tokenSession[token];
+    req.user = user;
+    if (!user) {
+        return false;
+    }
+    return roles.indexOf(user.role.name) > -1;
+};
+
 exports.protectPath = function (request, response, next) {
     var token = request.headers['authorization'];
     if (!token) {

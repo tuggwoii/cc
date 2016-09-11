@@ -1,13 +1,19 @@
-﻿<h1 class="capital">HOTEL MANAGEMENT</h1>
-<div class="content">
-    <div class="statistic-group">
-        <h3>โรงแรม</h3>
-        <div class="num">100</div>
-        <a class="btn btn-success" href="/dashboard#/hotels">ดูทั้งหมด</a>
+﻿<div class="container">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#/')">Admin ></a>
+            </li>
+            <li>
+                Dashboard
+            </li>
+        </ul>
     </div>
-    <div class="statistic-group">
-        <h3>รายการจอง</h3>
-        <div class="num">5000</div>
-        <a class="btn btn-success"  href="/dashboard#/reservation">ดูทั้งหมด</a>
+
+    <div class="subpage" ng-controller="DashboardController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>Admin Dashboard</span>
+        </h1>
     </div>
 </div>

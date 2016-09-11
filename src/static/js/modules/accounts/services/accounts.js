@@ -5,6 +5,7 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
     var userAuthenticationCallback;
     var userAuthenticationReject;
     var facebookResponseFired = false;
+    var caches = {};
 
     function me () {
         return $http.get(URLS.model(service).me);
@@ -103,6 +104,25 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                 userAuthenticationCallback = resolve;
                 userAuthenticationReject = reject;
                 initUserAuthentication();
+            });
+        },
+        getAll: function (q) {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).all + '?p=' + q['p']
+                    + (q['q'] ? '&q=' + q['q'] : '')
+                    + (q['e'] ? '&e=' + q['e'] : '')
+                    + (q['r'] ? '&r=' + q['r'] : '');
+                if (caches[key]) {
+                    resolve(caches[key]);
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        caches[key] = res;
+                        resolve(caches[key]);
+                    }).catch(function (res) {
+                        reject(res);
+                    })
+                }
             });
         }
     };
