@@ -117,6 +117,12 @@
             }
         }
     }
+
+    .popup-panel.workgrouppopup {
+        overflow-y: auto;
+        height: 350px;
+        margin-top: -180px;
+    }
 }
 
 .popup-container.confirm {
@@ -145,6 +151,33 @@
     }
 }
 
+.popup-container.message {
+    animation-duration: 0.15s;
+    -webkit-animation-duration: 0.15s;
+    -moz-animation-duration: 0.15s;
+    z-index: 998;
+
+    .message-container {
+        position: absolute;
+        margin-top: -100px;
+        margin-left: -150px;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: auto;
+        background: #000;
+        padding: 20px 32px;
+        border-radius: 5px;
+
+        .btn {
+            width: 95px;
+            min-width: 80px;
+            height: 35px;
+        }
+    }
+}
+
 .popup-container.load {
     z-index: 999;
+    overflow:hidden !important;
 }

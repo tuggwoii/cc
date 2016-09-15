@@ -20,8 +20,8 @@ module.controller('NotificationController', ['$scope', '$rootScope', '$timeout',
                 CarService.get().then(function (res) {
                     $scope.cars = angular.copy(res.data);
                 }),
-                WorkgroupService.get().then(function (data) {
-                    $scope.workgroup = angular.copy(data);
+                WorkgroupService.get().then(function (res) {
+                    $scope.workgroup = angular.copy(res.data);
                 })
             ]).then(function () {
                 $scope.displayView();

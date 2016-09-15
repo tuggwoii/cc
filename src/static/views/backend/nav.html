@@ -13,7 +13,7 @@
                 <li class="menu-item {{isHomePage?'active':''}}"><a href="/admin">Dashboard</a></li>
                 <li class="menu-item {{isUsersPage?'active':''}}"><a href="#/users">Users</a></li>
                 <li class="menu-item"><a href="#/cars">Cars</a></li>
-                <li class="menu-item"><a href="#/works">Workgroup</a></li>
+                <li class="menu-item {{isWorksPage?'active':''}}"><a href="#/works">Workgroup</a></li>
                 <li>
                     <div class="login-button-container" ng-if="!user.id">
                         <button type="button" class="btn btn-default" ng-click="loginToggle()">{{strings['login']}}</button>

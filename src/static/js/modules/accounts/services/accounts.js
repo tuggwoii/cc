@@ -124,6 +124,33 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                     })
                 }
             });
+        },
+        getById: function (id) {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).one.replace('{id}', id);
+                if (caches[key]) {
+                    resolve(caches[key]);
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        caches[key] = res;
+                        resolve(caches[key]);
+                    }).catch(function (res) {
+                        reject(res);
+                    })
+                }
+            });
+        },
+        save: function (model) {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).admin;
+                $http.patch(key, model).success(function (res) {
+                    caches[key] = res;
+                    resolve(caches[key]);
+                }).catch(function (res) {
+                    reject(res);
+                });
+            });
         }
     };
 }]);

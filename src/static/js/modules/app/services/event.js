@@ -41,6 +41,13 @@ module.factory('Event', [function () {
         },
         Repair: {
             DisplayCaptionPopup: 'DISPLAY_IMAGE_CAPTION_POPUP'
-        }
+        },
+        Workgroup: {
+            DisplayWorkgroupPopup: 'DISPLAY_WORKGROUP_POPUP'
+        },
+        Message: {
+            Display: 'DISPLAY_MESSAGE',
+            Dismiss: 'DISMISS_MESSAGE'
+        },
     };
 }]);

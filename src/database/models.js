@@ -43,6 +43,10 @@ var User = sequelize.define('users', {
     updatedAt: {
         type: Sequelize.DATE,
         field: 'updatedAt'
+    },
+    ban: {
+        type: Sequelize.BOOLEAN,
+        field: 'ban'
     }
 }, {
     freezeTableName: true

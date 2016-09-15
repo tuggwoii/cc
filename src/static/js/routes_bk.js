@@ -10,6 +10,9 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('users', {
           url: "/users",
           templateUrl: "backend/users.html"
+      }).state('user', {
+          url: "/user",
+          templateUrl: "backend/user.html"
       }).state('works', {
           url: "/works",
           templateUrl: "backend/works.html"

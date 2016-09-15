@@ -1354,6 +1354,18 @@ body {
             h2 {
                 margin: 35px 0 -10px 0;
                 border-bottom: 2px solid #f55d22;
+
+                button {
+                    float: right;
+                    position: relative;
+                    top: -10px;
+                    height: 40px;
+                }
+            }
+
+            .status-error {
+                    position: relative;
+                    top: 20px;
             }
 
             .table {
@@ -1383,6 +1395,16 @@ body {
                         background: none;
                     }
                 }
+                .action {
+                    text-align:right;
+
+                    .fa {
+                        font-size: 18px;
+                        color: #f55d22;
+                        cursor:pointer;
+                        margin-right: 10px;
+                    }
+                }
             }
 
             .user-filter {
@@ -1407,6 +1429,15 @@ body {
                     display: inline-block;
                     width: 100%;
                 }
+            }
+        }
+
+        .backend-user {
+
+            .detail-field {
+                padding: 15px 30px;
+                color: #f55d36;
+                font-size: 28px;
             }
         }
     }

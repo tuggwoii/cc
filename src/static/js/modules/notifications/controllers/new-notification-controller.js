@@ -27,8 +27,8 @@ module.controller('NewNotificationController', ['$scope', '$rootScope', '$timeou
                         });
                     }
                 }),
-                WorkgroupService.get().then(function (data) {
-                     $scope.workgroup = angular.copy(data);
+                WorkgroupService.get().then(function (res) {
+                     $scope.workgroup = angular.copy(res.data);
                 })
             ]).then(function () {
                 $scope.displayView();

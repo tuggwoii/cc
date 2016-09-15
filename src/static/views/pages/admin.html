@@ -18,13 +18,14 @@
         <header ng-include="'/backend/nav.html'"></header>
         <div class="wrapper container-fluid opacity-theme">
             <div class="row" ng-include="'/partials/background.html'"></div>
-            <div class="view animated fadeIn" ui-view>
-                
-            </div>
+            <div class="view animated fadeIn" ui-view></div>
         </div>
         <footer ng-include="'/partials/footer.html'"></footer>
     </div>
     <load></load>
+    <confirm></confirm>
+    <message></message>
+    <workgroup-popup></workgroup-popup>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script type="text/javascript">if (!window.jQuery) { document.write("<script type=\"text/javascript\" src=\"/libs/jquery/dist/jquery.min.js\"><\/script>"); }</script>
     <script src="/css/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
@@ -49,6 +50,11 @@
     <script src="/js/modules/admin/controllers/dashboard-controller.js"></script>
     <script src="/js/modules/app/directives/load.js"></script>
     <script src="/js/modules/admin/controllers/users-controller.js"></script>
+    <script src="/js/modules/admin/controllers/user-controller.js"></script>
+    <script src="/js/modules/admin/controllers/works-controller.js"></script>
+    <script src="/js/modules/workgroup/directives/workgroup-popup.js"></script>
+    <script src="/js/modules/app/directives/confirm.js"></script>
+    <script src="/js/modules/app/directives/message.js"></script>
     <script>var error_500 = false; var error_404 = false;</script>
 </body>
 </html>

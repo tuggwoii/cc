@@ -12,8 +12,8 @@ module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupServ
 
         function notLoginUser() {
             $q.all([
-                WorkgroupService.get().then(function (data) {
-                    $scope.workgroup = angular.copy(data);
+                WorkgroupService.get().then(function (res) {
+                    $scope.workgroup = angular.copy(res.data);
                 }),
                 ShareService.get(1, { limits: 12 }).then(function (res) {
                     $scope.shares = res.data;
@@ -35,8 +35,8 @@ module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupServ
                 CarService.get().then(function (res) {
                     $scope.cars = res.data;
                 }),
-                WorkgroupService.get().then(function (data) {
-                    $scope.workgroup = angular.copy(data);
+                WorkgroupService.get().then(function (res) {
+                    $scope.workgroup = angular.copy(res.data);
                 }),
                 NotificationService.getByType(1).then(function (res) {
                     $scope.dateNotifications = res;

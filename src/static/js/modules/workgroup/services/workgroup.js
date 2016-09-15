@@ -2,22 +2,53 @@
 module.factory('WorkgroupService', ['$q', '$http', 'URLS', function ($q, $http, URLS) {
 
     var service = 'workgroup'
-    var cache;
+    var caches = {};
 
     return {
         get: function () {
             return $q(function (resolve, reject) {
-                if (cache) {
-                    resolve(cache);
+                var key = URLS.model(service).all;
+                if (caches[key]) {
+                    resolve(caches[key]);
                 }
                 else {
-                    $http.get(URLS.model(service).all).success(function (res) {
-                        cache = res.data;
-                        resolve(res.data);
+                    $http.get(key).success(function (res) {
+                        caches[key] = res;
+                        resolve(caches[key]);
                     }).error(function (res) {
                         reject(res);
                     });
                 }
+            });
+        },
+        create: function (model) {
+            return $q(function (resolve, reject) {
+                $http.post(URLS.model(service).all, model).success(function (res) {
+                    caches = {};
+                    resolve(res);
+                }).error(function (res) {
+                    reject(res);
+                });
+            });
+        },
+        update: function (model) {
+            return $q(function (resolve, reject) {
+                $http.patch(URLS.model(service).all, model).success(function (res) {
+                    caches = {};
+                    resolve(res);
+                }).error(function (res) {
+                    reject(res);
+                });
+            });
+        },
+        delete: function (model) {
+            return $q(function (resolve, reject) {
+                $http.delete(URLS.model(service).one.replace('{id}', model.id), model).success(function (res) {
+                    caches = {};
+                    resolve(res);
+                }).error(function (res) {
+                    reject(res);
+                });
             });
         }
     };

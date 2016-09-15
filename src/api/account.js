@@ -4,6 +4,7 @@ var BaseApi = require('./base');
 var User = require('../database/models').User;
 var Role = require('../database/models').Role;
 var File = require('../database/models').File;
+var Serializer = require('../serializers/user-serializer');
 var bcrypt = require('bcrypt-nodejs');
 var salt = bcrypt.genSaltSync(10);
 var shortid = require('shortid');
@@ -58,6 +59,22 @@ class AccountApi extends BaseApi {
            }).catch(function (err) {
                reject(err);
            });
+        });
+        return promise;
+    }
+
+    findById (id) {
+        var promise = new Promise(function (resolve, reject) {
+            User.findById(id, {
+                include: [
+                    { model: Role },
+                    { model: File }
+                ]
+            }).then(function (users) {
+                resolve(users);
+            }).catch(function (err) {
+                reject(err);
+            });
         });
         return promise;
     }
@@ -128,9 +145,15 @@ class AccountApi extends BaseApi {
             if (!data.email) {
                 reject({ message: 'EMAIL REQUIRED' });
             }
+            else if (!data.name) {
+                reject({ message: 'NAME REQUIRED' });
+            }
             else {
                 if (data.max_car) {
                     delete data['max_car'];
+                }
+                if (data.ban) {
+                    delete data['ban'];
                 }
                 if (data.user_role) {
                     delete data['user_role'];
@@ -264,8 +287,8 @@ class AccountApi extends BaseApi {
                     }).catch(function () {
                         context.error(req, res, err, 500);
                     });
-                }).catch(function () {
-                    context.error(req, res, 'UNKNOW ERROR', 500);
+                }).catch(function (err) {
+                    context.error(req, res, err, 500);
                 });
             }
             else {
@@ -282,12 +305,17 @@ class AccountApi extends BaseApi {
 		}
 		else {
 			context.validateLogin(req.body).then(function (_user) {
-            var user = context.loginSerializer(_user);
-            Authorize.authorizeUser(user).then(function (auth_user) {
-                context.success(req, res, auth_user);
-				}).catch(function (err) {
-					context.error(req, res, err, 500);
-				});
+			    var user = context.loginSerializer(_user);
+			    if (user.ban) {
+			        context.error(req, res, { message: 'BAN'}, 400);
+			    }
+			    else {
+			        Authorize.authorizeUser(user).then(function (auth_user) {
+			            context.success(req, res, auth_user);
+			        }).catch(function (err) {
+			            context.error(req, res, err, 500);
+			        });
+			    }
 			}).catch(function (err) {
 				context.error(req, res, err, 400);
 			});
@@ -305,11 +333,16 @@ class AccountApi extends BaseApi {
 				context.findByEmail(_res.email).then(function (users) {
 					if (users.length) {
 						var user = context.loginSerializer(users[0]);
-						Authorize.authorizeUser(user).then(function (auth_user) {
-							context.success(req, res, auth_user);
-						}).catch(function (err) {
-							context.error(req, res, err, 500);
-						});
+						if (user.ban) {
+						    context.error(req, res, { message: 'BAN' }, 400);
+						}
+						else {
+						    Authorize.authorizeUser(user).then(function (auth_user) {
+						        context.success(req, res, auth_user);
+						    }).catch(function (err) {
+						        context.error(req, res, err, 500);
+						    });
+						}
 					}
 					else {
 						var data = {
@@ -319,8 +352,11 @@ class AccountApi extends BaseApi {
 						};
 						context.validateRegister(data, true).then(function () {
 							var user = context.registerModel(data);
-							var ip = IP(req);
-							user.ip = ip.clientIp;
+							var ip = req.headers['x-forwarded-for'] ||
+                                    req.connection.remoteAddress ||
+                                    req.socket.remoteAddress ||
+                                    req.connection.socket.remoteAddress;
+							user.ip = ip;
 						    User.create(user, { isNewRecord: true }).then(function (model) {
 								context.findByEmail(_res.email).then(function (_users) {
 									if(_users.length) {
@@ -353,10 +389,14 @@ class AccountApi extends BaseApi {
 
     register (context, req, res) {
         var data = req.body;
-        var ip = IP(req);
+        //var ip = IP(req);
+        var ip = req.headers['x-forwarded-for'] || 
+             req.connection.remoteAddress || 
+             req.socket.remoteAddress ||
+             req.connection.socket.remoteAddress;
         context.validateRegister(data).then(function () {
             var model = context.registerModel(data);
-            model.ip = ip.clientIp;
+            model.ip = ip;
             User.create(model, { isNewRecord: true }).then(function (_user) {
                 var user = context.loginSerializer(_user);
                 User.findById(user.id, {
@@ -422,6 +462,16 @@ class AccountApi extends BaseApi {
         context.success(req, res, captcha);
     }
 
+    getById(context, req, res) {
+        if (req.params.id) {
+            context.findById(req.params.id).then(function (user) {
+                context.success(req, res, user, {}, Serializer.admin);
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            })
+        }
+    }
+
     endpoints () {
         return [
             { url: '/accounts', method: 'get', roles: ['admin'], response: this.getAll },
@@ -433,6 +483,7 @@ class AccountApi extends BaseApi {
             { url: '/accounts/captcha', method: 'get', roles: [], response: this.captcha },
             { url: '/accounts/logout', method: 'post', roles: ['admin', 'user'], response: this.logout },
             { url: '/admin/accounts', method: 'patch', roles: ['admin'], response: this.adminUpdate },
+            { url: '/admin/accounts', method: 'get', roles: ['admin'], response: this.getById, params: ['id'] }
         ];
     }
 }

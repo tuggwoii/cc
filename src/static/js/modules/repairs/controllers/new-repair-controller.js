@@ -35,8 +35,8 @@ module.controller('NewRepairController', ['$scope', '$rootScope', '$timeout', '$
                                 });
                             }
                         }),
-                        WorkgroupService.get().then(function (data) {
-                            $scope.workgroup = angular.copy(data);
+                        WorkgroupService.get().then(function (res) {
+                            $scope.workgroup = angular.copy(res.data);
                         })
                     ]).then(function () {
                         initModel();

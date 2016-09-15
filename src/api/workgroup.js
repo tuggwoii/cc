@@ -123,9 +123,9 @@ class WorkgroupApi extends BaseApi {
     endpoints() {
         return [
             { url: '/workgroup', method: 'get', roles: [], response: this.getAll },
-            { url: '/workgroup', method: 'post', roles: [], response: this.add },
-            { url: '/workgroup', method: 'patch', roles: [], response: this.update },
-            { url: '/workgroup', method: 'delete', roles: [], response: this.delete, params:['id'] },
+            { url: '/workgroup', method: 'post', roles: ['admin'], response: this.add },
+            { url: '/workgroup', method: 'patch', roles: ['admin'], response: this.update },
+            { url: '/workgroup', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] }
         ];
     }
 }

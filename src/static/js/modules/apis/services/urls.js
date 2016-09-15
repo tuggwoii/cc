@@ -11,6 +11,8 @@ module.factory('URLS', function () {
             update: base + 'accounts',
             captcha: base + 'accounts/captcha',
             all: base + 'accounts',
+            one: base + 'admin/accounts/{id}',
+            admin: base + 'admin/accounts'
         },
         strings: '/resources/strings.json'
     };

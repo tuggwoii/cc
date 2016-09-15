@@ -44,8 +44,8 @@ module.controller('EditRepairController', ['$scope', '$rootScope', '$timeout', '
                                 });
                             }
                         }),
-                        WorkgroupService.get().then(function (data) {
-                            $scope.workgroup = angular.copy(data);
+                        WorkgroupService.get().then(function (res) {
+                            $scope.workgroup = angular.copy(res.data);
                         }),
                         getById()
                     ]).then(function () {

@@ -21,8 +21,8 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 CarService.get().then(function (res) {
                     $scope.cars = angular.copy(res.data);
                 }),
-                WorkgroupService.get().then(function (data) {
-                    $scope.workgroup = angular.copy(data);
+                WorkgroupService.get().then(function (res) {
+                    $scope.workgroup = angular.copy(res.data);
                 }),
                 RepairService.getPreviousShop().then(function (res) {
                     $scope.previous_shops = res.data;

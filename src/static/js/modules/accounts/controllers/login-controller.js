@@ -9,10 +9,15 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
 
     function error (res, code) {
         if (code === 400) {
-            $scope.status = {
-                invalid: true,
-                error: false
-            };
+            if (res.error.message == 'BAN') {
+                $scope.status.ban = true;
+            }
+            else {
+                $scope.status = {
+                    invalid: true,
+                    error: false
+                };
+            }
         }
         else {
             $scope.status = {
@@ -38,6 +43,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
 
     $scope.login = function (form) {
         if (form.$valid) {
+            $scope.status = {};
             $rootScope.$broadcast(Event.Load.Display, 'LOG_IN');
             AccountService.login($scope.model).success(function (res) {
                 success(res);
@@ -55,6 +61,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
 
     $scope.facebookLogin = function (creds) {
         $rootScope.$broadcast(Event.Load.Display);
+        $scope.status = {};
         AccountService.login(creds).success(function (res) {
             success(res);
         }).error(function (res) {

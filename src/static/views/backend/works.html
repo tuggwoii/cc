@@ -1,0 +1,45 @@
+﻿<div class="container backend-user">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#/')">Admin ></a>
+            </li>
+            <li>
+                Workgroup
+            </li>
+        </ul>
+    </div>
+
+    <div class="subpage" ng-controller="WorksController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>Workgroup</span>
+        </h1>
+
+        <div class="users-list">
+            <h2>
+                <span>Workgroup ({{works.length}})</span>
+                <button class="btn btn-danger" ng-click="add()"><i class="fa fa-plus"></i> เพิ่ม</button>
+            </h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>ชื่อกลลุ่มงาน</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="w in works">
+                        <td>{{w.name}}</td>
+                        <td class="action">
+                            <i class="fa fa-edit" ng-click="edit(w);$event.stopPropagation();"></i>
+                            <i class="fa fa-remove" ng-click="delete(w);$event.stopPropagation();"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

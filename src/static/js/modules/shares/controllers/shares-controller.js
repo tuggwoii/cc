@@ -12,8 +12,8 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                 if ($scope.user && $scope.user.id) {
                     $q.all([
                          $scope.getAll(),
-                         WorkgroupService.get().then(function (data) {
-                             $scope.workgroup = angular.copy(data);
+                         WorkgroupService.get().then(function (res) {
+                             $scope.workgroup = angular.copy(res.data);
                          }),
                          CarService.get().then(function (res) {
                              $scope.cars = angular.copy(res.data);
@@ -25,8 +25,8 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                 else {
                     $q.all([
                          $scope.getAll(),
-                         WorkgroupService.get().then(function (data) {
-                             $scope.workgroup = angular.copy(data);
+                         WorkgroupService.get().then(function (res) {
+                             $scope.workgroup = angular.copy(res.data);
                          })
                     ]).then(function () {
                         $scope.displayView();
