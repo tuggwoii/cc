@@ -52,7 +52,7 @@ module.controller('EditNotificationController', ['$scope', '$rootScope', '$timeo
         }
 
         function isValid() {
-            return $scope.params.id;
+            return $scope.params.id && $scope.user && $scope.user.id;
         }
 
         $scope.editNotificationPage = function () {

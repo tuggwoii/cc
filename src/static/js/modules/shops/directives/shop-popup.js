@@ -6,7 +6,25 @@
 
         },
         link: function (scope, element, attrs) {
-            
+            scope.provinces = [];
+            function createProvinces() {
+                angular.forEach(areas, function (area) {
+                    angular.forEach(area.areas, function (p) {
+                        scope.provinces.push(p);
+                    });
+                });
+            }
+
+            function initShop(shops) {
+                angular.forEach(shops, function (s) {
+                    angular.forEach( scope.provinces, function (p) {
+                        if (s.province == p.key) {
+                            s.province_str = p.th;
+                        }
+                    })
+                });
+            }
+
             scope.close = function () {
                 if (scope.display) {
                     $timeout(function () {
@@ -30,6 +48,7 @@
                             scope.onSearchShop = true;
                             ShopService.getAll(scope.search.key).then(function (res) {
                                 scope.shops = res.data;
+                                initShop(scope.shops);
                                 $timeout(function () {
                                     scope.onSearchShop = false;
                                     scope.trySearch = true;
@@ -93,6 +112,7 @@
                     }
                 }
             }
+            createProvinces();
         }
     };
 }]);

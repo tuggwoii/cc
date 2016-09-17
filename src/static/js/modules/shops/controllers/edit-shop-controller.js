@@ -39,6 +39,9 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
                     getById(),
                     CarService.get().then(function (res) {
                         $scope.cars = angular.copy(res.data);
+                    }),
+                    WorkService.get().then(function () {
+
                     })
                 ]).then(function () {
                     $scope.displayView();

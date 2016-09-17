@@ -1806,8 +1806,8 @@ body {
             padding: 5px;
 
             img {
-                width: 35px;
-                height: 35px;
+                width: 50px;
+                height: 50px;
                 float: left;
             }
 
@@ -1818,12 +1818,21 @@ body {
             }
 
             .shop-name {
-                width: calc(100% - 35px);
+                width: calc(100% - 50px);
                 padding-left: 10px;
                 display: inline-block;
                 float: left;
-                padding-top: 2px;
+                padding-top: 0px;
                 font-size: 24px;
+                line-height: 1;
+            }
+            .shop-address {
+                 width: calc(100% - 50px);
+                 display: inline-block;
+                 font-size: 20px;
+                 padding-left: 10px;
+                 line-height: 1;
+                 color: #ccc;
             }
         }
 

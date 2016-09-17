@@ -32,6 +32,7 @@
                     <img ng-src="{{s.image.url}}" ng-if="s.image" />
                     <img src="img/no-photo.jpg" ng-if="!s.image" />
                     <span class="shop-name">{{s.name}}</span>
+                    <span class="shop-address">{{s.city?s.city:'ไม่ระบุเขต/อำเภอ'}}, {{s.province_str?s.province_str:'ไม่ระบุจังหวัด'}}</span>
                 </li>
                 <li ng-if="search.key && trySearch" class="add-new" ng-click="createShop()">
                     <i class="fa fa-plus"></i>

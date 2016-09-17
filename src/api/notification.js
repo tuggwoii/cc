@@ -25,6 +25,7 @@ class NotificationApi extends BaseApi {
         };
         if (data.id) {
             model.id = data.id;
+            model.repair_id = data.repair_id;
         }
         return model;
     }
