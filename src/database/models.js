@@ -452,6 +452,14 @@ var Shop = sequelize.define('shops', {
     rating: {
         type: Sequelize.DOUBLE,
         field: 'rating'
+    },
+    services: {
+        type: Sequelize.STRING,
+        field: 'services'
+    },
+    website: {
+        type: Sequelize.STRING,
+        field: 'website'
     }
 });
 

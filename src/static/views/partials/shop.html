@@ -49,22 +49,36 @@
                         <span>{{model.province?model.province_str:'ไม่ระบุ'}}</span>
                     </div>
                     <div class="title">
-                        <label>แก้ไขล่าสุด: </label>
-                        <span>{{model.update_user?model.update_user.name:'ไม่ระบุ'}}</span>
+                        <label>เบอร์โทรศัพท์ </label>
+                        <span>{{model.telephone?model.telephone:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>Website: </label>
+                        <span ng-if="!model.website">ไม่ระบุ</span>
+                        <a href="{{model.website.indexOf('http') > -1? model.website: 'http://' + model.website }}" target="_blank">{{model.website}}</a>
                     </div>
                     <div class="title">
                         <label>แก้ไขเมื่อ: </label>
                         <span>{{model.updatedAt?model.update_str:'ไม่ระบุ'}}</span>
                     </div>
                 </div>
-                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-shop?id=' + model.id)">
+                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-shop?id=' + model.id)" ng-if="isCreator">
                     แก้ไขข้อมูล
                 </button>
             </div>
 
+            <h2><i class="fa fa-gear"></i> บริการ/กลุ่มงานที่รับทำ</h2>
+            <div class="detail-section">
+                <p ng-if="!model.services">ยังไม่มีบริการ/กลุ่มงานที่รับทำ</p>
+                <div class="shop-work" ng-repeat="w in model.service_list track by $index">
+                    <div ng-if="w">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        {{w}}
+                    </div>
+                </div>
+            </div>
 
             <h2><i class="fa fa-map"></i> แผนที่</h2>
-
             <div class="detail-section">
                 <p ng-if="!model.map">ยังไม่มีแผนที่ร้าน</p>
                 <div class="map" ng-if="model.map"></div>

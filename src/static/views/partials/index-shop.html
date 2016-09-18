@@ -1,22 +1,38 @@
 ﻿<div class="box">
     <h3><i class="fa fa-map-marker" aria-hidden="true"></i> {{strings['rates_shop']}}</h3>
     <div class="filter-box">
-        <div class="filter-item active">{{strings['general_work']}}</div>
-        <div class="filter-item" ng-repeat="work in workgroup">{{work.name}}</div>
+        <div class="form-group">
+            <label>จังหวัด</label>
+            <select ng-model="shop_query.province" class="form-control" ng-change="loadShop()">
+                <option value="">ทั้งหมด</option>
+                <option value="{{p.key}}" ng-repeat="p in provinces">{{p.th}}</option>
+            </select>
+        </div>
+        <div>
+            <label>บริการ</label>
+            <div>
+                <div class="filter-item {{shop_query.services?'':'active'}}" ng-click="shopWorkClick()">{{strings['general_work']}}</div>
+                <div class="filter-item {{work.active?'active':''}}" ng-repeat="work in workgroup" ng-click="shopWorkClick(work)">{{work.name}}</div>
+            </div>
+        </div>
     </div>
     <div class="content-box">
         <p class="nodata" ng-if="!shops.length">{{strings['no_data']}}</p>
         <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shops">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shops">
                 <div class="index-shop">
                     <a href="/#/shop?id={{s.id}}">
                         <div><i class="fa fa-map-marker"></i> {{s.name}}</div>
-                        <div><i class="fa fa-map-o"></i> จังหวัด: {{s.city?s.city:'ไม่ระบุ'}}</div>
-                        <div><i class="fa fa-asterisk"></i> จำนวนการใช้บริการ: 10</div>
+                        <div><i class="fa fa-map-o"></i> จังหวัด: {{s.city?s.province_str:'ไม่ระบุ'}}</div>
+                        <div><i class="fa fa-asterisk"></i> จำนวนการใช้บริการ: {{s.repairs}}</div>
                         <rating-star rating="s.rating"></rating-star>
                     </a>
                 </div>
             </div>
+        </div>
+        <div class="loadmore-container" ng-if="shop_query.hasMore">
+            <button type="button" class="btn btn-danger loadMore" ng-if="!shop_query.isLoad" ng-click="loadMoreShop()">โหลดเพิ่ม</button>
+            <button type="button"  class="btn btn-danger loadMore" ng-if="shop_query.isLoad" disabled>กำลังโหลด...</button>
         </div>
     </div>
 </div>

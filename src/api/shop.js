@@ -2,10 +2,11 @@
 var Shop = require('../database/models').Shop;
 var User = require('../database/models').User;
 var Image = require('../database/models').File;
+var Repair = require('../database/models').Repair;
 var Serializer = require('../serializers/shop-serializer');
 var BaseApi = require('./base');
 var url = require('url');
-var limits = 10;
+var limits = 24;
 
 class ShopApi extends BaseApi {
 
@@ -20,7 +21,9 @@ class ShopApi extends BaseApi {
             province: data.province,
             lat: data.lat,
             lon: data.lon,
-            map: data.map
+            map: data.map,
+            services: data.services,
+            website: data.website
         };
         if (data.image) {
             model.image = data.image.id
@@ -131,6 +134,19 @@ class ShopApi extends BaseApi {
         return promise;
     }
 
+    countShop(queries) {
+        var promise = new Promise(function (resolve, reject) {
+            Shop.count({
+                where: queries
+            }).then(function (count) {
+                resolve(count)
+            }).catch(function (err) {
+                reject(err)
+            });
+        });
+        return promise;
+    }
+
     getAll(context, req, res) {
         var params = url.parse(req.url, true);
         var queries = params.query;
@@ -146,20 +162,35 @@ class ShopApi extends BaseApi {
         if (queries['p']) {
             p = parseInt(queries['p']);
         }
-        var skip = limits * (p - 1);
+        if (queries['s']) {
+            conditions.services = { like: '%' + queries['s'] + '%' };
+        }
+        if (queries['c']) {
+            conditions.province = queries['c'];
+        }
+        var skip = user_limits * (p - 1);
 
         Shop.all({
             where: conditions,
-            order: [["createdAt", "DESC"]],
+            order: [["rating", "DESC"]],
             include: [
                 { model: User, as: 'create_user', include: [{ model: Image } ] },
                 { model: User, as: 'update_user', include: [{ model: Image }] },
-                { model: Image }
+                { model: Image },
+                { model: Repair }
             ],
             offset: skip,
             limit: user_limits
         }).then(function (data) {
-            context.success(req, res, data, {}, Serializer.default);
+            context.countShop(conditions).then(function (count) {
+                var meta = {
+                    count: count,
+                    limits: user_limits
+                };
+                context.success(req, res, data, meta, Serializer.default);
+            }).catch(function () {
+                context.error(req, res, err, 500);
+            })
         }).catch(function (err) {
             context.error(req, res, err, 500);
         });
@@ -204,11 +235,16 @@ class ShopApi extends BaseApi {
         context.validateUpdate(shop).then(function () {
             context.getShopById(shop.id).then(function (_shop) {
                 if (_shop) {
-                    _shop.updateAttributes(shop).then(function (_updated_shop) {
-                        context.success(req, res, _updated_shop);
-                    }).catch(function (err) {
-                        context.error(req, res, err, 500);
-                    });
+                    if (_shop.create_by == req.user.id) {
+                        _shop.updateAttributes(shop).then(function (_updated_shop) {
+                            context.success(req, res, _updated_shop);
+                        }).catch(function (err) {
+                            context.error(req, res, err, 500);
+                        });
+                    }
+                    else {
+                        context.denied(res);
+                    }
                 }
                 else {
                     context.notfound(res);

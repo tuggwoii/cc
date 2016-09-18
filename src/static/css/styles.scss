@@ -567,7 +567,7 @@ body {
                 display: inline-block;
                 width: 100%;
                 background: #343434;
-                padding: 0 10px 10px 10px;
+                padding: 20px;
                 margin-bottom: 5px;
 
                 .filter-item {
@@ -581,6 +581,13 @@ body {
 
                 .filter-item.active {
                     background-color: rgb(208, 93, 49);
+                }
+
+                label {
+                    margin-left: 10px;
+                    color: #f05f23;
+                    font-size: 26px;
+                    font-weight: bold;
                 }
             }
 
@@ -1348,6 +1355,21 @@ body {
                 }
             }
 
+            .shop-work {
+                line-height: 1.3;
+
+                span {
+                    position:relative;
+                    top: -5px;
+                    left: 5px;
+                }
+
+                .fa {
+                    font-size: 18px;
+                }
+
+            }
+
         }
 
         .backend-user {
@@ -1901,7 +1923,7 @@ body {
     .index-shop {
         line-height: 1.3;
         padding: 10px 20px;
-        height: 150px;
+        height: 180px;
         font-size: 22px;
         cursor:pointer;
 
@@ -1918,6 +1940,10 @@ body {
         a:hover, a:focus, a:active {
             text-decoration: none;
         }
+    }
+
+    .loadmore-container {
+        text-align:center;
     }
 }
 

@@ -20,7 +20,9 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         }
 
         function initModel(model) {
-            
+            if (model.services) {
+                model.service_list = model.services.split(',');
+            }
         }
 
         function createProvinces(model) {
@@ -32,29 +34,49 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
             $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
         }
 
-        function loadResource() {
-            if ($scope.user && $scope.user.id) {
-                createProvinces();
-                $q.all([
-                    getById(),
-                    CarService.get().then(function (res) {
-                        $scope.cars = angular.copy(res.data);
-                    }),
-                    WorkService.get().then(function () {
-
-                    })
-                ]).then(function () {
-                    $scope.displayView();
+        function initWork(model, works) {
+            angular.forEach(model.service_list, function (w) {
+                angular.forEach(works, function (_w) {
+                    if (w == _w.name) {
+                        _w.checked = true;
+                    }
                 });
-            }
-            else {
-                $scope.displayView();
-            }
+            });
+        }
+
+        function loadResource() {
+            createProvinces();
+            $q.all([
+                getById(),
+                CarService.get().then(function (res) {
+                    $scope.cars = angular.copy(res.data);
+                }),
+                WorkgroupService.get().then(function (res) {
+                    $scope.works = angular.copy(res.data);
+                })
+            ]).then(function () {
+                if ($scope.model.create_by == $scope.user.id) {
+                    initWork($scope.model, $scope.works);
+                    $scope.displayView();
+                }
+                else {
+                    $scope.navigateTo('#/shop?id=' + $scope.params.id);
+                }
+            });
+        }
+
+        function isValid() {
+            return $scope.user && $scope.user.id;
         }
 
         $scope.editShop = function () {
             if ($scope.user_ready) {
-                loadResource();
+                if (isValid()) {
+                    loadResource();
+                }
+                else {
+                    $scope.navigateTo('#/shop?id=' + $scope.params.id);
+                }
             }
             else {
                 $timeout(function () {
@@ -95,6 +117,20 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
             if ($scope.model) {
                 $scope.model.image = file;
             }
+        };
+
+        $scope.workChecked = function (work) {
+            work.checked = !work.checked;
+            $scope.setServices();
+        };
+
+        $scope.setServices = function () {
+            $scope.model.services = '';
+            angular.forEach($scope.works, function (w) {
+                if (w.checked) {
+                    $scope.model.services += w.name + ',';
+                }
+            });
         };
 
         $scope.$on(Event.File.Success, $scope.setImage);

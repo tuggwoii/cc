@@ -15,7 +15,8 @@
         delete model.create_user['password'];
         delete model.create_user['createdAt'];
         delete model.create_user['updatedAt'];
-
+        delete model.create_user['ip'];
+        delete model.create_user['ban'];
         if (model.create_user.file) {
             delete model.create_user.file['owner'];
             delete model.create_user.file['is_use'];
@@ -32,6 +33,8 @@
         delete model.update_user['password'];
         delete model.update_user['createdAt'];
         delete model.update_user['updatedAt'];
+        delete model.update_user['ip'];
+        delete model.update_user['ban'];
 
         if (model.update_user.file) {
             delete model.update_user.file['owner'];
@@ -46,6 +49,12 @@
         delete model.image['createdAt'];
         delete model.image['updatedAt'];
         delete model['file'];
+    }
+    if (model.repairs) {
+        model.repairs = model.repairs.length;
+    }
+    else {
+        model.repairs = 0;
     }
     return model;
 }

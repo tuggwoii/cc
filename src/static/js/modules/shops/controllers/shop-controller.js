@@ -9,6 +9,7 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
         $scope.carId = $scope.params.car;
         $scope.from_car = $scope.params.car ? true : false;
         $scope.provinces = [];
+        $scope.isCreator = false;
 
         function getById() {
             ShopService.getById($scope.params.id).then(function (data) {
@@ -21,6 +22,9 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
 
         function initModel(model) {
             model.update_str = Helper.readableDateTime(model.updatedAt);
+            if (model.services) {
+                model.service_list = model.services.split(',');
+            }
             angular.forEach($scope.provinces, function (p) {
                 if (p.key == model.province) {
                     model.province_str = p.th;
@@ -30,10 +34,13 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
                 $timeout(function () {
                     $('.map').append(model.map);
                 }, 500);
-            } 
+            }
+            if ($scope.user && model.create_by == $scope.user.id) {
+                $scope.isCreator = true;
+            }
         }
 
-        function createProvinces(model) {
+        function createProvinces() {
             angular.forEach(areas, function (area) {
                 angular.forEach(area.areas, function (p) {
                     $scope.provinces.push(p);

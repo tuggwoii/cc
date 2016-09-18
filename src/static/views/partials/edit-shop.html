@@ -1,4 +1,4 @@
-﻿<div class="editshop" ng-controller="EditShopController">
+﻿<div class="editshop car-page shop-page" ng-controller="EditShopController">
     <div class="row user-profile animated fadeIn" ng-if="user.id">
         <div class="container-fluid">
             <div class="row">
@@ -102,6 +102,16 @@
                                placeholder="เบอร์โทรศัพท์"
                                ng-model="model.telephone" />
                     </div>
+                    <div class="form-group">
+                        <label class="capital">
+                            Website
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Website ร้าน"
+                               ng-model="model.website" />
+                    </div>
+
                 </div>
                 <div class="section right">
                     <div class="image">
@@ -119,22 +129,30 @@
                     </div>
                 </div>
 
-
-                <hr />
-
-                <h2>Map</h2>
-
-                <div class="section left">
-                    <div class="form-group">
-                        <label class="capital">
-                            แผนที่ร้าน (Google Map iframe)
-                        </label>
-                        <textarea type="text"
-                                  class="form-control"
-                                  ng-model="model.map"
-                                  placeholder="Google Map iframe"></textarea>
+                <div class="full-width-form-section">
+                    <h2><i class="fa fa-gear"></i> บริการ/กลุ่มงานที่รับทำ</h2>
+                    <div class="detail-section">
+                        <div class="shop-work" ng-repeat="w in works">
+                           <input type="checkbox" class="workCheckbox" name="workCheckbox" ng-click="workChecked(w)" ng-checked="w.checked" /> <span>{{w.name}}</span>
+                        </div>
                     </div>
+
+                    <h2><i class="fa fa-map"></i> แผนที่ร้าน</h2>
+                    <div class="detail-section">
+                        <div class="form-group">
+                            <label class="capital">
+                                แผนที่ร้าน (Google Map iframe)
+                            </label>
+                            <textarea type="text"
+                                      class="form-control"
+                                      ng-model="model.map"
+                                      placeholder="Google Map iframe"></textarea>
+                        </div>
+                    </div>    
+                    
                 </div>
+               
+
                 <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
                 <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
 

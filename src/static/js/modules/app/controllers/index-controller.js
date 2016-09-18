@@ -1,8 +1,14 @@
 ﻿'use strict';
-module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupService', 'CarService', 'NotificationService', 'ShareService', 'ShopService', 'Helper',
-    function ($scope, $q, $timeout, WorkgroupService, CarService, NotificationService, ShareService, ShopService, Helper) {
+module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 'WorkgroupService', 'CarService', 'NotificationService', 'ShareService', 'ShopService', 'Helper', 'Event',
+    function ($scope, $rootScope, $q, $timeout, WorkgroupService, CarService, NotificationService, ShareService, ShopService, Helper, Event) {
 
-        $scope.shopPage = 1;
+        $scope.shop_query = {
+            page: 1,
+            services: '',
+            province: '',
+            isLoad: false
+        };
+        $scope.provinces = [];
 
         function initModel(items) {
             angular.forEach(items, function (i) {
@@ -18,8 +24,21 @@ module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupServ
                 ShareService.get(1, { limits: 12 }).then(function (res) {
                     $scope.shares = res.data;
                 }),
-                ShopService.get($scope.shopPage).then(function (res) {
+                ShopService.get($scope.shop_query.page).then(function (res) {
                     $scope.shops = res.data;
+                    angular.forEach($scope.shops, function (s) {
+                        angular.forEach($scope.provinces, function (p) {
+                            if (s.province == p.key) {
+                                s.province_str = p.th;
+                            }
+                        });
+                    });
+                    if (res.meta.count > $scope.shops.length) {
+                        $scope.shop_query.hasMore = true;
+                    }
+                    else {
+                        $scope.shop_query.hasMore = false;
+                    }
                 })
             ])
             .then(function () {
@@ -51,8 +70,21 @@ module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupServ
                 ShareService.get(1, { limits: 12 }).then(function (res) {
                     $scope.shares = res.data;
                 }),
-                ShopService.get($scope.shopPage).then(function (res) {
+                ShopService.get($scope.shop_query.page).then(function (res) {
                     $scope.shops = res.data;
+                    angular.forEach($scope.shops, function (s) {
+                        angular.forEach($scope.provinces, function (p) {
+                            if (s.province == p.key) {
+                                s.province_str = p.th;
+                            }
+                        });
+                    });
+                    if (res.meta.count > $scope.shops.length) {
+                        $scope.shop_query.hasMore = true;
+                    }
+                    else {
+                        $scope.shop_query.hasMore = false;
+                    }
                 })
             ])
             .then(function () {
@@ -83,9 +115,19 @@ module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupServ
             return results;
         }
 
+        function createProvinces() {
+            angular.forEach(areas, function (area) {
+                angular.forEach(area.areas, function (p) {
+                    $scope.provinces.push(p);
+                });
+            });
+            $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
+        }
+
         $scope.loadIndex = function () {
             if ($scope.user_ready && $scope.strings_ready) {
                 $scope.cars = [];
+                createProvinces();
                 if ($scope.user && $scope.user.id) {
                     loginUser();
                 }
@@ -98,6 +140,72 @@ module.controller('IndexController', ['$scope', '$q', '$timeout', 'WorkgroupServ
                     $scope.loadIndex();
                 }, 500);
             }
+        };
+
+        $scope.loadShop = function () {
+            $scope.shop_query.page = 1;
+            $rootScope.$broadcast(Event.Load.Display);
+            $scope.shop_query.isLoad = true;
+            ShopService.get($scope.shop_query.page, '', $scope.shop_query.services, $scope.shop_query.province).then(function (res) {
+                $scope.shops = res.data;
+                angular.forEach($scope.shops, function (s) {
+                    angular.forEach($scope.provinces, function (p) {
+                        if (s.province == p.key) {
+                            s.province_str = p.th;
+                        }
+                    });
+                });
+                if (res.meta.count > $scope.shops.length) {
+                    $scope.shop_query.hasMore = true;
+                }
+                else {
+                    $scope.shop_query.hasMore = false;
+                }
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                    $scope.shop_query.isLoad = false;
+                }, 500);
+            })
+        };
+
+        $scope.loadMoreShop = function () {
+            $scope.shop_query.page++;
+            $rootScope.$broadcast(Event.Load.Display);
+            $scope.shop_query.isLoad = true;
+            ShopService.get($scope.shop_query.page, '', $scope.shop_query.services, $scope.shop_query.province).then(function (res) {
+                angular.forEach(res.data, function (s) {
+                    angular.forEach($scope.provinces, function (p) {
+                        if (s.province == p.key) {
+                            s.province_str = p.th;
+                        }
+                    });
+                    $scope.shops.push(s);
+                });
+                if (res.meta.count > $scope.shops.length) {
+                    $scope.shop_query.hasMore = true;
+                }
+                else {
+                    $scope.shop_query.hasMore = false;
+                }
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                    $scope.shop_query.isLoad = false;
+                }, 500);
+            })
+        };
+
+        $scope.shopWorkClick = function (w) {
+            angular.forEach($scope.workgroup, function (_w) {
+                _w.active = false;
+            });
+            if (w) {
+                w.active = true;
+                $scope.shop_query.services = w.name;
+            }
+            else {
+                $scope.shop_query.services = '';
+            }
+            $scope.loadShop();
         };
 
         $scope.pickCar = function (car) {
