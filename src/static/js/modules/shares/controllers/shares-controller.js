@@ -6,6 +6,18 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
             limits: 20
         };
 
+        $scope.provinces = _provinces;
+
+        function initModel(model) {
+            angular.forEach(model, function (item) {
+                angular.forEach($scope.provinces, function (_province) {
+                    if (item.shop.province == _province.key) {
+                        item.shop.province_str = _province.th;
+                    }
+                });
+            });
+        }
+
         $scope.sharesPage = function () {
             $scope.currentPage = 1;
             if ($scope.user_ready) {
@@ -47,12 +59,13 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
             
             ShareService.get($scope.currentPage, $scope.query).then(function (res) {
                 $scope.shares = res.data;
+                initModel($scope.shares);
                 $scope.meta(res.meta);
                 if (notify) {
                     $rootScope.$broadcast(Event.Load.Dismiss);
                 }
             }).catch(function () {
-                window.location.reload();
+                //window.location.reload();
             });
         };
 
@@ -68,7 +81,8 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
         $scope.loadMore = function () {
             $scope.currentPage++;
             $rootScope.$broadcast(Event.Load.Display);
-            ShareService.get($scope.currentPage, { limits: 20}).then(function (res) {
+            ShareService.get($scope.currentPage, { limits: 20 }).then(function (res) {
+                initModel(res.data);
                 $scope.shares = $scope.shares.concat(res.data);
                 $scope.meta(res.meta);
                 $rootScope.$broadcast(Event.Load.Dismiss);

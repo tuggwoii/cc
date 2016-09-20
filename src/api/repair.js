@@ -220,6 +220,7 @@ class RepairApi extends BaseApi {
         if (queries['p']) {
             p = parseInt(queries['p']);
         }
+        var _limit = limits;
         var skip = limits * (p - 1);
 
         var q = {
@@ -247,12 +248,18 @@ class RepairApi extends BaseApi {
         if (queries['rating']) {
             q.score = parseInt(queries['rating']);
         }
+        if (queries['shop']) {
+            q.repair_shop = parseInt(queries['shop']);
+        }
+        if (queries['limit']) {
+            _limit = parseInt(queries['limit']);
+        }
 
-        context.getRepairByUserId(req.user.id, q, limits, skip).then(function (data) {
+        context.getRepairByUserId(req.user.id, q, _limit, skip).then(function (data) {
             context.countRepairByUserId(req.user.id, q).then(function (count) {
                 var meta = {
                     count: count,
-                    limits: limits
+                    limits: _limit
                 };
                 context.success(req, res, data, meta, RepairSerializer.default);
             }).catch(function (err) {
@@ -278,13 +285,15 @@ class RepairApi extends BaseApi {
 
         var q = {
             share: true,
-            price: {}
+            price: {},
+            score: {}
         };
+        var shop_associative = { model: Shop };
         if (queries['work']) {
             q.work = parseInt(queries['work']);
         }
         if (queries['title']) {
-            q.title = { like: '%' + queries['title'] + '%' };
+            shop_associative.where = { province: queries['title'] }
         }
         if (queries['lp']) {
             q.price.$gte = parseInt(queries['lp']);
@@ -296,8 +305,12 @@ class RepairApi extends BaseApi {
             delete q['price'];
         }
         if (queries['rating']) {
-            q.score = parseInt(queries['rating']);
+            q.score.$gte  = parseInt(queries['rating']);
         }
+        if (!q.score.$gte) {
+            delete q['score'];
+        }
+
         Repair.all({
             where: q,
             order: [["updatedAt", "DESC"]],
@@ -305,13 +318,13 @@ class RepairApi extends BaseApi {
                 { model: Car, include: [{ model: File }]},
                 { model: Work },
                 { model: User, include: [{ model: File }] },
-                { model: Shop },
-                { model: RepairWork }
+                { model: RepairWork },
+                shop_associative
             ],
             offset: skip,
             limit: items
         }).then(function (data) {
-            Repair.count({ where: q }).then(function (count) {
+            Repair.count({ where: q, include: [shop_associative] }).then(function (count) {
                 var meta = {
                     count: count,
                     limits: items

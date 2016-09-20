@@ -14,7 +14,6 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 RepairService.getById($scope.params.id).then(function (data) {
                     $scope.model = data;
                     initModel($scope.model);
-
                 }).catch(function () {
                     alert('ERROR LOAD REPAIR');
                 }),
@@ -33,6 +32,14 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                     if (_car.id == $scope.model.for_car) {
                         _car.active = true;
                     }
+                });
+                angular.forEach($scope.model.notifications, function (n) {
+                    n.date_str = Helper.readableDate(n.date);
+                    angular.forEach($scope.workgroup, function (w) {
+                        if (n.work == w.id) {
+                            n.work_str = w.name;
+                        }
+                    });
                 });
             });
         }

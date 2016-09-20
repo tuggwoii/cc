@@ -33,8 +33,24 @@
                     scope.animation = 'fadeIn';
                     scope.works = angular.copy(works);
                     scope.callback = callback;
+                    $timeout(scope.setHeight, 200);
                 }
             });
+
+            scope.setHeight = function () {
+                if ($(window).height() < $('.notification').height() + 150) {
+                    var height = $(window).height() - 150;
+                    if (height > 580) {
+                        height = 580;
+                    }
+                    var half_height = height / 2;
+                    $('.notification').height(height);
+                    $('.notification').css('margin-top', -(half_height + 20) + 'px');
+                }
+                else {
+                    $('.notification').height(580);
+                }
+            };
 
             scope.add = function (form) {
                 scope.status = {};
@@ -74,6 +90,8 @@
                     scope.status.invalid = true;
                 }
             };
+
+            $(window).resize(scope.setHeight);
         }
     };
 }]);

@@ -5,7 +5,7 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
     var cache = {};
 
     return {
-        get: function (model) {
+        get: function (query) {
             var key = URLS.model(service).all;
             return $q(function (resolve, reject) {
                 if (cache[key]) {

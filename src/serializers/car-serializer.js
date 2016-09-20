@@ -21,6 +21,7 @@
         delete model['file'];
     }
     if (model.notifications) {
+        model.notification_list = model.notifications;
         model.notifications = model.notifications.length;
     }
     if (model.repairs) {

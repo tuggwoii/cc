@@ -22,8 +22,11 @@
             <div class="container">
                 <div class="field-container">
                     <div class="form-group">
-                        <label>ค้นหาตามหัวข้อ</label>
-                        <input type="text" class="form-control" ng-model="query.title" />
+                        <label>จังหวัด</label>
+                        <select class="form-control" ng-model="query.title">
+                            <option value="">ทั้งหมด</option>
+                            <option value="{{p.key}}" ng-repeat="p in provinces">{{p.th}}</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>ราคา</label>
@@ -41,7 +44,7 @@
                             <option value="5">5 ดาว</option>
                         </select>
                     </div>
-                    <button class="btn btn-danger" ng-click="getAll(true)"><i class="fa fa-search"></i></button>
+                    <button type="button" class="btn btn-danger" ng-click="getAll(true)"><i class="fa fa-search"></i></button>
                 </div>
             </div>
         </div>
@@ -63,7 +66,7 @@
                                     <div class="workgroup">{{s.workgroup.name}}</div>
                                     <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
                                     <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
-                                    <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop.name}}</div>
+                                    <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop.name}}{{s.shop.province?', '+s.shop.province_str:''}}</div>
                                     <rating-star rating="s.score"></rating-star>
                                 </div>
                             </div>

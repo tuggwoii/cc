@@ -27,8 +27,24 @@
                     scope.work = angular.copy(model);
                     scope.works = works;
                     scope.callback = callback;
+                    $timeout(scope.setHeight, 200);
                 }
             });
+
+            scope.setHeight = function () {
+                if ($(window).height() < $('.workpopup').height() + 150) {
+                    var height = $(window).height() - 150;
+                    if (height > 600) {
+                        height = 600;
+                    }
+                    var half_height = height / 2;
+                    $('.workpopup').height(height);
+                    $('.workpopup').css('margin-top', -(half_height + 20) + 'px');
+                }
+                else {
+                    $('.workpopup').height(600);
+                }
+            };
 
             scope.save = function (form) {
                 angular.forEach(form.$error.required, function (field) {
@@ -58,6 +74,8 @@
                     }
                 }
             };
+
+            $(window).resize(scope.setHeight);
         }
     };
 }]);

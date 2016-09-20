@@ -428,6 +428,12 @@ var areas = [
     }
 ]
 
+var _provinces = [];
 
-
+for (var i = 0; i < areas.length; i++) {
+    for (var j = 0; j < areas[i].areas.length; j++) {
+        _provinces.push(areas[i].areas[j]);
+    }
+}
+_provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); });
 

@@ -8,7 +8,11 @@
     animation-duration: 0.5s;
     -webkit-animation-duration: 0.5s;
     -moz-animation-duration: 0.5s;
-    z-index: 997;
+    z-index: 1000;
+
+    .popup-body {
+        padding-bottom: 50px;
+    }
 
     .load-container {
         position: absolute;
@@ -31,7 +35,7 @@
         margin-top: -300px;
         margin-left: -300px;
         background: #333;
-        padding: 20px 32px;
+        padding: 20px 32px 50px 32px;
         border-radius: 5px;
         overflow-y: auto;
 
@@ -99,7 +103,7 @@
 
     .popup-panel.notification {
         overflow-y: auto;
-
+        height: 625px;
         .notification-popup {
             input, select {
                 height: 40px;
@@ -129,7 +133,7 @@
     animation-duration: 0.15s;
     -webkit-animation-duration: 0.15s;
     -moz-animation-duration: 0.15s;
-    z-index: 998;
+    z-index: 1010;
 
     .confirm-container {
         position: absolute;
@@ -178,6 +182,6 @@
 }
 
 .popup-container.load {
-    z-index: 999;
+    z-index: 1050;
     overflow:hidden !important;
 }

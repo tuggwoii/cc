@@ -217,6 +217,9 @@ class NotificationApi extends BaseApi {
             q.type = parseInt(queries['t']);
             _limits = 5;
         }
+        if (queries['limit']) {
+            _limits = parseInt(queries['limit']);
+        }
         var skip = _limits * (p - 1);
 
         context.getNotificationByUserId(q, _limits, skip).then(function (data) {

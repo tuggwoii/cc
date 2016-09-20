@@ -160,7 +160,27 @@
 
                     <div class="notification-link">
                         <p ng-if="!model.notifications.length">ไม่มีการแจ้งเตือนที่สร้างจากรายการนี้</p>
-                        <ul>
+                        <table class="table hidden-sm hidden-xs">
+                            <thead>
+                                <tr>
+                                    <td>รายการ</td>
+                                    <td>รายละเอียด</td>
+                                    <td>วันที่</td>
+                                    <td>เลขกิโลเมตร</td>
+                                    <td>กลุ่มงาน</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="clickable" ng-repeat="n in model.notifications" ng-click="navigateTo('#/notification?id='+n.id+'&car='+model.car.id)">
+                                    <td>{{n.title}}</td>
+                                    <td>{{n.detail?n.detail:'-'}}</td>
+                                    <td>{{n.date?n.date_str:'-'}}</td>
+                                    <td>{{n.mile?n.mile:'-'}}</td>
+                                    <td>{{n.work_str}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ul class="hidden-lg hidden-md">
                             <li ng-repeat="n in model.notifications">
                                 <a href="#/notification?id={{n.id}}&car={{model.car.id}}">{{n.title}}</a>
                             </li>
@@ -190,7 +210,7 @@
                         </div>
                     </form>
 
-                    <a class="share-link" href="/share/{{model.id}}">ไปยังหน้า Share ของรายการนี้ <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                    <a ng-if="model.share" class="share-link" href="/share/{{model.id}}"> Share to Facebook <i class="fa fa-angle-right" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>

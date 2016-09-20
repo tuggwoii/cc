@@ -1022,7 +1022,7 @@ body {
             .social {
                 position: absolute;
                 top: 53px;
-                right: 50px;
+                right: 78px;
             }
 
             h2 {
@@ -1096,6 +1096,49 @@ body {
                     top: -60px;
                     right: 0px;
                     height: 40px;
+                }
+            }
+
+            .table {
+                thead {
+                    td {
+                        color: #f75d22;
+                        font-weight: bold;
+                        border-bottom: 2px solid #f75d22;
+                    }
+                }
+                tbody {
+                    tr {
+                        border-bottom: 1px dashed #444;
+                        cursor:pointer;
+
+                        td {
+                            border-top: none;
+                        }
+                    }
+                }
+            }
+
+            .repair-filter {
+                margin-bottom: 25px;
+                display: inline-block;
+                width: 100%;
+
+                .form-group {
+                    width: 45%;
+                    padding-right: 10px;
+                    display: inline-block;
+                    float: left;
+                }
+                .form-group:last-child {
+                    padding-right: 10px;
+                    padding-left: 10px;
+                }
+                button {
+                    width: 10%;
+                    min-width: 80px;
+                    float: left;
+                    margin-top: 35px;
                 }
             }
         }
@@ -1777,6 +1820,9 @@ body {
                     }
                 }
             }
+            .clickable {
+                cursor:pointer;
+            }
         }
 
         .rating {
@@ -1886,6 +1932,8 @@ body {
     .share-link {
         margin-top: 25px;
         display: inline-block;
+        font-size: 32px;
+        font-weight:bold;
 
         .fa {
             margin-left: 10px;
@@ -1944,6 +1992,55 @@ body {
 
     .loadmore-container {
         text-align:center;
+    }
+
+    .notification-page {
+        .noti-filter {
+                display: inline-block;
+                width: 100%;
+
+                .form-group {
+                    width: 45%;
+                    padding-right: 10px;
+                    display: inline-block;
+                    float: left;
+                }
+                .form-group:last-child {
+                    padding-right: 10px;
+                    padding-left: 10px;
+                }
+                button {
+                    width: 10%;
+                    min-width: 80px;
+                    float: left;
+                    margin-top: 35px;
+                }
+                label {
+                    color: #f55d22;
+                    font-weight: bold;
+                    font-size: 24px;
+                    width: 120px;
+                    line-height: 1.1;
+                    margin: 5px 0px;
+                }
+            }
+        .content-box {
+            box-shadow: none !important;
+            padding: 0 !important;
+            background: none !important;
+            margin-top: 0 !important;
+        }
+
+        .user-profile {
+            box-shadow: none !important;
+             background: none !important;
+             min-height: 0 !important;
+             margin: 0 !important;
+
+             .car-item {
+                 padding: 10px;
+             }
+        }
     }
 }
 

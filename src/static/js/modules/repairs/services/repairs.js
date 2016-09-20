@@ -6,10 +6,16 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
 
     return {
         get: function (p, q) {
-            var key = URLS.model(service).all + ('?p=' + p) + (q['car'] ? '&car=' + q['car'] : '')
-                + (q['work'] ? '&work=' + q['work'] : '') + (q['title'] ? '&title=' + q['title'] : '')
-                + (q['lp'] ? '&lp=' + q['lp'] : '') + (q['hp'] ? '&hp=' + q['hp'] : '')
-                + (q['rating'] ? '&rating=' + q['rating'] : '');
+            var key = URLS.model(service).all
+                + ('?p=' + p)
+                + (q['car'] ? '&car=' + q['car'] : '')
+                + (q['work'] ? '&work=' + q['work'] : '')
+                + (q['title'] ? '&title=' + q['title'] : '')
+                + (q['lp'] ? '&lp=' + q['lp'] : '')
+                + (q['hp'] ? '&hp=' + q['hp'] : '')
+                + (q['rating'] ? '&rating=' + q['rating'] : '')
+                + (q['shop'] ? '&shop=' + q['shop'] : '')
+                + (q['limit'] ? '&limit=' + q['limit'] : '');
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);

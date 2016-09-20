@@ -116,12 +116,7 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
         }
 
         function createProvinces() {
-            angular.forEach(areas, function (area) {
-                angular.forEach(area.areas, function (p) {
-                    $scope.provinces.push(p);
-                });
-            });
-            $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
+            $scope.provinces = _provinces;
         }
 
         $scope.loadIndex = function () {

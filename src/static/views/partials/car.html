@@ -141,9 +141,47 @@
 
             <h2><i class="fa fa-wrench" aria-hidden="true"></i> รายการซ่อมบำรุง ({{repairTotal?repairTotal:0}})</h2>
             <div class="detail-section">
+                <div class="repair-filter">
+                    <div class="form-group">
+                        <label>กลุ่มงาน</label>
+                        <select class="form-control" ng-model="repair_query.work">
+                            <option value="">ทั้งหมด</option>
+                            <option value="{{w.id}}" ng-repeat="w in workgroup">{{w.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ร้านซ่อม</label>
+                        <select class="form-control" ng-model="repair_query.shop">
+                            <option value="">ทั้งหมด</option>
+                            <option value="{{s.id}}" ng-repeat="s in previous_shops">{{s.name}}</option>
+                            
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-danger" ng-click="filterRepair()"><i class="fa fa-search"></i></button>
+                </div>
                 <div class="list car-repairlist">
                     <p ng-if="!repairs.length">{{strings['no_repairs']}}</p>
-                    <ul ng-if="repairs.length">
+                    <table class="table repair-table hidden-xs hidden-sm" ng-if="repairs.length">
+                        <thead>
+                            <tr>
+                                <td>วันที่เข้าทำ</td>
+                                <td>ร้านที่ทำ</td>
+                                <td>เลขกิโลเมตร</td>
+                                <td>รวมราคา</td>
+                                <td>หมายเหตุ</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="repair in repairs" ng-click="navigateTo('#/repair?id=' + repair.id + '&car='+ car.id)">
+                                <td>{{repair.date_str}}</td>
+                                <td>{{repair.shop?repair.shop.name:'ไม่ระบุ'}}</td>
+                                <td>{{repair.mile?repair.mile:'ไม่ระบุ'}}</td>
+                                <td>{{repair.price?repair.price:'0'}}</td>
+                                <td>{{repair.remark?repair.remark:'-'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul ng-if="repairs.length" class="hidden-lg hidden-md">
                         <li ng-repeat="repair in repairs" ng-click="navigateTo('#/repair?id=' + repair.id + '&car='+ car.id)">
                             <span class="notification-detail">
                                 <span class="title">{{repair.title}}</span>
@@ -167,6 +205,7 @@
                     </ul>
                 </div>
                 <button class="btn btn-danger edit-link" ng-click="navigateTo('#/new-repair?car=' + car.id)">
+                    <i class="fa fa-plus"></i>
                     สร้าง
                 </button>
             </div>

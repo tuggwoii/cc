@@ -18,15 +18,91 @@
                 <li>{{strings['nav_notifications']}}</li>
             </ul>
         </div>
-        <div class="subpage">
+        <div class="subpage notification-page">
             <h1>
                 <img src="img/logo.png" />
                 <span >{{strings['head_notification']}}</span>
-                <button type="button" class="btn btn-danger" ng-click="navigateTo('#/notification')"><i class="fa fa-plus"></i> {{strings['add']}}</button>
+                <button type="button" class="btn btn-danger" ng-click="navigateTo('#/new-notification')"><i class="fa fa-plus"></i> {{strings['add']}}</button>
             </h1>
-            <div class="list">
-                <p>{{total}} Notifications</p>
-                <p ng-if="!notifications.length">{{strings['no_notification']}}</p>
+            <div class="noti-filter">
+                <div>
+                    <div class="form-group">
+                        <label>กลุ่มงาน</label>
+                        <select class="form-control" ng-model="query.work">
+                            <option value="">ทั้งหมด</option>
+                            <option value="{{w.id}}" ng-repeat="w in works">{{w.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>สถานะ</label>
+                        <select class="form-control" ng-model="query.status">
+                            <option value="">ทั้งหมด</option>
+                            <option value="true">เปิด</option>
+                            <option value="false">ปิด</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-danger" ng-click="filter()"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="car-filter user-profile">
+                    <label>ดูเฉพาะรถ</label>
+                    <div class="row">
+                        <div ng-repeat="car in cars" class="col-lg-4 col-md-6 col-sm-6 col-xs-12" title="{{car.brand}} {{car.series}}">
+                            <div class="car-item {{car.active?'active':''}}" ng-click="carFilter(car)">
+                                <img src="img/car.png" alt="car" ng-if="!car.image" />
+                                <img ng-src="{{car.image.url}}" alt="car" ng-if="car.image" />
+                                <div class="detail">
+                                    <span>{{car.serial}}</span>
+                                    <span>{{car.brand}} {{car.series}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="box content-box ">
+                <div class="detail-section">
+                    <div class="miles">
+                        <h4>
+                            <i class="fa fa-road" aria-hidden="true"></i>
+                            <span>ตามระยะทาง</span>
+                        </h4>
+                        <ul>
+                            <li ng-repeat="car in cars_" class="index-car-noti">
+                                <span class="car-model"><i class="fa fa-car"></i> {{car.brand}} {{car.series}}, {{car.serial}}</span>
+                                <ul>
+                                    <li class="nodata" ng-if="!car.noti_mile.length">{{strings['no_data']}}</li>
+                                    <li class="index-noti-item" ng-repeat="n in car.noti_mile" ng-click="navigateTo('#/notification?id='+n.id)">
+                                        <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
+                                        <span class="title">{{n.title}}</span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="dates">
+                        <h4>
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            <span>ตามกำหนดวัน</span>
+                        </h4>
+                        <ul>
+                            <li ng-repeat="car in cars_" class="index-car-noti">
+                                <span class="car-model"><i class="fa fa-car"></i> {{car.brand}} {{car.series}}, {{car.serial}}</span>
+                                <ul>
+                                    <li class="nodata" ng-if="!car.noti_date.length">{{strings['no_data']}}</li>
+                                    <li class="index-noti-item" ng-repeat="n in car.noti_date" ng-click="navigateTo('#/notification?id='+n.id)">
+                                        <span>{{n.date_str}} | </span>
+                                        <span class="title">{{n.title}}</span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!--
                 <ul ng-if="notifications.length">
                     <li class="notification-item" ng-repeat="notification in notifications" ng-click="navigateTo('#/notification?id=' + notification.id)">
                         <span class="notification-detail">
@@ -49,7 +125,7 @@
                     <li ng-repeat="p in pages" class="page {{p==page?'active':''}}" ng-click="gotoPage(p)">{{p}}</li>
                     <li ng-click="gotoPage(page + 1)">></li>
                     <li ng-click="gotoPage(pages.length)">>></li>
-                </ul>
+                </ul>-->
             </div>
         </div>
     </div>

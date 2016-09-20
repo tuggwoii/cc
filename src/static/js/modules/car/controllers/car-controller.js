@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'CarService', 'NotificationService', 'RepairService', 'Event', 'Helper',
-    function ($scope, $rootScope, $timeout, $q, $location, CarService, NotificationService, RepairService, Event, Helper) {
+module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'CarService', 'NotificationService', 'RepairService', 'WorkgroupService', 'Event', 'Helper',
+    function ($scope, $rootScope, $timeout, $q, $location, CarService, NotificationService, RepairService, WorkgroupService, Event, Helper) {
 
         $scope.dates = Helper.dateArray();
         $scope.months = Helper.monthArray();
@@ -8,6 +8,9 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
         $scope.milePage = 1;
         $scope.datePage = 1;
         $scope.repairPage = 1;
+        $scope.repair_query = {
+            limit: 9999
+        };
 
         function initModel(items) {
             angular.forEach(items, function (i) {
@@ -19,6 +22,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
             $q.all([
                 CarService.getById($scope.params.id).then(function (data) {
                     $scope.car = data;
+                    $scope.repair_query.car = $scope.car.id;
                     setModelDate($scope.car);
                    
                 }).catch(function () {
@@ -26,7 +30,13 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                 }),
                 CarService.get().then(function (res) {
                     $scope.cars = angular.copy(res.data);
-                })
+                }),
+                WorkgroupService.get().then(function (res) {
+                     $scope.workgroup = angular.copy(res.data);
+                }),
+                 RepairService.getPreviousShop().then(function (res) {
+                     $scope.previous_shops = res.data;
+                 })
             ]).then(function () {
                 angular.forEach($scope.cars, function (_car) {
                     if (_car.id == $scope.car.id) {
@@ -48,7 +58,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                 if (notify) {
                     $rootScope.$broadcast(Event.Load.Display);
                 }
-                NotificationService.get($scope.milePage, 2, $scope.car.id).then(function (res) {
+                NotificationService.get($scope.milePage, 2, $scope.car.id, 9999).then(function (res) {
                     $scope.noti_miles = res.data;
                     $scope.setMilePagings(res.meta);
                     if (notify) {
@@ -64,7 +74,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                 if (notify) {
                     $rootScope.$broadcast(Event.Load.Display);
                 }
-                NotificationService.get($scope.datePage, 1, $scope.car.id).then(function (res) {
+                NotificationService.get($scope.datePage, 1, $scope.car.id, 9999).then(function (res) {
                     $scope.noti_date = res.data;
                     initModel($scope.noti_date);
                     $scope.setDatePagings(res.meta);
@@ -82,7 +92,8 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                     $rootScope.$broadcast(Event.Load.Display);
                 }
                 RepairService.get($scope.repairPage, {
-                    car: $scope.car.id
+                    car: $scope.car.id,
+                    limit: 9999
                 }).then(function (res) {
                     $scope.repairs = res.data;
                     initModel($scope.repairs);
@@ -199,6 +210,17 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                 loadRepairs(true);
             }
         };
+
+        $scope.filterRepair = function () {
+            $rootScope.$broadcast(Event.Load.Display);
+            console.log($scope.repair_query);
+            RepairService.get($scope.repairPage, $scope.repair_query).then(function (res) {
+                $scope.repairs = res.data;
+                initModel($scope.repairs);
+                $scope.setRepairPagings(res.meta);
+                $rootScope.$broadcast(Event.Load.Dismiss);
+            });
+        }
 
         $scope.carPage();
 }]);

@@ -64,6 +64,12 @@
                                 <span>{{model.detail}}</span>
                             </div>
                             <div class="title">
+                                <label>การแจ้งเตือน: </label>
+                                <span>
+                                   {{model.enable?'เปิดแจ้งเตือน':'ปิดแจ้งเตือน'}}
+                                </span>
+                            </div>
+                            <div class="title">
                                 <label>สร้างจากรายการ: </label>
                                 <span ng-if="model.repair_id">
                                     <a href="#/repair?id={{model.repair_id}}&car={{model.car.id}}">{{model.repair.title}}</a>

@@ -100,8 +100,24 @@
                     scope.shop = {
                         selected: ''
                     }
+                    $timeout(scope.setHeight, 200);
                 }
             });
+
+            scope.setHeight = function () {
+                if ($(window).height() < $('.shoppopup').height() + 150) {
+                    var height = $(window).height() - 150;
+                    if (height > 600) {
+                        height = 600;
+                    }
+                    var half_height = height / 2;
+                    $('.shoppopup').height(height);
+                    $('.shoppopup').css('margin-top', -(half_height + 20) + 'px');
+                }
+                else {
+                    $('.shoppopup').height(600);
+                }
+            };
 
             scope.shopChange = function () {
                 if (scope.shop.selected) {
@@ -111,8 +127,10 @@
                         scope.callback(selected_shop);
                     }
                 }
-            }
+            };
+
             createProvinces();
+            $(window).resize(scope.setHeight);
         }
     };
 }]);
