@@ -61,6 +61,9 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
                     resolve(res)
                 }).error(reject);
             });
+        },
+        removeCache: function () {
+            cache = {};
         }
     };
 }]);

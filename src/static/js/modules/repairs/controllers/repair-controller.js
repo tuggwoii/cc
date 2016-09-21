@@ -1,6 +1,8 @@
 ﻿'use strict';
 module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'RepairService', 'CarService', 'WorkgroupService', 'WorkService', 'Event', 'Helper',
     function ($scope, $rootScope, $timeout, $q, $location, RepairService, CarService, WorkgroupService, WorkService, Event, Helper) {
+
+        $scope.provinces = _provinces;
         $scope.ratings = ['ไม่ระบุ', 'แย่มาก', 'แย่', 'พอได้', 'ดี', 'ดีมาก']
         $scope.params = $location.search();
         $scope.from_car = $scope.params.car ? true : false;
@@ -239,6 +241,16 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 }
             }, 100);
         };
+
+        $scope.getProvinceByKey = function (key) {
+            var province = '';
+            angular.forEach($scope.provinces, function (p) {
+                if (p.key == key) {
+                    province = p.th;
+                }
+            });
+            return province;
+        }
 
         $scope.$on(Event.File.Success, $scope.saveImage);
         $scope.notificationPage();

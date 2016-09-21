@@ -7,16 +7,21 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         $scope.months = Helper.monthArray();
         $scope.params = $location.search();
         $scope.carId = $scope.params.car;
+        $scope.repairId = $scope.params.repair;
         $scope.from_car = $scope.params.car ? true : false;
+        $scope.from_repair = $scope.params.repair ? true : false;
         $scope.provinces = [];
 
         function getById() {
-            ShopService.getById($scope.params.id).then(function (data) {
-                $scope.model = angular.copy(data);
-                initModel($scope.model);
-            }).catch(function () {
-
-            });
+            return $q(function (resolve, reject) {
+                ShopService.getById($scope.params.id).then(function (data) {
+                    $scope.model = angular.copy(data);
+                    initModel($scope.model);
+                    resolve();
+                }).catch(function () {
+                    reject();
+                });
+            })
         }
 
         function initModel(model) {
@@ -55,13 +60,15 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
                     $scope.works = angular.copy(res.data);
                 })
             ]).then(function () {
-                if ($scope.model.create_by == $scope.user.id) {
-                    initWork($scope.model, $scope.works);
-                    $scope.displayView();
-                }
-                else {
-                    $scope.navigateTo('#/shop?id=' + $scope.params.id);
-                }
+                $timeout(function () {
+                    if ($scope.model.create_by == $scope.user.id) {
+                        initWork($scope.model, $scope.works);
+                        $scope.displayView();
+                    }
+                    else {
+                        $scope.navigateTo('#/shop?id=' + $scope.params.id);
+                    }
+                }, 100);
             });
         }
 
@@ -94,7 +101,12 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
             if ($scope.form.$valid) {
                 $rootScope.$broadcast(Event.Load.Display);
                 ShopService.update($scope.model).then(function () {
-                    window.location.href = '/#/shop?id=' + $scope.model.id;
+                    if ($scope.from_repair) {
+                        $scope.navigateTo('#/repair?id=' + $scope.repairId + ($scope.carId ? '&car=' + $scope.carId : ''));
+                    }
+                    else {
+                        window.location.href = '/#/shop?id=' + $scope.model.id;
+                    }
                 }).catch(function () {
                     $rootScope.$broadcast(Event.Load.Dismiss);
                     $scope.status.error = true;

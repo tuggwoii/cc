@@ -3,6 +3,7 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', 'CarService',
     function ($scope, $q, $timeout, CarService) {
 
         var lightbox = lity();
+        $scope.provinces = _provinces;
 
         $scope.loadShare = function () {
             if ($scope.user_ready) {
@@ -72,6 +73,16 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', 'CarService',
         $scope.pickCar = function (car) {
             $scope.navigateTo('#/car?id=' + car.id);
         };
+
+        $scope.getProvinceByKey = function (key) {
+            var province = '';
+            angular.forEach($scope.provinces, function (p) {
+                if (p.key == key) {
+                    province = p.th;
+                }
+            });
+            return province;
+        }
 
         $scope.loadShare();
         

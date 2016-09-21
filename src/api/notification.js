@@ -237,41 +237,6 @@ class NotificationApi extends BaseApi {
         });
     }
 
-    getByType (context, req, res) {
-        if (req.params.id == 1 || req.params.id == 2) {
-            var orders;
-            var conditions = {
-                owner: req.user.id,
-                type: req.params.id,
-                enable: true
-            };
-            if (req.params.id == 1) {
-                orders = [["date", "ASC"]]
-            }
-            else if (req.params.id == 2) {
-                orders = [["mile", "ASC"]]
-            }
-            
-            Notification.findAll({
-                where: conditions,
-                order: orders,
-                include: [
-                    { model: Car },
-                    { model: Work },
-                    { model: User }
-                ],
-                limit: 5
-            }).then(function (data) {
-                context.success(req, res, data);
-            }).catch(function (err) {
-                context.error(req, res, err, 500);
-            });
-        }
-        else {
-            context.notfound();
-        }
-    }
-
     getAll (context, req, res) {
         Notification.all({
             include: [
@@ -393,7 +358,6 @@ class NotificationApi extends BaseApi {
         return [
             { url: '/notifications', method: 'get', roles: ['admin', 'user'], response: this.getByUser },
             { url: '/notifications', method: 'get', roles: ['admin', 'user'], response: this.getById, params: ['id'] },
-            { url: '/notifications/type', method: 'get', roles: ['admin', 'user'], response: this.getByType, params: ['id'] },
             { url: '/notifications', method: 'post', roles: ['admin', 'user'], response: this.add },
             { url: '/notifications', method: 'patch', roles: ['admin', 'user'], response: this.update },
             { url: '/notifications', method: 'delete', roles: ['admin', 'user'], response: this.delete, params: ['id'] }

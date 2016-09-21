@@ -4,51 +4,43 @@
         
         <div class="miles">
             <h4>
-                <i class="fa fa-road" aria-hidden="true"></i> 
+                <i class="fa fa-road" aria-hidden="true"></i>
                 <span>ตามระยะทาง</span>
             </h4>
-            <p class="nodata" ng-if="!mileNotifications.length">{{strings['no_data']}}</p>
-            <ul ng-if="mileNotifications.length">
-                <li ng-repeat="car in mileNotifications" class="index-car-noti">
+            <ul>
+                <li ng-repeat="car in cars_" class="index-car-noti">
                     <span class="car-model"><i class="fa fa-car"></i> {{car.brand}} {{car.series}}, {{car.serial}}</span>
                     <ul>
-                        <li class="index-noti-item" ng-repeat="n in car.notifications" ng-click="navigateTo('#/notification?id='+n.id)">
+                        <li class="nodata" ng-if="!car.noti_mile.length">{{strings['no_data']}}</li>
+                        <li class="index-noti-item" ng-repeat="n in car.noti_mile" ng-click="navigateTo('#/notification?id='+n.id)">
                             <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
                             <span class="title">{{n.title}}</span>
                         </li>
                     </ul>
-                    <!--
-                    <span class="title">{{n.title}}</span>
-                    <span class="detail">{{n.detail.length>70?n.detail.substring(0, 70)+ '...':n.detail}}</span>
-                    <span class="car">{{n.car.brand}} {{n.car.series}}, {{n.car.serial}}</span>
-                    <span class="date">กิโลเมตรที่: {{n.mile}}</span>-->
                 </li>
             </ul>
         </div>
+
         <div class="dates">
             <h4>
                 <i class="fa fa-calendar" aria-hidden="true"></i>
                 <span>ตามกำหนดวัน</span>
             </h4>
-            <p class="nodata" ng-if="!dateNotifications.length">{{strings['no_data']}}</p>
-            <ul ng-if="dateNotifications.length">
-                <li ng-repeat="car in dateNotifications" class="index-car-noti">
+            <ul>
+                <li ng-repeat="car in cars_" class="index-car-noti">
                     <span class="car-model"><i class="fa fa-car"></i> {{car.brand}} {{car.series}}, {{car.serial}}</span>
                     <ul>
-                        <li class="index-noti-item" ng-repeat="n in car.notifications" ng-click="navigateTo('#/notification?id='+n.id)">
+                        <li class="nodata" ng-if="!car.noti_date.length">{{strings['no_data']}}</li>
+                        <li class="index-noti-item" ng-repeat="n in car.noti_date" ng-click="navigateTo('#/notification?id='+n.id)">
                             <span>{{n.date_str}} | </span>
                             <span class="title">{{n.title}}</span>
                         </li>
                     </ul>
-                    <!--
-                    <span class="title">{{n.title}}</span>
-                    <span class="detail">{{n.detail.length>70?n.detail.substring(0, 70)+ '...':n.detail}}</span>
-                    <span class="car">{{n.car.brand}} {{n.car.series}}, {{n.car.serial}}</span>
-                    <span class="date">{{n.date_str}}</span>-->
                 </li>
             </ul>
         </div>
-        <a class="view-all" ng-if="dateNotifications.length || mileNotifications.length" ng-click="navigateTo('#/notifications')">{{strings['view_all']}}</a>
+        
+        <a class="view-all" ng-if="cars.length" ng-click="navigateTo('#/notifications')">{{strings['view_all']}}</a>
     </div>
 </div>
 

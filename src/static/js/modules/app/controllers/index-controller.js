@@ -16,6 +16,35 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
             });
         }
 
+        function separateNotificationType(cars) {
+            angular.forEach(cars, function (car) {
+                car.noti_date = [];
+                car.noti_mile = [];
+                angular.forEach(car.notification_list, function (noti) {
+                    if (noti.enable) {
+                        noti.date_str = Helper.readableDate(noti.date);
+                        if (noti.type == 1) {
+                            car.noti_date.push(noti);
+                        }
+                        else {
+                            car.noti_mile.push(noti);
+                        }
+                    }
+                });
+                car.noti_date.sort(function (a, b) { return (a.date > b.date) ? 1 : ((b.date > a.date) ? -1 : 0); });
+                car.noti_mile.sort(function (a, b) { return (a.mile > b.mile) ? 1 : ((b.mile > a.mile) ? -1 : 0); });
+                car.all_noti_date = angular.copy(car.noti_date);
+                car.all_noti_mile = angular.copy(car.noti_mile);
+                if (car.noti_date.length > 3) {
+                    car.noti_date.splice(3, car.noti_date.length - 3);
+                }
+                if (car.noti_mile.length > 3) {
+                    car.noti_mile.splice(3, car.noti_mile.length - 3);
+                }
+            });
+            $scope.cars_ = angular.copy($scope.cars);
+        }
+
         function notLoginUser() {
             $q.all([
                 WorkgroupService.get().then(function (res) {
@@ -52,20 +81,11 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
         function loginUser() {
             $q.all([
                 CarService.get().then(function (res) {
-                    $scope.cars = res.data;
+                    $scope.cars = angular.copy(res.data);
+                    separateNotificationType($scope.cars);
                 }),
                 WorkgroupService.get().then(function (res) {
                     $scope.workgroup = angular.copy(res.data);
-                }),
-                NotificationService.getByType(1).then(function (res) {
-                    $scope.dateNotifications = res;
-                    initModel($scope.dateNotifications);
-                    $scope.dateNotifications = groupNotificationByCar($scope.dateNotifications);
-                }),
-                NotificationService.getByType(2).then(function (res) {
-                    $scope.mileNotifications = res;
-                    initModel($scope.mileNotifications);
-                    $scope.mileNotifications = groupNotificationByCar($scope.mileNotifications);
                 }),
                 ShareService.get(1, { limits: 12 }).then(function (res) {
                     $scope.shares = res.data;

@@ -106,9 +106,21 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
             });
         }
 
-        function setModelDate (model) {
-            model.date_str = Helper.readableDate(model.date);
-            model.exp_date_str = Helper.readableDate(model.exp_date);
+        function setModelDate(model) {
+            if (model.date) {
+                model.date = new Date(model.date);
+                model.day = model.date.getDate() + '';
+                model.month = (model.date.getMonth() + 1) + '';
+                model.date_str = Helper.readableDate(model.date);
+                if (model.date.getFullYear() == 1970 && model.day == '1' && model.month == '1') {
+                    model.date = undefined;
+                    model.day = '';
+                    model.month = '';
+                }
+            }
+            if (model.exp_date) {
+                model.exp_date_str = Helper.readableDate(model.exp_date);
+            }
         }
 
         function isValid () {

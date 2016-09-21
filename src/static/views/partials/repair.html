@@ -84,6 +84,10 @@
                                 <span>{{model.shop.address? model.shop.address:'ไม่ระบุ'}}</span>
                             </div>
                             <div class="title">
+                                <label>จังหวัด: </label>
+                                <span>{{model.shop.province? getProvinceByKey(model.shop.province):'ไม่ระบุ'}}</span>
+                            </div>
+                            <div class="title">
                                 <label>เบอร์โทรศัพท์: </label>
                                 <span>{{model.shop.telephone? model.shop.telephone:'ไม่ระบุ'}}</span>
                             </div>
@@ -97,6 +101,9 @@
 
                     <button class="btn btn-danger edit-link" ng-click="openShop()">
                         ค้นหาร้าน
+                    </button>
+                    <button class="btn btn-danger edit-link edit-shop-button" ng-click="navigateTo('#/edit-shop?id=' + model.shop.id + '&repair=' + model.id + '&car=' + model.car.id)">
+                        แก้ไขร้าน
                     </button>
                 </div>
 

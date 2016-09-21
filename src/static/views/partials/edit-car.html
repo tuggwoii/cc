@@ -107,6 +107,7 @@
                                     placeholder="ปีที่ออกรถ เป็น ค.ศ."
                                     ng-model="model.day"
                                     ng-required="true">
+                                <option value=""></option>
                                 <option ng-repeat="date in dates" value="{{date}}">{{date}}</option>
                             </select>
                         </div>
@@ -118,6 +119,7 @@
                                     placeholder="ปีที่ออกรถ เป็น ค.ศ."
                                     ng-model="model.month"
                                     ng-required="true">
+                                <option value=""></option>
                                 <option ng-repeat="month in months" value="{{month}}">{{month}}</option>
                             </select>
                         </div>

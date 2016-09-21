@@ -554,6 +554,10 @@ body {
                     .car {
                         color: rgb(150, 150, 150);
                     }
+
+                    .nodata {
+                        padding-left: 15px;
+                    }
                 }
             }
         }
@@ -1630,7 +1634,7 @@ body {
 
                     .date {
                         font-size: 20px;
-                        color: rgb(99, 99, 99);
+                        color: #ccc;
                         margin-top: 10px;
                     }
 
@@ -1949,6 +1953,8 @@ body {
              display: inline-block;
              margin-bottom: 10px;
              margin-top: 10px;
+             font-size: 22px;
+             font-weight: bold;
         } 
 
         .index-noti-item {
@@ -2073,4 +2079,7 @@ body {
              color:#fff;
          }
     }
+}
+.edit-shop-button {
+    right: 155px !important;
 }

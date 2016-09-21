@@ -20,7 +20,7 @@
                         $('body').focus();
                     }, 500);
                 }
-                $('body,html').css('overflow-y', 'auto');
+                $('body,html').css('overflow-y', '');
             }
 
             scope.$on(Event.Notification.DisplayPopup, function (event, model, strings, works, callback) {

@@ -33,9 +33,16 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
         }
 
         function setModelDate(model) {
-            model.date = new Date(model.date);
-            model.day = model.date.getDate() + '';
-            model.month = (model.date.getMonth() + 1) + '';
+            if (model.date) {
+                model.date = new Date(model.date);
+                model.day = model.date.getDate() + '';
+                model.month = (model.date.getMonth() + 1) + '';
+                if (model.date.getFullYear() == 1970 && model.day == '1' && model.month == '1') {
+                    model.date = undefined;
+                    model.day = '';
+                    model.month = '';
+                }
+            }
         }
 
         $scope.editCarPage = function () {
@@ -70,6 +77,9 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 }
                 if ($scope.model.day && $scope.model.month && $scope.model.year) {
                     $scope.model.date = new Date($scope.model.year, parseInt($scope.model.month) - 1, $scope.model.day);
+                }
+                else {
+                    $scope.model.date = 0;
                 }
                 CarService.update($scope.model).then(function (car) {
                     window.location.href = '/#/car?id=' + $scope.model.id;

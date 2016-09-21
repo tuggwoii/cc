@@ -117,6 +117,10 @@
                                     <span><%= shop.address? shop.address:'ไม่ระบุ' %></span>
                                 </div>
                                 <div class="title">
+                                    <label>จังหวัด: </label>
+                                    <span><%= shop.province? '{{getProvinceByKey("'+shop.province+'")}}':'ไม่ระบุ' %></span>
+                                </div>
+                                <div class="title">
                                     <label>เบอร์โทรศัพท์: </label>
                                     <span><%= shop.telephone? shop.telephone:'ไม่ระบุ' %></span>
                                 </div>
@@ -233,6 +237,7 @@
     <script src="/js/libs/picker.js"></script>
     <script src="/js/libs/picker.date.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/resources/areas.js"></script>
     <script src="/libs/lity/dist/lity.min.js"></script>
     <script src="/js/modules/app/directives/load.js"></script>
     <script src="/js/modules/app/directives/stars.js"></script>
