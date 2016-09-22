@@ -1,20 +1,45 @@
 [
   {
+    "name": "Home",
     "url": "",
     "view": "pages/index.html",
-    "roles": [ ]
+    "roles": [ ],
+    "isSys": true,
+    "isMenu": true
   },
   {
+    "name": "Share",
     "url": "/share",
     "view": "pages/share.html",
     "roles": [ ],
     "params": [ "id" ],
-    "model": "share"
+    "model": "share",
+    "isSys": true,
+    "isMenu": true
   },
   {
+    "name": "Admin",
     "url": "/admin",
     "view": "pages/admin.html",
-    "roles": ["admin"],
-    "params": [ ]
+    "roles": [ "admin" ],
+    "params": [ ],
+    "isSys": true,
+    "isMenu": true
+  },
+  {
+    "isStatic": true,
+    "name": "test",
+    "url": "/test",
+    "title": "test",
+    "isMenu": true,
+    "view": "static/test.html"
+  },
+  {
+    "isStatic": true,
+    "name": "test2",
+    "url": "/test2",
+    "title": "test2",
+    "isMenu": true,
+    "view": "static/test2.html"
   }
 ]

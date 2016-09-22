@@ -39,7 +39,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, AccountService, E
                 loadResources();
             }
             else {
-                window.location.hash = '/admin#/';
+                window.location.href = '/';
             }
         }
         else {

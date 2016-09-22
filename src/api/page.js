@@ -5,25 +5,34 @@ var log = require('../helpers/log');
 
 class PagesApi extends BaseApi {
 
-    create (context, request, response) {
-        var data = request.body;
+    getAll (context, req, res) {
+        Pages.getAll().then(function (data) {
+            context.success(req, res, data, {}, Pages.serialize);
+        }).catch(function (err) {
+            context.error(req, res, err, 500);
+        });
+    }
+
+    create (context, req, res) {
+        var data = req.body;
         if (Pages.isValid(data)) {
-            Pages.create(data).then(function () {
-                context.success(response, data);
+            Pages.create(data).then(function (_page) {
+                context.success(req, res, _page, {}, Pages.serialize);
             }).catch(function (err) {
-                context.error(response, 'Internal server error', 500);
+                context.error(req, res, err, 500);
             });
         }
         else {
-            context.error(response, 'Model is invalid', 400);
+            context.error(response, 'INVALID MODEL', 400);
         }
     }
 
     endpoints () {
         return [
+            { url: '/pages', method: 'get', roles: ['admin'], response: this.getAll },
 			{ url: '/pages', method: 'post', roles: ['admin'], response: this.create }
         ];
     }
 }
 
-module.exports = new PagesApi(Pages.serialize);
+module.exports = new PagesApi();

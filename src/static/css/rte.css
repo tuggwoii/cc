@@ -1,0 +1,44 @@
+﻿
+@font-face {
+    font-family: gotham-light;
+    src: url("/fonts/gotham-light.ttf");
+}
+
+@font-face {
+    font-family: gotham-med;
+    src: url("/fonts/gotham-med.ttf");
+}
+
+@font-face {
+    font-family: gotham-reg;
+    src: url("/fonts/gotham-reg.ttf");
+}
+
+@font-face {
+    font-family: saraban-new;
+    src: url("/fonts/THSarabunNew.ttf");
+}
+
+@font-face {
+    font-family: saraban-bold;
+    src: url("/fonts/THSarabunNew-Bold.ttf");
+}
+
+@font-face {
+    font-family: saraban-italic;
+    src: url("/fonts/THSarabunNew-Italic.ttf");
+}
+
+body#tinymce {
+    background: rgba(120,120,120,1);
+    color: #fff;
+    font-size: 24px;
+    font-family: 'saraban-new', 'gotham-light', sans-serif;
+}
+* {
+    -webkit-font-smoothing: antialiased;
+}
+
+.mce-tinymce {
+    border: none !important;
+}

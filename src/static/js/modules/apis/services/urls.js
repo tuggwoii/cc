@@ -1,7 +1,7 @@
 ﻿'use strict';
 module.factory('URLS', function () {
     var base = '/api/v1/';
-    var models = ['cars', 'files', 'workgroup', 'notifications', 'repairs', 'shops', 'works', 'shares'];
+    var models = ['cars', 'files', 'workgroup', 'notifications', 'repairs', 'shops', 'works', 'shares', 'pages'];
     var endpoints = {
         accounts: {
             login: base + 'accounts/login',

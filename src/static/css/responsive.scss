@@ -18,6 +18,32 @@
             }
         }
     }
+    .back-office {
+
+        .wrapper {
+            margin-top: 140px;
+        }
+
+        header {
+            height: 140px;
+            
+            .nav {
+                position: absolute;
+                top: 85px;
+                left: 0;
+                width: 100%;
+
+                .login-button-container {
+                    position:absolute;
+                    right: 15px;
+                    top: -65px;
+                }
+                li {
+                    position: static;
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 992px) {
@@ -88,6 +114,29 @@
             margin-left: 0;
         }
     }
+
+    .back-office {
+
+        .wrapper {
+            margin-top: 80px;
+        }
+
+        header {
+            height: 80px;
+            
+            .nav {
+                position: relative;
+                top: 0px;
+                left: 0;
+
+                .login-button-container {
+                    position:relative;
+                    right: 0px;
+                    top: 0px;
+                }
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -153,7 +202,6 @@
     }
 }
 @media screen and (max-width: 550px) {
-
     .app {
         .wrapper {
             .filters {

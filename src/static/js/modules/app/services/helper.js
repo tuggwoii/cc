@@ -1,6 +1,9 @@
 ﻿'use strict';
+String.prototype.replaceAll = function (search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
 module.factory('Helper', [function () {
-
     return {
         monthsShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'ม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
         monthsFull: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม ', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
@@ -37,6 +40,18 @@ module.factory('Helper', [function () {
                 sec = '0' + sec;
             }
             return hour+':'+min+':'+sec+ ', ' + date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);
+        },
+        replaceUrl: function (str) {
+            str = str.replaceAll(',', '-');
+            str = str.replaceAll(' ', '-');
+            str = str.replaceAll('.', '-');
+            str = str.replaceAll('"', '-');
+            str = str.replaceAll('?', '-');
+            str = str.replaceAll('=', '-');
+            str = str.replaceAll('&', '-');
+            str = str.replaceAll('%', '-');
+            str = str.replaceAll('%', '*');
+            return str;
         }
     };
 }]);

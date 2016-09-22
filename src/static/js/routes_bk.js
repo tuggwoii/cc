@@ -19,5 +19,11 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('cars', {
           url: "/cars",
           templateUrl: "backend/cars.html"
+      }).state('pages', {
+          url: "/pages",
+          templateUrl: "backend/pages.html"
+      }).state('page', {
+          url: "/page",
+          templateUrl: "backend/page.html"
       });
 });

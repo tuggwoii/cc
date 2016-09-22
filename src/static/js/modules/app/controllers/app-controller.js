@@ -155,7 +155,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             }
         };
 
-        var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarsPage', 'isWorksPage'];
+        var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarsPage', 'isWorksPage', 'isPage'];
         $scope.setNavActive = function (active) {
             angular.forEach(navs, function (n) {
                 if (n === active) {
@@ -182,14 +182,17 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             else if (location.hash.indexOf('shares') > -1 || location.href.indexOf('share') > -1) {
                 $scope.setNavActive('isSharePage');
             }
-            else if (location.hash.indexOf('users') > -1) {
+            else if (location.hash.indexOf('user') > -1) {
                 $scope.setNavActive('isUsersPage');
             }
-            else if (location.hash.indexOf('cars') > -1) {
+            else if (location.hash.indexOf('car') > -1) {
                 $scope.setNavActive('isCarsPage');
             }
             else if (location.hash.indexOf('works') > -1) {
                 $scope.setNavActive('isWorksPage');
+            }
+            else if (location.hash.indexOf('page') > -1) {
+                $scope.setNavActive('isPage');
             }
             else {
                 $scope.setNavActive('');

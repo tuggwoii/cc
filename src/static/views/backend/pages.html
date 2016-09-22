@@ -1,0 +1,47 @@
+﻿<div class="container backend-user">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#/')">Admin ></a>
+            </li>
+            <li>
+                Pages
+            </li>
+        </ul>
+    </div>
+
+    <div class="subpage" ng-controller="PagesController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>Pages</span>
+        </h1>
+
+        <div class="users-list">
+            <h2>
+                <span>Pages ({{model.length}})</span>
+                <button class="btn btn-danger" ng-click="navigateTo('#/page')"><i class="fa fa-plus"></i> เพิ่ม</button>
+            </h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>ชื่อหน้า</td>
+                        <td>URL</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="page in model">
+                        <td>{{page.name}}</td>
+                        <td>{{page.url?page.url:'/'}}</td>
+                        <td class="action">
+                            <i ng-if="!page.isSys" class="fa fa-edit" ng-click="edit(w);$event.stopPropagation();"></i>
+                            <i ng-if="!page.isSys" class="fa fa-remove" ng-click="delete(w);$event.stopPropagation();"></i>
+                            <span ng-if="page.isSys">หน้านี้ไม่สามารถแก้ไขได้</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
