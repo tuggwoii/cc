@@ -552,7 +552,6 @@ class RepairApi extends BaseApi {
                     var owner = _repair.owner;
                     if (req.user.id === owner) {
                         var shopId = _repair.repair_shop;
-
                         RepairWork.destroy({ where: { for_repair: _repair.id } }).then(function () {
                             Repair.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function () {
                                 context.updateShopScore(context, shopId).then(function () {

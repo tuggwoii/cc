@@ -31,12 +31,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="page in model">
+                    <tr ng-repeat="page in model" ng-click="edit(page)">
                         <td>{{page.name}}</td>
                         <td>{{page.url?page.url:'/'}}</td>
                         <td class="action">
-                            <i ng-if="!page.isSys" class="fa fa-edit" ng-click="edit(w);$event.stopPropagation();"></i>
-                            <i ng-if="!page.isSys" class="fa fa-remove" ng-click="delete(w);$event.stopPropagation();"></i>
+                            <i ng-if="!page.isSys" class="fa fa-edit" ng-click="edit(page);$event.stopPropagation();"></i>
+                            <i ng-if="!page.isSys" class="fa fa-remove" ng-click="delete(page);$event.stopPropagation();"></i>
                             <span ng-if="page.isSys">หน้านี้ไม่สามารถแก้ไขได้</span>
                         </td>
                     </tr>

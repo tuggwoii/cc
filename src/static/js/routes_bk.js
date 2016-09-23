@@ -25,5 +25,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('page', {
           url: "/page",
           templateUrl: "backend/page.html"
-      });
+      }).state('editpage', {
+          url: "/edit-page",
+          templateUrl: "backend/page-edit.html"
+      });;
 });

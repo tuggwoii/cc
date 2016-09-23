@@ -27,6 +27,7 @@ app.use('/fonts', express.static(__dirname + '/src/static/fonts'));
 app.use('/resources', express.static(__dirname + '/src/static/resources'));
 app.use('/backend', express.static(__dirname + '/src/static/views/backend'));
 app.use('/partials', express.static(__dirname + '/src/static/views/partials'));
+app.use('/static', express.static(__dirname + '/src/static/views/static'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}));

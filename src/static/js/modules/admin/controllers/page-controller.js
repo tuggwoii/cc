@@ -98,11 +98,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
         if ($scope.validate() && form.$valid) {
             $rootScope.$broadcast(Event.Load.Display);
             PagesService.create($scope.model).then(function () {
-                $rootScope.$broadcast(Event.Load.Dismiss);
-                $scope.status.success = true;
-                $timeout(function () {
-                    $scope.status.success = false;
-                }, 5000);
+                $scope.navigateTo('#/edit-page?id=' + $scope.model.name);
             }).catch(function () {
                 $scope.status.error = true;
                 $rootScope.$broadcast(Event.Load.Dismiss);

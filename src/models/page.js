@@ -30,6 +30,65 @@ class Pages extends Base {
         return promise;
     }
 
+    update(page) {
+        var context = this;
+        var promise = new Promise(function (resolve, reject) {
+            context.sync();
+            var index = -1;
+            for (var i = 0; i < pages.length; i++) {
+                if (page.name == pages[i].name) {
+                    pages[i] = page;
+                    index = i;
+                }
+            }
+            if (index > -1 && !pages[i].isSys) {
+                var path = './src/static/views/' + pages[index].view;
+                path = path.replace('{name}', pages[index].name);
+                fs.writeFile(path, pages[index].content, function (err) {
+                    if (err) {
+                        reject();
+                    }
+                    else {
+                        delete pages[index].content;
+                        context.save().then(function () {
+                            resolve(pages[index]);
+                        }).catch(reject);
+                    }
+                });
+            }
+            else {
+                reject({ message: 'PAGE NOT FOUND' });
+            }
+        });
+        return promise;
+    }
+
+    delete (id) {
+        var context = this;
+        var promise = new Promise(function (resolve, reject) {
+            var index = -1;
+            var page;
+            for (var i = 0; i < pages.length; i++) {
+                if (id == pages[i].name) {
+                    index = i;
+                    page = pages[i];
+                }
+            }
+            if (index > -1 && !page.isSys) {
+                var file_url = appRoot + '/src/static/views/' + page.view;
+                fs.unlinkSync(file_url);
+                pages.splice(index, 1);
+                context.save().then(function () {
+                    resolve();
+                }).catch(reject);
+            }
+            else {
+                reject({ message: 'PAGE NOT FOUND' });
+            }
+        });
+        return promise;
+    }
+
     getAll () {
         var context = this;
         var promise = new Promise(function (resolve, reject) {
@@ -57,6 +116,7 @@ class Pages extends Base {
         return promise;
     }
 
+
     sync () {
         pages = JSON.parse(fs.readFileSync('src/database/routes/views.json', 'utf8'));
     }
@@ -68,6 +128,7 @@ class Pages extends Base {
     serialize (data) {
         var page = {
             name: data.name,
+            title: data.title,
             url: data.url,
             view: data.view,
             roles: data.roles,

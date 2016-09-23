@@ -2,6 +2,7 @@
 var Pages = require('../models/page');
 var Share = require('../models/share');
 var authorize = require('../authorize/auth');
+var fs = require('fs');
 
 module.exports = function (req, res) {
     Pages.getAll().then(function (pages) {
@@ -41,8 +42,13 @@ module.exports = function (req, res) {
                         if (route.model && route.model === 'share') {
                             Share.response(Share, req, res, route);
                         }
+                        else if (route.isStatic) {
+                            var path = './src/static/views/' + route.view;
+                            route.content = fs.readFileSync(path, 'utf8');
+                            res.status(200).render('static/master.html', route);
+                        }
                         else {
-                            res.status(200).render(routes[i].view);
+                            res.status(200).render(route.view);
                         }
                         break;
                     }

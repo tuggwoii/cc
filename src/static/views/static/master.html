@@ -24,15 +24,17 @@
                             <li>
                                 <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
                             </li>
-                            <li>{{strings['nav_error']}}</li>
+                            <li><%= title?title:name %></li>
                         </ul>
                     </div>
                     <div class="subpage">
                         <h1>
                             <img src="/img/logo.png" />
-                            <span>{{strings['server_error_title']}}</span>
+                            <span><%= title?title:name %></span>
                         </h1>
-                        <p>{{strings['server_error_message']}}</p>
+                        <div class="rte">
+                            <%- content %>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,8 +42,7 @@
         <footer ng-include="'/partials/footer.html'"></footer>
     </div>
     <load></load>
-    <file-upload upload="upload"></file-upload>
-    <script>var error_500 = true;</script>
+    <script>var error_404 = true; var error_500 = false;</script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script type="text/javascript">if (!window.jQuery) { document.write("<script type=\"text/javascript\" src=\"/libs/jquery/dist/jquery.min.js\"><\/script>"); }</script>
     <script src="/libs/angular/angular.min.js"></script>
@@ -80,8 +81,5 @@
     <script src="/js/modules/accounts/controllers/register-controller.js"></script>
     <script src="/js/modules/accounts/controllers/account-controller.js"></script>
     <script src="/js/modules/car/controllers/car-controller.js"></script>
-    <script src="/js/modules/repairs/controllers/repair-controller.js"></script>
-    <script src="/js/modules/repairs/controllers/repairs-controller.js"></script>
-    <script src="/js/modules/shares/controllers/shares-controller.js"></script>
 </body>
 </html>
