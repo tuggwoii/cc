@@ -21,7 +21,7 @@
     </div>
 </nav>-->
 
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavController">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -35,8 +35,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="menu-item {{isHomePage?'active':''}}"><a href="/#/">Home</a></li>
                 <li class="menu-item {{isSharePage?'active':''}}"><a href="/#/shares">Share</a></li>
-                <li class="menu-item"><a href="/#/shares">Contact</a></li>
-                <li class="menu-item"><a href="/#/shares">FAQ</a></li>
+                <li class="menu-item {{m.isActive?'active':''}}" ng-repeat="m in menu"><a href="{{m.url}}">{{m.name}}</a></li>
                 <li>
                     <div class="login-button-container" ng-if="!user.id">
                         <button type="button" class="btn btn-default" ng-click="loginToggle()">{{strings['login']}}</button>

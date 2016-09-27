@@ -1,0 +1,65 @@
+﻿<div class="container backend-user">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#/')">Admin ></a>
+            </li>
+            <li>
+                Cars
+            </li>
+        </ul>
+    </div>
+
+    <div class="subpage" ng-controller="AdminCarsController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>Cars</span>
+        </h1>
+
+        <div class="user-filter">
+            <h2>ค้นหา</h2>
+            <div class="filter-field">
+                <div class="form-group">
+                    <label>ทะเบียน</label>
+                    <input type="text" class="form-control" ng-model="query.q" />
+                </div>
+                <div>
+                    <label class="empty"></label>
+                    <button class="btn btn-danger" ng-if="!status.loading" ng-click="search()">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button class="btn btn-danger" ng-if="status.loading" disabled>
+                        LOADING...
+                    </button>
+                </div>               
+            </div>
+        </div>
+
+        <div class="users-list">
+            <h2>
+                <span>Cars ({{model.length}})</span>
+            </h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>ทะเบียน</td>
+                        <td>ยี่ห้อ</td>
+                        <td>รุ่น</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="car in model" ng-click="edit(car)">
+                        <td>{{car.serial}}</td>
+                        <td>{{car.brand}}</td>
+                        <td>{{car.series}}</td>
+                        <td class="action">
+                            <i  class="fa fa-edit" ng-click="edit(car);$event.stopPropagation();"></i>
+                            <i  class="fa fa-remove" ng-click="delete(car);$event.stopPropagation();"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

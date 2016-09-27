@@ -56,7 +56,7 @@ class PagesApi extends BaseApi {
 
     endpoints () {
         return [
-            { url: '/pages', method: 'get', roles: ['admin'], response: this.getAll },
+            { url: '/pages', method: 'get', roles: [], response: this.getAll },
 			{ url: '/pages', method: 'post', roles: ['admin'], response: this.create },
             { url: '/pages', method: 'patch', roles: ['admin'], response: this.update },
             { url: '/pages', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] }

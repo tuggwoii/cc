@@ -23,7 +23,8 @@ module.factory('URLS', function () {
             one: base + model + '/{id}',
             image: base + model + '/image',
             shops: base + model.slice(0, -1) + '/shops',
-            image_id: base + model + '/image/{id}'
+            image_id: base + model + '/image/{id}',
+            admin_all: base +'/admin/'+ model
         };
     }
 

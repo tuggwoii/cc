@@ -28,5 +28,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('editpage', {
           url: "/edit-page",
           templateUrl: "backend/page-edit.html"
-      });;
+      }).state('editcar', {
+          url: "/edit-car",
+          templateUrl: "backend/car-edit.html"
+      });
 });

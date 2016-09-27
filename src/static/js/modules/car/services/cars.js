@@ -21,6 +21,22 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
                 }
             });
         },
+        getAll: function (query) {
+            var key = URLS.model(service).admin_all + (query.q? '?q=' +query.q:'');
+            return $q(function (resolve, reject) {
+                if (cache[key]) {
+                    resolve(cache[key]);
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        cache[key] = res;
+                        resolve(res);
+                    }).error(function (res) {
+                        reject(res);
+                    });
+                }
+            });
+        },
         getById: function (id) {
             var key = URLS.model(service).one.replace('{id}', id);
             return $q(function (resolve, reject) {
@@ -49,6 +65,14 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
         update: function (model) {
             return $q(function (resolve, reject) {
                 $http.patch(URLS.model(service).all, model).success(function (res) {
+                    cache = {};
+                    resolve(res.data);
+                }).error(reject);
+            });
+        },
+        updateAdmin: function (model) {
+            return $q(function (resolve, reject) {
+                $http.patch(URLS.model(service).admin_all, model).success(function (res) {
                     cache = {};
                     resolve(res.data);
                 }).error(reject);
