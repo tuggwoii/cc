@@ -9,7 +9,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
 
     function error (res, code) {
         if (code === 400) {
-            if (res.error.message == 'BAN') {
+            if (res.error && res.error.message == 'BAN') {
                 $scope.status.ban = true;
             }
             else {
