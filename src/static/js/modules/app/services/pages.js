@@ -1,33 +1,25 @@
 ﻿'use strict';
-module.factory('PageService', ['$q', function ($q) {
+module.factory('PageService', ['$q', '$http', 'URLS', function ($q, $http, URLS) {
+
+    var service = 'pages';
+    var cache = {};
 
     return {
-        onLoad: function (string, car, work, notification, share) {
-
+        getAll: function () {
+            var key = URLS.model(service).all;
             return $q(function (resolve, reject) {
-                if (error_404 || error_500) {
-                    resolve();
-                }
-                else if (window.location.href.indexOf('share/') > -1) {
-                    resolve();
-                }
-                else if (window.location.hash.split('?')[0] == '#/car') {
-                    if (string && car && work) {
-                        resolve();
-                    }
-                    else {
-                        reject();
-                    }
+                if (cache[key]) {
+                    resolve(cache[key]);
                 }
                 else {
-                    if (string && car && work && notification && share) {
-                        resolve();
-                    }
-                    else {
-                        reject();
-                    }
+                    $http.get(URLS.model(service).all).success(function (res) {
+                        cache[key] = res;
+                        resolve(res);
+                    }).error(function (res) {
+                        reject(res);
+                    });
                 }
-            })
+            });
         }
     };
 }]);

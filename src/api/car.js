@@ -6,6 +6,7 @@ var User = require('../database/models').User;
 var Notifications = require('../database/models').Notification;
 var Repair = require('../database/models').Repair;
 var BaseApi = require('./base');
+var url = require('url');
 var shortid = require('shortid');
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 //shortid.generate();
@@ -102,6 +103,7 @@ class CarApi extends BaseApi {
         return promise;
     }
 
+
     getByUser (context, req, res) {
         context.getCarByUserId(req.user.id).then(function (data) {
             context.success(req, res, data, {}, CarSerializer.default);
@@ -110,8 +112,16 @@ class CarApi extends BaseApi {
         });
     }
 
-    getAll (context, req, res) {
+    getAll(context, req, res) {
+        var params = url.parse(req.url, true);
+        var queries = params.query;
+        var conditions = {};
+        if (queries['q']) {
+            conditions.serial = { like: '%' + queries['q'] + '%' };
+        }
+
         Car.all({
+            where: conditions,
             include: [
                 { model: User },
                 { model: File }
@@ -123,12 +133,13 @@ class CarApi extends BaseApi {
         });
     }
 
-    getById (context, req, res) {
+    getById(context, req, res) {
+        console.log('MYROLE', req.user.role);
         if (req.params.id) {
             context.getCarById(req.params.id).then(function (_car) {
                 if (_car) {
                     var owner = _car.dataValues.user.dataValues;
-                    if (req.user.id === owner.id) {
+                    if (req.user.id === owner.id || req.user.role.id == 1) {
                         context.success(req, res, _car, {}, CarSerializer.default);
                     }
                     else {
@@ -154,13 +165,16 @@ class CarApi extends BaseApi {
             brand: data.brand,
             series: data.series,
             image: data.image,
-            owner: owner,
+            owner: owner.id,
             year: data.year,
             date: data.date,
             engine: data.engine,
             color: data.color,
             detail: data.detail
         };
+        if (owner.role.id == 1) {
+            model.exp_date = data.exp_date;
+        }
         if (data.id) {
             model.id = data.id;
         }
@@ -171,7 +185,7 @@ class CarApi extends BaseApi {
     }
 
     update (context, req, res) {
-        var car = context.model(req.body, req.user.id);
+        var car = context.model(req.body, req.user);
         context.validateUpdate(car).then(function () {
             context.getCarById(car.id).then(function (_car) {
                 if (_car) {
@@ -194,6 +208,31 @@ class CarApi extends BaseApi {
                     else {
                         context.denied(res);
                     }
+                }
+                else {
+                    context.notfound(res);
+                }
+            }).catch(function (err) {
+                context.error(req, res, error, 500);
+            });
+        }).catch(function (err) {
+            var error = {
+                message: err
+            };
+            context.error(req, res, error, 400);
+        });
+    }
+
+    updateAdmin(context, req, res) {
+        var car = context.model(req.body, req.user);
+        context.validateUpdate(car).then(function () {
+            context.getCarById(car.id).then(function (_car) {
+                if (_car) {
+                    _car.updateAttributes(car).then(function (_updated_car) {
+                        context.success(req, res, _updated_car, {}, CarSerializer.default);
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
                 }
                 else {
                     context.notfound(res);
@@ -258,6 +297,7 @@ class CarApi extends BaseApi {
     endpoints () {
         return [
             { url: '/admin/cars', method: 'get', roles: ['admin'], response: this.getAll },
+            { url: '/admin/cars', method: 'patch', roles: ['admin'], response: this.updateAdmin },
             { url: '/cars', method: 'get', roles: ['admin', 'user'], response: this.getById, params: ['id'] },
 			{ url: '/cars', method: 'get', roles: ['admin', 'user'], response: this.getByUser },
             { url: '/cars', method: 'post', roles: ['admin', 'user'], response: this.add },
