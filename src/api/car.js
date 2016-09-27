@@ -184,6 +184,31 @@ class CarApi extends BaseApi {
         return model;
     }
 
+    admin_model(data, owner) {
+        var model = {
+            name: data.name,
+            serial: data.serial,
+            brand: data.brand,
+            series: data.series,
+            image: data.image,
+            year: data.year,
+            date: data.date,
+            engine: data.engine,
+            color: data.color,
+            detail: data.detail
+        };
+        if (owner.role.id == 1) {
+            model.exp_date = data.exp_date;
+        }
+        if (data.id) {
+            model.id = data.id;
+        }
+        if (data.image && data.image.id) {
+            model.image = data.image.id;
+        }
+        return model;
+    }
+
     update (context, req, res) {
         var car = context.model(req.body, req.user);
         context.validateUpdate(car).then(function () {
@@ -224,7 +249,7 @@ class CarApi extends BaseApi {
     }
 
     updateAdmin(context, req, res) {
-        var car = context.model(req.body, req.user);
+        var car = context.admin_model(req.body, req.user);
         context.validateUpdate(car).then(function () {
             context.getCarById(car.id).then(function (_car) {
                 if (_car) {
