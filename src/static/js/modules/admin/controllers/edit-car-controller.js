@@ -48,8 +48,8 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 model.exp_day = model.exp_date.getDate() + '';
                 model.exp_month = (model.exp_date.getMonth() + 1) + '';
                 model.exp_year = model.exp_date.getFullYear() + 543;
-                if (model.date.getFullYear() == 1970 && model.day == '1' && model.month == '1') {
-                    model.date = undefined;
+                if (model.exp_date.getFullYear() == 1970 && model.day == '1' && model.month == '1') {
+                    model.exp_date = undefined;
                     model.day = '';
                     model.month = '';
                 }
