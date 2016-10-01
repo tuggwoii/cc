@@ -301,7 +301,7 @@ class CarApi extends BaseApi {
     }
 
     add (context, req, res) {
-        var data = context.model(req.body, req.user.id);
+        var data = context.model(req.body, req.user);
         context.validateCreate(req, data).then(function () {
             var exp_date = new Date();
             exp_date.setFullYear(exp_date.getFullYear() + 1);
