@@ -2103,3 +2103,8 @@ body {
 label.empty {
     height: 29px;
 }
+.filter-box, .works {
+    .navs {
+        display:none;
+    }
+}

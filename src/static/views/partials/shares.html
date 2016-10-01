@@ -10,9 +10,15 @@
                     <h2>กลุ่มงานซ่อม</h2>
                     <span>คลิ๊กเพื่อเลือกงานซ่อมที่สนใจ</span>
                 </div>
-                <div class="work-list">
-                    <div class="work-item {{query.work?'':'active'}}" ng-click="selectWorkgroup()">{{strings['general_work']}}</div>
-                    <div class="work-item {{work.active?'active':''}}" ng-repeat="work in workgroup" ng-click="selectWorkgroup(work)">{{work.name}}</div>
+                <div class="works-container">
+                    <div class="work-list">
+                        <div class="work-item {{query.work?'':'active'}}" ng-click="selectWorkgroup()">{{strings['general_work']}}</div>
+                        <div class="work-item {{work.active?'active':''}}" ng-repeat="work in workgroup" ng-click="selectWorkgroup(work)">{{work.name}}</div>
+                    </div>
+                </div>
+                <div class="navs">
+                    <i class="fa fa-angle-left"></i>
+                    <i class="fa fa-angle-right"></i>
                 </div>
             </div>
         </div>
@@ -49,34 +55,29 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="container">
-                <div class="shares-list row">
-                    <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
-                        <div class="share-item animated fadeIn">
-                            <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
-                            <div class="detail">
-                                <div class="image">
-                                    <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
-                                    <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
-                                </div>
-                                <div class="info">
-                                    <div class="workgroup">{{s.workgroup.name}}</div>
-                                    <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
-                                    <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
-                                    <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop.name}}{{s.shop.province?', '+s.shop.province_str:''}}</div>
-                                    <rating-star rating="s.score"></rating-star>
-                                </div>
+    <div class="container">
+        <div class="shares-list">
+            <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
+                    <div class="share-item animated fadeIn">
+                        <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
+                        <div class="detail">
+                            <div class="image">
+                                <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
+                                <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
+                            </div>
+                            <div class="info">
+                                <div class="workgroup">{{s.workgroup.name}}</div>
+                                <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
+                                <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
+                                <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop.name}}{{s.shop.province?', '+s.shop.province_str:''}}</div>
+                                <rating-star rating="s.score"></rating-star>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="loadmore-container">
-                    <button class="btn btn-danger loadMore" ng-click="loadMore()" ng-if="hasMore">โหลดเพิ่ม</button>
-                </div>
+            </div>
         </div>
     </div>
 

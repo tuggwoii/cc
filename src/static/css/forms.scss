@@ -273,11 +273,31 @@ form h4 {
 }
 
 input[type=checkbox] {
-    cursor:pointer;
+    cursor: pointer;
     width: 20px;
     height: 20px;
 }
+
 .form-control.full-width {
     width: 100%;
     max-width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+
+    input[type=text] {
+        height: 36px;
+        font-size: 22px;
+        padding: 3px 5px;
+        max-width: 9999px;
+        min-width:0;
+    }
+
+    select.form-control {
+        height: 36px;
+        font-size: 22px;
+        padding: 3px 5px;
+        max-width: 9999px;
+        min-width:0;
+    }
 }

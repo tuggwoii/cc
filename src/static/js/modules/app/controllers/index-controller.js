@@ -71,6 +71,9 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
                 })
             ])
             .then(function () {
+                $timeout(function () {
+                    var workSlide = new WorkSlide();
+                }, 500);
                 $scope.displayView();
             })
             .catch(function () {
@@ -108,6 +111,9 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
                 })
             ])
             .then(function () {
+                $timeout(function () {
+                    var workSlide = new WorkSlide();
+                }, 500);
                 $scope.displayView();
             })
             .catch(function () {

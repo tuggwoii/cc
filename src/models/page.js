@@ -41,20 +41,25 @@ class Pages extends Base {
                     index = i;
                 }
             }
-            if (index > -1 && !pages[i].isSys) {
-                var path = './src/static/views/' + pages[index].view;
-                path = path.replace('{name}', pages[index].name);
-                fs.writeFile(path, pages[index].content, function (err) {
-                    if (err) {
-                        reject();
-                    }
-                    else {
-                        delete pages[index].content;
-                        context.save().then(function () {
-                            resolve(pages[index]);
-                        }).catch(reject);
-                    }
-                });
+            if (pages[index]) {
+                if (index > -1 && !pages[index].isSys) {
+                    var path = './src/static/views/' + pages[index].view;
+                    path = path.replace('{name}', pages[index].name);
+                    fs.writeFile(path, pages[index].content, function (err) {
+                        if (err) {
+                            reject();
+                        }
+                        else {
+                            delete pages[index].content;
+                            context.save().then(function () {
+                                resolve(pages[index]);
+                            }).catch(reject);
+                        }
+                    });
+                }
+                else {
+                    reject({ message: 'PAGE NOT FOUND' });
+                }
             }
             else {
                 reject({ message: 'PAGE NOT FOUND' });

@@ -8,12 +8,16 @@
                 <option value="{{p.key}}" ng-repeat="p in provinces">{{p.th}}</option>
             </select>
         </div>
-        <div>
+        <div class="index-shop-services">
             <label>บริการ</label>
-            <div>
+            <div class="work-filter-container">
                 <div class="filter-item {{shop_query.services?'':'active'}}" ng-click="shopWorkClick()">{{strings['general_work']}}</div>
                 <div class="filter-item {{work.active?'active':''}}" ng-repeat="work in workgroup" ng-click="shopWorkClick(work)">{{work.name}}</div>
             </div>
+        </div>
+        <div class="navs">
+            <i class="fa fa-angle-left"></i>
+            <i class="fa fa-angle-right"></i>
         </div>
     </div>
     <div class="content-box">

@@ -17,6 +17,9 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                 $("html, body").animate({
                     scrollTop: 0
                 }, 0);
+                if ($('.navbar-collapse').hasClass('in')) {
+                    $('.navbar-collapse').removeClass('in');
+                }
                 $timeout(function () {
                     footer();
                     $scope.viewReady = true;

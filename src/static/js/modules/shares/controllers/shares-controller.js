@@ -1,4 +1,5 @@
 ﻿'use strict';
+var shareWorkSlide;
 module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'ShareService', 'WorkgroupService', 'CarService', 'Event', 'Helper',
     function ($scope, $rootScope, $timeout, $q, $location, ShareService, WorkgroupService, CarService, Event, Helper) {
 
@@ -31,6 +32,9 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                              $scope.cars = angular.copy(res.data);
                          })
                     ]).then(function () {
+                        $timeout(function () {
+                            shareWorkSlide = new ShareWorkSlide();
+                        }, 500);
                         $scope.displayView();
                     });
                 }
@@ -41,6 +45,9 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                              $scope.workgroup = angular.copy(res.data);
                          })
                     ]).then(function () {
+                        $timeout(function () {
+                            shareWorkSlide = new ShareWorkSlide();
+                        }, 500);
                         $scope.displayView();
                     });
                 }
@@ -56,7 +63,7 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
             if (notify) {
                 $rootScope.$broadcast(Event.Load.Display);
             }
-            
+            $scope.currentPage = 1;
             ShareService.get($scope.currentPage, $scope.query).then(function (res) {
                 $scope.shares = res.data;
                 initModel($scope.shares);

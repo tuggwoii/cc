@@ -185,3 +185,17 @@
     z-index: 1050;
     overflow:hidden !important;
 }
+
+@media screen and (max-width: 768px) {
+    .popup-container .load-container {
+        margin-top: -30px;
+        margin-left: -30px;
+        width: 80px;
+        height: 80px;
+        padding: 22px 22px;
+
+        img {
+            width: 35px;
+        }
+    }
+}

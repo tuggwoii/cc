@@ -139,7 +139,7 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
 
     .app header nav {
         .navbar-nav {
@@ -192,13 +192,94 @@
     .app .wrapper {
         .content-box .miles {
             width: 100%;
-            border-bottom:1px dashed #666;
             padding-bottom: 30px;
+            padding-right: 0;
         }
         .content-box .dates {
             margin-top:20px;
             width: 100%;
+            padding-left: 0;
         }
+    }
+
+    .app .wrapper .box .filter-box .filter-item {
+        text-align:center;
+        padding: 10px 10px 5px;
+        line-height: 1;
+        margin-top: 0px;
+    }
+
+    .index-shop-services {
+        width: 100%;
+        display:inline-block;
+        overflow: hidden;
+    }
+    .app .index-shop {
+        padding: 20px 20px;
+        height: auto;
+    }
+    .app .wrapper .box .filter-box label {
+        font-size: 24px;
+    }
+    .notifications ul {
+        max-width: 600px;
+        display:block;
+        margin:0 auto;
+    }
+
+    .app .wrapper .box h4 {
+        width: 100%;
+        display: block;
+        text-align: center;
+        border-bottom: 2px solid #f55d22;
+
+        span {
+            border: none;
+        }
+    }
+
+    .filter-box, .works {
+        .navs {
+            display:inline-block;
+            position: relative;
+            top: -41px;
+            width: 100%;
+            i {
+                 font-size: 35px;
+                 color: #ccc;
+                 cursor: pointer;
+                 position:absolute;
+            }
+
+            i.fa-angle-left {
+                left: -16px;
+            }
+            i.fa-angle-right {
+                right: -16px;
+            }
+        }
+    }
+    .app .wrapper {
+        padding-bottom: 50px
+    }
+    .app .wrapper .works .work-list .work-item {
+        line-height: 1;
+        padding: 10px 10px 5px;
+        text-align: center;
+    }
+    .app .wrapper .filters {
+        margin-top: 20px;
+    }
+    .works-container {
+        overflow:hidden;
+        display:inline-block;
+        width: 100%;
+    }
+    .app .wrapper .filters .form-group label {
+        font-size: 24px;
+    }
+    .app .wrapper .filters .btn {
+        margin-top: 10px;
     }
 }
 @media screen and (max-width: 550px) {
