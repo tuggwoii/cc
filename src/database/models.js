@@ -496,6 +496,50 @@ var RepairImage = sequelize.define('repair_images', {
     }
 });
 
+var Contact = sequelize.define('contacts', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        field: 'id'
+    },
+    createdAt: {
+        type: Sequelize.DATE,
+        field: 'createdAt'
+    },
+    updatedAt: {
+        type: Sequelize.DATE,
+        field: 'updatedAt'
+    },
+    title: {
+        type: Sequelize.STRING,
+        field: 'title'
+    },
+    detail: {
+        type: Sequelize.STRING,
+        field: 'detail'
+    },
+    type: {
+        type: Sequelize.INTEGER,
+        field: 'type'
+    },
+    send_by: {
+        type: Sequelize.INTEGER,
+        field: 'by'
+    },
+    car_model: {
+        type: Sequelize.INTEGER,
+        field: 'car'
+    },
+    datetime: {
+        type: Sequelize.STRING,
+        field: 'datetime'
+    },
+    status: {
+        type: Sequelize.STRING,
+        field: 'status'
+    }
+});
+
 User.belongsTo(Role, { foreignKey: 'user_role' });
 User.belongsTo(File, { foreignKey: 'image' });
 File.belongsTo(User, { foreignKey: 'owner' });
@@ -525,6 +569,8 @@ Shop.hasMany(Repair, { foreignKey: 'repair_shop' });
 RepairImage.belongsTo(File, { foreignKey: 'image_id' });
 RepairImage.belongsTo(Repair, { foreignKey: 'repair_id' });
 RepairImage.belongsTo(User, { foreignKey: 'owner' });
+Contact.belongsTo(User, { foreignKey: 'send_by' });
+Contact.belongsTo(Car, { foreignKey: 'car_model' });
 
 exports.User = User;
 exports.Role = Role;
@@ -537,3 +583,4 @@ exports.Repair = Repair;
 exports.Shop = Shop;
 exports.RepairWork = RepairWork;
 exports.RepairImage = RepairImage;
+exports.Contact = Contact;
