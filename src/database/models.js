@@ -535,8 +535,12 @@ var Contact = sequelize.define('contacts', {
         field: 'datetime'
     },
     status: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         field: 'status'
+    },
+    price: {
+        type: Sequelize.DOUBLE,
+        field: 'price'
     }
 });
 

@@ -11,8 +11,9 @@ var notificationApi = require('../api/notification');
 var repairApi = require('../api/repair');
 var shopApi = require('../api/shop');
 var workApi = require('../api/work');
+var contactApi = require('../api/contact');
 var logApi = require('../api/log');
-var routes = [staticApi, roleApi, accountApi, pageApi, fileApi, carApi, workgroupApi, notificationApi, repairApi, shopApi, workApi, logApi];
+var routes = [staticApi, roleApi, accountApi, pageApi, fileApi, carApi, workgroupApi, notificationApi, repairApi, shopApi, workApi, contactApi, logApi];
 
 module.exports = function (request, response) {
     var isFound = false;

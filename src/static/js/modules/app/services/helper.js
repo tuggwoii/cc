@@ -30,16 +30,16 @@ module.factory('Helper', [function () {
             var hour = date.getHours();
             var min = date.getMinutes();
             var sec = date.getSeconds();
-            if(hour < 10) {
+            if (hour < 10) {
                 hour = '0' + hour;
             }
-            if(min < 10) {
+            if (min < 10) {
                 min = '0' + min;
             }
-            if(sec < 10) {
+            if (sec < 10) {
                 sec = '0' + sec;
             }
-            return hour+':'+min+':'+sec+ ', ' + date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);
+            return hour + ':' + min + ':' + sec + ', ' + date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);
         },
         replaceUrl: function (str) {
             str = str.replaceAll(',', '-');
@@ -52,6 +52,20 @@ module.factory('Helper', [function () {
             str = str.replaceAll('%', '-');
             str = str.replaceAll('%', '*');
             return str;
+        },
+        getQueryStringValue: function (param, dummyPath) {
+            var sPageURL = dummyPath || window.location.search.substring(1),
+                sURLVariables = sPageURL.split(/[&||?]/),
+                res;
+            for (var i = 0; i < sURLVariables.length; i += 1) {
+                var paramName = sURLVariables[i],
+                    sParameterName = (paramName || '').split('=');
+
+                if (sParameterName[0] === param) {
+                    res = sParameterName[1];
+                }
+            }
+            return res;
         }
     };
 }]);

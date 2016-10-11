@@ -31,5 +31,11 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('editcar', {
           url: "/edit-car",
           templateUrl: "backend/car-edit.html"
+      }).state('payment', {
+          url: "/payment",
+          templateUrl: "backend/payment.html"
+      }).state('editpayment', {
+          url: "/edit-payment",
+          templateUrl: "backend/payment-edit.html"
       });
 });

@@ -3,16 +3,22 @@ var BaseApi = require('./base');
 var Contact = require('../database/models').Contact;
 var Car = require('../database/models').Car;
 var User = require('../database/models').User;
+var url = require('url');
 
 class ContactApi extends BaseApi {
 
     validate(data) {
         var promise = new Promise(function (resolve, reject) {
-            if (!data || !data.title || !data.type || !data.datetime) {
+            if (!data || !data.title || !data.type || !data.price || !data.datetime) {
                 reject('INVALID DATA');
             }
             else {
-                resolve();
+                if (data.type == 1 && !data.car_model) {
+                    reject('INVALID CAR');
+                }
+                else {
+                    resolve();
+                }
             }
         })
         return promise;
@@ -32,12 +38,13 @@ class ContactApi extends BaseApi {
 
     model(data, user) {
         var model = {
-            name: data.title,
-            title: data.detail,
+            title: data.title,
+            detail: data.detail,
             type: data.type,
             send_by: user.id,
             car_model: data.car,
             datetime: data.datetime,
+            price: data.price,
             status: 0
         };
         return model;
@@ -46,13 +53,14 @@ class ContactApi extends BaseApi {
     modelUpdate(data, user) {
         var model = {
             id: data.id,
-            name: data.title,
-            title: data.detail,
+            title: data.title,
+            detail: data.detail,
             type: data.type,
             send_by: user.id,
             car_model: data.car,
             datetime: data.datetime,
-            status: data.status
+            status: data.status,
+            price: data.price
         };
         return model;
     }
@@ -74,7 +82,16 @@ class ContactApi extends BaseApi {
     }
 
     getAll(context, req, res) {
+        var params = url.parse(req.url, true);
+        var queries = params.query;
+        var conditions = { };
+
+        if (queries['status']) {
+            conditions.status = queries['status'];
+        }
+
         Contact.all({
+            where: conditions,
             include: [
                 { model: Car },
                 { model: User }
@@ -88,16 +105,26 @@ class ContactApi extends BaseApi {
 
     get(context, req, res) {
         if (req.params.id) {
-            context.getById(req.params.id).then(function (data) {
-                if (data) {
-                    resolve(data);
-                }
-                else {
-                    context.notfound(res);
-                }
-            }).catch(function (err) {
-                reject(err);
-            });
+            if (!isNaN(parseInt(req.params.id))) {
+                context.getById(req.params.id).then(function (data) {
+                    if (data) {
+                        if (data.send_by == req.user.id) {
+                            context.success(req, res, data);
+                        }
+                        else {
+                            context.notfound(res);
+                        }
+                    }
+                    else {
+                        context.notfound(res);
+                    }
+                }).catch(function (err) {
+                    context.error(req, res, err, 500);
+                });
+            }
+            else {
+                context.notfound(res);
+            }
         }
         else {
             context.notfound(res);

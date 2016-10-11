@@ -27,12 +27,164 @@
                             <li>Payment</li>
                         </ul>
                     </div>
-                    <div class="subpage">
+                    <div class="subpage repair-detail" ng-controller="PaymentController">
                         <h1>
                             <img src="/img/logo.png" />
                             <span>แจ้งชำระเงิน</span>
                         </h1>
-                        <p>กรุณากรอกข้อมูลด้านล่างให้ครบถ้วนเพื่อแจ้งชำระเงิน</p>
+                        <div ng-if="isDetail">
+                            <p>ข้อมูลการแจ้งชำระเงินของท่านมีดังต่อไปนี้ (กรุณาบุคมาร์กไว้เพื่อตรวจสอบสถานะ)</p>
+                            <h2>ข้อมูลการชำระเงิน</h2>
+                            <div class="detail-section" ng-if="!notfound">
+                                <div class="info">
+                                    <div class="title">
+                                        <label>หัวข้อ: </label>
+                                        <span>{{model.title}}</span>
+                                    </div>
+                                    <div class="title">
+                                        <label>รายละเอียด: </label>
+                                        <span>{{model.detail?model.detail:'ไม่ระบุ'}}</span>
+                                    </div>
+                                    <div class="title">
+                                        <label>ประเภทการชำระ: </label>
+                                        <span>{{model.type==1?'ต่ออายุรถ':'เพิ่มจำนวนรถ'}}</span>
+                                    </div>
+                                    <div class="title" ng-if="model.type==1">
+                                        <label>รถที่ดำเนินการ: </label>
+                                        <span>{{model.car.brand}} {{model.car.series}} {{model.car.serial}}</span>
+                                    </div>
+                                    <div class="title">
+                                        <label>วันเวลาที่ชำระเงิน: </label>
+                                        <span>{{model.datetime}}</span>
+                                    </div>
+                                    <div class="title">
+                                        <label>จำนวนเงินที่ชำระ: </label>
+                                        <span>{{model.price.formatMoney(2, '.', ',')}} บาท</span>
+                                    </div>
+                                    <div class="title">
+                                        <label>สถานะ: </label>
+                                        <span>{{model.status?'ดำเนินการแล้ว':'ยังไม่ได้ดำเนินการ'}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-section" ng-if="notfound">
+                                <p>ไม่พบการแจ้งชำระ รายการนี้อาจถูกลบไปแล้ว</p>
+                            </div>
+                        </div>
+                        <div ng-if="!isDetail">
+                            <p>กรุณากรอกข้อมูลด้านล่างให้ครบถ้วนเพื่อแจ้งชำระเงิน</p>
+
+                            <form name="form">
+                                <div class="form-group">
+                                    <label class="capital">
+                                        หัวข้อเรื่อง
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input name="title"
+                                           type="text"
+                                           class="form-control"
+                                           placeholder="ใส่หัวข้อเรื่อง ต่ออายุรถ, เพิ่มจำนวนรถ"
+                                           ng-model="model.title"
+                                           ng-required="true" />
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="form.title.$error.required && form.title.$dirty">
+                                        กรุณากรอกหัวข้อเรื่อง
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="capital">
+                                        รายละเอียด
+                                    </label>
+                                    <textarea name="detail"
+                                              type="text"
+                                              class="form-control"
+                                              placeholder="รายละเอียด"
+                                              ng-model="model.detail"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="capital">
+                                        ประเภทการชำระ
+                                        <span class="required">*</span>
+                                    </label>
+                                    <select name="type"
+                                            class="form-control"
+                                            ng-required="true"
+                                            ng-model="model.type">
+                                        <option value="1">ต่ออายุรถ</option>
+                                        <option value="2">เพิ่มจำนวนรถ</option>
+                                    </select>
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="form.type.$error.required && form.type.$dirty">
+                                        กรุณาเลือกประเภทการชำระ
+                                    </p>
+                                </div>
+                                <div class="form-group" ng-if="model.type==1">
+                                    <label class="capital">
+                                        เลือกรถ
+                                    </label>
+                                    <select name="car"
+                                            class="form-control"
+                                            ng-required="true"
+                                            ng-model="model.car">
+                                        <option value=""></option>
+                                        <option value="{{car.id}}" ng-repeat="car in cars">{{car.brand}} {{car.series}} {{car.serial}}</option>
+                                    </select>
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="form.car.$error.required && form.car.$dirty">
+                                        กรุณาเลือกรถ
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="capital">
+                                        วันที่ชำระเงิน
+                                        <span class="required">*</span>
+                                    </label>
+                                    <input type="text"
+                                           name="date"
+                                           class="form-control"
+                                           placeholder="วันที่ชำระเงินเช่น 10:00 13/07/2559"
+                                           ng-model="model.datetime"
+                                           ng-required="true" />
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="form.date.$error.required && form.date.$dirty">
+                                        กรุณากรอกวันที่
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="capital">
+                                        จำนวนเงิน
+                                    </label>
+                                    <input type="text"
+                                           name="price"
+                                           class="form-control"
+                                           placeholder="จำนวนเงินที่ชำระ"
+                                           ng-model="model.price"
+                                           ng-required="true" />
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="form.price.$error.required && form.price.$dirty">
+                                        กรุณากรอกจำนวนเงิน
+                                    </p>
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="status.invalid_price">
+                                        กรุณากรอกจำนวนเงินให้ถูกต้อง (ตัวเลขเท่านั้น)
+                                    </p>
+
+                                    
+                                </div>
+
+                                <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
+                                <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
+
+                                <hr />
+                                <div class="btn-container">
+                                    <button type="button" class="btn btn-danger" ng-click="submit(form)">
+                                        ส่ง
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -80,5 +232,7 @@
     <script src="/js/modules/accounts/controllers/account-controller.js"></script>
     <script src="/js/modules/car/controllers/car-controller.js"></script>
     <script src="js/modules/app/controllers/nav-controller.js"></script>
+    <script src="js/modules/payment/services/payment.js"></script>
+    <script src="js/modules/payment/controllers/payment-controller.js"></script>
 </body>
 </html>

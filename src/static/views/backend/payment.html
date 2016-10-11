@@ -1,0 +1,68 @@
+﻿<div class="container backend-user">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#/')">Admin ></a>
+            </li>
+            <li>
+                Payment
+            </li>
+        </ul>
+    </div>
+
+    <div class="subpage" ng-controller="AdminPaymentController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>Payment</span>
+        </h1>
+
+        <div class="user-filter">
+            <h2>ค้นหา</h2>
+            <div class="filter-field">
+                <div class="form-group">
+                    <label>สถานะ</label>
+                    <select class="form-control" ng-model="query.status">
+                        <option value="0">ยังไม่ดำเนินการ</option>
+                        <option value="1">ดำเนินการแล้ว</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="empty"></label>
+                    <button class="btn btn-danger" ng-if="!status.loading" ng-click="search()">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button class="btn btn-danger" ng-if="status.loading" disabled>
+                        LOADING...
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="users-list">
+            <h2>
+                <span>Payment ({{model.length}})</span>
+            </h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>หัวข้อ</td>
+                        <td>ประเภท</td>
+                        <td>สถานะ</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="pm in model" ng-click="edit(pm)">
+                        <td>{{pm.title}}</td>
+                        <td>{{pm.type==1?'ต่ออายุรถ':'เพิ่มรถ'}}</td>
+                        <td>{{pm.status?'ดำเนินการแล้ว':'ยังไม่ดำเนินการ'}}</td>
+                        <td class="action">
+                            <i class="fa fa-edit" ng-click="edit(pm);$event.stopPropagation();"></i>
+                            <i class="fa fa-remove" ng-click="delete(pm);$event.stopPropagation();"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
