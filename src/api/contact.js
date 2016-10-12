@@ -92,6 +92,7 @@ class ContactApi extends BaseApi {
 
         Contact.all({
             where: conditions,
+            order: [["createdAt", "DESC"]],
             include: [
                 { model: Car },
                 { model: User }
@@ -153,8 +154,8 @@ class ContactApi extends BaseApi {
         context.validateUpdate(data).then(function () {
             context.getById(data.id).then(function (_contact) {
                 if (_contact) {
-                    _contact.updateAttributes(data).then(function () {
-                        resolve();
+                    _contact.updateAttributes(data).then(function (newData) {
+                        context.success(req, res, newData);
                     }).catch(function (err) {
                         reject(err);
                     });
@@ -163,13 +164,10 @@ class ContactApi extends BaseApi {
                     context.notfound(res);
                 }
             }).catch(function (err) {
-                reject(err);
+                context.error(req, res, err, 400);
             });
         }).catch(function (err) {
-            var error = {
-                message: err
-            };
-            context.error(req, res, error, 400);
+            context.error(req, res, err, 400);
         });
     }
 

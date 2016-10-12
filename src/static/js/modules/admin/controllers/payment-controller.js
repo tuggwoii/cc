@@ -76,7 +76,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PaymentService, E
             }).catch(function () {
                 $rootScope.$broadcast(Event.Load.Dismiss);
                 $timeout(function () {
-                    $rootScope.$broadcast(Event.Message.Display, 'ลบรถนี้ไม่ได้กรุณาลองใหม่หรือตรวจสอบให้แน่ใจว่าลบข้อมูลที่เกี่ยวข้องออกทั้งหมดแล้ว');
+                    $rootScope.$broadcast(Event.Message.Display, 'ลบไม่ได้กรุณาลองใหม่หรือติดต่อผู้ดูแล');
                 }, 500);
             });
         });

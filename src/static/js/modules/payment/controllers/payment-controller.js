@@ -3,7 +3,6 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
     function ($scope, $rootScope, $timeout, $q, $location, PaymentService, CarService, Event, Helper) {
 
         $scope.id = Helper.getQueryStringValue('id');
-        console.log($scope.id);
         $scope.isDetail = $scope.id ? true : false;
 
         function loadResources() {
@@ -21,20 +20,12 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
                 $q.all([
                     PaymentService.getById($scope.id).then(function (res) {
                         $scope.model = angular.copy(res);
-                        console.log($scope.model);
                     }).catch(function () {
                         $scope.notfound = true;
                     })
                 ]).then(function () {
                     $scope.displayView();
                 });
-            }
-        }
-
-        function setInitModel(model) {
-            if (model.date) {
-                var date = new Date(model.date);
-                model.date_str = Helper.readableDate(date);
             }
         }
 
