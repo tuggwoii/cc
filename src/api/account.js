@@ -576,7 +576,17 @@ class AccountApi extends BaseApi {
 
     sendForgotPasswordEmail(email_to, token) {
         var promise = new Promise(function (resolve, reject) {
-            var transporter = nodemailer.createTransport('smtps://carcarenote.info%40gmail.com:ccninfo321@smtp.gmail.com');
+            var smtpConfig = {
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true, // use SSL
+                auth: {
+                    user: 'carcarenote.info@gmail.com',
+                    pass: 'ccninfo321'
+                }
+            };
+            var transporter = nodemailer.createTransport(smtpConfig);
+
             var mailOptions = {
                 from: '"www.carcarenote.com" <carcarenote.info@gmail.com>', // sender address
                 to: email_to, // list of receivers
