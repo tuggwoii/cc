@@ -354,11 +354,7 @@ class AccountApi extends BaseApi {
 						};
 						context.validateRegister(data, true).then(function () {
 							var user = context.registerModel(data);
-							var ip = req.headers['x-forwarded-for'] ||
-                                    req.connection.remoteAddress ||
-                                    req.socket.remoteAddress ||
-                                    req.connection.socket.remoteAddress;
-							user.ip = ip;
+							user.ip = context.getIP();
 						    User.create(user, { isNewRecord: true }).then(function (model) {
 								context.findByEmail(_res.email).then(function (_users) {
 									if(_users.length) {
@@ -391,14 +387,9 @@ class AccountApi extends BaseApi {
 
     register (context, req, res) {
         var data = req.body;
-        //var ip = IP(req);
-        var ip = req.headers['x-forwarded-for'] || 
-             req.connection.remoteAddress || 
-             req.socket.remoteAddress ||
-             req.connection.socket.remoteAddress;
         context.validateRegister(data).then(function () {
             var model = context.registerModel(data);
-            model.ip = ip;
+            model.ip = context.getIP();
             User.create(model, { isNewRecord: true }).then(function (_user) {
                 var user = context.loginSerializer(_user);
                 User.findById(user.id, {
@@ -472,6 +463,25 @@ class AccountApi extends BaseApi {
                 context.error(req, res, err, 500);
             })
         }
+    }
+
+    getIP(req) {
+        var ip = req.headers['x-forwarded-for'];
+        if (!ip) {
+            if (req.connection && req.connection.remoteAddress) {
+                ip = req.connection.remoteAddress;
+            }
+            else if (req.socket && req.socket.remoteAddress) {
+                ip = req.socket.remoteAddress;
+            }
+            else if (req.connection && req.connection.socket && req.connection.socket.remoteAddress) {
+                ip = req.connection.socket.remoteAddress;
+            }
+        }
+        if (!ip) {
+            ip = 'UNKNOW';
+        }
+        return ip;
     }
 
     endpoints () {
