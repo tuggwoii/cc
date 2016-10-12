@@ -354,7 +354,7 @@ class AccountApi extends BaseApi {
 						};
 						context.validateRegister(data, true).then(function () {
 							var user = context.registerModel(data);
-							user.ip = context.getIP();
+							user.ip = context.getIP(req);
 						    User.create(user, { isNewRecord: true }).then(function (model) {
 								context.findByEmail(_res.email).then(function (_users) {
 									if(_users.length) {
@@ -389,7 +389,7 @@ class AccountApi extends BaseApi {
         var data = req.body;
         context.validateRegister(data).then(function () {
             var model = context.registerModel(data);
-            model.ip = context.getIP();
+            model.ip = context.getIP(req);
             User.create(model, { isNewRecord: true }).then(function (_user) {
                 var user = context.loginSerializer(_user);
                 User.findById(user.id, {
