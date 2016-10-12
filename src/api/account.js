@@ -128,7 +128,9 @@ class AccountApi extends BaseApi {
                         reject({ message: 'EMAIL EXIST' });
                     }
                     else {
-                        delete captchas[data.key];
+                        if (!is_facebook) {
+                            delete captchas[data.key];
+                        }
                         resolve();
                     }
                 }).catch(function (err) {
@@ -327,7 +329,7 @@ class AccountApi extends BaseApi {
 		FB.api('/me?fields=name,email', function (_res) {
 			if(!_res || _res.error) {
 				var err = !_res ? { message:'error occurred'} : _res.error;
-				context.error(req, res, err, 500);
+				context.error(req, res, { message: 'reject by facebook' }, 500);
 			}
 			else {
 				context.findByEmail(_res.email).then(function (users) {
@@ -377,7 +379,7 @@ class AccountApi extends BaseApi {
 								context.error(req, res, err, 500);
 							});
 						}).catch(function (err) {
-							context.error(req, res, err, 400);
+						    context.error(req, res, { message: 'reject by invalid' }, 400);
 						});
 					}
 				}).catch(function (err) {
