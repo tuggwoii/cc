@@ -74,6 +74,9 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         update: function (model) {
             return $http.patch(URLS.model(service).update, model);
         },
+        delete: function (id) {
+            return $http.delete(URLS.model(service).one);
+        },
         captcha: function () {
             return $http.get(URLS.model(service).captcha);
         },

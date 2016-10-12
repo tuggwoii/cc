@@ -65,7 +65,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, AccountService, E
                 }, 5000);
             }).catch(function () {
                 $rootScope.$broadcast(Event.Load.Dismiss);
-                alert('SAVE USER ERROR');
+                $rootScope.$broadcast(Event.Message.Display, 'ไม่สามารถบันทึก user ได้กรุณาลองอีกครั้ง');
             });
         }
         else {
@@ -74,6 +74,21 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, AccountService, E
                 $scope.status.invalid_car_number = true;
             }
         }
+        
+    };
+
+    $scope.remove = function () {
+        $rootScope.$broadcast(Event.Confirm.Display, function () {
+            $rootScope.$broadcast(Event.Load.Display);
+            AccountService.delete($scope.params.id).then(function () {
+                window.location.href = '/admin#/users';
+            }).catch(function () {
+                $rootScope.$broadcast(Event.Load.Dismiss);
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Message.Display, 'ลบ User นี้ไม่ได้กรุณาลองใหม่หรือตรวจสอบให้แน่ใจว่าลบข้อมูลที่เกี่ยวข้องออกทั้งหมดแล้ว');
+                }, 500);
+            });
+        });
         
     };
 

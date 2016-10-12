@@ -490,7 +490,7 @@ class AccountApi extends BaseApi {
 			{ url: '/accounts/login', method: 'post', roles: [], response: this.login },
             { url: '/accounts', method: 'post', roles: [], response: this.register },
             { url: '/accounts', method: 'patch', roles: ['admin', 'user'], response: this.update },
-            { url: '/accounts', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] },
+            { url: '/admin/accounts', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] },
             { url: '/accounts/me', method: 'get', roles: ['admin', 'user'], response: this.me },
             { url: '/accounts/captcha', method: 'get', roles: [], response: this.captcha },
             { url: '/accounts/logout', method: 'post', roles: ['admin', 'user'], response: this.logout },
