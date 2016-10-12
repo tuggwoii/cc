@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 var Authorize = require('../authorize/auth');
 var BaseApi = require('./base');
 var User = require('../database/models').User;
@@ -11,6 +11,7 @@ var shortid = require('shortid');
 var url = require('url');
 var IP = require('ipware')().get_ip;
 var randomstring = require('randomstring');
+var nodemailer = require('nodemailer');
 var captchas = {};
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 var FB = require('fb'),
@@ -329,7 +330,7 @@ class AccountApi extends BaseApi {
 		FB.api('/me?fields=name,email', function (_res) {
 			if(!_res || _res.error) {
 				var err = !_res ? { message:'error occurred'} : _res.error;
-				context.error(req, res, { message: 'reject by facebook' }, 500);
+				context.error(req, res, err, 500);
 			}
 			else {
 				context.findByEmail(_res.email).then(function (users) {
@@ -375,7 +376,7 @@ class AccountApi extends BaseApi {
 								context.error(req, res, err, 500);
 							});
 						}).catch(function (err) {
-						    context.error(req, res, { message: 'reject by invalid' }, 400);
+						    context.error(req, res, { message: err }, 400);
 						});
 					}
 				}).catch(function (err) {
@@ -484,6 +485,120 @@ class AccountApi extends BaseApi {
         return ip;
     }
 
+    forgotPassword(context, req, res) {
+        var data = req.body;
+        if (data.email) {
+            context.findByEmail(data.email).then(function (_users) {
+                if (_users.length) {
+                    var token = shortid.generate();
+                    var _user = _users[0];
+                    var user = {
+                        forgot_password_token: token
+                    }
+                    _user.updateAttributes(user).then(function (_newUser) {
+                        context.sendForgotPasswordEmail(data.email, token).then(function () {
+                            context.success(req, res, {});
+                        }).catch(function (err) {
+                            context.error(req, res, err, 500);
+                        })
+                        
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
+                }
+                else {
+                    context.notfound(res);
+                }
+            }).catch(function () {
+                context.error(req, res, err, 500);
+            });
+        }
+        else {
+            context.notfound(res);
+        }
+    }
+
+    validateForgotPasswordToken(context, req, res) {
+        var data = req.body;
+        if (data.token) {
+            User.findAll({
+                where: { forgot_password_token: data.token }
+            }).then(function (_users) {
+                if (_users.length) {
+                    context.success(req, res, { id: _users[0].id });
+                }
+                else {
+                    context.notfound(res);
+                }
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+        else {
+            context.notfound(res);
+        }
+    }
+
+    changePasswordByToken(context, req, res) {
+        var data = req.body;
+        if (!data || !data.token || !data.id || !data.password) {
+            context.error(req, res, { message: 'INVALID DATA'}, 400);
+        }
+        else {
+            User.findAll({
+                where: { forgot_password_token: data.token }
+            }).then(function (_users) {
+                if (_users.length) {
+                    var _user = _users[0];
+                    if (_user.id == data.id) {
+                        var user = {
+                            forgot_password_token: '',
+                            password: bcrypt.hashSync(data.password, salt)
+                        };
+                        _user.updateAttributes(user).then(function (_newUser) {;
+                            context.success(req, res, { });
+                        }).catch(function (err) {
+                            context.error(req, res, err, 500);
+                        });
+                    }
+                    else {
+                        context.error(req, res, { message: 'INVALID DATA' }, 400);
+                    }
+                }
+                else {
+                    context.notfound(res);
+                }
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+    }
+
+    sendForgotPasswordEmail(email_to, token) {
+        var promise = new Promise(function (resolve, reject) {
+            var transporter = nodemailer.createTransport('smtps://carcarenote.info%40gmail.com:ccninfo321@smtp.gmail.com');
+            var mailOptions = {
+                from: '"www.carcarenote.com" <carcarenote.info@gmail.com>', // sender address
+                to: email_to, // list of receivers
+                subject: 'Password Recovery',
+                html: '<p>ท่านได้รับอีเมลล์ฉบับนี้เนื่องจากท่านได้ทำการแจ้งลืมพาสเวิร์ดบน www.carcarenote.com</p>' +
+                      '<p>ถ้าท่านได้ทำการแจ้งลืมพาสเวิร์ดจริงกรุณาคลิ๊กลิงค์ ' +
+                      '<a href="www.carcarenote.com/#/forgot-password?token= ' + token +
+                      '">www.carcarenote.com/#/forgot-password?token= ' + token + '</a> เพื่อทำการกู้รหัสผ่าน</p>' +
+                      '<p>ถ้าท่านไม่ได้ดำเนินการดังกล่าวท่านสามารถลบอีเมลล์ฉบับนี้ทิ้งได้โดยไม่มีผลกระทบใดๆทั้งสิ้น</p>'
+            };
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
+        return promise;
+    }
+
     endpoints () {
         return [
             { url: '/accounts', method: 'get', roles: ['admin'], response: this.getAll },
@@ -495,7 +610,10 @@ class AccountApi extends BaseApi {
             { url: '/accounts/captcha', method: 'get', roles: [], response: this.captcha },
             { url: '/accounts/logout', method: 'post', roles: ['admin', 'user'], response: this.logout },
             { url: '/admin/accounts', method: 'patch', roles: ['admin'], response: this.adminUpdate },
-            { url: '/admin/accounts', method: 'get', roles: ['admin'], response: this.getById, params: ['id'] }
+            { url: '/admin/accounts', method: 'get', roles: ['admin'], response: this.getById, params: ['id'] },
+            { url: '/accounts/forgot-password', method: 'post', roles: [], response: this.forgotPassword },
+            { url: '/accounts/validate-forgot-password', method: 'post', roles: [], response: this.validateForgotPasswordToken },
+            { url: '/accounts/change-password-by-token', method: 'post', roles: [], response: this.changePasswordByToken }
         ];
     }
 }

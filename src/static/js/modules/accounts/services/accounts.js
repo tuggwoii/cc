@@ -161,6 +161,36 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                     reject(res);
                 });
             });
+        },
+        forgotPassword: function (model) {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).forgot_password;
+                $http.post(key, model).success(function (res) {
+                    resolve(res);
+                }).catch(function (res) {
+                    reject(res);
+                });
+            });
+        },
+        validateForgotPasswordToken: function (model) {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).forgot_password_token;
+                $http.post(key, model).success(function (res) {
+                    resolve(res);
+                }).catch(function (res) {
+                    reject(res);
+                });
+            });
+        },
+        changePasswordByToken: function (model) {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).change_password_by_token;
+                $http.post(key, model).success(function (res) {
+                    resolve(res);
+                }).catch(function (res) {
+                    reject(res);
+                });
+            });
         }
     };
 }]);

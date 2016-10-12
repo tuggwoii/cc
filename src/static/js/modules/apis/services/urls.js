@@ -12,7 +12,10 @@ module.factory('URLS', function () {
             captcha: base + 'accounts/captcha',
             all: base + 'accounts',
             one: base + 'admin/accounts/{id}',
-            admin: base + 'admin/accounts'
+            admin: base + 'admin/accounts',
+            forgot_password: base + 'accounts/forgot-password',
+            forgot_password_token: base + 'accounts/validate-forgot-password',
+            change_password_by_token: base + 'accounts/change-password-by-token'
         },
         strings: '/resources/strings.json'
     };

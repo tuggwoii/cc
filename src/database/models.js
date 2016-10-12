@@ -47,6 +47,10 @@ var User = sequelize.define('users', {
     ban: {
         type: Sequelize.BOOLEAN,
         field: 'ban'
+    },
+    forgot_password_token: {
+        type: Sequelize.STRING,
+        field: 'forgot_password_token'
     }
 }, {
     freezeTableName: true

@@ -24,6 +24,7 @@
     "lity": "^1.6.6",
     "mime": "^1.3.4",
     "multer": "^1.1.0",
+    "nodemailer": "^2.6.4",
     "randomstring": "^1.1.5",
     "sequelize": "3.24.3",
     "shortid": "^2.2.4",
