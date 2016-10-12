@@ -58,5 +58,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('edit-shop', {
           url: "/edit-shop",
           templateUrl: "partials/edit-shop.html"
+      }).state('forgot-password', {
+          url: "/forgot-password",
+          templateUrl: "partials/forgot-password.html"
       });
 });
