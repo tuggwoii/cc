@@ -119,7 +119,7 @@ class AccountApi extends BaseApi {
             else if (!data.password && !is_facebook) {
                 reject({ message: 'PASSWORD REQUIRED' });
             }
-            else if (!data.captcha || !data.key || !captchas[data.key] || (captchas[data.key] && (captchas[data.key] != data.captcha))) {
+            else if (!is_facebook && (!data.captcha || !data.key || !captchas[data.key] || (captchas[data.key] && (captchas[data.key] != data.captcha)))) {
                 reject({ message: 'INVALID CAPTCHA' });
             }
             else {
