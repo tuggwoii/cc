@@ -77,6 +77,7 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         delete: function (id) {
             return $q(function (resolve, reject) {
                 $http.delete(URLS.model(service).one.replace('{id}', id)).success(function (res) {
+                    caches = {};
                     resolve(res);
                 }).error(function (err) {
                     reject(err);
