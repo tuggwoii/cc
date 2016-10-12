@@ -75,7 +75,13 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
             return $http.patch(URLS.model(service).update, model);
         },
         delete: function (id) {
-            return $http.delete(URLS.model(service).one.replace('{id}', id));
+            return $q(function (resolve, reject) {
+                $http.delete(URLS.model(service).one.replace('{id}', id)).success(function (res) {
+                    resolve(res);
+                }).error(function (err) {
+                    reject(err);
+                });
+            });
         },
         captcha: function () {
             return $http.get(URLS.model(service).captcha);
