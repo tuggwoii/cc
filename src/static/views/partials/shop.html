@@ -70,8 +70,8 @@
             <h2><i class="fa fa-gear"></i> บริการ/กลุ่มงานที่รับทำ</h2>
             <div class="detail-section">
                 <p ng-if="!model.services">ยังไม่มีบริการ/กลุ่มงานที่รับทำ</p>
-                <div class="shop-work" ng-repeat="w in model.service_list track by $index">
-                    <div ng-if="w">
+                <div class="row shop-work">
+                    <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="w in model.service_list track by $index" ng-if="w">
                         <i class="fa fa-check" aria-hidden="true"></i>
                         {{w}}
                     </div>

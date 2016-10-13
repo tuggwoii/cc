@@ -73,18 +73,12 @@
                     <div class="form-group">
                         <label class="capital">
                             {{strings['repair_mile']}}
-                            <span class="required">*</span>
                         </label>
                         <input name="mile"
                                type="number"
                                class="form-control"
                                placeholder="เลขกิโลที่ทำการซ่อมบำรุง"
-                               ng-model="model.mile"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.mile.$error.required && form.mile.$dirty">
-                            {{strings['required']}}{{strings['repair_mile']}}
-                        </p>
+                               ng-model="model.mile" />
                         <p class="error-message margin-top animated fadeIn"
                            ng-if="form.mile.$error.number && form.mile.$dirty">
                             {{strings['only_number']}}

@@ -17,6 +17,7 @@
         <h1>
             <img src="/img/logo.png" />
             <span>Users</span>
+           
         </h1>
 
         <form name="form">
@@ -126,6 +127,9 @@
                     <div ng-if="model.file">
                         <img class="user-profile-image" ng-src="{{model.file.url}}" alt="profile">
                     </div>
+                    <button type="button" class="btn btn-danger" ng-click="login(form)">
+                        <i class="fa fa-share" aria-hidden="true"></i> เข้าใช้เป็นผู้ใช้นี้
+                    </button>
                 </div>
             </div>
 

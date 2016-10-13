@@ -136,13 +136,32 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
             $scope.setServices();
         };
 
+        $scope.checkedAll = function () {
+            angular.forEach($scope.works, function (w) {
+                w.checked = true;
+            });
+            $scope.setServices();
+        };
+
+        $scope.removeAllChecked = function () {
+            angular.forEach($scope.works, function (w) {
+                w.checked = false;
+            });
+            $scope.setServices();
+        };
+
         $scope.setServices = function () {
             $scope.model.services = '';
+            var count = 0;
             angular.forEach($scope.works, function (w) {
                 if (w.checked) {
+                    count++;
                     $scope.model.services += w.name + ',';
                 }
             });
+            if (!count) {
+                $scope.model.services = '';
+            }
         };
 
         $scope.$on(Event.File.Success, $scope.setImage);

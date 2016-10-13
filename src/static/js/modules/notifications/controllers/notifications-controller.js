@@ -4,7 +4,9 @@ function ($scope, $timeout, $rootScope, $q, NotificationService, CarService, Wor
 
     $scope.isNotificationsPage = true;
     $scope.cars_ = [];
-    $scope.query = {};
+    $scope.query = {
+        status: 'true'
+    };
     
     function isValid() {
         return $scope.user && $scope.user.id;
@@ -64,6 +66,7 @@ function ($scope, $timeout, $rootScope, $q, NotificationService, CarService, Wor
                 $scope.works = angular.copy(res.data);
             })
         ]).then(function () {
+            $scope.filter();
             $scope.displayView();
         });
     };

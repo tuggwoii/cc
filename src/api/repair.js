@@ -50,9 +50,6 @@ class RepairApi extends BaseApi {
             else if (!data.title) {
                 reject('TITLE REQUIRED');
             }
-            else if (!data.mile) {
-                reject('MILE REQUIRED');
-            }
             else if (!data.work) {
                 reject('WORK REQUIRED');
             }
@@ -108,9 +105,6 @@ class RepairApi extends BaseApi {
             }
             else if (!data.title) {
                 reject('TITLE REQUIRED');
-            }
-            else if (!data.mile) {
-                reject('MILE REQUIRED');
             }
             else if (!data.work) {
                 reject('WORK REQUIRED');

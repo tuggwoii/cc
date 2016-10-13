@@ -71,8 +71,8 @@ class AccountApi extends BaseApi {
                     { model: Role },
                     { model: File }
                 ]
-            }).then(function (users) {
-                resolve(users);
+            }).then(function (user) {
+                resolve(user);
             }).catch(function (err) {
                 reject(err);
             });
@@ -459,7 +459,12 @@ class AccountApi extends BaseApi {
     getById(context, req, res) {
         if (req.params.id) {
             context.findById(req.params.id).then(function (user) {
-                context.success(req, res, user, {}, Serializer.admin);
+                if (user) {
+                    context.success(req, res, user, {}, Serializer.admin);
+                }
+                else {
+                    context.notfound(res);
+                }
             }).catch(function (err) {
                 context.error(req, res, err, 500);
             })
@@ -609,6 +614,30 @@ class AccountApi extends BaseApi {
         return promise;
     }
 
+    hijackAccount(context, req, res) {
+        var data = req.body;
+        if (data.id) {
+            context.findById(data.id).then(function (_user) {
+                if (_user) {
+                    var user = context.loginSerializer(_user);
+                    Authorize.authorizeUser(user).then(function (_authUser) {
+                        context.success(req, res, _authUser);
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
+                }
+                else {
+                    context.notfound(res);
+                }
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            })
+        }
+        else {
+            context.notfound(res);
+        }
+    }
+
     endpoints () {
         return [
             { url: '/accounts', method: 'get', roles: ['admin'], response: this.getAll },
@@ -621,6 +650,7 @@ class AccountApi extends BaseApi {
             { url: '/accounts/logout', method: 'post', roles: ['admin', 'user'], response: this.logout },
             { url: '/admin/accounts', method: 'patch', roles: ['admin'], response: this.adminUpdate },
             { url: '/admin/accounts', method: 'get', roles: ['admin'], response: this.getById, params: ['id'] },
+            { url: '/admin/accounts/hijack', method: 'post', roles: ['admin'], response: this.hijackAccount },
             { url: '/accounts/forgot-password', method: 'post', roles: [], response: this.forgotPassword },
             { url: '/accounts/validate-forgot-password', method: 'post', roles: [], response: this.validateForgotPasswordToken },
             { url: '/accounts/change-password-by-token', method: 'post', roles: [], response: this.changePasswordByToken }

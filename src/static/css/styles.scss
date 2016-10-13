@@ -2115,3 +2115,17 @@ label.empty {
     display:inline-block !important;
     padding:0 !important;
 }
+.shop-service-action {
+    margin-bottom: 20px;
+    
+    span {
+        color: #f55d22;
+        cursor:pointer;
+
+        .fa {
+            font-size: 18px;
+            position: relative;
+            top: 2px;
+        }
+    }
+}

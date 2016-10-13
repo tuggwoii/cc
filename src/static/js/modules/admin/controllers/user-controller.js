@@ -92,5 +92,18 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, AccountService, E
         
     };
 
+    $scope.login = function () {
+        AccountService.AccountService({ id: $scope.params.id }).then(function (res) {
+            AccountService.setAuthenticationToken(res).then(function () {
+                window.location.href = '/';
+            });
+        }).catch(function () {
+            $rootScope.$broadcast(Event.Load.Dismiss);
+            $timeout(function () {
+                $rootScope.$broadcast(Event.Message.Display, 'พบปัญหาในการเข้าใช้ User นี้');
+            }, 500);
+        })
+    };
+
     $scope.userPage();
 }]);

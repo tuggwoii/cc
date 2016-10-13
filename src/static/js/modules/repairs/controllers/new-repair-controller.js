@@ -68,6 +68,7 @@ module.controller('NewRepairController', ['$scope', '$rootScope', '$timeout', '$
                     $scope.model.date = new Date(parseInt($scope.model.year - 543), parseInt($scope.model.month) - 1, $scope.model.day);
                     $rootScope.$broadcast(Event.Load.Display);
                     $scope.status = {};
+                    $scope.model.share = true;
                     RepairService.create($scope.model).then(function (res) {
                         $scope.model.id = res.data.id;
                         if ($scope.from_car) {

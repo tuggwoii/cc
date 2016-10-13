@@ -132,8 +132,15 @@
                 <div class="full-width-form-section">
                     <h2><i class="fa fa-gear"></i> บริการ/กลุ่มงานที่รับทำ</h2>
                     <div class="detail-section">
-                        <div class="shop-work" ng-repeat="w in works">
-                           <input type="checkbox" class="workCheckbox" name="workCheckbox" ng-click="workChecked(w)" ng-checked="w.checked" /> <span>{{w.name}}</span>
+                        <div class="shop-service-action">
+                            <span ng-click="checkedAll()"><i class="fa fa-check-square-o" aria-hidden="true"></i> เลือกทั้งหมด</span>
+                            <span>/</span>
+                            <span ng-click="removeAllChecked()"><i class="fa fa-minus-square-o" aria-hidden="true"></i> ลบทั้งหมด</span>
+                        </div>
+                        <div class="row shop-work">
+                            <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="w in works">
+                                <input type="checkbox" class="workCheckbox" name="workCheckbox" ng-click="workChecked(w)" ng-checked="w.checked" /> <span>{{w.name}}</span>
+                            </div>
                         </div>
                     </div>
 

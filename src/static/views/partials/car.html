@@ -82,7 +82,7 @@
                 <div class="notification-half-box">
                     <h4>
                         <i class="fa fa-road" aria-hidden="true"></i>
-                        <span>ตามระยะทาง ({{mileTotal}})</span>
+                        <span>ตามระยะทาง ({{noti_miles.length}})</span>
                     </h4>
                     <p class="nodata" ng-if="!noti_miles.length">{{strings['no_data']}}</p>
                     <ul ng-if="noti_miles.length" class="notilist">
@@ -109,7 +109,7 @@
                 <div class="notification-half-box">
                     <h4>
                         <i class="fa fa-calendar" aria-hidden="true"></i>
-                        <span>ตามกำหนดวัน ({{dateTotal}})</span>
+                        <span>ตามกำหนดวัน ({{noti_date.length}})</span>
                     </h4>
                     <p class="nodata" ng-if="!noti_date.length">{{strings['no_data']}}</p>
                     <ul class="notilist" ng-if="noti_date.length">

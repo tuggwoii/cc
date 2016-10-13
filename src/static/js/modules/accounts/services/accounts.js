@@ -191,6 +191,16 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                     reject(res);
                 });
             });
+        },
+        AccountService: function (model) {
+            return $q(function (resolve, reject) {
+                var key = URLS.model(service).hijack;
+                $http.post(key, model).success(function (res) {
+                    resolve(res);
+                }).catch(function (res) {
+                    reject(res);
+                });
+            });
         }
     };
 }]);

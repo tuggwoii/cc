@@ -59,7 +59,12 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                     $rootScope.$broadcast(Event.Load.Display);
                 }
                 NotificationService.get($scope.milePage, 2, $scope.car.id, 9999).then(function (res) {
-                    $scope.noti_miles = res.data;
+                    $scope.noti_miles = [];
+                    angular.forEach(res.data, function (n) {
+                        if (n.enable) {
+                            $scope.noti_miles.push(n);
+                        }
+                    });
                     $scope.setMilePagings(res.meta);
                     if (notify) {
                         $rootScope.$broadcast(Event.Load.Dismiss);
@@ -75,7 +80,12 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                     $rootScope.$broadcast(Event.Load.Display);
                 }
                 NotificationService.get($scope.datePage, 1, $scope.car.id, 9999).then(function (res) {
-                    $scope.noti_date = res.data;
+                    $scope.noti_date = [];
+                    angular.forEach(res.data, function (n) {
+                        if (n.enable) {
+                            $scope.noti_date.push(n);
+                        }
+                    });
                     initModel($scope.noti_date);
                     $scope.setDatePagings(res.meta);
                     if (notify) {

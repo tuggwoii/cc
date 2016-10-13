@@ -48,7 +48,7 @@
                         </div>
                         <div class="title">
                             <label>เลขกิโลเมตร: </label>
-                            <span>{{model.mile}}</span>
+                            <span>{{model.mile?model.mile:'ไม่ระบุ'}}</span>
                         </div>
                         <div class="title">
                             <label>หมายเหตุ: </label>
@@ -102,7 +102,7 @@
                     <button class="btn btn-danger edit-link" ng-click="openShop()">
                         ค้นหาร้าน
                     </button>
-                    <button class="btn btn-danger edit-link edit-shop-button" ng-click="navigateTo('#/edit-shop?id=' + model.shop.id + '&repair=' + model.id + '&car=' + model.car.id)">
+                    <button ng-if="model.shop" class="btn btn-danger edit-link edit-shop-button" ng-click="navigateTo('#/edit-shop?id=' + model.shop.id + '&repair=' + model.id + '&car=' + model.car.id)">
                         แก้ไขร้าน
                     </button>
                 </div>
@@ -164,10 +164,9 @@
 
                 <h2><i class="fa fa-bell" aria-hidden="true"></i> การแจ้งเตือนที่สร้างจากรายการนี้</h2>
                 <div class="detail-section">
-
                     <div class="notification-link">
                         <p ng-if="!model.notifications.length">ไม่มีการแจ้งเตือนที่สร้างจากรายการนี้</p>
-                        <table class="table hidden-sm hidden-xs">
+                        <table class="table hidden-sm hidden-xs" ng-if="model.notifications.length">
                             <thead>
                                 <tr>
                                     <td>รายการ</td>
@@ -187,7 +186,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <ul class="hidden-lg hidden-md">
+                        <ul class="hidden-lg hidden-md" ng-if="model.notifications.length">
                             <li ng-repeat="n in model.notifications">
                                 <a href="#/notification?id={{n.id}}&car={{model.car.id}}">{{n.title}}</a>
                             </li>

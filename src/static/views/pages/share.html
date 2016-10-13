@@ -50,7 +50,6 @@
                         <div class="detail-section">
                             <div class="image">
                                 <img src="<%= car.image?car.image.url:'/img/no-photo.jpg' %>" alt="car-image" />
-
                             </div>
                             <div class="info">
                                 <div class="title">
@@ -89,7 +88,7 @@
                                 </div>
                                 <div class="title">
                                     <label>เลขกิโลเมตร: </label>
-                                    <span><%= mile %></span>
+                                    <span><%= mile?mile:'ไม่ระบุ' %></span>
                                 </div>
                                 <div class="title">
                                     <label>หมายเหตุ: </label>
@@ -100,6 +99,7 @@
 
                         <h2><i class="fa fa-map-marker" aria-hidden="true"></i> ร้านที่ทำการซ่อมบำรุง</h2>
                         <div class="detail-section">
+                            <% if(shop) {%>
                             <div class="image">
                                 <img src="<%= shop.file?shop.file.url:'/img/no-photo.jpg' %>" alt="shop-image" />
                             </div>
@@ -129,6 +129,10 @@
                                     <rating-star rating="<%= shop.rating %>"></rating-star>
                                 </div>-->
                             </div>
+                            <% } %>
+                            <% if(!shop) {%>
+                                ไม่ระบุร้าน
+                            <% } %>
                         </div>
 
                         <h2><i class="fa fa-wrench" aria-hidden="true"></i> รายการซ่อมบำรุง <span class="count">(<%= repair_works.length?repair_works.length:0 %>)</span></h2>

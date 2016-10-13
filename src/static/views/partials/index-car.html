@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="car in cars">
-        <div class="car-item {{car.active?'active':''}}" title="{{car.brand}} {{car.series}}">
+        <div class="car-item {{car.active && !isNotificationsPage?'active':''}}" title="{{car.brand}} {{car.series}}">
             <a ng-click="pickCar(car)">
                 <img src="img/car.png" alt="car" ng-if="!car.image" />
                 <img ng-src="{{car.image.url}}" alt="car" ng-if="car.image" />
@@ -16,7 +16,7 @@
                     <span>{{car.serial}}</span>
                     <span>{{car.brand}} {{car.series}}</span>
                 </div>
-                <span class="noti-count" ng-if="isNotificationsPage || isNotificationPage">{{car.notifications}}</span>
+                <!--<span class="noti-count" ng-if="isNotificationsPage || isNotificationPage">{{car.notifications}}</span>-->
                 <span class="noti-count" ng-if="isRepairPage || isRepairsPage">{{car.repairs}}</span>
             </a>
         </div>

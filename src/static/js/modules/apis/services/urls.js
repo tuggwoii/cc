@@ -15,7 +15,8 @@ module.factory('URLS', function () {
             admin: base + 'admin/accounts',
             forgot_password: base + 'accounts/forgot-password',
             forgot_password_token: base + 'accounts/validate-forgot-password',
-            change_password_by_token: base + 'accounts/change-password-by-token'
+            change_password_by_token: base + 'accounts/change-password-by-token',
+            hijack: base + 'admin/accounts/hijack'
         },
         strings: '/resources/strings.json'
     };
