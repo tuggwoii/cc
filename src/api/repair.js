@@ -494,7 +494,7 @@ class RepairApi extends BaseApi {
                     var old_shopId = _repair.repair_shop;
                     if (req.user.id === owner) {
                         _repair.updateAttributes(repair).then(function (_updated_repair) {
-                            if (repair.score && (repair.score != score || shopId != old_shopId)) {
+                            if (shopId && repair.score && (repair.score != score || shopId != old_shopId)) {
                                 context.updateShopScore(context, shopId).then(function () {
                                     if (shopId != old_shopId) {
                                         context.updateShopScore(context, old_shopId).then(function () {
@@ -639,7 +639,6 @@ class RepairApi extends BaseApi {
                     if (req.user.id === owner) {
                         RepairImage.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function () {
                             File.destroy({ where: { id: image_id, owner: req.user.id } }).then(function () {
-                                console.log('REMOVE FILE====' + file_url);
                                 fs.unlinkSync(file_url);
                                 context.success(req, res, {});
                             }).catch(function (err) {

@@ -15,7 +15,6 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             $q.all([
                 RepairService.getById($scope.params.id).then(function (data) {
                     $scope.model = data;
-                    initModel($scope.model);
                 }).catch(function () {
                     alert('ERROR LOAD REPAIR');
                 }),
@@ -29,20 +28,15 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                     $scope.previous_shops = res.data;
                 })
             ]).then(function () {
+                initModel($scope.model);
+                watch();
                 $scope.displayView();
                 angular.forEach($scope.cars, function (_car) {
                     if (_car.id == $scope.model.for_car) {
                         _car.active = true;
                     }
                 });
-                angular.forEach($scope.model.notifications, function (n) {
-                    n.date_str = Helper.readableDate(n.date);
-                    angular.forEach($scope.workgroup, function (w) {
-                        if (n.work == w.id) {
-                            n.work_str = w.name;
-                        }
-                    });
-                });
+                
             });
         }
 
@@ -51,8 +45,15 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 var date = new Date(model.date);
                 model.date_str = Helper.readableDate(date);
             }
+            angular.forEach(model.notifications, function (n) {
+                n.date_str = Helper.readableDate(n.date);
+                angular.forEach($scope.workgroup, function (w) {
+                    if (n.work == w.id) {
+                        n.work_str = w.name;
+                    }
+                });
+            });
             $scope.calPrice();
-            watch();
         }
 
         function isValid() {
@@ -61,6 +62,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
 
         var watchScore;
         var watchShare;
+        var isFirst = true;
         function watch() {
             if (watchShare) {
                 watchShare();
@@ -69,15 +71,21 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 watchScore();
             }
             watchScore = $scope.$watch('model.score', function (newValue, oldValue) {
-                $scope.save();
-                
+                if (!isFirst) {
+                    $scope.save();
+                }
             });
             watchShare = $scope.$watch('model.share', function (newValue, oldValue) {
-                $scope.save();
+                if (!isFirst) {
+                    $scope.save();
+                }
             });
+            $timeout(function () {
+                isFirst = false;
+            }, 1000);
         }
 
-        $scope.notificationPage = function () {
+        $scope.repairPage = function () {
             if ($scope.user_ready) {
                 if (isValid()) {
                     getById();
@@ -88,7 +96,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             }
             else {
                 $timeout(function () {
-                    $scope.notificationPage();
+                    $scope.repairPage();
                 }, 200);
             }
         };
@@ -97,6 +105,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             RepairService.getById($scope.params.id).then(function (data) {
                 $scope.model = data;
                 initModel($scope.model);
+                $rootScope.$broadcast(Event.Load.Dismiss);
             }).catch(function () {
                 alert('ERROR LOAD REPAIR');
             })
@@ -107,8 +116,8 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             RepairService.update($scope.model).then(function (res) {
                 $rootScope.$broadcast(Event.Load.Dismiss);
             }).catch(function (res) {
-                $rootScope.$broadcast(Event.Load.Dismiss);
                 alert('Save Error');
+                $rootScope.$broadcast(Event.Load.Dismiss);
             });
         }
 
@@ -202,7 +211,6 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
 
         $scope.imageCaption = function (image, index) {
             $rootScope.$broadcast(Event.Repair.DisplayCaptionPopup, image, function (model) {
-                console.log(model);
                 $scope.model.repair_images[index] = model;
             });
         };
@@ -253,5 +261,5 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         }
 
         $scope.$on(Event.File.Success, $scope.saveImage);
-        $scope.notificationPage();
+        $scope.repairPage();
     }]);
