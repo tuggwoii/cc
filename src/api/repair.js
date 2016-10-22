@@ -35,6 +35,9 @@ class RepairApi extends BaseApi {
             if (data.repair_works) {
                 model.repair_works = data.repair_works;
             }
+            if (data.group) {
+                model.group = data.group;
+            }
         }
         if (data.shop) {
             model.repair_shop = data.shop.id;
@@ -395,7 +398,7 @@ class RepairApi extends BaseApi {
         return score;
     }
 
-    updateShopScore(context, shopId) {
+    updateShopScoreAndService(context, shopId, service) {
         var promise = new Promise(function (resolve, reject) {
             context.getShopById(shopId).then(function (_shop) {
                 if (_shop) {
@@ -403,6 +406,11 @@ class RepairApi extends BaseApi {
                     var shop = JSON.parse(shop_str);
                     var repairs = shop.repairs;
                     shop.rating = context.calculateShopScore(repairs);
+                    if (service) {
+                        if (_shop.services.indexOf(service) == -1) {
+                            shop.services = shop.services + ',' + service
+                        }
+                    }
                     _shop.updateAttributes(shop).then(function () {
                         resolve();
                     }).catch(function (err) {
@@ -494,10 +502,10 @@ class RepairApi extends BaseApi {
                     var old_shopId = _repair.repair_shop;
                     if (req.user.id === owner) {
                         _repair.updateAttributes(repair).then(function (_updated_repair) {
-                            if (shopId && repair.score && (repair.score != score || shopId != old_shopId)) {
-                                context.updateShopScore(context, shopId).then(function () {
+                            if (shopId) {
+                                context.updateShopScoreAndService(context, shopId, repair.group).then(function () {
                                     if (shopId != old_shopId) {
-                                        context.updateShopScore(context, old_shopId).then(function () {
+                                        context.updateShopScoreAndService(context, old_shopId).then(function () {
                                             context.success(req, res, _updated_repair, {}, RepairSerializer.default);
                                         }).catch(function (err) {
                                             context.error(req, res, err, 500);
@@ -665,10 +673,17 @@ class RepairApi extends BaseApi {
     }
 
     getPreviousShop(context, req, res) {
+        var params = url.parse(req.url, true);
+        var queries = params.query;
+        var conditions = {
+            owner: req.user.id
+        };
+        if (queries.car) {
+            conditions.for_car = queries.car;
+        }
+
         Repair.all({
-            where: {
-                owner: req.user.id
-            },
+            where: conditions,
             include: [
                 { model: Shop }
             ]

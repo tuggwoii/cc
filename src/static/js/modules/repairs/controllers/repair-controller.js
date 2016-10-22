@@ -11,6 +11,17 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         }
         var lightbox = lity();
 
+        function getWorkGroupById(id) {
+            var group;
+            angular.forEach($scope.workgroup, function (w) {
+                console.log(id, w.id);
+                if (w.id === id) {
+                    group = w;
+                }
+            });
+            return group;
+        }
+
         function getById() {
             $q.all([
                 RepairService.getById($scope.params.id).then(function (data) {
@@ -24,7 +35,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 WorkgroupService.get().then(function (res) {
                     $scope.workgroup = angular.copy(res.data);
                 }),
-                RepairService.getPreviousShop().then(function (res) {
+                RepairService.getPreviousShop($scope.params.car?$scope.params.car:0).then(function (res) {
                     $scope.previous_shops = res.data;
                 })
             ]).then(function () {
@@ -113,6 +124,11 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
 
         $scope.save = function () {
             $rootScope.$broadcast(Event.Load.Display);
+            var group = getWorkGroupById($scope.model.work);
+            if (group) {
+                $scope.model.group = group.name;
+            }
+
             RepairService.update($scope.model).then(function (res) {
                 $rootScope.$broadcast(Event.Load.Dismiss);
             }).catch(function (res) {
@@ -132,7 +148,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             $rootScope.$broadcast(Event.Work.DisplayPopup,
                 { repair: $scope.model.id, work: $scope.model.work + '' },
                 $scope.workgroup,
-                function () {
+                function (work) {
                     $scope.reload();
                 });
         };
@@ -258,7 +274,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 }
             });
             return province;
-        }
+        };
 
         $scope.$on(Event.File.Success, $scope.saveImage);
         $scope.repairPage();

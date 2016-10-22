@@ -2129,3 +2129,20 @@ label.empty {
         }
     }
 }
+.car-repairlist .table td a, .app .index-noti-item a, .app .shares-list a {
+    color:#fff;
+    display:inline-block;
+    width: 100%;
+}
+.car-repairlist .table td a:hover,
+.car-repairlist .table td a:active, 
+.car-repairlist .table td a:hover:focus,
+.app .index-noti-item a:hover,
+.app .index-noti-item a:active,
+.app .index-noti-item a:focus,
+.app .shares-list a:hover,
+.app .shares-list a:focus,
+.app .shares-list a:active
+{
+    text-decoration:none;
+}

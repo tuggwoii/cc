@@ -154,7 +154,7 @@
                         <select class="form-control" ng-model="repair_query.shop">
                             <option value="">ทั้งหมด</option>
                             <option value="{{s.id}}" ng-repeat="s in previous_shops">{{s.name}}</option>
-                            
+
                         </select>
                     </div>
                     <button type="button" class="btn btn-danger" ng-click="filterRepair()"><i class="fa fa-search"></i></button>
@@ -208,6 +208,27 @@
                     <i class="fa fa-plus"></i>
                     สร้าง
                 </button>
+            </div>
+
+            <h2><i class="fa fa-wrench" aria-hidden="true"></i> ร้านที่เคยใช้บริการ ({{shops.length?shops.length:0}})</h2>
+            <div class="detail-section">
+                <div class="list car-repairlist">
+                    <p ng-if="!shops.length">ยังไม่มีร้านที่ใช้บริการในขณะนี้</p>
+                    <table class="table repair-table hidden-xs hidden-sm" ng-if="shops.length">
+                        <thead>
+                            <tr>
+                                <td>ชื่อร้าน</td>
+                                <td>จังหวัด</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="shop in shops" ng-click="navigateTo('#/shop?id=' + shop.id + '&car='+ car.id)">
+                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}">{{shop.name}}</a></td>
+                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}">{{shop.province?shop.province_str:'ไม่ระบุ'}}</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

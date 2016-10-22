@@ -73,9 +73,9 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
                 }).error(reject);
             });
         },
-        getPreviousShop: function () {
+        getPreviousShop: function (carId) {
             return $q(function (resolve, reject) {
-                var key = URLS.model(service).shops;
+                var key = URLS.model(service).shops + '?car=' + carId;
                 if (cache[key]) {
                     resolve(cache[key]);
                 }

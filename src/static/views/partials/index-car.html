@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="car in cars">
         <div class="car-item {{car.active && !isNotificationsPage?'active':''}}" title="{{car.brand}} {{car.series}}">
-            <a ng-click="pickCar(car)">
+            <a href="#/car?id={{car.id}}" ng-click="pickCar(car)">
                 <img src="img/car.png" alt="car" ng-if="!car.image" />
                 <img ng-src="{{car.image.url}}" alt="car" ng-if="car.image" />
                 <div class="detail">
