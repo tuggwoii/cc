@@ -12,7 +12,7 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
         function initModel(model) {
             angular.forEach(model, function (item) {
                 angular.forEach($scope.provinces, function (_province) {
-                    if (item.shop.province == _province.key) {
+                    if (item.shop && item.shop.province == _province.key) {
                         item.shop.province_str = _province.th;
                     }
                 });
