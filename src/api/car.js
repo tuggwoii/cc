@@ -134,7 +134,6 @@ class CarApi extends BaseApi {
     }
 
     getById(context, req, res) {
-        console.log('MYROLE', req.user.role);
         if (req.params.id) {
             context.getCarById(req.params.id).then(function (_car) {
                 if (_car) {

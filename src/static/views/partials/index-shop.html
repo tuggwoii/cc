@@ -27,7 +27,7 @@
                 <div class="index-shop">
                     <a href="/#/shop?id={{s.id}}">
                         <div><i class="fa fa-map-marker"></i> {{s.name}}</div>
-                        <div><i class="fa fa-map-o"></i> จังหวัด: {{s.city?s.province_str:'ไม่ระบุ'}}</div>
+                        <div><i class="fa fa-map-o"></i> จังหวัด: {{s.province?s.province_str:'ไม่ระบุ'}}</div>
                         <div><i class="fa fa-asterisk"></i> จำนวนการใช้บริการ: {{s.repairs}}</div>
                         <rating-star rating="s.rating"></rating-star>
                     </a>

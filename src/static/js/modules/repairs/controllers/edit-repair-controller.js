@@ -19,9 +19,7 @@ module.controller('EditRepairController', ['$scope', '$rootScope', '$timeout', '
         }
 
         function initModel(model) {
-            model.type = model.type + '';
             model.work = model.work + '';
-
             if (model.date) {
                 var date = new Date(model.date);
                 model.year = (date.getFullYear() + 543) + '';

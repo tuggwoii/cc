@@ -27,6 +27,7 @@
     <file-upload upload="upload"></file-upload>
     <shop-popup></shop-popup>
     <work-popup></work-popup>
+    <message></message>
     <notification-popup></notification-popup>
     <image-caption-popup></image-caption-popup>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -89,7 +90,14 @@
     <script src="js/modules/shops/controllers/shop-controller.js"></script>
     <script src="js/modules/app/controllers/nav-controller.js"></script>
     <script src="js/modules/accounts/controllers/forgot-password-controller.js"></script>
+    <script src="/js/modules/app/directives/message.js"></script>
     <script src="resources/areas.js"></script>
     <script>var error_500 = false; var error_404 = false;</script>
+
+    <div class="popup-container load animated fadeIn fakeLoad">
+        <div class="load-container">
+            <img src="/img/load.gif" alt="loading" />
+        </div>
+    </div>
 </body>
 </html>

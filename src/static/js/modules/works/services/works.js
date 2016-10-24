@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.factory('WorkService', ['$rootScope', '$http', '$q', 'URLS', function ($rootScope, $http, $q, URLS) {
+module.factory('WorkService', ['$rootScope', '$http', '$q', 'URLS', 'RepairService', 'ShopService', function ($rootScope, $http, $q, URLS, RepairService, ShopService) {
 
     var service = 'works';
     var cache = {};
@@ -41,6 +41,8 @@ module.factory('WorkService', ['$rootScope', '$http', '$q', 'URLS', function ($r
             return $q(function (resolve, reject) {
                 $http.post(URLS.model(service).all, model).success(function (res) {
                     cache = {};
+                    ShopService.clearCache();
+                    RepairService.clearCache();
                     resolve(res);
                 }).error(reject);
             });
@@ -49,6 +51,8 @@ module.factory('WorkService', ['$rootScope', '$http', '$q', 'URLS', function ($r
             return $q(function (resolve, reject) {
                 $http.patch(URLS.model(service).all, model).success(function (res) {
                     cache = {};
+                    ShopService.clearCache();
+                    RepairService.clearCache();
                     resolve(res.data);
                 }).error(reject);
             });
@@ -57,6 +61,7 @@ module.factory('WorkService', ['$rootScope', '$http', '$q', 'URLS', function ($r
             return $q(function (resolve, reject) {
                 $http.delete(URLS.model(service).one.replace('{id}', id)).success(function (res) {
                     cache = {};
+                    RepairService.clearCache();
                     resolve(res)
                 }).error(reject);
             });

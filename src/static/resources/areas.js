@@ -436,4 +436,12 @@ for (var i = 0; i < areas.length; i++) {
     }
 }
 _provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); });
-
+function getProvinceByKey(key) {
+    var province = '';
+    angular.forEach(_provinces, function (p) {
+        if (p.key == key) {
+            province = p.th;
+        }
+    });
+    return province;
+}

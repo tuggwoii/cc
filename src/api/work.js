@@ -18,7 +18,9 @@ class WorkApi extends BaseApi {
             work: data.work,
             owner: user,
             price: data.price ? data.price : 0.00,
-            for_repair: data.repair
+            for_repair: data.repair,
+            group: data.group,
+            shop: data.shop
         };
         if (data.id) {
             work.id = data.id;
@@ -107,6 +109,9 @@ class WorkApi extends BaseApi {
         var work = context.model(req.body, req.user.id);
         context.validateCreate(work).then(function () {
             RepairWork.create(work, { isNewRecord: true }).then(function (_work) {
+                if (work.shop && work.group) {
+                    context.updateShopService(context, work.shop, work.group);
+                }
                 context.success(req, res, _work);
             }).catch(function (err) {
                 context.error(req, res, err, 500);
@@ -120,14 +125,15 @@ class WorkApi extends BaseApi {
     }
 
     update(context, req, res) {
-        console.log('here');
         var work = context.model(req.body, req.user.id);
-        console.log(work);
         context.validateUpdate(work).then(function (_work) {
             if (_work) {
                 var owner = _work.owner;
                 if (req.user.id === owner) {
                     _work.updateAttributes(work).then(function (_updated_work) {
+                        if (work.shop && work.group) {
+                            context.updateShopService(context, work.shop, work.group);
+                        }
                         context.success(req, res, _updated_work);
                     }).catch(function (err) {
                         context.error(req, res, err, 500);
@@ -178,6 +184,44 @@ class WorkApi extends BaseApi {
         else {
             context.notfound(res);
         }
+    }
+
+    getShopById(id) {
+        var promise = new Promise(function (resolve, reject) {
+            Shop.findById(id).then(function (data) {
+                resolve(data);
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+        return promise;
+    }
+
+    updateShopService(context, shopId, service) {
+        var promise = new Promise(function (resolve, reject) {
+            context.getShopById(shopId).then(function (_shop) {
+                if (_shop) {
+                    var shop_str = JSON.stringify(_shop);
+                    var shop = JSON.parse(shop_str);
+                    if (service) {
+                        if (_shop.services.indexOf(service) == -1) {
+                            shop.services = shop.services + ',' + service
+                        }
+                    }
+                    _shop.updateAttributes(shop).then(function () {
+                        resolve();
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+                }
+                else {
+                    reject('NOT FOUND');
+                }
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+        return promise;
     }
 
     endpoints() {

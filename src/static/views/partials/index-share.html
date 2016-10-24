@@ -4,7 +4,7 @@
         <p class="nodata" ng-if="!shares || !shares.length">{{strings['no_data']}}</p>
         <div class="row shares-list" ng-if="shares.length">
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares">
-                <div class="share-item animated fadeIn" ng-click="navigateTo('/share/'+s.id, true)">
+                <a class="share-item animated fadeIn" href="/share/{{s.id}}">
                     <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
                     <div class="detail">
                         <div class="image">
@@ -19,10 +19,10 @@
                         </div>
                     </div>
                     <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop?s.shop.name:'ไม่ระบุ'}}</div>
-                </div>
+                </a>
             </div>
         </div>
-        <a class="view-all" ng-click="navigateTo('#/shares')">{{strings['view_all']}}</a>
+        <a class="view-all" href="#/shares" ng-click="navigateTo('#/shares')">{{strings['view_all']}}</a>
     </div>
    
 </div>

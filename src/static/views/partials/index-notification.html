@@ -13,8 +13,10 @@
                     <ul>
                         <li class="nodata" ng-if="!car.noti_mile.length">{{strings['no_data']}}</li>
                         <li class="index-noti-item" ng-repeat="n in car.noti_mile" ng-click="navigateTo('#/notification?id='+n.id)">
-                            <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
-                            <span class="title">{{n.title}}</span>
+                            <a href="#/notification?id={{n.id}}">
+                                <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
+                                <span class="title">{{n.title}}</span>
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -32,15 +34,17 @@
                     <ul>
                         <li class="nodata" ng-if="!car.noti_date.length">{{strings['no_data']}}</li>
                         <li class="index-noti-item" ng-repeat="n in car.noti_date" ng-click="navigateTo('#/notification?id='+n.id)">
-                            <span>{{n.date_str}} | </span>
-                            <span class="title">{{n.title}}</span>
+                            <a href="#/notification?id={{n.id}}">
+                                <span>{{n.date_str}} | </span>
+                                <span class="title">{{n.title}}</span>
+                            </a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
         
-        <a class="view-all" ng-if="cars.length" ng-click="navigateTo('#/notifications')">{{strings['view_all']}}</a>
+        <a class="view-all" ng-if="cars.length" href="#/notifications" ng-click="navigateTo('#/notifications')">{{strings['view_all']}}</a>
     </div>
 </div>
 

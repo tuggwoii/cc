@@ -11,11 +11,20 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         }
         var lightbox = lity();
 
+        function getWorkGroupById(id) {
+            var group;
+            angular.forEach($scope.workgroup, function (w) {
+                if (w.id === id) {
+                    group = w;
+                }
+            });
+            return group;
+        }
+
         function getById() {
             $q.all([
                 RepairService.getById($scope.params.id).then(function (data) {
                     $scope.model = data;
-                    initModel($scope.model);
                 }).catch(function () {
                     alert('ERROR LOAD REPAIR');
                 }),
@@ -25,24 +34,19 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 WorkgroupService.get().then(function (res) {
                     $scope.workgroup = angular.copy(res.data);
                 }),
-                RepairService.getPreviousShop().then(function (res) {
+                RepairService.getPreviousShop($scope.params.car?$scope.params.car:0).then(function (res) {
                     $scope.previous_shops = res.data;
                 })
             ]).then(function () {
+                initModel($scope.model);
+                watch();
                 $scope.displayView();
                 angular.forEach($scope.cars, function (_car) {
                     if (_car.id == $scope.model.for_car) {
                         _car.active = true;
                     }
                 });
-                angular.forEach($scope.model.notifications, function (n) {
-                    n.date_str = Helper.readableDate(n.date);
-                    angular.forEach($scope.workgroup, function (w) {
-                        if (n.work == w.id) {
-                            n.work_str = w.name;
-                        }
-                    });
-                });
+                
             });
         }
 
@@ -51,8 +55,15 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 var date = new Date(model.date);
                 model.date_str = Helper.readableDate(date);
             }
+            angular.forEach(model.notifications, function (n) {
+                n.date_str = Helper.readableDate(n.date);
+                angular.forEach($scope.workgroup, function (w) {
+                    if (n.work == w.id) {
+                        n.work_str = w.name;
+                    }
+                });
+            });
             $scope.calPrice();
-            watch();
         }
 
         function isValid() {
@@ -61,6 +72,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
 
         var watchScore;
         var watchShare;
+        var isFirst = true;
         function watch() {
             if (watchShare) {
                 watchShare();
@@ -69,15 +81,21 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 watchScore();
             }
             watchScore = $scope.$watch('model.score', function (newValue, oldValue) {
-                $scope.save();
-                
+                if (!isFirst) {
+                    $scope.save();
+                }
             });
             watchShare = $scope.$watch('model.share', function (newValue, oldValue) {
-                $scope.save();
+                if (!isFirst) {
+                    $scope.save();
+                }
             });
+            $timeout(function () {
+                isFirst = false;
+            }, 1000);
         }
 
-        $scope.notificationPage = function () {
+        $scope.repairPage = function () {
             if ($scope.user_ready) {
                 if (isValid()) {
                     getById();
@@ -88,7 +106,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             }
             else {
                 $timeout(function () {
-                    $scope.notificationPage();
+                    $scope.repairPage();
                 }, 200);
             }
         };
@@ -97,25 +115,37 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             RepairService.getById($scope.params.id).then(function (data) {
                 $scope.model = data;
                 initModel($scope.model);
+                $rootScope.$broadcast(Event.Load.Dismiss);
             }).catch(function () {
-                alert('ERROR LOAD REPAIR');
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Message.Display, 'โหลดบันทึกการซ่อมไม่ได้กรุณาลองใหม่');
+                });
             })
         }
 
         $scope.save = function () {
             $rootScope.$broadcast(Event.Load.Display);
+            var group = getWorkGroupById($scope.model.work);
+            if (group) {
+                $scope.model.group = group.name;
+            }
+
             RepairService.update($scope.model).then(function (res) {
                 $rootScope.$broadcast(Event.Load.Dismiss);
             }).catch(function (res) {
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Message.Display, 'บันทึกการซ่อมไม่ได้กรุณาลองใหม่');
+                });
                 $rootScope.$broadcast(Event.Load.Dismiss);
-                alert('Save Error');
             });
         }
 
         $scope.openShop = function () {
             $rootScope.$broadcast(Event.Shop.DisplayPopup, $scope.previous_shops, function (shop) {
                 $scope.model.shop = shop;
-                $scope.save();
+                $timeout(function () {
+                    $scope.save();
+                }, 500);
             });
         };
 
@@ -123,8 +153,11 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             $rootScope.$broadcast(Event.Work.DisplayPopup,
                 { repair: $scope.model.id, work: $scope.model.work + '' },
                 $scope.workgroup,
+                $scope.model.shop?$scope.model.shop.id: '',
                 function () {
-                    $scope.reload();
+                    $timeout(function () {
+                        $scope.reload();
+                    }, 500);
                 });
         };
 
@@ -132,8 +165,11 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             $rootScope.$broadcast(Event.Work.DisplayPopup,
                 work,
                 $scope.workgroup,
+                 $scope.model.shop?$scope.model.shop.id: '',
                 function () {
-                    $scope.reload();
+                    $timeout(function () {
+                        $scope.reload();
+                    }, 500);
                 });
         };
 
@@ -143,7 +179,9 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 WorkService.delete(work.id).then(function (res) {
                     $scope.reload();
                 }).catch(function () {
-                    alert('DELETE WORK ERROR');
+                    $timeout(function () {
+                        $rootScope.$broadcast(Event.Message.Display, 'ลบรายการซ่อมไม่ได้กรุณาลองใหม่');
+                    });
                 });
             });
         };
@@ -185,7 +223,9 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             RepairService.uploadImage(fileData).then(function () {
                 $scope.reload()
             }).catch(function () {
-                alert('Upload Error');
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Message.Display, 'Upload ไม่ได้กรุณาลองใหม่');
+                }, 500);
             });
         };
 
@@ -195,14 +235,13 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 RepairService.deleteImage(image).then(function () {
                     $scope.reload()
                 }).catch(function () {
-                    alert('Upload Error');
+                    $rootScope.$broadcast(Event.Message.Display, 'ลบรูปไม่ได้กรุณาลองใหม่');
                 });
             });
         };
 
         $scope.imageCaption = function (image, index) {
             $rootScope.$broadcast(Event.Repair.DisplayCaptionPopup, image, function (model) {
-                console.log(model);
                 $scope.model.repair_images[index] = model;
             });
         };
@@ -250,8 +289,26 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 }
             });
             return province;
-        }
+        };
+
+        $scope.delete = function () {
+            $rootScope.$broadcast(Event.Confirm.Display, function () {
+                RepairService.delete($scope.model.id).then(function (res) {
+                    if ($scope.from_car) {
+                        window.location.hash = '#car?id=' + $scope.carId;
+                    }
+                    else {
+                        window.location.href = '/';
+                    }
+                }).catch(function (res) {
+                    $timeout(function () {
+                        $rootScope.$broadcast(Event.Message.Display, 'ลบการซ่อมนี้ไม่ได้ กรุณาลองใหม่หรือตรวจสอบให้แน่ใจว่าได้ลบรูปและรายการซ่อมทั้งหมดแล้ว');
+                    });
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                });
+            });
+        };
 
         $scope.$on(Event.File.Success, $scope.saveImage);
-        $scope.notificationPage();
+        $scope.repairPage();
     }]);

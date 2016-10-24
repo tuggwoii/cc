@@ -102,7 +102,9 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
             }).catch(function () {
                 $scope.status.error = true;
                 $rootScope.$broadcast(Event.Load.Dismiss);
-                alert('SAVE PAGE ERROR');
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Message.Display, 'สร้างหน้าไม่ได้กรุณาลองใหม่');
+                }, 500);
             });
         }
         else {

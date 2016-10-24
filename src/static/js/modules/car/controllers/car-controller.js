@@ -34,9 +34,12 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                 WorkgroupService.get().then(function (res) {
                      $scope.workgroup = angular.copy(res.data);
                 }),
-                 RepairService.getPreviousShop().then(function (res) {
-                     $scope.previous_shops = res.data;
-                 })
+                RepairService.getPreviousShop($scope.params.id).then(function (res) {
+                    $scope.shops = res.data;
+                    angular.forEach($scope.shops, function (s) {
+                        s.province_str = getProvinceByKey(s.province);
+                    });
+                })
             ]).then(function () {
                 angular.forEach($scope.cars, function (_car) {
                     if (_car.id == $scope.car.id) {

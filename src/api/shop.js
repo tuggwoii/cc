@@ -1,4 +1,5 @@
 ﻿'use strict';
+var sequelize = require('../database/connection');
 var Shop = require('../database/models').Shop;
 var User = require('../database/models').User;
 var Image = require('../database/models').File;
@@ -172,7 +173,17 @@ class ShopApi extends BaseApi {
 
         Shop.all({
             where: conditions,
-            order: [["rating", "DESC"]],
+            attributes: [
+                'id',
+                'name',
+                'rating',
+                'image',
+                'create_by',
+                'update_by',
+                'province',
+                [sequelize.literal('(SELECT COUNT(*) FROM repairs WHERE repairs.shopId = shops.id)'), 'RepairCount']
+            ],
+            order: [["rating", "DESC"], [sequelize.literal('RepairCount'), 'DESC']],
             include: [
                 { model: User, as: 'create_user', include: [{ model: Image } ] },
                 { model: User, as: 'update_user', include: [{ model: Image }] },

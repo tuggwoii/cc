@@ -4,12 +4,21 @@ module.config(function ($httpProvider) {
     $httpProvider.interceptors.push('httpRequestInterceptor');
     window.carcare = {};
 });
+var fb_try = 0;
+var fb_max = 5;
 var app = {
     init: function () {
         if (typeof FB === "undefined") {
-            setTimeout(function () {
-                app.init();
-            }, 1000);
+            if (fb_try < fb_max) {
+                fb_try++;
+                setTimeout(function () {
+                    app.init();
+                }, 1000);
+            }
+            else {
+                $('.fakeLoad').remove();
+                angular.bootstrap(document, ['app']);
+            }
         }
         else {
             FB.init({
@@ -17,6 +26,7 @@ var app = {
                 xfbml: true,
                 version: 'v2.6'
             });
+            $('.fakeLoad').remove();
             angular.bootstrap(document, ['app']);
         }
     },

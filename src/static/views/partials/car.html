@@ -87,16 +87,18 @@
                     <p class="nodata" ng-if="!noti_miles.length">{{strings['no_data']}}</p>
                     <ul ng-if="noti_miles.length" class="notilist">
                         <li ng-repeat="n in noti_miles" ng-click="navigateTo('#/notification?id='+n.id + '&car=' + car.id)">
-                            <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
-                            <span class="title">{{n.title}}</span>
-                            <!--<span class="title">{{n.title}}</span>
-                            <span class="detail">{{n.detail}}</span>
-                            <span class="date">กิโลเมตรที่: {{n.mile}}</span>
-                            <span class="status">
-                                <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
-                                <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
-                            </span>-->
-                        </li>
+                            <a href="#/notification?id={{n.id}}&car={{car.id}}">
+                                <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
+                                <span class="title">{{n.title}}</span>
+                                <!--<span class="title">{{n.title}}</span>
+        <span class="detail">{{n.detail}}</span>
+        <span class="date">กิโลเมตรที่: {{n.mile}}</span>
+        <span class="status">
+            <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
+            <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
+        </span>-->
+                                </a>
+</li>
                     </ul>
                     <ul class="paging" ng-if="milePagings.length>1">
                         <li ng-click="gotoMilePage(1)"><<</li>
@@ -114,15 +116,19 @@
                     <p class="nodata" ng-if="!noti_date.length">{{strings['no_data']}}</p>
                     <ul class="notilist" ng-if="noti_date.length">
                         <li ng-repeat="n in noti_date" ng-click="navigateTo('#/notification?id='+n.id + '&car=' + car.id)">
-                            <span>{{n.date_str}} | </span>
-                            <span class="title">{{n.title}}</span>
-                            <!--<span class="title">{{n.title}}</span>
-                            <span class="detail">{{n.detail}}</span>
-                            <span class="date">{{n.date_str}}</span>
-                            <span class="status">
-                                <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
-                                <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
-                            </span>-->
+                            <a href="#/notification?id={{n.id}}&car={{car.id}}">
+                                <span>{{n.date_str}} | </span>
+                                <span class="title">{{n.title}}</span>
+                                <!--<span class="title">{{n.title}}</span>
+    <span class="detail">{{n.detail}}</span>
+    <span class="date">{{n.date_str}}</span>
+    <span class="status">
+        <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
+        <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
+    </span>-->
+
+                            </a>
+                            
                         </li>
                     </ul>
                     <ul class="paging" ng-if="datePagings.length>1">
@@ -153,8 +159,8 @@
                         <label>ร้านซ่อม</label>
                         <select class="form-control" ng-model="repair_query.shop">
                             <option value="">ทั้งหมด</option>
-                            <option value="{{s.id}}" ng-repeat="s in previous_shops">{{s.name}}</option>
-                            
+                            <option value="{{s.id}}" ng-repeat="s in shops">{{s.name}}</option>
+
                         </select>
                     </div>
                     <button type="button" class="btn btn-danger" ng-click="filterRepair()"><i class="fa fa-search"></i></button>
@@ -173,11 +179,21 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="repair in repairs" ng-click="navigateTo('#/repair?id=' + repair.id + '&car='+ car.id)">
-                                <td>{{repair.date_str}}</td>
-                                <td>{{repair.shop?repair.shop.name:'ไม่ระบุ'}}</td>
-                                <td>{{repair.mile?repair.mile:'ไม่ระบุ'}}</td>
-                                <td>{{repair.price?repair.price:'0'}}</td>
-                                <td>{{repair.remark?repair.remark:'-'}}</td>
+                                <td>
+                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.date_str}}</a>
+                                </td>
+                                <td>
+                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.shop?repair.shop.name:'ไม่ระบุ'}}</a>
+                                </td>
+                                <td>
+                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.mile?repair.mile:'ไม่ระบุ'}}</a>
+                                </td>
+                                <td>
+                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.price?repair.price:'0'}}</a>
+                                </td>
+                                <td>
+                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.remark?repair.remark:'-'}}</a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -208,6 +224,27 @@
                     <i class="fa fa-plus"></i>
                     สร้าง
                 </button>
+            </div>
+
+            <h2><i class="fa fa-wrench" aria-hidden="true"></i> ร้านที่เคยใช้บริการ ({{shops.length?shops.length:0}})</h2>
+            <div class="detail-section">
+                <div class="list car-repairlist">
+                    <p ng-if="!shops.length">ยังไม่มีร้านที่ใช้บริการในขณะนี้</p>
+                    <table class="table repair-table" ng-if="shops.length">
+                        <thead>
+                            <tr>
+                                <td>ชื่อร้าน</td>
+                                <td>จังหวัด</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="shop in shops" ng-click="navigateTo('#/shop?id=' + shop.id + '&car='+ car.id)">
+                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}">{{shop.name}}</a></td>
+                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}">{{shop.province?shop.province_str:'ไม่ระบุ'}}</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
