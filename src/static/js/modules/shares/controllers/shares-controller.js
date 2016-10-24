@@ -94,8 +94,9 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                 $scope.meta(res.meta);
                 $rootScope.$broadcast(Event.Load.Dismiss);
             }).catch(function () {
-                alert('ERROR');
-                console.log('ERROR');
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Message.Display, 'ไม่สามารถโหลดกรุณาลองใหม่');
+                }, 500);
                 $rootScope.$broadcast(Event.Load.Display);
             });
         }
