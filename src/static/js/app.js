@@ -16,7 +16,7 @@ var app = {
                 }, 1000);
             }
             else {
-                $('.fakeLoad').remove();
+                app.dissmissLoad();
                 angular.bootstrap(document, ['app']);
             }
         }
@@ -26,9 +26,14 @@ var app = {
                 xfbml: true,
                 version: 'v2.6'
             });
-            $('.fakeLoad').remove();
+            app.dissmissLoad();
             angular.bootstrap(document, ['app']);
         }
+    },
+    dissmissLoad:function () {
+        setTimeout(function () {
+            $('.fakeLoad').remove();
+        }, 500);
     },
     debug: true
 };
