@@ -407,7 +407,7 @@ class RepairApi extends BaseApi {
                     var repairs = shop.repairs;
                     shop.rating = context.calculateShopScore(repairs);
                     if (service) {
-                        if (_shop.services.indexOf(service) == -1) {
+                        if (!_shop.services || _shop.services.indexOf(service) == -1) {
                             shop.services = shop.services + ',' + service
                         }
                     }
@@ -504,7 +504,7 @@ class RepairApi extends BaseApi {
                         _repair.updateAttributes(repair).then(function (_updated_repair) {
                             if (shopId) {
                                 context.updateShopScoreAndService(context, shopId, repair.group).then(function () {
-                                    if (shopId != old_shopId) {
+                                    if (old_shopId && shopId != old_shopId) {
                                         context.updateShopScoreAndService(context, old_shopId).then(function () {
                                             context.success(req, res, _updated_repair, {}, RepairSerializer.default);
                                         }).catch(function (err) {
@@ -556,7 +556,7 @@ class RepairApi extends BaseApi {
                         var shopId = _repair.repair_shop;
                         RepairWork.destroy({ where: { for_repair: _repair.id } }).then(function () {
                             Repair.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function () {
-                                context.updateShopScore(context, shopId).then(function () {
+                                context.updateShopScoreAndService(context, shopId).then(function () {
                                     context.success(req, res, {});
                                 }).catch(function (err) {
                                     context.error(req, res, err, 500);

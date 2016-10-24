@@ -7,6 +7,16 @@
         },
         link: function (scope, element, attrs) {
 
+            function getWorkGroupById(works, id) {
+                var group;
+                angular.forEach(works, function (w) {
+                    if (w.id == id) {
+                        group = w;
+                    }
+                });
+                return group.name;
+            }
+
             scope.close = function () {
                 if (scope.display) {
                     $timeout(function () {
@@ -19,12 +29,13 @@
                 }
             }
 
-            scope.$on(Event.Work.DisplayPopup, function (event, model, works, callback) {
+            scope.$on(Event.Work.DisplayPopup, function (event, model, works, shop, callback) {
                 if (!scope.display) {
                     scope.display = true;
                     scope.error = false;
                     scope.animation = 'fadeIn';
                     scope.work = angular.copy(model);
+                    scope.work.shop = shop;
                     scope.works = works;
                     scope.callback = callback;
                     $timeout(scope.setHeight, 200);
@@ -52,9 +63,9 @@
                 });
                 if (form.$valid) {
                     $rootScope.$broadcast(Event.Load.Display);
+                    scope.work.group = getWorkGroupById(scope.works, scope.work.work);
                     if (!scope.work.id) {
                         WorkService.create(scope.work).then(function () {
-                            //$rootScope.$broadcast(Event.Load.Dismiss);
                             scope.close();
                             scope.callback();
                         }).catch(function () {

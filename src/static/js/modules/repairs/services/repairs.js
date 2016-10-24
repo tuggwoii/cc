@@ -113,6 +113,9 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
                     resolve(res)
                 }).error(reject);
             });
+        },
+        clearCache: function () {
+            cache = {};
         }
     };
 }]);

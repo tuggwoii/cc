@@ -2129,7 +2129,10 @@ label.empty {
         }
     }
 }
-.car-repairlist .table td a, .app .index-noti-item a, .app .shares-list a {
+.car-repairlist .table td a, 
+.app .index-noti-item a, 
+.app .shares-list a,
+.app .car-notifications a {
     color:#fff;
     display:inline-block;
     width: 100%;
@@ -2145,4 +2148,8 @@ label.empty {
 .app .shares-list a:active
 {
     text-decoration:none;
+}
+
+.app .del-repail {
+    float:right;
 }
