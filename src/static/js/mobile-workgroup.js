@@ -54,11 +54,9 @@
     this.viewPort = function () {
         if (window.matchMedia("(max-width: 767px)").matches) {
             this.isMobile = true;
-            console.log('mobile');
         }
         else {
             this.isMobile = false;
-            console.log('not mobile');
         }
     };
 
@@ -93,7 +91,6 @@ var ShareWorkSlide = function () {
     this.calculate = function () {
         padding = window.matchMedia("(max-width: 500px)").matches ? 50 : 80;
         areaWidth = $(window).width() - padding;
-        console.log(areaWidth);
         if (this.isMobile) {
             container.css('position', 'relative');
             container.width((areaWidth + 20) * items.length);
@@ -130,11 +127,9 @@ var ShareWorkSlide = function () {
     this.viewPort = function () {
         if (window.matchMedia("(max-width: 767px)").matches) {
             this.isMobile = true;
-            console.log('mobile');
         }
         else {
             this.isMobile = false;
-            console.log('not mobile');
         }
     };
 
