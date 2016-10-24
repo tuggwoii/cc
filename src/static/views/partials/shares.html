@@ -61,20 +61,22 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
                     <div class="share-item animated fadeIn">
-                        <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
-                        <div class="detail">
-                            <div class="image">
-                                <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
-                                <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
+                        <a href="/share/{{s.id}}">
+                            <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
+                            <div class="detail">
+                                <div class="image">
+                                    <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
+                                    <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
+                                </div>
+                                <div class="info">
+                                    <div class="workgroup">{{s.workgroup.name}}</div>
+                                    <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
+                                    <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
+                                    <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop?s.shop.name:'ไม่ระบุ'}}{{s.shop.province?', '+s.shop.province_str:''}}</div>
+                                    <rating-star rating="s.score"></rating-star>
+                                </div>
                             </div>
-                            <div class="info">
-                                <div class="workgroup">{{s.workgroup.name}}</div>
-                                <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
-                                <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
-                                <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop.name}}{{s.shop.province?', '+s.shop.province_str:''}}</div>
-                                <rating-star rating="s.score"></rating-star>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>

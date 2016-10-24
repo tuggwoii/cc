@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "syamkong",
-    "password": "Syamsql2016",
+    "username": "tugg",
+    "password": "tugg2015",
     "database": "carcare",
-    "host": "sytsql.database.windows.net",
+    "host": "localhost",
     "dialect": "mssql",
     "dialectOptions": {
       "encrypt": true

@@ -303,7 +303,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 }).catch(function (res) {
                     $timeout(function () {
                         $rootScope.$broadcast(Event.Message.Display, 'ลบการซ่อมนี้ไม่ได้ กรุณาลองใหม่หรือตรวจสอบให้แน่ใจว่าได้ลบรูปและรายการซ่อมทั้งหมดแล้ว');
-                    });
+                    }, 500);
                     $rootScope.$broadcast(Event.Load.Dismiss);
                 });
             });
