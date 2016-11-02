@@ -140,7 +140,15 @@
 }
 
 @media screen and (max-width: 767px) {
-
+    .app h1 {
+        font-size: 28px;
+    }
+    .app .subpage h1 img {
+         width: 60px;
+    }
+    .app .breadcrumb {
+        margin-bottom: 0;
+    }
     .app header nav {
         .navbar-nav {
             float: none;
@@ -280,6 +288,31 @@
     }
     .app .wrapper .filters .btn {
         margin-top: 10px;
+    }
+    .app .wrapper .detail-section {
+        padding-bottom: 40px;
+    }
+    .app .wrapper .detail-section .info {
+        width: 100%;
+        padding-left: 0px;
+    }
+    .app .wrapper .detail-section .image {
+        margin:0 auto;
+        float: none;
+        margin-bottom: 20px;
+    }
+    .app .wrapper .subpage {
+        padding: 10px 15px 15px 15px;
+    }
+    .app .wrapper .detail-section .info span {
+        display:block;
+        padding-left: 10px;
+    }
+    .app .wrapper .detail-section .edit-link {
+        position:relative;
+        display:block;
+        top: 20px;
+        margin:0 auto;
     }
 }
 @media screen and (max-width: 550px) {

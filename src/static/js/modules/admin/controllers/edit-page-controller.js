@@ -34,7 +34,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
 
     function initModel() {
         angular.forEach($scope.pages, function (p) {
-            if (p.name == $scope.params.id) {
+            if (p.id == $scope.params.id && !p.isSys) {
                 $scope.model = angular.copy(p);
                 p.isCurrent = true;
             }

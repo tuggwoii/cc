@@ -55,16 +55,15 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
     };
 
     $scope.edit = function (page) {
-        console.log(page)
         if (page.isStatic) {
-            $scope.navigateTo('#/edit-page?id=' + page.name);
+            $scope.navigateTo('#/edit-page?id=' + page.id);
         }
     };
 
     $scope.delete = function (page) {
         $rootScope.$broadcast(Event.Confirm.Display, function () {
             $rootScope.$broadcast(Event.Load.Display);
-            PagesService.delete(page.name).then(function () {
+            PagesService.delete(page.id).then(function () {
                 loadPages().then(function () {
                     $rootScope.$broadcast(Event.Load.Dismiss);
                 });

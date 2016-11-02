@@ -3,6 +3,8 @@ var fs = require('fs');
 var log = require('../helpers/log');
 var Base = require('./base');
 var date = require('../helpers/date');
+var shortid = require('shortid');
+shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 var pages;
 
 class Pages extends Base {
@@ -11,6 +13,7 @@ class Pages extends Base {
         var context = this;
         var promise = new Promise(function (resolve, reject) {
             context.sync();
+            page.id = shortid.generate();
             page.view = 'static/' + page.name + '.html';
             var path = './src/static/views/' + page.view;
             path = path.replace('{name}', page.name);
@@ -22,6 +25,7 @@ class Pages extends Base {
                     delete page['content'];
                     pages.push(page);
                     context.save().then(function () {
+                        context.sync();
                         resolve(page);
                     }).catch(reject);
                 }
@@ -36,7 +40,7 @@ class Pages extends Base {
             context.sync();
             var index = -1;
             for (var i = 0; i < pages.length; i++) {
-                if (page.name == pages[i].name) {
+                if (page.id == pages[i].id && !page.isSys) {
                     pages[i] = page;
                     index = i;
                 }
@@ -74,7 +78,7 @@ class Pages extends Base {
             var index = -1;
             var page;
             for (var i = 0; i < pages.length; i++) {
-                if (id == pages[i].name) {
+                if (id == pages[i].id) {
                     index = i;
                     page = pages[i];
                 }
@@ -123,7 +127,7 @@ class Pages extends Base {
 
 
     sync () {
-        pages = JSON.parse(fs.readFileSync('src/database/routes/views.json', 'utf8'));
+        pages = JSON.parse(fs.readFileSync('./src/database/routes/views.json', 'utf8'));
     }
 
     isValid(model) {
@@ -132,6 +136,7 @@ class Pages extends Base {
 
     serialize (data) {
         var page = {
+            id: data.id,
             name: data.name,
             title: data.title,
             url: data.url,

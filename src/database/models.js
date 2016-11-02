@@ -550,6 +550,7 @@ var Contact = sequelize.define('contacts', {
 
 User.belongsTo(Role, { foreignKey: 'user_role' });
 User.belongsTo(File, { foreignKey: 'image' });
+User.hasMany(Car, { foreignKey: 'owner' });
 File.belongsTo(User, { foreignKey: 'owner' });
 Car.belongsTo(User, { foreignKey: 'owner' });
 Car.belongsTo(File, { foreignKey: 'image' })

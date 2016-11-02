@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "tugg",
-    "password": "tugg2016",
+    "password": "tugg2015",
     "database": "carcare",
     "host": "localhost",
     "dialect": "mssql",

@@ -10,7 +10,8 @@ module.exports = function (req, res) {
         var isFound = false;
         for (var i = 0; i < routes.length; i++) {
             var route = routes[i];
-            var requestUrl = (req.url.split('?')[0]).replace(/\/$/, "");
+            var requestUrl = decodeURIComponent(req.url);
+            requestUrl = (req.url.split('?')[0]).replace(/\/$/, "");
             var requestPaths = requestUrl.split('/');
             var paramsValid = true;
             if (route.params && route.params.length) {
@@ -31,7 +32,7 @@ module.exports = function (req, res) {
             }
             if (paramsValid) {
                 var permission = true;
-                if (requestUrl.toLowerCase() === route.url.toLowerCase()) {
+                if (decodeURIComponent(requestUrl.toLowerCase()) === route.url.toLowerCase()) {
                     if (route.roles && route.roles.length) {
                         if (!authorize.isPageAuthorize(req, route.roles)) {
                             permission = false;

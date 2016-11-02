@@ -32,8 +32,8 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="page in model" ng-click="edit(page)">
-                        <td>{{page.name}}</td>
-                        <td>{{page.url?page.url:'/'}}</td>
+                        <td><a href="/admin#/edit-page?id={{page.id}}">{{page.name}}</a></td>
+                        <td><a href="/admin#/edit-page?id={{page.id}}">{{page.url?page.url:'/'}}</a></td>
                         <td class="action">
                             <i ng-if="!page.isSys" class="fa fa-edit" ng-click="edit(page);$event.stopPropagation();"></i>
                             <i ng-if="!page.isSys" class="fa fa-remove" ng-click="delete(page);$event.stopPropagation();"></i>

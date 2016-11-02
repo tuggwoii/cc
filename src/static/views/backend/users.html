@@ -50,16 +50,22 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <td>ลำดับที่</td>
                         <td>ชื่อผู้ใช้</td>
                         <td>E-mail</td>
                         <td>Role</td>
+                        <td>วันที่สมัคร</td>
+                        <td>จำนวนรถ</td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="user in users" ng-click="navigateTo('#/user?id=' + user.id)">
-                        <td>{{user.name}}</td>
-                        <td>{{user.email}}</td>
-                        <td>{{user.role.name}}</td>
+                        <td><a href="/admin#/user?id={{user.id}}">#{{$index+1}}</a></td>
+                        <td><a href="/admin#/user?id={{user.id}}">{{user.name}}</a></td>
+                        <td><a href="/admin#/user?id={{user.id}}">{{user.email}}</a></td>
+                        <td><a href="/admin#/user?id={{user.id}}">{{user.role.name}}</a></td>
+                        <td><a href="/admin#/user?id={{user.id}}">{{user.register_date}}</a></td>
+                        <td><a href="/admin#/user?id={{user.id}}">{{user.cars.length}}</a></td>
                     </tr>
                 </tbody>
             </table>

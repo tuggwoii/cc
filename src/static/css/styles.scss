@@ -2153,3 +2153,11 @@ label.empty {
 .app .del-repail {
     float:right;
 }
+.app.back-office {
+    tr td a {
+        color:#fff;
+    }
+    tr td a:hover, tr td a:active, tr td a:focus {
+        text-decoration: none
+    }
+}

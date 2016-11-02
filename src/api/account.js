@@ -3,6 +3,7 @@ var Authorize = require('../authorize/auth');
 var BaseApi = require('./base');
 var User = require('../database/models').User;
 var Role = require('../database/models').Role;
+var Car = require('../database/models').Car;
 var File = require('../database/models').File;
 var Serializer = require('../serializers/user-serializer');
 var bcrypt = require('bcrypt-nodejs');
@@ -69,7 +70,8 @@ class AccountApi extends BaseApi {
             User.findById(id, {
                 include: [
                     { model: Role },
-                    { model: File }
+                    { model: File },
+                    { model: Car }
                 ]
             }).then(function (user) {
                 resolve(user);
@@ -203,7 +205,8 @@ class AccountApi extends BaseApi {
             where: q,
             order: [["name", "ASC"]],
             include: [
-                { model: Role }
+                { model: Role },
+                { model: Car }
             ]
         }).then(function (data) {
             context.success(req, res, data);

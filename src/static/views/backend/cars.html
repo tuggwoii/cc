@@ -43,6 +43,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <td>ลำดับที่</td>
                         <td>ทะเบียน</td>
                         <td>ยี่ห้อ</td>
                         <td>รุ่น</td>
@@ -50,9 +51,10 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="car in model" ng-click="edit(car)">
-                        <td>{{car.serial}}</td>
-                        <td>{{car.brand}}</td>
-                        <td>{{car.series}}</td>
+                        <td><a href="/admin#/edit-car?id={{car.id}}">#{{$index+1}}</a></td>
+                        <td><a href="/admin#/edit-car?id={{car.id}}">{{car.serial}}</a></td>
+                        <td><a href="/admin#/edit-car?id={{car.id}}">{{car.brand}}</a></td>
+                        <td><a href="/admin#/edit-car?id={{car.id}}">{{car.series}}</a></td>
                         <td class="action">
                             <i  class="fa fa-edit" ng-click="edit(car);$event.stopPropagation();"></i>
                             <i  class="fa fa-remove" ng-click="delete(car);$event.stopPropagation();"></i>

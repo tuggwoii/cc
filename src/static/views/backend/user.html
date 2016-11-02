@@ -97,6 +97,15 @@
                
                 <div class="form-group">
                     <label class="capital">
+                        รถที่มี
+                    </label>
+                    <div class="detail-field" ng-repeat="car in model.cars">
+                        <a href="/admin#/edit-car?id={{car.id}}">{{car.brand}} {{car.series}} {{car.serial}}</a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="capital">
                         สมัครเมื่อ
                     </label>
                     <div class="detail-field">{{model.register_date}}</div>
@@ -129,6 +138,9 @@
                     </div>
                     <button type="button" class="btn btn-danger" ng-click="login(form)">
                         <i class="fa fa-share" aria-hidden="true"></i> เข้าใช้เป็นผู้ใช้นี้
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="resetPassword(model.email)">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i> Reset Password
                     </button>
                 </div>
             </div>

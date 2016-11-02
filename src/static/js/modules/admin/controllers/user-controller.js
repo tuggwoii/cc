@@ -105,5 +105,20 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, AccountService, E
         })
     };
 
+    $scope.resetPassword = function (email) {
+        $rootScope.$broadcast(Event.Load.Display);
+        AccountService.forgotPassword({ email: email }).then(function () {
+            $rootScope.$broadcast(Event.Load.Dismiss);
+            $timeout(function () {
+                $rootScope.$broadcast(Event.Message.Display, 'ส่ง Reset Password Email ไปยัง User นี้แล้ว');
+            }, 500);
+        }).catch(function () {
+            $rootScope.$broadcast(Event.Load.Dismiss);
+            $timeout(function () {
+                $rootScope.$broadcast(Event.Message.Display, 'ไม่สามารถ Email กรุณาลองอีกครั้ง');
+            }, 500);
+        });
+    };
+
     $scope.userPage();
 }]);

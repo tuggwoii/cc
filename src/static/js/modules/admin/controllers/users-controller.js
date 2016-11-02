@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('UsersController', ['$scope', '$timeout', '$q', 'AccountService',
-function ($scope, $timeout, $q, AccountService) {
+module.controller('UsersController', ['$scope', '$timeout', '$q', 'AccountService', 'Helper',
+function ($scope, $timeout, $q, AccountService, Helper) {
 
     $scope.query = {
         p: 1,
@@ -20,6 +20,7 @@ function ($scope, $timeout, $q, AccountService) {
                     console.log('GET USERS', res);
                 }
                 $scope.users = res.data;
+                initModel($scope.users);
             }).catch(function () {
                 alert('CAN NOT LOAD USERS');
             })
@@ -30,6 +31,12 @@ function ($scope, $timeout, $q, AccountService) {
 
     function isValid() {
         return $scope.user && $scope.user.id && $scope.user.role.id == 1;
+    }
+
+    function initModel(users) {
+        angular.forEach(users, function (u) {
+            u.register_date = Helper.readableDate(u.createdAt);
+        });
     }
 
     $scope.search = function () {
