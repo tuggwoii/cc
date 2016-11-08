@@ -1,19 +1,19 @@
 ﻿'use strict';
 var BaseApi = require('./base');
 var Contact = require('../database/models').Contact;
-var Car = require('../database/models').Car;
 var User = require('../database/models').User;
+var MailHelper = require('../helpers/email');
 var url = require('url');
 
 class ContactApi extends BaseApi {
 
     validate(data) {
         var promise = new Promise(function (resolve, reject) {
-            if (!data || !data.title || !data.type || !data.price || !data.datetime) {
+            if (!data || !data.type || !data.price || !data.datetime) {
                 reject('INVALID DATA');
             }
             else {
-                if (data.type == 1 && !data.car_model) {
+                if (data.type == 1 && !data.car_ids) {
                     reject('INVALID CAR');
                 }
                 else {
@@ -26,7 +26,7 @@ class ContactApi extends BaseApi {
 
     validateUpdate(data) {
         var promise = new Promise(function (resolve, reject) {
-            if (!data || !data.id || !data.title || !data.type || !data.datetime) {
+            if (!data || !data.id || !data.type || !data.datetime) {
                 reject('INVALID DATA');
             }
             else {
@@ -38,11 +38,10 @@ class ContactApi extends BaseApi {
 
     model(data, user) {
         var model = {
-            title: data.title,
             detail: data.detail,
             type: data.type,
             send_by: user.id,
-            car_model: data.car,
+            car_ids: data.car,
             datetime: data.datetime,
             price: data.price,
             status: 0
@@ -53,11 +52,10 @@ class ContactApi extends BaseApi {
     modelUpdate(data, user) {
         var model = {
             id: data.id,
-            title: data.title,
             detail: data.detail,
             type: data.type,
             send_by: user.id,
-            car_model: data.car,
+            car_idsl: data.car,
             datetime: data.datetime,
             status: data.status,
             price: data.price
@@ -69,7 +67,6 @@ class ContactApi extends BaseApi {
         var promise = new Promise(function (resolve, reject) {
             Contact.findById(id, {
                 include: [
-                    { model: Car },
                     { model: User }
                 ]
             }).then(function (data) {
@@ -94,7 +91,6 @@ class ContactApi extends BaseApi {
             where: conditions,
             order: [["createdAt", "DESC"]],
             include: [
-                { model: Car },
                 { model: User }
             ]
         }).then(function (data) {
@@ -137,6 +133,7 @@ class ContactApi extends BaseApi {
         var data = context.model(req.body, req.user);
         context.validate(data).then(function () {
             Contact.create(data, { isNewRecord: true }).then(function (model) {
+                context.sendEmail(req.user.email, model['null']);
                 context.success(req, res, model);
             }).catch(function (err) {
                 context.error(req, res, err, 500);
@@ -182,6 +179,20 @@ class ContactApi extends BaseApi {
         else {
             context.notfound(res);
         }
+    }
+
+    sendEmail(email_to, id) {
+        var promise = new Promise(function (resolve, reject) {
+            var subject = 'Payment Received';
+            var email_body = '<p>ท่านได้รับอีเมลล์ฉบับนี้เนื่องจากท่านได้ทำการแจ้งโอนเงินบน www.carcarenote.com</p>' +
+              '<p>ท่าสามาถติดตามการดำเนินการได้โดยการคลิ๊กลิงค์ ' +
+              '<a href="www.carcarenote.com/payment?id=' + id +
+              '">www.carcarenote.com/payment?id=' + id + '</a></p>' +
+              '<p>ทางเราได้รับการแจ้งโอนเรียร้อยแล้ว กรุณาเก็บอีเมลล์ฉบับนี้ไว้หรือ Book mark ลิงค์ไว้เพื่อติดตามการดำเนินการ</p>' +
+              '<p>ขอบคุณที่ใช้บริการ www.carcarenote.com</p>';
+            MailHelper.send(subject, email_to, email_body, resolve, reject);
+        });
+        return promise;
     }
 
     endpoints() {

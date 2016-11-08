@@ -46,16 +46,19 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <td>หัวข้อ</td>
                         <td>ประเภท</td>
                         <td>สถานะ</td>
+                        <td>วันเวลาชำระเงิน</td>
+                        <td>จำนวน</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="pm in model" ng-click="edit(pm)">
-                        <td>{{pm.title}}</td>
                         <td>{{pm.type==1?'ต่ออายุรถ':'เพิ่มรถ'}}</td>
                         <td>{{pm.status?'ดำเนินการแล้ว':'ยังไม่ดำเนินการ'}}</td>
+                        <td>{{pm.datetime}}</td>
+                        <td><span>{{pm.price.formatMoney(2, '.', ',')}} บาท</span></td>
                         <td class="action">
                             <i class="fa fa-edit" ng-click="edit(pm);$event.stopPropagation();"></i>
                             <i class="fa fa-remove" ng-click="delete(pm);$event.stopPropagation();"></i>

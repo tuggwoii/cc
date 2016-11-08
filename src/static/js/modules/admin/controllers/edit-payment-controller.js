@@ -11,8 +11,9 @@ module.controller('EditPaymentController', ['$scope', '$rootScope', '$timeout', 
                    PaymentService.getById($scope.id).then(function (res) {
                        $scope.model = angular.copy(res);
                        $scope.model.status = $scope.model.status + '';
-                       $scope.model.car_model = $scope.model.car;
-                       $scope.model.car = $scope.model.car.id;
+                       CarService.getByIds($scope.model.car_ids).then(function (res) {
+                           $scope.model.relate_cars = res;
+                       });
                    }).catch(function () {
                        $scope.notfound = true;
                    })

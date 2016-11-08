@@ -282,15 +282,32 @@ input[type=checkbox] {
     width: 100%;
     max-width: 100%;
 }
+.app .wrapper .payment form label {
+    width: 100%;
+}
+.app .wrapper .backend-user.payment form label  {
+    width: 180px;
+}
 
 @media screen and (max-width: 767px) {
 
-    input[type=text] {
+    input[type=text].form-control, 
+    input[type=password].form-control, 
+    input[type=email].form-control {
         height: 36px;
         font-size: 22px;
         padding: 3px 5px;
         max-width: 9999px;
         min-width:0;
+    }
+
+    textarea.form-control {
+        width: 100%;
+        max-width: 9999px;
+    }
+
+    .form-group {
+        margin-bottom: 0;
     }
 
     select.form-control {
@@ -299,5 +316,15 @@ input[type=checkbox] {
         padding: 3px 5px;
         max-width: 9999px;
         min-width:0;
+    }
+    .app .wrapper .section {
+        width: 100%;
+        max-width: 100%;
+        margin-right: 0;
+        float: none;
+    }
+
+    .app .repair-detail .form-group label, .app .share-detail-page .form-group label {
+        padding: 15px 5px 0 5px;
     }
 }

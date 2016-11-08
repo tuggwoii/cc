@@ -33,33 +33,29 @@
                             <span>แจ้งชำระเงิน</span>
                         </h1>
                         <div ng-if="isDetail">
-                            <p>ข้อมูลการแจ้งชำระเงินของท่านมีดังต่อไปนี้ (กรุณาบุคมาร์กไว้เพื่อตรวจสอบสถานะ)</p>
+                            <p>ข้อมูลการแจ้งชำระเงินของท่านมีดังต่อไปนี้ (กรุณาบุคมาร์กไว้เพื่อตรวจสอบสถานะหรือตรวจสอบอีเมลล์ของท่าน)</p>
                             <h2>ข้อมูลการชำระเงิน</h2>
                             <div class="detail-section" ng-if="!notfound">
                                 <div class="info">
-                                    <div class="title">
-                                        <label>หัวข้อ: </label>
-                                        <span>{{model.title}}</span>
-                                    </div>
-                                    <div class="title">
-                                        <label>รายละเอียด: </label>
-                                        <span>{{model.detail?model.detail:'ไม่ระบุ'}}</span>
-                                    </div>
                                     <div class="title">
                                         <label>ประเภทการชำระ: </label>
                                         <span>{{model.type==1?'ต่ออายุรถ':'เพิ่มจำนวนรถ'}}</span>
                                     </div>
                                     <div class="title" ng-if="model.type==1">
                                         <label>รถที่ดำเนินการ: </label>
-                                        <span>{{model.car.brand}} {{model.car.series}} {{model.car.serial}}</span>
+                                        <p class="payment-cars" ng-repeat="car in model.relate_cars">{{car.brand}} {{car.series}} {{car.serial}}</p>
                                     </div>
                                     <div class="title">
-                                        <label>วันเวลาที่ชำระเงิน: </label>
+                                        <label>วันที่-เวลา ชำระเงิน: </label>
                                         <span>{{model.datetime}}</span>
                                     </div>
                                     <div class="title">
                                         <label>จำนวนเงินที่ชำระ: </label>
                                         <span>{{model.price.formatMoney(2, '.', ',')}} บาท</span>
+                                    </div>
+                                    <div class="title">
+                                        <label>รายละเอียด: </label>
+                                        <span>{{model.detail?model.detail:'ไม่ระบุ'}}</span>
                                     </div>
                                     <div class="title">
                                         <label>สถานะ: </label>
@@ -75,7 +71,7 @@
                             <p>กรุณากรอกข้อมูลด้านล่างให้ครบถ้วนเพื่อแจ้งชำระเงิน</p>
 
                             <form name="form">
-                                <div class="form-group">
+                                <!--<div class="form-group">
                                     <label class="capital">
                                         หัวข้อเรื่อง
                                         <span class="required">*</span>
@@ -90,17 +86,7 @@
                                        ng-if="form.title.$error.required && form.title.$dirty">
                                         กรุณากรอกหัวข้อเรื่อง
                                     </p>
-                                </div>
-                                <div class="form-group">
-                                    <label class="capital">
-                                        รายละเอียด
-                                    </label>
-                                    <textarea name="detail"
-                                              type="text"
-                                              class="form-control"
-                                              placeholder="รายละเอียด"
-                                              ng-model="model.detail"></textarea>
-                                </div>
+                                </div>-->
                                 <div class="form-group">
                                     <label class="capital">
                                         ประเภทการชำระ
@@ -118,17 +104,17 @@
                                         กรุณาเลือกประเภทการชำระ
                                     </p>
                                 </div>
+                                
+                                
                                 <div class="form-group" ng-if="model.type==1">
                                     <label class="capital">
                                         เลือกรถ
                                     </label>
-                                    <select name="car"
-                                            class="form-control"
-                                            ng-required="true"
-                                            ng-model="model.car">
-                                        <option value=""></option>
-                                        <option value="{{car.id}}" ng-repeat="car in cars">{{car.brand}} {{car.series}} {{car.serial}}</option>
-                                    </select>
+                                    <div class="row shop-work">
+                                        <div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="car in cars">
+                                            <input type="checkbox" class="workCheckbox" name="workCheckbox" ng-click="carChecked(car)" ng-checked="car.checked" /> <span>{{car.brand}} {{car.series}} {{car.serial}}</span>
+                                        </div>
+                                    </div>
                                     <p class="error-message margin-top animated fadeIn"
                                        ng-if="form.car.$error.required && form.car.$dirty">
                                         กรุณาเลือกรถ
@@ -136,7 +122,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="capital">
-                                        วันที่ชำระเงิน
+                                        วันที่-เวลา ชำระเงิน (เช่น 08:00 01/01/2560)
                                         <span class="required">*</span>
                                     </label>
                                     <input type="text"
@@ -168,23 +154,27 @@
                                        ng-if="status.invalid_price">
                                         กรุณากรอกจำนวนเงินให้ถูกต้อง (ตัวเลขเท่านั้น)
                                     </p>
-
-                                    
                                 </div>
-
+                                <div class="form-group">
+                                    <label class="capital">
+                                        รายละเอียด
+                                    </label>
+                                    <textarea name="detail"
+                                              type="text"
+                                              class="form-control"
+                                              placeholder="รายละเอียด"
+                                              ng-model="model.detail"></textarea>
+                                </div>
                                 <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
                                 <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
-
                                 <hr />
                                 <div class="btn-container">
                                     <button type="button" class="btn btn-danger" ng-click="submit(form)">
                                         ส่ง
                                     </button>
                                 </div>
-
                             </form>
                         </div>
-                       
                     </div>
                 </div>
             </div>

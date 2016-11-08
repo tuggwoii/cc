@@ -514,10 +514,6 @@ var Contact = sequelize.define('contacts', {
         type: Sequelize.DATE,
         field: 'updatedAt'
     },
-    title: {
-        type: Sequelize.STRING,
-        field: 'title'
-    },
     detail: {
         type: Sequelize.STRING,
         field: 'detail'
@@ -530,8 +526,8 @@ var Contact = sequelize.define('contacts', {
         type: Sequelize.INTEGER,
         field: 'by'
     },
-    car_model: {
-        type: Sequelize.INTEGER,
+    car_ids: {
+        type: Sequelize.STRING,
         field: 'car'
     },
     datetime: {
@@ -579,7 +575,6 @@ RepairImage.belongsTo(File, { foreignKey: 'image_id' });
 RepairImage.belongsTo(Repair, { foreignKey: 'repair_id' });
 RepairImage.belongsTo(User, { foreignKey: 'owner' });
 Contact.belongsTo(User, { foreignKey: 'send_by' });
-Contact.belongsTo(Car, { foreignKey: 'car_model' });
 
 exports.User = User;
 exports.Role = Role;

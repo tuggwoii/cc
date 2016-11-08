@@ -48,6 +48,35 @@ class CarApi extends BaseApi {
         return promise;
     }
 
+    getCarByIds(context, req, res) {
+        var params = url.parse(req.url, true);
+        var queries = params.query;
+        var _ids = queries.ids.split(',');
+        var _or = []
+        for (var i = 0; i < _ids.length; i++) {
+            if(_ids[i]) {
+                _or.push({
+                    id: parseInt( _ids[i])
+                });
+            }
+        }
+
+        var conditions = {
+            $or: _or
+        };
+
+        Car.findAll({
+            where: conditions,
+            include: [
+                { model: User }
+            ]
+        }).then(function (data) {
+            context.success(req, res, data, {}, CarSerializer.default);
+        }).catch(function (err) {
+            context.error(req, res, err, 500);
+        });
+    }
+
     validateCreate (req, data) {
         var me = this;
         var promise = new Promise(function (resolve, reject) {
@@ -322,6 +351,7 @@ class CarApi extends BaseApi {
         return [
             { url: '/admin/cars', method: 'get', roles: ['admin'], response: this.getAll },
             { url: '/admin/cars', method: 'patch', roles: ['admin'], response: this.updateAdmin },
+            { url: '/cars_ids', method: 'get', roles: ['admin', 'user'], response: this.getCarByIds },
             { url: '/cars', method: 'get', roles: ['admin', 'user'], response: this.getById, params: ['id'] },
 			{ url: '/cars', method: 'get', roles: ['admin', 'user'], response: this.getByUser },
             { url: '/cars', method: 'post', roles: ['admin', 'user'], response: this.add },

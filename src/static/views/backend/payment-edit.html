@@ -24,29 +24,31 @@
             <h2>ข้อมูลการชำระเงิน</h2>
             <div class="detail-section">
                 <div class="info">
-                    <div class="title">
-                        <label>หัวข้อ: </label>
-                        <span>{{model.title}}</span>
-                    </div>
-                    <div class="title">
-                        <label>รายละเอียด: </label>
-                        <span>{{model.detail?model.detail:'ไม่ระบุ'}}</span>
-                    </div>
+                   
                     <div class="title">
                         <label>ประเภทการชำระ: </label>
                         <span>{{model.type==1?'ต่ออายุรถ':'เพิ่มจำนวนรถ'}}</span>
                     </div>
                     <div class="title" ng-if="model.type==1">
                         <label>รถที่ดำเนินการ: </label>
-                        <a href="/admin#/edit-car?id={{model.car_model.id}}">{{model.car_model.brand}} {{model.car_model.series}} {{model.car_model.serial}}</a>
+                        <p class="payment-car-link" ng-repeat="car in model.relate_cars">
+                            <a  href="/admin#/edit-car?id={{car.id}}">
+                                <span>{{car.brand}} {{car.series}} {{car.serial}}</span>
+                            </a>
+                        </p>
+                        
                     </div>
                     <div class="title">
-                        <label>วันเวลาที่ชำระเงิน: </label>
+                        <label>วันที่-เวลา ชำระเงิน: </label>
                         <span>{{model.datetime}}</span>
                     </div>
                     <div class="title">
                         <label>จำนวนเงินที่ชำระ: </label>
                         <span>{{model.price.formatMoney(2, '.', ',')}} บาท</span>
+                    </div>
+                    <div class="title">
+                        <label>รายละเอียด: </label>
+                        <span>{{model.detail?model.detail:'ไม่ระบุ'}}</span>
                     </div>
                     <div class="title">
                         <label>สถานะ: </label>

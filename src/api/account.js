@@ -12,12 +12,12 @@ var shortid = require('shortid');
 var url = require('url');
 var IP = require('ipware')().get_ip;
 var randomstring = require('randomstring');
-var nodemailer = require('nodemailer');
 var captchas = {};
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 var FB = require('fb'),
     fb = new FB.Facebook({version: 'v2.6'});
-	
+var MailHelper = require('../helpers/email');
+
 class AccountApi extends BaseApi {
 
     registerModel (data) {
@@ -237,6 +237,9 @@ class AccountApi extends BaseApi {
                         else {
                             user.password = bcrypt.hashSync(user.password);
                         }
+                    }
+                    else {
+                        delete user.password;
                     }
                     if (valid_password_process) {
                         user.email = _user.email;
@@ -584,35 +587,13 @@ class AccountApi extends BaseApi {
 
     sendForgotPasswordEmail(email_to, token) {
         var promise = new Promise(function (resolve, reject) {
-            var smtpConfig = {
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true, // use SSL
-                auth: {
-                    user: 'carcarenote.info@gmail.com',
-                    pass: 'ccninfo321'
-                }
-            };
-            var transporter = nodemailer.createTransport(smtpConfig);
-
-            var mailOptions = {
-                from: '"www.carcarenote.com" <carcarenote.info@gmail.com>', // sender address
-                to: email_to, // list of receivers
-                subject: 'Password Recovery',
-                html: '<p>ท่านได้รับอีเมลล์ฉบับนี้เนื่องจากท่านได้ทำการแจ้งลืมพาสเวิร์ดบน www.carcarenote.com</p>' +
-                      '<p>ถ้าท่านได้ทำการแจ้งลืมพาสเวิร์ดจริงกรุณาคลิ๊กลิงค์ ' +
-                      '<a href="www.carcarenote.com/#/forgot-password?token=' + token +
-                      '">www.carcarenote.com/#/forgot-password?token=' + token + '</a> เพื่อทำการกู้รหัสผ่าน</p>' +
-                      '<p>ถ้าท่านไม่ได้ดำเนินการดังกล่าวท่านสามารถลบอีเมลล์ฉบับนี้ทิ้งได้โดยไม่มีผลกระทบใดๆทั้งสิ้น</p>'
-            };
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    reject(error);
-                }
-                else {
-                    resolve();
-                }
-            });
+            var subject = 'Password Recovery';
+            var email_body = '<p>ท่านได้รับอีเมลล์ฉบับนี้เนื่องจากท่านได้ทำการแจ้งลืมพาสเวิร์ดบน www.carcarenote.com</p>' +
+              '<p>ถ้าท่านได้ทำการแจ้งลืมพาสเวิร์ดจริงกรุณาคลิ๊กลิงค์ ' +
+              '<a href="www.carcarenote.com/#/forgot-password?token=' + token +
+              '">www.carcarenote.com/#/forgot-password?token=' + token + '</a> เพื่อทำการกู้รหัสผ่าน</p>' +
+              '<p>ถ้าท่านไม่ได้ดำเนินการดังกล่าวท่านสามารถลบอีเมลล์ฉบับนี้ทิ้งได้โดยไม่มีผลกระทบใดๆทั้งสิ้น</p>';
+            MailHelper.send(subject, email_to, email_body, resolve, reject);
         });
         return promise;
     }

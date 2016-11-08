@@ -44,7 +44,7 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
                     resolve(angular.copy(cache[key]));
                 }
                 else {
-                    $http.get(URLS.model(service).one.replace('{id}', id)).success(function (res) {
+                    $http.get(key).success(function (res) {
                         resolve(res.data);
                         cache[key] = res.data;
                     }).error(function (res) {
@@ -53,6 +53,23 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
                 }
             });
             
+        },
+        getByIds: function (ids) {
+            var key = URLS.model(service).one.replace('/{id}','') + '_ids?ids=' + ids;
+            return $q(function (resolve, reject) {
+                if (cache[key]) {
+                    resolve(angular.copy(cache[key]));
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        resolve(res.data);
+                        cache[key] = res.data;
+                    }).error(function (res) {
+                        reject(res);
+                    });
+                }
+            });
+
         },
         create: function (model) {
             return $q(function (resolve, reject) {

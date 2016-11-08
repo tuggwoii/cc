@@ -20,6 +20,9 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
                 $q.all([
                     PaymentService.getById($scope.id).then(function (res) {
                         $scope.model = angular.copy(res);
+                        CarService.getByIds($scope.model.car_ids).then(function (res) {
+                            $scope.model.relate_cars = res;
+                        });
                     }).catch(function () {
                         $scope.notfound = true;
                     })
@@ -71,6 +74,24 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
             }
         };
 
+        $scope.carChecked = function (work) {
+            work.checked = !work.checked;
+            $scope.setServices();
+        };
+
+        $scope.setServices = function () {
+            $scope.model.car = '';
+            var count = 0;
+            angular.forEach($scope.cars, function (c) {
+                if (c.checked) {
+                    count++;
+                    $scope.model.car += c.id + ',';
+                }
+            });
+            if (!count) {
+                $scope.model.car = '';
+            }
+        };
 
         $scope.paymentPage();
     }]);
