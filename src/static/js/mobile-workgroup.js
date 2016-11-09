@@ -1,6 +1,7 @@
 ﻿var WorkSlide = function () {
     var context;
     var areaWidth;
+    var itemWidth;
     var items = $('.filter-box .filter-item');
     var container = $('.work-filter-container');
     var leftArrow = $('.filter-box .fa-angle-left');
@@ -17,11 +18,13 @@
     };
 
     this.calculate = function () {
-        areaWidth = $(window).width() - 70;
+        areaWidth = $(window).width();
+        itemWidth = areaWidth - 60;
+        slideArea = itemWidth + 20;
         if (this.isMobile) {
             container.css('position', 'relative');
             container.width(areaWidth * items.length);
-            items.width(areaWidth - 20);
+            items.width(itemWidth);
         }
         else {
             container.css('width', '100%');
@@ -33,7 +36,7 @@
     this.events = function () {
         leftArrow.click(function () {
             if (index > 0 ) {
-                left = left + areaWidth;
+                left = left + slideArea;
                 index--;
                 container.animate({
                     left: left
@@ -42,7 +45,7 @@
         });
         rightArrow.click(function () {
             if (index < (items.length - 1)) {
-                left = left - areaWidth;
+                left = left - slideArea;
                 index++;
                 container.animate({
                     left: left

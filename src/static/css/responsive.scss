@@ -18,6 +18,7 @@
             }
         }
     }
+
     .back-office {
 
         .wrapper {
@@ -26,7 +27,7 @@
 
         header {
             height: 140px;
-            
+
             .nav {
                 position: absolute;
                 top: 85px;
@@ -34,10 +35,11 @@
                 width: 100%;
 
                 .login-button-container {
-                    position:absolute;
+                    position: absolute;
                     right: 15px;
                     top: -65px;
                 }
+
                 li {
                     position: static;
                 }
@@ -123,14 +125,14 @@
 
         header {
             height: 80px;
-            
+
             .nav {
                 position: relative;
                 top: 0px;
                 left: 0;
 
                 .login-button-container {
-                    position:relative;
+                    position: relative;
                     right: 0px;
                     top: 0px;
                 }
@@ -143,12 +145,15 @@
     .app h1 {
         font-size: 28px;
     }
+
     .app .subpage h1 img {
-         width: 60px;
+        width: 60px;
     }
+
     .app .breadcrumb {
         margin-bottom: 0;
     }
+
     .app header nav {
         .navbar-nav {
             float: none;
@@ -203,15 +208,16 @@
             padding-bottom: 30px;
             padding-right: 0;
         }
+
         .content-box .dates {
-            margin-top:20px;
+            margin-top: 20px;
             width: 100%;
             padding-left: 0;
         }
     }
 
     .app .wrapper .box .filter-box .filter-item {
-        text-align:center;
+        text-align: center;
         padding: 10px 10px 5px;
         line-height: 1;
         margin-top: 0px;
@@ -219,20 +225,23 @@
 
     .index-shop-services {
         width: 100%;
-        display:inline-block;
+        display: inline-block;
         overflow: hidden;
     }
+
     .app .index-shop {
         padding: 20px 20px;
         height: auto;
     }
+
     .app .wrapper .box .filter-box label {
         font-size: 24px;
     }
+
     .notifications ul {
         max-width: 600px;
-        display:block;
-        margin:0 auto;
+        display: block;
+        margin: 0 auto;
     }
 
     .app .wrapper .box h4 {
@@ -248,72 +257,87 @@
 
     .filter-box, .works {
         .navs {
-            display:inline-block;
+            display: inline-block;
             position: relative;
             top: -41px;
             width: 100%;
+
             i {
-                 font-size: 35px;
-                 color: #ccc;
-                 cursor: pointer;
-                 position:absolute;
+                font-size: 35px;
+                color: #ccc;
+                cursor: pointer;
+                position: absolute;
             }
 
             i.fa-angle-left {
                 left: -16px;
             }
+
             i.fa-angle-right {
                 right: -16px;
             }
         }
     }
+
     .app .wrapper {
-        padding-bottom: 50px
+        padding-bottom: 50px;
     }
+
     .app .wrapper .works .work-list .work-item {
         line-height: 1;
         padding: 10px 10px 5px;
         text-align: center;
     }
+
     .app .wrapper .filters {
         margin-top: 20px;
     }
+
     .works-container {
-        overflow:hidden;
-        display:inline-block;
+        overflow: hidden;
+        display: inline-block;
         width: 100%;
     }
+
     .app .wrapper .filters .form-group label {
         font-size: 24px;
     }
+
     .app .wrapper .filters .btn {
         margin-top: 10px;
     }
+
     .app .wrapper .detail-section {
         padding-bottom: 40px;
     }
+
     .app .wrapper .detail-section .info {
         width: 100%;
         padding-left: 0px;
     }
+
     .app .wrapper .detail-section .image {
-        margin:0 auto;
+        margin: 0 auto;
         float: none;
         margin-bottom: 20px;
     }
+
     .app .wrapper .subpage {
         padding: 10px 25px 50px 25px;
     }
+
     .app .wrapper .detail-section .info span, .app .wrapper .detail-section .info a {
-        display:block;
+        display: block;
         padding-left: 10px;
     }
+
     .app .wrapper .detail-section .edit-link {
-        position:relative;
-        display:block;
+        position: relative;
+        display: block;
         top: 20px;
-        margin:0 auto;
+        margin: 0 auto;
     }
+
     .app .wrapper .sm-to-right {
         width: 100%;
         margin-right: 0;
@@ -321,6 +345,7 @@
         position: relative;
         top: 255px;
     }
+
     .app .wrapper .sm-to-left {
         width: 100%;
         margin-right: 0;
@@ -328,38 +353,71 @@
         position: relative;
         max-width: 100%;
     }
+
     p.payment-cars {
-    padding-left: 10px;
+        padding-left: 10px;
+    }
+
+    .app .wrapper .backend-user .user-filter .form-group.search-all {
+        width: calc(100% - 100px);
+    }
+
+    .user-filter .btn {
+        height: 38px;
+        width: 90px;
+        min-width: 90px;
+        margin-top: 14px;
+    }
+
+    .filter-field .btn {
+        margin-top: -14px;
+    }
+    .table-scroll {
+         min-width: 730px;
+    }
+    .iscroll {
+        overflow:hidden;
+        position: relative;
+    }
+    .npad {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
 }
-}
+
 @media screen and (max-width: 550px) {
     .app {
         .wrapper {
             .filters {
                 .field-container {
-                     width: 100%;
+                    width: 100%;
 
                     .form-group {
-                        width:100%;
+                        width: 100%;
                     }
+
                     .form-control.half {
                         width: 47.5%;
                     }
+
                     .form-control.half:last-child {
                         margin-right: 0;
                     }
                 }
             }
+
             .ads-box .ads {
-                width:100%;
-                margin-left:0;
+                width: 100%;
+                margin-left: 0;
             }
+
             .content-box {
                 padding: 20px 15px 70px 15px;
             }
         }
     }
 }
+
 @media screen and (max-width: 500px) {
 
     .app header .logo img {
@@ -369,23 +427,28 @@
     .app header .logo {
         top: 25px;
     }
+
     .container {
         padding: 0;
     }
+
     .view {
         .container-fluid {
             padding: 0;
         }
     }
+
     .app .opacity-theme .breadcrumb {
-        padding:0 15px;
+        padding: 0 15px;
     }
+
     .app .wrapper {
         padding-left: 0;
         padding-right: 0;
     }
+
     .app .wrapper .user-profile {
-         padding-left: 15px;
+        padding-left: 15px;
         padding-right: 15px;
     }
 }

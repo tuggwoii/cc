@@ -121,7 +121,10 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                 var key = URLS.model(service).all + '?p=' + q['p']
                     + (q['q'] ? '&q=' + q['q'] : '')
                     + (q['e'] ? '&e=' + q['e'] : '')
-                    + (q['r'] ? '&r=' + q['r'] : '');
+                    + (q['r'] ? '&r=' + q['r'] : '')
+                    + (q['o'] ? '&o=' + q['o'] : '')
+                    + (q['s'] ? '&s=' + q['s'] : '')
+                    ;
                 if (caches[key]) {
                     resolve(caches[key]);
                 }

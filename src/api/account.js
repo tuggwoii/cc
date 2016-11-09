@@ -17,6 +17,7 @@ shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 var FB = require('fb'),
     fb = new FB.Facebook({version: 'v2.6'});
 var MailHelper = require('../helpers/email');
+var limits = 100;
 
 class AccountApi extends BaseApi {
 
@@ -189,8 +190,9 @@ class AccountApi extends BaseApi {
         if (queries['p']) {
             p = parseInt(queries['p']);
         }
-        //var skip = limits * (p - 1);
+        var skip = limits * (p - 1);
 
+        //query
         if (queries['q']) {
             q.name = { like: '%' + queries['q'] + '%' };
         }
@@ -201,15 +203,30 @@ class AccountApi extends BaseApi {
             q.user_role = parseInt(queries['r']);
         }
 
+        //order by
+        var order = [[queries['s']?queries['s']: 'name', queries['o']?queries['o']:'ASC']]
+
         User.all({
             where: q,
-            order: [["name", "ASC"]],
+            order: order,
             include: [
                 { model: Role },
                 { model: Car }
-            ]
+            ],
+            offset: skip,
+            limit: limits
         }).then(function (data) {
-            context.success(req, res, data);
+            User.count({
+                where: q
+            }).then(function (count) {
+                var meta = {
+                    count: count,
+                    limits: limits
+                };
+                context.success(req, res, data, meta);
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
         }).catch(function (err) {
             context.error(req, res, err, 500);
         });

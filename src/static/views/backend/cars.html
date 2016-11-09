@@ -19,8 +19,8 @@
         <div class="user-filter">
             <h2>ค้นหา</h2>
             <div class="filter-field">
-                <div class="form-group">
-                    <label>ทะเบียน</label>
+                <div class="form-group search-all">
+                    <label>ค้นหาทั้งหมด</label>
                     <input type="text" class="form-control" ng-model="query.q" />
                 </div>
                 <div>
@@ -31,37 +31,49 @@
                     <button class="btn btn-danger" ng-if="status.loading" disabled>
                         LOADING...
                     </button>
-                </div>               
+                </div>
             </div>
         </div>
 
         <div class="users-list">
             <h2>
-                <span>Cars ({{model.length}})</span>
+                <span>Cars ({{total}})</span>
             </h2>
+            <div id="iscroll" class="iscroll">
+                <div class="table-scroll">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>ลำดับที่</td>
+                                <td>ทะเบียน</td>
+                                <td>ยี่ห้อ</td>
+                                <td>รุ่น</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="car in model" ng-click="edit(car)">
+                                <td><a href="/admin#/edit-car?id={{car.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>
+                                <td><a href="/admin#/edit-car?id={{car.id}}">{{car.serial}}</a></td>
+                                <td><a href="/admin#/edit-car?id={{car.id}}">{{car.brand}}</a></td>
+                                <td><a href="/admin#/edit-car?id={{car.id}}">{{car.series}}</a></td>
+                                <td class="action">
+                                    <i class="fa fa-edit" ng-click="edit(car);$event.stopPropagation();"></i>
+                                    <i class="fa fa-remove" ng-click="delete(car);$event.stopPropagation();"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>ลำดับที่</td>
-                        <td>ทะเบียน</td>
-                        <td>ยี่ห้อ</td>
-                        <td>รุ่น</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="car in model" ng-click="edit(car)">
-                        <td><a href="/admin#/edit-car?id={{car.id}}">#{{$index+1}}</a></td>
-                        <td><a href="/admin#/edit-car?id={{car.id}}">{{car.serial}}</a></td>
-                        <td><a href="/admin#/edit-car?id={{car.id}}">{{car.brand}}</a></td>
-                        <td><a href="/admin#/edit-car?id={{car.id}}">{{car.series}}</a></td>
-                        <td class="action">
-                            <i  class="fa fa-edit" ng-click="edit(car);$event.stopPropagation();"></i>
-                            <i  class="fa fa-remove" ng-click="delete(car);$event.stopPropagation();"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <ul class="paging" ng-if="pages.length>1">
+                <li ng-click="gotoPage(1)"><<</li>
+                <li ng-click="gotoPage(page - 1)"><</li>
+                <li ng-repeat="p in pages" class="page {{p==query.p?'active':''}}" ng-click="gotoPage(p)">{{p}}</li>
+                <li ng-click="gotoPage(page + 1)">></li>
+                <li ng-click="gotoPage(pages.length)">>></li>
+            </ul>
+
         </div>
     </div>
 </div>

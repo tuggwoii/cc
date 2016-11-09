@@ -10,6 +10,7 @@ var url = require('url');
 var shortid = require('shortid');
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 //shortid.generate();
+var limits = 100;
 
 class CarApi extends BaseApi {
 
@@ -144,19 +145,48 @@ class CarApi extends BaseApi {
     getAll(context, req, res) {
         var params = url.parse(req.url, true);
         var queries = params.query;
+
+        var p = 1;
+        if (queries['p']) {
+            p = parseInt(queries['p']);
+        }
+        var _limit = limits;
+        var skip = limits * (p - 1);
+
         var conditions = {};
         if (queries['q']) {
-            conditions.serial = { like: '%' + queries['q'] + '%' };
+            var _or = {
+                serial: { like: '%' + queries['q'] + '%' },
+                series: { like: '%' + queries['q'] + '%' },
+                brand: { like: '%' + queries['q'] + '%' },
+                year: { like: '%' + queries['q'] + '%' },
+                color: { like: '%' + queries['q'] + '%' },
+                detail: { like: '%' + queries['q'] + '%' }
+            };
+            conditions = {
+                $or: _or
+            };
         }
 
         Car.all({
             where: conditions,
             include: [
-                { model: User },
-                { model: File }
-            ]
+                { model: User }
+            ],
+            offset: skip,
+            limit: limits
         }).then(function (data) {
-            context.success(req, res, data);
+            Car.count({
+                where: conditions
+            }).then(function (count) {
+                var meta = {
+                    count: count,
+                    limits: _limit
+                };
+                context.success(req, res, data, meta);
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
         }).catch(function (err) {
             context.error(req, res, err, 500);
         });

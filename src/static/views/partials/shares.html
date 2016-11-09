@@ -4,17 +4,19 @@
         <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
     </div>
     <div class="row">
-        <div class="col-xs-12 works">
+        <div class="col-xs-12 works npad">
             <div class="container">
                 <div class="works-title">
                     <h2>กลุ่มงานซ่อม</h2>
                     <span>คลิ๊กเพื่อเลือกงานซ่อมที่สนใจ</span>
                 </div>
                 <div class="works-container">
+
                     <div class="work-list">
                         <div class="work-item {{query.work?'':'active'}}" ng-click="selectWorkgroup()">{{strings['general_work']}}</div>
                         <div class="work-item {{work.active?'active':''}}" ng-repeat="work in workgroup" ng-click="selectWorkgroup(work)">{{work.name}}</div>
                     </div>
+
                 </div>
                 <div class="navs">
                     <i class="fa fa-angle-left"></i>
@@ -24,7 +26,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="filters col-xs-12">
+        <div class="filters col-xs-12 npad">
             <div class="container">
                 <div class="field-container">
                     <div class="form-group">

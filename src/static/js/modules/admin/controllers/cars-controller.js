@@ -7,7 +7,10 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, CarService, Event
     $scope.status = {
         loading: false
     };
-    $scope.query = {};
+
+    $scope.query = {
+        p: 1
+    };
 
     function loadResources() {
         $q.all([
@@ -31,12 +34,24 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, CarService, Event
                     console.log('GET CARS', res);
                 }
                 $scope.model = res.data;
+                $scope.pagings(res.meta);
+                initScroll();
                 resolve();
             }).catch(function () {
                 reject();
                 $rootScope.$broadcast(Event.Message.Display, 'โหลดข้อมูลล้มเหลวกรุณาลองอีกครั้ง');
             });
         })
+    }
+
+    function initScroll() {
+        $timeout(function () {
+            var myScroll = new IScroll('#iscroll', {
+                scrollX: true, scrollY: false,
+                mouseWheel: true,
+                scrollbars: true
+            });
+        }, 200);
     }
 
     $scope.cars = function () {
@@ -55,7 +70,30 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, CarService, Event
         }
     };
 
+    $scope.pagings = function (meta) {
+        $scope.pages = [];
+        $scope.total = meta.count;
+        $scope.limits = meta.limits;
+        if (meta.count && meta.limits) {
+            var page_count = Math.ceil(meta.count / meta.limits);
+            for (var i = 1; i <= page_count; i++) {
+                $scope.pages.push(i);
+            }
+        }
+    };
+
+    $scope.gotoPage = function (page) {
+        if (page != $scope.query.p) {
+            $scope.query.p = page;
+            $rootScope.$broadcast(Event.Load.Display);
+            loadCars().then(function () {
+                $rootScope.$broadcast(Event.Load.Dismiss);
+            });
+        }
+    };
+
     $scope.search = function () {
+        $scope.query.p = 1;
         $scope.status.loading = true;
         loadCars().then(function () {
             $scope.status.loading = false;

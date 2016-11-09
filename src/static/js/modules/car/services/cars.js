@@ -22,7 +22,8 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
             });
         },
         getAll: function (query) {
-            var key = URLS.model(service).admin_all + (query.q? '?q=' +query.q:'');
+            console.log(query);
+            var key = URLS.model(service).admin_all + '?p=' + query.p + (query.q ? '&q=' + query.q : '');
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);

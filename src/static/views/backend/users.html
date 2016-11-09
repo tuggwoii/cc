@@ -35,40 +35,71 @@
                         <option value="2">User</option>
                     </select>
                 </div>
-                <button class="btn btn-danger" ng-if="!status.loading" ng-click="search()">
-                    <i class="fa fa-search"></i>
-                </button>
-                <button class="btn btn-danger" ng-if="status.loading" disabled>
-                    LOADING...
-                </button>
+                
             </div>
+            <h2>การจัดเรียง</h2>
+            <div class="filter-field">
+                <div class="form-group">
+                    <label>เรียงโดย</label>
+                    <select class="form-control" ng-model="query.s">
+                        <option value="name">Name</option>
+                        <option value="email">E-mail</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>เรียงจาก</label>
+                    <select class="form-control" ng-model="query.o">
+                        <option value="ASC">น้อยไปมาก</option>
+                        <option value="DESC">มากไปน้อย</option>
+                    </select>
+                </div>
+
+            </div>
+            <button class="btn btn-danger" ng-if="!status.loading" ng-click="search()">
+                <i class="fa fa-search"></i>
+            </button>
+            <button class="btn btn-danger" ng-if="status.loading" disabled>
+                LOADING...
+            </button>
         </div>
 
         <div class="users-list">
-            <h2>Users ({{users.length}})</h2>
+            <h2>Users ({{total}})</h2>
+            <div id="iscroll" class="iscroll">
+                <div class="table-scroll">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>ลำดับที่</td>
+                                <td>ชื่อผู้ใช้</td>
+                                <td>E-mail</td>
+                                <td>Role</td>
+                                <td>วันที่สมัคร</td>
+                                <td>จำนวนรถ</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in users" ng-click="navigateTo('#/user?id=' + user.id)">
+                                <td><a href="/admin#/user?id={{user.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>
+                                <td><a href="/admin#/user?id={{user.id}}">{{user.name}}</a></td>
+                                <td><a href="/admin#/user?id={{user.id}}">{{user.email}}</a></td>
+                                <td><a href="/admin#/user?id={{user.id}}">{{user.role.name}}</a></td>
+                                <td><a href="/admin#/user?id={{user.id}}">{{user.register_date}}</a></td>
+                                <td><a href="/admin#/user?id={{user.id}}">{{user.cars.length}}</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>ลำดับที่</td>
-                        <td>ชื่อผู้ใช้</td>
-                        <td>E-mail</td>
-                        <td>Role</td>
-                        <td>วันที่สมัคร</td>
-                        <td>จำนวนรถ</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="user in users" ng-click="navigateTo('#/user?id=' + user.id)">
-                        <td><a href="/admin#/user?id={{user.id}}">#{{$index+1}}</a></td>
-                        <td><a href="/admin#/user?id={{user.id}}">{{user.name}}</a></td>
-                        <td><a href="/admin#/user?id={{user.id}}">{{user.email}}</a></td>
-                        <td><a href="/admin#/user?id={{user.id}}">{{user.role.name}}</a></td>
-                        <td><a href="/admin#/user?id={{user.id}}">{{user.register_date}}</a></td>
-                        <td><a href="/admin#/user?id={{user.id}}">{{user.cars.length}}</a></td>
-                    </tr>
-                </tbody>
-            </table>
+            <ul class="paging" ng-if="pages.length>1">
+                <li ng-click="gotoPage(1)"><<</li>
+                <li ng-click="gotoPage(page - 1)"><</li>
+                <li ng-repeat="p in pages" class="page {{p==query.p?'active':''}}" ng-click="gotoPage(p)">{{p}}</li>
+                <li ng-click="gotoPage(page + 1)">></li>
+                <li ng-click="gotoPage(pages.length)">>></li>
+            </ul>
         </div>
 
     </div>
