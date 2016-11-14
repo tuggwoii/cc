@@ -3,6 +3,7 @@ var BaseApi = require('./base');
 var Contact = require('../database/models').Contact;
 var User = require('../database/models').User;
 var MailHelper = require('../helpers/email');
+var DateHelper = require('../helpers/date');
 var url = require('url');
 
 class ContactApi extends BaseApi {
@@ -85,6 +86,20 @@ class ContactApi extends BaseApi {
 
         if (queries['status']) {
             conditions.status = queries['status'];
+        }
+
+        if (queries['month']) {
+            var lastDaye = DateHelper.getDayNumOfMonth(queries['month'], queries['year']);
+            conditions.createdAt = {
+                $lte: new Date(queries['year'], parseInt(queries['month']) - 1, lastDaye),
+                $gte: new Date(queries['year'], parseInt(queries['month']) - 1, 1)
+            }
+        }
+        else {
+            conditions.createdAt = {
+                $lte: new Date(queries['year'], 11, 31),
+                $gte: new Date(queries['year'],0, 1)
+            }
         }
 
         Contact.all({

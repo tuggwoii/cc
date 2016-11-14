@@ -2168,3 +2168,13 @@ p.payment-cars {
     display:block;
     padding-left: 185px;
 }
+.paylist .total {
+    float:right;
+    position:relative;
+    top: -5px;
+     .value {
+        font-size: 35px;
+        color: #44ff50;
+        font-family: saraban-bold;
+    }
+}

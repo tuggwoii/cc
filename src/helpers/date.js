@@ -21,3 +21,22 @@ exports.current = function () {
 
     return year + "_" + month + "_" + day + "_" + hour + "_" + min + "_" + sec;
 };
+
+exports.getDayNumOfMonth = function (month, year) {
+    if (month == 1 ||
+        month == 3 ||
+        month == 5 ||
+        month == 7 ||
+        month == 8 ||
+        month == 10 ||
+         month == 12
+        ) {
+        return 31;
+    }
+    else if (month == 2) {
+        return 28 + (parseInt(year) % 4 == 0 ? 1 : 0);
+    }
+    else {
+        return 30;
+    }
+};

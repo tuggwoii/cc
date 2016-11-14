@@ -328,7 +328,7 @@
 
     .app .wrapper .detail-section .info span, .app .wrapper .detail-section .info a {
         display: block;
-        padding-left: 10px;
+        padding-left: 30px;
     }
 
     .app .wrapper .detail-section .edit-link {
@@ -372,16 +372,27 @@
     .filter-field .btn {
         margin-top: -14px;
     }
+
     .table-scroll {
-         min-width: 730px;
+        min-width: 730px;
     }
+
     .iscroll {
-        overflow:hidden;
+        overflow: hidden;
         position: relative;
+        margin-top: 20px;
     }
+
     .npad {
         padding-left: 30px !important;
         padding-right: 30px !important;
+    }
+
+    .app .wrapper .car-page .car-notifications .notification-half-box {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        float: none;
     }
 }
 
@@ -415,6 +426,84 @@
                 padding: 20px 15px 70px 15px;
             }
         }
+    }
+
+    .paylist .total {
+        float: none;
+        position: relative;
+        top: -5px;
+        display: block;
+    }
+
+    .app .wrapper .car-page .detail-section .info .info-column {
+        display: block;
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .app .wrapper .detail-section label {
+        width: 100%;
+    }
+
+    .app .wrapper .subpage {
+        padding: 10px 15px 50px 15px;
+    }
+
+    .app {
+        font-size: 22px;
+    }
+
+    .app .wrapper ul.notilist li .title {
+        font-size: 22px;
+    }
+
+    .app .subpage .list ul li .title {
+        font-size: 24px;
+    }
+
+    .app .wrapper .car-page h2 {
+        font-size: 26px;
+    }
+
+    .app .wrapper .car-page .car-notifications .edit-link {
+        position: absolute;
+        top: -48px;
+        right: 0px;
+        height: 32px;
+        min-width: 90px;
+    }
+    .app .wrapper .detail-section .edit-link {
+        height: 32px;
+        min-width: 100px;
+    }
+    .app .wrapper .car-page .repair-filter .form-group {
+        width: 49.2%;
+    }
+    .app .wrapper .car-page .repair-filter .form-group:last-of-type {
+        padding-right:0
+    }
+    .app .wrapper .car-page .repair-filter button {
+        min-width: 60px;
+        margin-top: 25px;
+        height: 40px;
+    }
+    .app .wrapper .box h3 {
+        padding-left:15px;
+        padding-right: 15px;
+    }
+    .app .wrapper .detail-section .summary-price {
+        font-size: 22px;
+        text-align:center;
+    }
+    .app .wrapper .detail-section .summary-price .price {
+         font-size: 24px;
+    }
+    .app .wrapper .shares-page .container .share-item .detail .info {
+        padding-left: 20px;
+    }
+    .app .wrapper .shares-page .container .share-item {
+        margin-top: 20px;
     }
 }
 

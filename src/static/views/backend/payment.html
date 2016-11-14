@@ -20,8 +20,33 @@
             <h2>ค้นหา</h2>
             <div class="filter-field">
                 <div class="form-group">
+                    <label>เดือน</label>
+                    <select class="form-control" ng-model="query.month">
+                        <option value="">12 เดือน</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ปี พ.ศ.</label>
+                    <input type="text"
+                           ng-model="query.year"
+                           class="form-control" />
+                </div>
+                <div class="form-group">
                     <label>สถานะ</label>
                     <select class="form-control" ng-model="query.status">
+                        <option value="">ทั้งหมด</option>
                         <option value="0">ยังไม่ดำเนินการ</option>
                         <option value="1">ดำเนินการแล้ว</option>
                     </select>
@@ -38,34 +63,40 @@
             </div>
         </div>
 
-        <div class="users-list">
+        <div class="users-list paylist">
             <h2>
                 <span>Payment ({{model.length}})</span>
+                <span class="total">
+                    ยอดโอน: <span class="value">{{total?total.formatMoney(2, '.', ','):0.00}} บาท</span>
+                </span>
             </h2>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>ประเภท</td>
-                        <td>สถานะ</td>
-                        <td>วันเวลาชำระเงิน</td>
-                        <td>จำนวน</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="pm in model" ng-click="edit(pm)">
-                        <td>{{pm.type==1?'ต่ออายุรถ':'เพิ่มรถ'}}</td>
-                        <td>{{pm.status?'ดำเนินการแล้ว':'ยังไม่ดำเนินการ'}}</td>
-                        <td>{{pm.datetime}}</td>
-                        <td><span>{{pm.price.formatMoney(2, '.', ',')}} บาท</span></td>
-                        <td class="action">
-                            <i class="fa fa-edit" ng-click="edit(pm);$event.stopPropagation();"></i>
-                            <i class="fa fa-remove" ng-click="delete(pm);$event.stopPropagation();"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id="iscroll" class="iscroll">
+                <div class="table-scroll">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>ประเภท</td>
+                                <td>สถานะ</td>
+                                <td>วันเวลาชำระเงิน</td>
+                                <td>จำนวน</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="pm in model" ng-click="edit(pm)">
+                                <td>{{pm.type==1?'ต่ออายุรถ':'เพิ่มรถ'}}</td>
+                                <td>{{pm.status?'ดำเนินการแล้ว':'ยังไม่ดำเนินการ'}}</td>
+                                <td>{{pm.datetime}}</td>
+                                <td><span>{{pm.price.formatMoney(2, '.', ',')}} บาท</span></td>
+                                <td class="action">
+                                    <i class="fa fa-edit" ng-click="edit(pm);$event.stopPropagation();"></i>
+                                    <i class="fa fa-remove" ng-click="delete(pm);$event.stopPropagation();"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

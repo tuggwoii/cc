@@ -7,7 +7,9 @@ module.factory('PaymentService', ['$rootScope', '$http', '$q', 'URLS', function 
     return {
         getAll: function (query) {
             var key = URLS.model(service).all + '?s=1'
-                + (query.status ? '&status=' + query.status : '');
+                + (query.status ? '&status=' + query.status : '')
+                + (query.month ? '&month=' + query.month : '')
+                + (query.year ? '&year=' + (parseInt(query.year) - 543) : '');
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);

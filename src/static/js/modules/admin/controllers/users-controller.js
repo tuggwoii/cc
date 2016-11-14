@@ -57,7 +57,7 @@ function ($scope, $rootScope, $timeout, $q, AccountService, Helper, Event) {
         $timeout(function () {
             var myScroll = new IScroll('#iscroll', {
                 scrollX: true, scrollY: false,
-                mouseWheel: true,
+                mouseWheel: false,
                 scrollbars: true
             });
         }, 200);

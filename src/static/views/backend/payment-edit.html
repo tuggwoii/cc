@@ -24,10 +24,13 @@
             <h2>ข้อมูลการชำระเงิน</h2>
             <div class="detail-section">
                 <div class="info">
-                   
                     <div class="title">
                         <label>ประเภทการชำระ: </label>
                         <span>{{model.type==1?'ต่ออายุรถ':'เพิ่มจำนวนรถ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>User: </label>
+                        <a href="/admin#/user?id={{model.user.id}}">{{model.user.name}}</a>
                     </div>
                     <div class="title" ng-if="model.type==1">
                         <label>รถที่ดำเนินการ: </label>

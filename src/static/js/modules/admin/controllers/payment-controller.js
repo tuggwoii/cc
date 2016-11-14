@@ -3,11 +3,14 @@ module.controller('AdminPaymentController', ['$scope', '$rootScope', '$timeout',
 function ($scope, $rootScope, $timeout, $q, $location, Helper, PaymentService, Event) {
 
     $scope.params = $location.search();
+    var date = new Date();
 
     $scope.status = {
         loading: false
     };
-    $scope.query = {};
+    $scope.query = {
+        year: date.getFullYear() +543
+    };
 
     function loadResources() {
         $q.all([
@@ -31,12 +34,31 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PaymentService, E
                     console.log('GET PAYMENTS', res);
                 }
                 $scope.model = res.data;
+                calculateTotal();
+                initScroll();
                 resolve();
             }).catch(function () {
                 reject();
                 $rootScope.$broadcast(Event.Message.Display, 'โหลดข้อมูลล้มเหลวกรุณาลองอีกครั้ง');
             });
-        })
+        });
+    }
+
+    function initScroll() {
+        $timeout(function () {
+            var myScroll = new IScroll('#iscroll', {
+                scrollX: true, scrollY: false,
+                mouseWheel: false,
+                scrollbars: true
+            });
+        }, 200);
+    }
+
+    function calculateTotal() {
+        $scope.total = 0;
+        angular.forEach($scope.model, function (m) {
+            $scope.total += m.price;
+        });
     }
 
     $scope.payment = function () {
@@ -55,8 +77,23 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PaymentService, E
         }
     };
 
+    function validateYearMonthFilter() {
+        var test = parseInt($scope.query.year);
+        if (isNaN(test)) {
+            $scope.query.year = date.getFullYear() + 543
+        }
+        else if (parseInt($scope.query.year) < 0) {
+            $scope.query.year = date.getFullYear() + 543
+        }
+        else if ($scope.query.month && !$scope.query.year) {
+            $scope.query.month = '';
+            $scope.query.year = date.getFullYear() + 543;
+        }
+    }
+
     $scope.search = function () {
         $scope.status.loading = true;
+        validateYearMonthFilter();
         load().then(function () {
             $scope.status.loading = false;
         });
