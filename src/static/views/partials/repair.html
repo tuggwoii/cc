@@ -94,38 +94,44 @@
                         </div>
                     </div>
                     <p ng-if="!model.shop || !model.shop.id">ยังไม่ได้ระบุร้าน</p>
+                    <div class="repair-shop-button">
+                        <button class="btn btn-danger edit-link" ng-click="openShop()">
+                            ค้นหาร้าน
+                        </button>
+                        <button ng-if="model.shop" class="btn btn-danger edit-link edit-shop-button" ng-click="navigateTo('#/edit-shop?id=' + model.shop.id + '&repair=' + model.id + '&car=' + model.car.id)">
+                            แก้ไขร้าน
+                        </button>
+                    </div>
 
-                    <button class="btn btn-danger edit-link" ng-click="openShop()">
-                        ค้นหาร้าน
-                    </button>
-                    <button ng-if="model.shop" class="btn btn-danger edit-link edit-shop-button" ng-click="navigateTo('#/edit-shop?id=' + model.shop.id + '&repair=' + model.id + '&car=' + model.car.id)">
-                        แก้ไขร้าน
-                    </button>
                 </div>
 
                 <h2><i class="fa fa-wrench" aria-hidden="true"></i> รายการซ่อมบำรุง <span class="count">({{model.repair_works.length ? model.repair_works.length : 0}})</span></h2>
                 <div class="detail-section">
                     <p ng-if="!model.repair_works.length">ไม่มีงานซ่อมบำรุง</p>
-                    <table class="table" ng-if="model.repair_works.length">
-                        <thead>
-                            <tr>
-                                <td>รายการ</td>
-                                <td>กลุ่มงาน</td>
-                                <td>หมายเหตุ</td>
-                                <td>ราคา</td>
-                                <td>จัดการ</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="work in model.repair_works">
-                                <td>{{work.title?work.title:'ไม่ระบุ'}}</td>
-                                <td>{{work.workgroup?work.workgroup.name:'ไม่ระบุ'}}</td>
-                                <td>{{work.detail?work.detail:''}}</td>
-                                <td>{{work.price ? work.price : 0}} บาท</td>
-                                <td><span ng-click="editWork(work)">แก้ไข</span>/<span ng-click="deleteWork(work)">ลบ</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div id="iscroll" class="iscroll">
+                        <div class="table-scroll">
+                            <table class="table" ng-if="model.repair_works.length">
+                                <thead>
+                                    <tr>
+                                        <td>รายการ</td>
+                                        <td>กลุ่มงาน</td>
+                                        <td>หมายเหตุ</td>
+                                        <td>ราคา</td>
+                                        <td>จัดการ</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="work in model.repair_works">
+                                        <td>{{work.title?work.title:'ไม่ระบุ'}}</td>
+                                        <td>{{work.workgroup?work.workgroup.name:'ไม่ระบุ'}}</td>
+                                        <td>{{work.detail?work.detail:''}}</td>
+                                        <td>{{work.price ? work.price : 0}} บาท</td>
+                                        <td><span ng-click="editWork(work)">แก้ไข</span>/<span ng-click="deleteWork(work)">ลบ</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <p class="summary-price">รวมทั้งหมด: <span class="price">{{model.price?model.price.formatMoney(2, '.', ',') : 0}} บาท</span></p>
                     <button class="btn btn-danger edit-link" ng-click="openWork()">
                         เพิ่มรายการ
@@ -133,12 +139,14 @@
                 </div>
 
                 <h2><i class="fa fa-photo" aria-hidden="true"></i> รูปภาพ</h2>
-                <div class="detail-section">
+                <div class="detail-section repair-image-section">
                     <p class="error-message" id="invalidFile">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
-                    <div class="detail-section" ng-if="model.repair_images && model.repair_images.length">
-                        <div class="repair-images">
-                            <div class="image repair-image" ng-repeat="image in model.repair_images">
-                                <img ng-src="{{image.file?image.file.url:'/img/no-photo.jpg'}}" alt="images" />
+                    <div class="repair-images" ng-if="model.repair_images && model.repair_images.length">
+                        <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4" ng-repeat="image in model.repair_images">
+                            <div class="image repair-image">
+                                <div class="img-border">
+                                    <img ng-src="{{image.file?image.file.url:'/img/no-photo.jpg'}}" alt="images" />
+                                </div>
                                 <div class="caption">{{image.caption}}</div>
                                 <div class="controls" ng-click="lightbox(image.file.url, image.caption, $index)">
                                     <div class="cap" ng-click="imageCaption(image, $index);$event.stopPropagation()">
@@ -155,7 +163,7 @@
                     <button ng-if="!uploading" class="btn btn-danger edit-link" onclick="document.getElementById('fileUpload').click()">
                         Upload รูป
                     </button>
-                    <button ng-if="uploading"  class="btn btn-danger edit-link" disabled>กำลังอัพรูป...</button>
+                    <button ng-if="uploading" class="btn btn-danger edit-link" disabled>กำลังอัพรูป...</button>
                 </div>
 
                 <h2><i class="fa fa-bell" aria-hidden="true"></i> การแจ้งเตือนที่สร้างจากรายการนี้</h2>

@@ -139,6 +139,9 @@
             }
         }
     }
+    .app .wrapper .detail-section .repair-images .repair-image {
+        margin-right: 10px;
+    }
 }
 
 @media screen and (max-width: 767px) {
@@ -308,7 +311,7 @@
     }
 
     .app .wrapper .detail-section {
-        padding-bottom: 40px;
+        padding-bottom: 50px;
     }
 
     .app .wrapper .detail-section .info {
@@ -342,14 +345,11 @@
         width: 100%;
         margin-right: 0;
         max-width: 100%;
-        position: relative;
-        top: 255px;
     }
 
     .app .wrapper .sm-to-left {
         width: 100%;
         margin-right: 0;
-        top: -160px;
         position: relative;
         max-width: 100%;
     }
@@ -393,6 +393,50 @@
         margin-left: 0;
         margin-right: 0;
         float: none;
+    }
+
+    .editcar .section .image, .newcar .section .image {
+        position:absolute;
+        top: 0;
+        height: 240px;
+        margin-left: 50%;
+        transform:translateX(-50%);
+    }
+
+    .editcar form .left, .newcar  form .left {
+       padding-top: 260px;
+    }
+    .section .image img {
+        max-height: 160px;
+    }
+    .subpage form {
+        position: relative;
+    }
+
+    .user.subpage  form {
+        padding-top: 280px;
+    }
+
+    .app .wrapper .user .sm-to-left{
+        position: absolute;
+        top: 0;
+    }
+
+    .app .wrapper .detail-section {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .app .wrapper .detail-section .edit-link {
+        display:inline-block;
+        position:relative;
+    }
+    .edit-shop-button {
+       right: auto !important;
+    }
+
+    .repair-shop-button {
+        text-align:center;
+        margin-top: -10px;
     }
 }
 
@@ -504,6 +548,70 @@
     }
     .app .wrapper .shares-page .container .share-item {
         margin-top: 20px;
+    }
+    .app header .navbar-right .login-button-container .login-popup {
+        height: 310px;
+    }
+    .app .breadcrumb {
+        padding: 15px 15px 8px 15px;
+    }
+    .editcar .section .image, .newcar .section .image {
+        top: 0;
+    }
+    .editcar form,  .newcar form {
+        position: relative;
+    }
+    form .btn-container {
+        margin-top: 5px;
+    }
+    form .btn-container button {
+        height: 40px;
+        min-width: 120px;
+        font-size: 22px;
+    }
+    
+    .app .share-link {
+        font-size: 26px
+    }
+    .app .del-repail {
+        height: 40px;
+        min-width: 120px;
+        font-size: 22px;
+    }
+    h2 {
+        font-size: 28px;
+    }
+    .app .wrapper .detail-section .summary-price, .app .wrapper .detail-section .summary-score {
+         font-size: 22px;
+    }
+    .app .repair-detail .form-group label, .app .share-detail-page .form-group label {
+         font-size: 22px;
+    }
+    .toggle {
+        height: 40px;
+    }
+    .toggle span.choice {
+        padding: 5px 10px;
+    }
+    .toggle span.yes {
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    .toggle span.no {
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+    .popup-panel {
+        width: 100% !important;
+        height: 100% !important;
+        margin:0 !important;
+        left:0 !important;
+        top: 0 !important;
+    }
+    .popup-container .popup-panel.workpopup .btn {
+        height: 40px;
+        min-width: 120px;
+        font-size: 22px;
     }
 }
 

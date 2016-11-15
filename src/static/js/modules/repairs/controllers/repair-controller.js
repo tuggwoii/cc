@@ -46,7 +46,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                         _car.active = true;
                     }
                 });
-                
+                initScroll();
             });
         }
 
@@ -93,6 +93,17 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             $timeout(function () {
                 isFirst = false;
             }, 1000);
+        }
+
+        function initScroll() {
+            $timeout(function () {
+                var myScroll = new IScroll('#iscroll', {
+                    scrollX: true, scrollY: false,
+                    mouseWheel: false,
+                    scrollbars: true,
+                    click: true
+                });
+            }, 200);
         }
 
         $scope.repairPage = function () {
@@ -250,35 +261,35 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             lightbox(url);
             $timeout(function () {
                 if (caption) {
-                    var items = $('.repair-image');
-                    $('.lity-container').append('<p class="lb-caption animated fadeIn">' + caption + '</p>');
-                    if (items.length > 1) {
-                        $('.lity-container').append('<span class="lb-next animated fadeIn"><i class="fa fa-angle-right"></i></span>');
-                        $('.lity-container').append('<span class="lb-prev animated fadeIn"><i class="fa fa-angle-left"></i></span>');
-
-                        $('.lb-next').click(function () {
-                            index++;
-                            if (index >= items.length) {
-                                index = 0;
-                            }
-                            var image_src = $($(items[index]).find('img')[0]).attr('src');
-                            var image_caption = $($(items[index]).find('.caption')[0]).text();
-                            $('.lity-container').find('img').attr('src', image_src);
-                            $('.lity-container').find('.lb-caption').text(image_caption);
-                        })
-                        $('.lb-prev').click(function () {
-                            index--;
-                            if (index < 0) {
-                                index = items.length - 1;
-                            }
-                            var image_src = $($(items[index]).find('img')[0]).attr('src');
-                            var image_caption = $($(items[index]).find('.caption')[0]).text();
-                            $('.lity-container').find('img').attr('src', image_src);
-                            $('.lity-container').find('.lb-caption').text(image_caption);
-                        })
-                    }
+                    $('.lity-container').append('<p class="lb-caption animated fadeIn">' + caption + '</p>');                    
                 }
-            }, 100);
+                var items = $('.repair-image');
+                if (items.length > 1) {
+                    $('.lity-container').append('<span class="lb-next animated fadeIn"><i class="fa fa-angle-right"></i></span>');
+                    $('.lity-container').append('<span class="lb-prev animated fadeIn"><i class="fa fa-angle-left"></i></span>');
+
+                    $('.lb-next').click(function () {
+                        index++;
+                        if (index >= items.length) {
+                            index = 0;
+                        }
+                        var image_src = $($(items[index]).find('img')[0]).attr('src');
+                        var image_caption = $($(items[index]).find('.caption')[0]).text();
+                        $('.lity-container').find('img').attr('src', image_src);
+                        $('.lity-container').find('.lb-caption').text(image_caption);
+                    })
+                    $('.lb-prev').click(function () {
+                        index--;
+                        if (index < 0) {
+                            index = items.length - 1;
+                        }
+                        var image_src = $($(items[index]).find('img')[0]).attr('src');
+                        var image_caption = $($(items[index]).find('.caption')[0]).text();
+                        $('.lity-container').find('img').attr('src', image_src);
+                        $('.lity-container').find('.lb-caption').text(image_caption);
+                    })
+                }
+            }, 200);
         };
 
         $scope.getProvinceByKey = function (key) {

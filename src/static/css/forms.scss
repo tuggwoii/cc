@@ -107,7 +107,7 @@ p.margin-top {
         margin: 0;
     }
 
-    input[type=text], input[type=password], input[type=email] {
+    input[type=text], input[type=password], input[type=email], input[type=number] {
         height: 34px;
     }
 }
@@ -293,7 +293,8 @@ input[type=checkbox] {
 
     input[type=text].form-control, 
     input[type=password].form-control, 
-    input[type=email].form-control {
+    input[type=email].form-control, 
+    input[type=number].form-control {
         height: 36px;
         font-size: 22px;
         padding: 3px 5px;

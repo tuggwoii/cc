@@ -303,6 +303,7 @@ body {
         margin-top: 80px;
         line-height: 0;
         padding-bottom: 100px;
+        overflow-x:hidden;
 
         .stars {
             i {
@@ -1145,6 +1146,10 @@ body {
             }
         }
 
+        .repair-image-section {
+                padding: 20px 0 !important;
+            }
+
         .detail-section {
             margin-top: 20px;
             background: rgb(51,51,51);
@@ -1191,18 +1196,28 @@ body {
             }
 
             .repair-images {
-                width: calc(100% + 40px);
+                width: 100%;
                 display: inline-block;
 
                 .repair-image {
-                    margin-right: 30px;
-                    width: 285px;
-                    height: 220px;
+                   
                     margin-bottom: 100px;
                     position: relative;
                     cursor: pointer;
-                    border: 5px solid #444;
                     overflow: visible;
+                    width: 100%;
+                    height: 220px;
+
+                    .img-border {
+                        width: 100%;
+                        height: 218px;
+                        overflow:hidden;
+                         border: 5px solid #444;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
                 }
 
                 .caption {
