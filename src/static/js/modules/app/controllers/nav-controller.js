@@ -11,8 +11,8 @@ module.controller('NavController', ['$scope', 'PageService',
                         $scope.menu.push(m);
                     }
                     var url = decodeURIComponent(location.href).replace('http://127.0.0.1:8000', '');
-                    url = url.replace('http://www.carcarenode.com');
-                    url = url.replace('http://carcarenode.com');
+                    url = url.replace('http://www.carcarenote.com');
+                    url = url.replace('http://carcarenote.com');
                     if (url == m.url) {
                         m.isActive = true;
                     }
