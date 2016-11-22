@@ -54,14 +54,8 @@ $(window).resize(function () {
 
 function footer() {
     var window_height = $(window).height();
-    var body_height = $('body').height() + 150;
-    if (window_height > body_height) {
-        $('footer').css('position', 'fixed');
-    }
-    else {
-        $('footer').css('position', 'relative');
-    }
-    $('footer').css('display', 'block');
+    var footer_height = $('footer').height();
+    $('.wrapper').css('min-height', (window_height - footer_height) + 'px');
 }
 Number.prototype.formatMoney = function (c, d, t) {
     var n = this,
