@@ -464,6 +464,9 @@
     }
     .app {
         .wrapper {
+
+            overflow-x:hidden;
+
             .filters {
                 .field-container {
                     width: 100%;

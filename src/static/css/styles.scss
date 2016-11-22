@@ -296,14 +296,12 @@ body {
     }
 
     .wrapper {
-        display: inline-block;
+        display: block;
         position: relative;
-        width: 100%;
         margin-bottom: -5px;
         margin-top: 80px;
         line-height: 0;
         padding-bottom: 100px;
-        overflow-x:hidden;
 
         .stars {
             i {
