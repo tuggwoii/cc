@@ -21,27 +21,30 @@
                 <span>Pages ({{model.length}})</span>
                 <button class="btn btn-danger" ng-click="navigateTo('#/page')"><i class="fa fa-plus"></i> เพิ่ม</button>
             </h2>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>ชื่อหน้า</td>
-                        <td>URL</td>
-                        <td></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="page in model" ng-click="edit(page)">
-                        <td><a href="/admin#/edit-page?id={{page.id}}">{{page.name}}</a></td>
-                        <td><a href="/admin#/edit-page?id={{page.id}}">{{page.url?page.url:'/'}}</a></td>
-                        <td class="action">
-                            <i ng-if="!page.isSys" class="fa fa-edit" ng-click="edit(page);$event.stopPropagation();"></i>
-                            <i ng-if="!page.isSys" class="fa fa-remove" ng-click="delete(page);$event.stopPropagation();"></i>
-                            <span ng-if="page.isSys">หน้านี้ไม่สามารถแก้ไขได้</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id="iscroll" class="iscroll">
+                <div class="table-scroll pages-table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>ชื่อหน้า</td>
+                                <td>URL</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="page in model" ng-click="edit(page)">
+                                <td><a href="/admin#/edit-page?id={{page.id}}">{{page.name}}</a></td>
+                                <td><a href="/admin#/edit-page?id={{page.id}}">{{page.url?page.url:'/'}}</a></td>
+                                <td class="action">
+                                    <i ng-if="!page.isSys" class="fa fa-edit" ng-click="edit(page);$event.stopPropagation();"></i>
+                                    <i ng-if="!page.isSys" class="fa fa-remove" ng-click="delete(page);$event.stopPropagation();"></i>
+                                    <span ng-if="page.isSys">หน้านี้ไม่สามารถแก้ไขได้</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

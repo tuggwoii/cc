@@ -98,7 +98,8 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         function initScroll() {
             $timeout(function () {
                 var myScroll = new IScroll('#iscroll', {
-                    scrollX: true, scrollY: false,
+                    scrollX: true,
+                    scrollY: true,
                     mouseWheel: false,
                     scrollbars: true,
                     click: true

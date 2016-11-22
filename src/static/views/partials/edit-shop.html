@@ -1,11 +1,7 @@
 ﻿<div class="editshop car-page shop-page" ng-controller="EditShopController">
     <div class="row user-profile animated fadeIn" ng-if="user.id">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
-                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
-            </div>
-        </div>
+        <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+        <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
     </div>
 
     <div class="container">
@@ -28,7 +24,7 @@
                 <span>แก้ไขข้อมูลร้าน</span>
             </h1>
 
-            <form name="form" ng-if="user.id">
+            <form name="form" class="shop-form" ng-if="user.id">
                 <span class="sr-only" ng-init="setForm(form)"></span>
                 <div class="section left">
                     <div class="form-group">
@@ -114,7 +110,7 @@
 
                 </div>
                 <div class="section right">
-                    <div class="image">
+                    <div class="image shop-image">
                         <p class="error-message" ng-if="invalid_filetype">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
                         <div ng-if="!model.image">
                             <img src="/img/no-photo.jpg" alt="profile" ng-if="!model.image">
@@ -122,7 +118,9 @@
                             <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
                         </div>
                         <div ng-if="model.image">
-                            <img class="user-profile-image" ng-src="{{model.image.url}}" alt="profile">
+                            <div class="image-container">
+                                <img class="user-profile-image" ng-src="{{model.image.url}}" alt="profile">
+                            </div>
                             <button class="btn btn-danger" ng-if="!uploading" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['change_image']}}</button>
                             <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
                         </div>
@@ -155,10 +153,10 @@
                                       ng-model="model.map"
                                       placeholder="Google Map iframe"></textarea>
                         </div>
-                    </div>    
-                    
+                    </div>
+
                 </div>
-               
+
 
                 <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
                 <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>

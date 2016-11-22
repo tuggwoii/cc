@@ -1,7 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>CARCARENOTE</title>
+    <title>CARCARENOTE - <%= title %></title>
+    <meta name="description" content="<%= remark %>" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +13,12 @@
     <link href="/css/fas/css/font-awesome.min.css" rel="stylesheet" />
     <link href="/libs/lity/dist/lity.min.css" rel="stylesheet" />
     <link href="/css/styles.css" rel="stylesheet" type="text/css" />
+
+    <meta property="og:title" content="<%= title %>" />
+    <meta property="og:description" content="<%= remark %>" />
+    <meta property="og:type" content="content" />
+    <meta property="og:url" content="http://www.carcarenote.com/share/<%= id %>" />
+    <meta property="og:image" content="http://www.carcarenote.com<%= car.image?car.image.url:'/img/no-photo.jpg' %>" />
 </head>
 <body class="app" ng-controller="AppController">
     <div class="animated screen {{viewReady?'fadeIn':''}}">
@@ -131,7 +138,7 @@
                             </div>
                             <% } %>
                             <% if(!shop) {%>
-                                ไม่ระบุร้าน
+                            ไม่ระบุร้าน
                             <% } %>
                         </div>
 
@@ -141,26 +148,30 @@
                             <p>ไม่มีงานซ่อมบำรุง</p>
                             <% } %>
                             <% if(repair_works.length) {%>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <td>รายการ</td>
-                                        <td>กลุ่มงาน</td>
-                                        <td>หมายเหตุ</td>
-                                        <td>ราคา</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% for(var i=0; i < repair_works.length; i++) { %>
-                                    <tr>
-                                        <td><%= repair_works[i].title?repair_works[i].title: 'ไม่ระบุ' %></td>
-                                        <td><%= repair_works[i].workgroup?repair_works[i].workgroup.name:'ไม่ระบุ' %></td>
-                                        <td><%= repair_works[i].detail?repair_works[i].detail:'ไม่ระบุ' %></td>
-                                        <td>{{money('<%= repair_works[i].price?repair_works[i].price:0 %>')}} บาท</td>
-                                    </tr>
-                                    <% } %>
-                                </tbody>
-                            </table>
+                            <div id="iscroll" class="iscroll">
+                                <div class="table-scroll">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <td>รายการ</td>
+                                                <td>กลุ่มงาน</td>
+                                                <td>หมายเหตุ</td>
+                                                <td>ราคา</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for(var i=0; i < repair_works.length; i++) { %>
+                                            <tr>
+                                                <td><%= repair_works[i].title?repair_works[i].title: 'ไม่ระบุ' %></td>
+                                                <td><%= repair_works[i].workgroup?repair_works[i].workgroup.name:'ไม่ระบุ' %></td>
+                                                <td><%= repair_works[i].detail?repair_works[i].detail:'ไม่ระบุ' %></td>
+                                                <td>{{money('<%= repair_works[i].price?repair_works[i].price:0 %>')}} บาท</td>
+                                            </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                             <% } %>
                             <p class="summary-price">รวมทั้งหมด: <span class="price">{{money('<%= price?price:0 %>')}} บาท</span></p>
                             <p class="summary-score">
@@ -170,29 +181,31 @@
                         </div>
 
                         <h2><i class="fa fa-photo" aria-hidden="true"></i> รูปภาพ</h2>
-                        <div class="detail-section">
+                        <div class="detail-section repair-image-section">
                             <% if(repair_images && repair_images.length) {%>
-                                <div class="detail-section">
-                                    <div class="repair-images">
-                                        <% for(var i=0; i < repair_images.length; i++) { %>
+                                <div class="repair-images">
+                                    <% for(var i=0; i < repair_images.length; i++) { %>
+                                    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
                                         <div class="image repair-image">
-                                            <img ng-click="lightbox('<%= repair_images[i].file.url %>', '<%= repair_images[i].caption %>', <%= i %>)" ng-src="<%= repair_images[i].file ? repair_images[i].file.url: '/img/no-photo.jpg' %>" alt="images" />
-                                            <% if(repair_images[i].caption) {%>
-                                            <div class="caption"><i><%= repair_images[i].caption %></i></div>
-                                            <% } %>
-                                            <% if(!repair_images[i].caption) {%>
-                                            <div class="caption"><i>- ไม่มีคำบรรยาย -</i></div>
-                                            <% } %>
-                                        </div>
-                                        <% } %>
+                                            <div class="img-border">
+                                                <img ng-click="lightbox('<%= repair_images[i].file.url %>', '<%= repair_images[i].caption %>', <%= i %>)" ng-src="<%= repair_images[i].file ? repair_images[i].file.url: '/img/no-photo.jpg' %>" alt="images" />
+                                            </div>
+                                                <% if(repair_images[i].caption) {%>
+                                                <div class="caption"><i><%= repair_images[i].caption %></i></div>
+                                                <% } %>
+                                                <% if(!repair_images[i].caption) {%>
+                                                <div class="caption"><i>- ไม่มีคำบรรยาย -</i></div>
+                                                <% } %>
+                                            </div>
                                     </div>
+                                    <% } %>
                                 </div>
                             <% } %>
 
                             <% if(!repair_images || !repair_images.length) {%>
-                                <p>ยังไม่มีรูป</p>
+                            <p>ยังไม่มีรูป</p>
                             <% } %>
-                           
+
                         </div>
 
 
@@ -221,7 +234,7 @@
                             </div>
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>
@@ -243,6 +256,7 @@
     <script src="/js/libs/picker.date.js"></script>
     <script src="/js/app.js"></script>
     <script src="/resources/areas.js"></script>
+    <script src="/js/libs/iscroll/build/iscroll.js"></script>
     <script src="/libs/lity/dist/lity.min.js"></script>
     <script src="/js/modules/app/directives/load.js"></script>
     <script src="/js/modules/app/directives/stars.js"></script>

@@ -13,9 +13,20 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
             loadPages()
         ]).then(function () {
             $scope.displayView();
+            initScroll();
         });
     }
 
+    function initScroll() {
+        $timeout(function () {
+            var myScroll = new IScroll('#iscroll', {
+                scrollX: true, scrollY: false,
+                mouseWheel: false,
+                scrollbars: true,
+                click: true
+            });
+        }, 200);
+    }
 
     function isValid() {
         return $scope.user

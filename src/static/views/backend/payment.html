@@ -84,13 +84,19 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="pm in model" ng-click="edit(pm)">
-                                <td>{{pm.type==1?'ต่ออายุรถ':'เพิ่มรถ'}}</td>
+                                <td>
+                                    <a href="/admin#/edit-payment?id={{pm.id}}" ng-click="edit(pm);$event.stopPropagation();">
+                                        {{pm.type==1?'ต่ออายุรถ':'เพิ่มรถ'}} 
+                                    </a>
+                                </td>
                                 <td>{{pm.status?'ดำเนินการแล้ว':'ยังไม่ดำเนินการ'}}</td>
                                 <td>{{pm.datetime}}</td>
                                 <td><span>{{pm.price.formatMoney(2, '.', ',')}} บาท</span></td>
                                 <td class="action">
-                                    <i class="fa fa-edit" ng-click="edit(pm);$event.stopPropagation();"></i>
-                                    <i class="fa fa-remove" ng-click="delete(pm);$event.stopPropagation();"></i>
+                                    <a href="/admin#/edit-payment?id={{pm.id}}" ng-click="edit(pm);$event.stopPropagation();">
+                                        <i class="fa fa-edit"></i>
+                                        <!--<i class="fa fa-remove" ng-click="delete(pm);$event.stopPropagation();"></i>-->
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

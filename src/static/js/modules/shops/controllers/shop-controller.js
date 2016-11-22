@@ -24,6 +24,14 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
             model.update_str = Helper.readableDateTime(model.updatedAt);
             if (model.services) {
                 model.service_list = model.services.split(',');
+                var index = 0;
+                angular.forEach(model.service_list, function (s) {
+                    if (!s || s == 'null') {
+                        model.service_list.splice(index, 1);
+                        index--;
+                    }
+                    index++;
+                });
             }
             angular.forEach($scope.provinces, function (p) {
                 if (p.key == model.province) {

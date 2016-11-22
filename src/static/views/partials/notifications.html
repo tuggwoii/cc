@@ -1,12 +1,8 @@
 ﻿<div ng-controller="NotificationsController">
 
     <div class="row user-profile animated fadeIn" ng-if="user.id">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
-                <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
-            </div>
-        </div>
+        <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+        <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
     </div>
 
     <div class="container">
@@ -25,7 +21,7 @@
                 <button type="button" class="btn btn-danger" ng-click="navigateTo('#/new-notification')"><i class="fa fa-plus"></i> {{strings['add']}}</button>
             </h1>
             <div class="noti-filter">
-                <div>
+                <div class="filter-form-section">
                     <div class="form-group">
                         <label>กลุ่มงาน</label>
                         <select class="form-control" ng-model="query.work" ng-change="filter()">

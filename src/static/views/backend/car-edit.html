@@ -21,6 +21,17 @@
 
         <form name="form">
             <span class="sr-only" ng-init="setForm(form)"></span>
+            <div class="section left hidden-lg hidden-md hidden-sm">
+                <div class="image">
+                    <p class="error-message" ng-if="invalid_filetype">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
+                    <div ng-if="!model.image">
+                        <img src="/img/no-photo.jpg" alt="profile" ng-if="!model.image">
+                    </div>
+                    <div ng-if="model.image">
+                        <img class="user-profile-image" ng-src="{{model.image.url}}" alt="profile">
+                    </div>
+                </div>
+            </div>
             <div class="section left">
                 <div class="form-group">
                     <label class="capital">
@@ -177,7 +188,7 @@
                               ng-model="model.detail"></textarea>
                 </div>
             </div>
-            <div class="section right">
+            <div class="section right hidden-xs">
                 <div class="image">
                     <p class="error-message" ng-if="invalid_filetype">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
                     <div ng-if="!model.image">

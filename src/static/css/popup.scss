@@ -16,14 +16,18 @@
 
     .load-container {
         position: absolute;
-        margin-top: -60px;
-        margin-left: -75px;
+        margin-top: -50px;
+        margin-left: -50px;
         top: 50%;
         left: 50%;
-        width: 130px;
+        width: 90px;
         background: #000;
-        padding: 15px 32px;
+        padding: 15px 20px;
         border-radius: 5px;
+
+        img {
+            width: 50px;
+        }
     }
 
     .popup-panel {
@@ -196,6 +200,20 @@
 
         img {
             width: 35px;
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .popup-container .load-container {
+        margin-top: -30px;
+        margin-left: -30px;
+        width: 60px;
+        height: 60px;
+        padding: 15px 15px;
+
+        img {
+            width: 30px;
         }
     }
 }

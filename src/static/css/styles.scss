@@ -1024,8 +1024,8 @@ body {
 
             .social {
                 position: absolute;
-                top: 53px;
-                right: 78px;
+                top: 15px;
+                right: 15px;
             }
 
             h2 {
@@ -1147,7 +1147,7 @@ body {
         }
 
         .repair-image-section {
-                padding: 20px 0 !important;
+                padding: 20px 15px 50px !important;
             }
 
         .detail-section {
@@ -1759,6 +1759,10 @@ body {
             background: none;
             margin-top: 25px;
             margin-bottom: 15px;
+
+            li {
+                line-height: 1.1;
+            }
         }
 
         .subpage {
@@ -2192,4 +2196,7 @@ p.payment-cars {
         color: #44ff50;
         font-family: saraban-bold;
     }
+}
+.app .share-detail-page {
+    padding-top: 80px !important;
 }
