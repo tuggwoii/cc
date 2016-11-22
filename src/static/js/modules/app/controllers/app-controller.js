@@ -135,7 +135,6 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
             $rootScope.$broadcast(Event.Load.Display);
             $scope.viewReady = false;
-            $('footer').hide();
         });
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
