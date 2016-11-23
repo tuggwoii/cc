@@ -44,7 +44,10 @@
 body {
     overflow-y: scroll;
 }
-
+.android .wrapper {
+	max-width: 100% !important;
+    height: 1px !important;
+}
 .app {
     margin: 0;
     padding: 0;
@@ -1554,7 +1557,6 @@ body {
 
     footer {
         width: 100%;
-        bottom: 0;
 
         img {
             width: 100%;
