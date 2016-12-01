@@ -96,7 +96,7 @@
                     <p ng-if="!model.shop || !model.shop.id">ยังไม่ได้ระบุร้าน</p>
                     <div class="repair-shop-button">
                         <button class="btn btn-danger edit-link" ng-click="openShop()">
-                            ค้นหาร้าน
+                            {{model.shop ? 'เปลี่ยนร้าน':'ค้นหาร้าน'}}
                         </button>
                         <button ng-if="model.shop" class="btn btn-danger edit-link edit-shop-button" ng-click="navigateTo('#/edit-shop?id=' + model.shop.id + '&repair=' + model.id + '&car=' + model.car.id)">
                             แก้ไขร้าน
