@@ -74,7 +74,7 @@
 
             .sm-load {
                 position: absolute;
-                top: 6px;
+                top: 40px;
                 right: 8px;
             }
 
@@ -214,6 +214,14 @@
 
         img {
             width: 30px;
+        }
+    }
+
+    .popup-container .popup-panel .shop-popup {
+        .sm-load {
+            position: absolute;
+            top: 38px;
+            right: 8px;
         }
     }
 }

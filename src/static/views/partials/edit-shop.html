@@ -27,6 +27,23 @@
             <form name="form" class="shop-form" ng-if="user.id">
                 <span class="sr-only" ng-init="setForm(form)"></span>
                 <div class="section left">
+                    
+                    <div class="image shop-image" ng-if="imageTop">
+                        <p class="error-message" ng-if="invalid_filetype">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
+                        <div ng-if="!model.image">
+                            <img src="/img/no-photo.jpg" alt="profile" ng-if="!model.image">
+                            <button ng-if="!uploading" class="btn btn-danger" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['select_image']}}</button>
+                            <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                        </div>
+                        <div ng-if="model.image">
+                            <div class="image-container">
+                                <img class="shop-profile-image" ng-src="{{model.image.url}}" alt="profile">
+                            </div>
+                            <button class="btn btn-danger" ng-if="!uploading" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['change_image']}}</button>
+                            <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="capital">
                             ชื่อร้าน
@@ -109,7 +126,8 @@
                     </div>
 
                 </div>
-                <div class="section right">
+
+                <div class="section right" ng-if="!imageTop">
                     <div class="image shop-image">
                         <p class="error-message" ng-if="invalid_filetype">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
                         <div ng-if="!model.image">

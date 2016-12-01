@@ -647,25 +647,17 @@
         width: 100%;
     }
     .section .shop-image {
-        position: absolute;
-        top: 0;
         height: 240px;
         margin-left: 50%;
         transform: translateX(-50%);
 
         img {
-            transform: translateY(-50%);
-            top: 50%;
-            position: relative;
             max-height: 999px;
         }
     }
     .section .image-container {
         height: 160px;
         overflow: hidden;
-    }
-    .shop-form .section.left {
-        padding-top: 300px;
     }
     .app .wrapper .notification-page {
         h1 {

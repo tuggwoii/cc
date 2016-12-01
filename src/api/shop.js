@@ -46,6 +46,9 @@ class ShopApi extends BaseApi {
             else if (!data.name) {
                 reject('NAME REQUIRED');
             }
+            else if (!data.province) {
+                reject('PROVINCE REQUIRED');
+            }
             else {
                 resolve();
             }

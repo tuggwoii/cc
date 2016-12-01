@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'Event', 'Helper', 'ShopService', 'WorkService', 'CarService', 'WorkgroupService',
-    function ($scope, $rootScope, $timeout, $q, $location, Event, Helper, ShopService, WorkService, CarService, WorkgroupService) {
+module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q', '$location', '$window', 'Event', 'Helper', 'ShopService', 'WorkService', 'CarService', 'WorkgroupService',
+    function ($scope, $rootScope, $timeout, $q, $location, $window, Event, Helper, ShopService, WorkService, CarService, WorkgroupService) {
 
         $scope.status = {};
         $scope.dates = Helper.dateArray();
@@ -68,6 +68,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
                     else {
                         $scope.navigateTo('#/shop?id=' + $scope.params.id);
                     }
+                    checkSize();
                 }, 100);
             });
         }
@@ -166,6 +167,21 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
 
         $scope.$on(Event.File.Success, $scope.setImage);
         $scope.editShop();
+
+        function checkSize() {
+            console.log($(window).width());
+            if ($(window).width() <= 750) {
+                $scope.imageTop = true;
+            }
+            else {
+                $scope.imageTop = false;
+            }
+            $scope.$apply();
+        }
+
+        $(window).resize(function () {
+            checkSize();
+        });
 
     }]);
 $(document).on("keydown", function (e) {

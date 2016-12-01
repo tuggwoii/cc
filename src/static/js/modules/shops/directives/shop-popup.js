@@ -6,15 +6,9 @@
 
         },
         link: function (scope, element, attrs) {
-            scope.provinces = [];
-            function createProvinces() {
-                angular.forEach(areas, function (area) {
-                    angular.forEach(area.areas, function (p) {
-                        scope.provinces.push(p);
-                    });
-                });
-            }
-
+            scope.provinces = _provinces;
+            scope.shopSearchTask = {};
+           
             function initShop(shops) {
                 angular.forEach(shops, function (s) {
                     angular.forEach( scope.provinces, function (p) {
@@ -35,18 +29,18 @@
                         $('body').focus();
                     }, 500);
                 }
-            }
+            };
 
-            scope.shopSearchTask = {};
-            scope.search = {};
             scope.searchShop = function () {
                 $timeout.cancel(scope.shopSearchTask);
                 scope.trySearch = false;
-                if (scope.search.key) {
+                scope.form_submit = true;
+                console.log(scope.search);
+                if (scope.search.key && scope.search.city) {
                     if (!scope.onSearchShop) {
                         scope.shopSearchTask = $timeout(function () {
                             scope.onSearchShop = true;
-                            ShopService.getAll(scope.search.key).then(function (res) {
+                            ShopService.getAll(scope.search.key, scope.search.city).then(function (res) {
                                 scope.shops = res.data;
                                 initShop(scope.shops);
                                 $timeout(function () {
@@ -65,10 +59,16 @@
                 }
             };
 
+            scope.provinceChange = function () {
+                if (scope.search.key) {
+                    scope.searchShop();
+                }
+            };
+
             scope.createShop = function () {
                 $rootScope.$broadcast(Event.Confirm.Display, function () {
                     $rootScope.$broadcast(Event.Load.Display, 'SAVE_SHOP');
-                    ShopService.create({ name: scope.search.key }).then(function (res) {
+                    ShopService.create({ name: scope.search.key, province: scope.search.city }).then(function (res) {
                         console.log(res.data);
                         $rootScope.$broadcast(Event.Load.Dismiss);
                         scope.close();
@@ -92,7 +92,6 @@
                     scope.shopSearchTask = {};
                     scope.trySearch = false;
                     scope.display = true;
-                    scope.search = {};
                     scope.trySearch = false;
                     scope.onSearchShop = false;
                     scope.prev_shops = prev_shops;
@@ -100,6 +99,9 @@
                     scope.shop = {
                         selected: ''
                     }
+                    scope.search = {
+                        city: 'krung_thep_maha_nakhon'
+                    };
                     $timeout(scope.setHeight, 200);
                 }
             });
@@ -129,7 +131,6 @@
                 }
             };
 
-            createProvinces();
             $(window).resize(scope.setHeight);
         }
     };

@@ -5,8 +5,8 @@ module.factory('ShopService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 
     var cache = {};
 
     return {
-        getAll: function (q) {
-            var key = URLS.model(service).all + '?limits=20' + ('&q=' + q);
+        getAll: function (q, province) {
+            var key = URLS.model(service).all + '?limits=20' + ('&q=' + q) + ( province? '&c=' + province : '');
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);
