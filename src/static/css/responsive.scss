@@ -250,8 +250,15 @@
     }
 
     .app .index-shop {
-        padding: 20px 20px;
+        padding: 10px 20px;
         height: auto;
+        border-bottom: 1px dashed #444;
+    }
+
+    .app .wrapper .shares-list  .share-item {
+        height: auto;
+        border-bottom: 1px dashed #444;
+        padding-bottom: 15px;
     }
 
     .app .wrapper .box .filter-box label {
