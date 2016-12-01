@@ -418,7 +418,7 @@ class RepairApi extends BaseApi {
                     });
                 }
                 else {
-                    reject('NOT FOUND');
+                    resolve();
                 }
             }).catch(function (err) {
                 reject(err);
@@ -557,29 +557,37 @@ class RepairApi extends BaseApi {
                         RepairWork.destroy({ where: { for_repair: _repair.id } }).then(function () {
                             Repair.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function () {
                                 context.updateShopScoreAndService(context, shopId).then(function () {
+                                    console.log('1');
                                     context.success(req, res, {});
                                 }).catch(function (err) {
+                                    console.log('2');
                                     context.error(req, res, err, 500);
                                 });
                             }).catch(function (err) {
+                                console.log('3');
                                 context.error(req, res, err, 500);
                             });
                         }).catch(function (err) {
+                            console.log('4');
                             context.error(req, res, err, 500);
                         });
                     }
                     else {
+                        console.log('5');
                         context.denied(res);
                     }
                 }
                 else {
+                    console.log('6');
                     context.notfound(res);
                 }
             }).catch(function (err) {
+                console.log('7');
                 context.error(req, res, err, 500);
             });
         }
         else {
+            console.log('8');
             context.notfound(res);
         }
     }
