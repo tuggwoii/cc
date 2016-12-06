@@ -2,23 +2,29 @@
     <h3><i class="fa fa-share-alt" aria-hidden="true"></i> {{strings['shares']}}</h3>
     <div class="content-box" >
         <p class="nodata" ng-if="!shares || !shares.length">{{strings['no_data']}}</p>
-        <div class="row shares-list" ng-if="shares.length">
+        <div class="row shares-list shares-list-index" ng-if="shares.length">
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares">
                 <a class="share-item animated fadeIn" href="/share/{{s.id}}">
-                    <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
+                    <div class="user-name" title="{{s.title}}">
+                        {{s.title}}
+                    </div>
                     <div class="detail">
                         <div class="image">
                             <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
                             <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
                         </div>
-
                         <div class="info">
-                            <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
+                            <div class="title car-model" title="{{(s.car.brand + ' ' + s.car.series)}}">
+                                {{ (s.car.brand + ' ' + s.car.series) }}
+                            </div>
                             <div class="price">ทั้งหมด {{s.price?s.price:0}} บาท</div>
                             <rating-star rating="s.score"></rating-star>
                         </div>
                     </div>
-                    <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop?s.shop.name:'ไม่ระบุ'}}</div>
+                    <div class="shop" title="{{s.shop?s.shop.name:'ไม่ระบุ'}}">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i> 
+                        {{s.shop?s.shop.name:'ไม่ระบุ'}}
+                    </div>
                 </a>
             </div>
         </div>

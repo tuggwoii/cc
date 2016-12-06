@@ -1,4 +1,9 @@
-﻿@media screen and (max-width: 1200px) {
+﻿@media screen and (max-width: 1650px) {
+    .shares-list-index .col-lg-4 {
+        width: 50%;
+    }
+}
+@media screen and (max-width: 1200px) {
     .app {
 
         .wrapper {
@@ -47,7 +52,26 @@
         }
     }
 }
-
+@media screen and (max-width: 1200px) {
+    .app header .logo img {
+        max-width: 240px;
+        margin-top: 8px;
+    }
+    .app header .navbar-right .login-button-container .btn.btn-default {
+        min-width: 90px;
+    }
+    .app header nav .navbar-collapse {
+        padding: 24px 15px 0;
+    }
+    .app header .navbar-right a {
+        padding: 0 15px;
+    }
+}
+@media screen and (max-width: 1120px) {
+    .shares-list-index .col-lg-4 {
+        width: 100%;
+    }
+}
 @media screen and (max-width: 992px) {
     .app header nav {
         .navbar-header {
@@ -142,6 +166,9 @@
     .app .wrapper .detail-section .repair-images .repair-image {
         margin-right: 10px;
     }
+    .shares-list-index .col-lg-4 {
+        width: 50%;
+    }
 }
 
 @media screen and (max-width: 940px) {
@@ -162,6 +189,15 @@
 
 
 @media screen and (max-width: 767px) {
+    .shares-list-index .col-lg-4 {
+        width: 100%;
+    }
+    .app .wrapper {
+        margin-top: 60px;
+    }
+    .app header, .app header nav, .app header nav .navbar-header {
+        height: 60px;
+    }
     .app h1 {
         font-size: 28px;
     }
@@ -203,12 +239,17 @@
         }
     }
 
-    .app header .logo img {
-        max-width: 280px;
+    .app header nav .navbar-toggle {
+        top: 6px;
     }
 
     .app header .logo {
-        top: 20px;
+        top: 14px;
+    }
+
+    .app header .logo img {
+        max-width: 240px;
+        margin-top: 0px;
     }
 
     .app {
@@ -462,12 +503,95 @@
         text-align:center;
         margin-top: -10px;
     }
+
+    .car-head-row.less h3, .profile.less h3 {
+        background: rgba(40,40,40,0.7);
+        padding: 5px 15px;
+        border-radius: 3px;
+    }
+    .less h3 .see-more {
+         display:block;
+        float:right;
+        cursor:pointer;
+        font-size: 20px;
+        margin-top: 3px;
+        .fa {
+            position: relative;
+            top: 3px;
+            right: -3px;
+        }
+    }
+    .more h3 .close-more {
+        display:block;
+        float:right;
+        cursor:pointer;
+        font-size: 20px;
+        margin-top: 3px;
+        .fa {
+            position: relative;
+            top: 3px;
+            right: -3px;
+        }
+    }
+    .less h3 .close-more {
+        display:none;
+    }
+    .more h3 .see-more {
+        display:none;
+    }  
+    .car-body-row.less {
+        display:none;
+    }
+    .car-body-row.more {
+        display:block;
+    }
+    .app .wrapper .user-profile h3 {
+        font-size: 26px;
+        .fa {
+            margin-right: 5px;
+            font-size: 18px;
+        }
+    }
+    .user-info-section {
+        margin-top: 20px;
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .user-info-section.less {
+        display:none;
+    }
+    .user-info-section.more {
+        display:inline-block;
+    }
+    .app .wrapper .user-profile {
+        min-height: 100px;
+        padding: 15px 0;
+    }
+    .app .wrapper .box {
+        margin-top: 30px;
+    }
 }
 
 @media screen and (max-width: 550px) {
+    .app .wrapper {
+        margin-top: 50px;
+    }
+    .app header, .app header nav, .app header nav .navbar-header {
+        height: 50px;
+    }
+    .app header .logo img {
+        max-width: 210px;
+    }
     .app .wrapper .detail-section {
         padding-left: 15px;
         padding-right: 15px;
+    }
+    .app header .logo {
+        top: 11px;
+    }
+    .app header nav .navbar-toggle {
+        top: -1px;
     }
     .app {
         .wrapper {
@@ -758,19 +882,16 @@
     }
     
     .filter-car .filter-field .btn {
-            margin-top: 32px;
+        margin-top: 32px;
     }
+
+    .app .wrapper .shares-list .share-item .detail .info .title {
+        font-size: 20px;
+    }
+    
 }
 
 @media screen and (max-width: 500px) {
-
-    .app header .logo img {
-        max-width: 220px;
-    }
-
-    .app header .logo {
-        top: 25px;
-    }
 
     .container {
         padding: 0;

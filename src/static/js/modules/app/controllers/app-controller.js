@@ -21,6 +21,9 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                     $('.navbar-collapse').removeClass('in');
                 }
                 $timeout(function () {
+                    bindCarSection();
+                    bindUserSection();
+                    setDDD();
                     footer();
                     $scope.viewReady = true;
                 }, 500);

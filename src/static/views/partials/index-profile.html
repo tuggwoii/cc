@@ -1,20 +1,34 @@
-﻿<div class="profile">
-    <div class="profile-image">
-        <img src="/img/noprofile.png" alt="profile" ng-if="!user.image" />
-        <img class="user-profile-image" ng-src="{{user.image.url}}" alt="profile" ng-if="user.image" />
-        <div class="user-menu">
-            <h3 ng-click="navigateTo('#/account')"><span><i class="fa fa-user" aria-hidden="true"></i> {{strings['edit_profile']}}</span></h3>
-            <!--
-            <a class="user-menu-item" ng-click="navigateTo('#/account')">{{strings['edit_profile']}}</a>
-            <a class="user-menu-item" ng-click="navigateTo('#/repairs')">รายการซ่อมบำรุง</a>
-            <a class="user-menu-item" ng-click="navigateTo('#/notifications')">รายการแจ้งเตือน</a>-->
+﻿<div class="profile less">
+
+    <h3 class="hidden-sm hidden-lg hidden-md">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <span>{{user.name}}</span>
+        <span class="see-more">
+            ดูทั้งหมด
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+        </span>
+        <span class="close-more">
+            ปิด
+            <i class="fa fa-angle-up" aria-hidden="true"></i>
+        </span>
+    </h3>
+
+    <div class="user-info-section less">
+        <div class="profile-image">
+            <img src="/img/noprofile.png" alt="profile" ng-if="!user.image" />
+            <img class="user-profile-image" ng-src="{{user.image.url}}" alt="profile" ng-if="user.image" />
+            <div class="user-menu">
+                <a href="/#/account" ng-click="navigateTo('#/account')">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    {{strings['edit_profile']}}
+                </a>
+            </div>
         </div>
-        
+
+        <div class="profile-detail">
+            <img src="/img/logo.png" alt="logo" />
+            <span class="username">{{user.name}}</span>
+        </div>
     </div>
-    
-    <div class="profile-detail">
-        <img src="/img/logo.png" alt="logo" />
-        <!--<span>{{strings['login_by']}}</span>-->
-        <span class="username">{{user.name}}</span>
-    </div>
+   
 </div>

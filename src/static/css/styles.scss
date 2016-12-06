@@ -456,12 +456,21 @@ body {
                     text-decoration: none;
                 }
 
-                img {
-                    max-width: 70px;
-                    border: 3px solid rgb(53, 55, 56);
-                    border-radius: 3px;
-                    background: rgb(53, 55, 56);
+                .index-car-image {
+                    width: 70px;
                     height: 70px;
+                    position:relative;
+                    overflow:hidden;
+                    border: 2px solid rgb(53, 55, 56);
+                    border-radius: 35px;
+                    background: rgb(53, 55, 56);
+                    display: inline-block;
+
+                    img {
+                        width: 100%;
+                        max-width: 66px;
+                        min-height: 66px;
+                    }
                 }
 
                 .detail {
@@ -2203,4 +2212,36 @@ p.payment-cars {
     position:relative;
     max-height: 999px !important;
     vertical-align: middle;
+}
+h3 .close-more {
+    display:none;
+}
+h3 .see-more {
+    display:none;
+} 
+.user-menu a {
+    color: #fff;
+    .fa {
+        color: #f05f23;
+        margin-right: 10px;
+        font-size: 18px;
+    }
+}
+.user-info-section.less {
+    display:inline-block;
+}
+.share-item {
+    border-bottom: 1px dashed #444;
+    
+    .user-name {
+        margin-bottom: 10px;
+    }
+}
+/*one-line*/
+.share-item .user-name, 
+.title.car-model {
+    max-height: 35px;
+}
+.share-item .shop {
+    max-height: 25px;
 }
