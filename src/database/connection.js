@@ -1,7 +1,7 @@
 'use strict';
 var Sequelize = require('sequelize');
 var configs = require('../../config/config');
-var config = require('../../config/config')[configs.env];
+var config = configs[configs.env];
 var sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
     dialect: 'mssql',

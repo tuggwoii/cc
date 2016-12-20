@@ -186,7 +186,6 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
         };
 
         $scope.setRepairPagings = function (meta) {
-
             $scope.repairPagings = [];
             $scope.repairTotal = meta.count;
             if (meta.count && meta.limits) {
@@ -238,7 +237,6 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
 
         $scope.filterRepair = function () {
             $rootScope.$broadcast(Event.Load.Display);
-            console.log($scope.repair_query);
             RepairService.get($scope.repairPage, $scope.repair_query).then(function (res) {
                 $scope.repairs = res.data;
                 initModel($scope.repairs);

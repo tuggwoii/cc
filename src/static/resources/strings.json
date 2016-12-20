@@ -92,7 +92,7 @@
   "repair_selec_car_description": "คลิ๊กที่รถของท่านด้านบนเพื่อเลือกรถสำหรับการซ่อมบำรุงนี้",
   "repairs_selec_car_description": "คลิ๊กที่รถของท่านด้านบนเพื่อเลือกดูการซ่อมบำรุงสำหรับคันนั้นๆ",
   "repair_date_label": "วันที่",
-  "repair_mile_label": "เลขกิโลเมตรที่",
+  "repair_mile_label": "เลข กม. ที่",
   "register": "สมัครสมาชิก",
   "register_header": "สมัครสมาชิกฟรี",
   "required": "กรุณากรอก",

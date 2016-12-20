@@ -1174,7 +1174,7 @@ body {
                 color: #f55d22;
                 font-weight: bold;
                 font-size: 24px;
-                width: 120px;
+                width: auto;
                 line-height: 1.1;
                 margin: 5px 0px;
             }
@@ -1291,6 +1291,7 @@ body {
 
                 span {
                     font-size: 24px;
+                    padding-left: 5px;
                 }
 
                 .info-column {
@@ -2243,5 +2244,22 @@ h3 .see-more {
     max-height: 35px;
 }
 .share-item .shop {
-    max-height: 25px;
+    max-height: 35px;
+}
+.app .subpage ul.car-repair-list li .date,
+.app .subpage ul.car-repair-list li .title,
+.app .subpage ul.car-repair-list li .detail {
+    display: inline;
+    font-size: 22px;
+}
+.app .subpage ul.car-repair-list li .fa {
+    font-size: 16px;
+    position: relative;
+    top: 1px;
+}
+span.block {
+    display:block;
+}
+.app .subpage .list ul li .repair-list-detail {
+    width: 100%;
 }

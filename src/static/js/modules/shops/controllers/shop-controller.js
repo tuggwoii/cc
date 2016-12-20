@@ -10,6 +10,9 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
         $scope.from_car = $scope.params.car ? true : false;
         $scope.provinces = [];
         $scope.isCreator = false;
+        $scope.isCanEdit = ($scope.params.cd == 'true' ? true : false);
+
+        console.log($scope.params.cd);
 
         function getById() {
             ShopService.getById($scope.params.id).then(function (data) {

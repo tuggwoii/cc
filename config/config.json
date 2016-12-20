@@ -1,6 +1,16 @@
 {
   "development": {
     "username": "tugg",
+    "password": "tugg2014",
+    "database": "carcare",
+    "host": "localhost",
+    "dialect": "mssql",
+    "dialectOptions": {
+      "encrypt": true
+    }
+  },
+  "_development": {
+    "username": "tugg",
     "password": "tugg2015",
     "database": "carcare",
     "host": "localhost",

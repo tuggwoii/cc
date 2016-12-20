@@ -87,14 +87,14 @@
                                 <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
                                 <span class="title">{{n.title}}</span>
                                 <!--<span class="title">{{n.title}}</span>
-        <span class="detail">{{n.detail}}</span>
-        <span class="date">กิโลเมตรที่: {{n.mile}}</span>
-        <span class="status">
-            <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
-            <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
-        </span>-->
-                                </a>
-</li>
+                                <span class="detail">{{n.detail}}</span>
+                                <span class="date">กิโลเมตรที่: {{n.mile}}</span>
+                                <span class="status">
+                                    <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
+                                    <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
+                                </span>-->
+                            </a>
+                        </li>
                     </ul>
                     <ul class="paging" ng-if="milePagings.length>1">
                         <li ng-click="gotoMilePage(1)"><<</li>
@@ -115,16 +115,15 @@
                             <a href="#/notification?id={{n.id}}&car={{car.id}}">
                                 <span>{{n.date_str}} | </span>
                                 <span class="title">{{n.title}}</span>
+                                
                                 <!--<span class="title">{{n.title}}</span>
-    <span class="detail">{{n.detail}}</span>
-    <span class="date">{{n.date_str}}</span>
-    <span class="status">
-        <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
-        <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
-    </span>-->
-
+                                <span class="detail">{{n.detail}}</span>
+                                <span class="date">{{n.date_str}}</span>
+                                <span class="status">
+                                    <span class="state-open" ng-if="n.enable">{{strings['open']}}</span>
+                                    <span class="state-close" ng-if="!n.enable">{{strings['close']}}</span>
+                                </span>-->
                             </a>
-                            
                         </li>
                     </ul>
                     <ul class="paging" ng-if="datePagings.length>1">
@@ -168,7 +167,7 @@
                             <tr>
                                 <td>วันที่เข้าทำ</td>
                                 <td>ร้านที่ทำ</td>
-                                <td>เลขกิโลเมตร</td>
+                                <td>เลข กม.</td>
                                 <td>รวมราคา</td>
                                 <td>หมายเหตุ</td>
                             </tr>
@@ -182,10 +181,10 @@
                                     <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.shop?repair.shop.name:'ไม่ระบุ'}}</a>
                                 </td>
                                 <td>
-                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.mile?repair.mile:'ไม่ระบุ'}}</a>
+                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.mile?repair.mile.formatMoney(0, '.', ','):'ไม่ระบุ'}}</a>
                                 </td>
                                 <td>
-                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.price?repair.price:'0'}}</a>
+                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.price?repair.price.formatMoney(0, '.', ','):'0'}}</a>
                                 </td>
                                 <td>
                                     <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.remark?repair.remark:'-'}}</a>
@@ -193,19 +192,23 @@
                             </tr>
                         </tbody>
                     </table>
-                    <ul ng-if="repairs.length" class="hidden-lg hidden-md">
+                    <ul ng-if="repairs.length" class="hidden-lg hidden-md car-repair-list">
                         <li ng-repeat="repair in repairs" ng-click="navigateTo('#/repair?id=' + repair.id + '&car='+ car.id)">
-                            <span class="notification-detail">
-                                <span class="title">{{repair.title}}</span>
-                                <span class="detail">{{repair.remark}}</span>
-                                <span class="date">{{strings['repair_date_label']}}: {{repair.date_str}}</span>
-                                <span class="date">{{strings['repair_mile_label']}}: {{repair.mile}} {{strings['kilometer']}}</span>
+                            <span class="notification-detail repair-list-detail">
+                                <span class="block">
+                                    <span class="date">{{strings['repair_date_label']}}: {{repair.date_str}}, </span>
+                                    <span class="title">{{repair.title}}</span>
+                                </span>
+                                <span class="block">
+                                    <span class="detail"><i class="fa fa-map-marker"></i> {{repair.shop?repair.shop.name:'ไม่ระบุร้าน'}}, </span>
+                                    <span class="date">{{strings['repair_mile_label']}}: {{repair.mile.formatMoney(0, '.', ',')}}</span>
+                                </span>
                             </span>
-
+                            <!--
                             <span class="status">
                                 <span class="state-open" ng-if="repair.share">{{strings['share']}}</span>
                                 <span class="state-close" ng-if="!repair.share">{{strings['not_share']}}</span>
-                            </span>
+                            </span>-->
                         </li>
                     </ul>
                     <ul class="paging" ng-if="repairPagings.length > 1">
@@ -235,8 +238,8 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="shop in shops" ng-click="navigateTo('#/shop?id=' + shop.id + '&car='+ car.id)">
-                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}">{{shop.name}}</a></td>
-                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}">{{shop.province?shop.province_str:'ไม่ระบุ'}}</a></td>
+                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}&cd=true">{{shop.name}}</a></td>
+                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}&cd=true">{{shop.province?shop.province_str:'ไม่ระบุ'}}</a></td>
                             </tr>
                         </tbody>
                     </table>

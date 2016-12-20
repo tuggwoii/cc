@@ -249,16 +249,18 @@ class ShopApi extends BaseApi {
         context.validateUpdate(shop).then(function () {
             context.getShopById(shop.id).then(function (_shop) {
                 if (_shop) {
+                    /*
                     if (_shop.create_by == req.user.id) {
-                        _shop.updateAttributes(shop).then(function (_updated_shop) {
-                            context.success(req, res, _updated_shop);
-                        }).catch(function (err) {
-                            context.error(req, res, err, 500);
-                        });
+                       
                     }
                     else {
                         context.denied(res);
-                    }
+                    }*/
+                    _shop.updateAttributes(shop).then(function (_updated_shop) {
+                        context.success(req, res, _updated_shop);
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
                 }
                 else {
                     context.notfound(res);
