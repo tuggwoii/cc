@@ -157,6 +157,8 @@ class ShopApi extends BaseApi {
         var conditions = {};
         var user_limits = limits;
         var p = 1;
+        
+        console.log(conditions);
         if (queries['q']) {
             conditions.name = { like: '%' + queries['q'] + '%'};
         }
@@ -172,10 +174,18 @@ class ShopApi extends BaseApi {
         if (queries['c']) {
             conditions.province = queries['c'];
         }
+        if (queries['using_count']) {
+            conditions = {
+                $and: [
+                    sequelize.where(sequelize.literal('(SELECT COUNT(*) FROM repairs WHERE repairs.shopId = shops.id)'), { $gte: queries['using_count'] }),
+                    conditions
+                ]
+            };
+        }
         var skip = user_limits * (p - 1);
 
         Shop.all({
-            where: conditions,
+            
             attributes: [
                 'id',
                 'name',
@@ -186,6 +196,7 @@ class ShopApi extends BaseApi {
                 'province',
                 [sequelize.literal('(SELECT COUNT(*) FROM repairs WHERE repairs.shopId = shops.id)'), 'RepairCount']
             ],
+            where: conditions,
             order: [["rating", "DESC"], [sequelize.literal('RepairCount'), 'DESC']],
             include: [
                 { model: User, as: 'create_user', include: [{ model: Image } ] },

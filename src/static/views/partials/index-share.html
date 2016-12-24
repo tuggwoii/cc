@@ -5,7 +5,7 @@
         <div class="row shares-list shares-list-index" ng-if="shares.length">
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares">
                 <a class="share-item animated fadeIn" href="/share/{{s.id}}">
-                    <div class="user-name" title="{{s.title}}">
+                    <div class="user-name hidden-xs" title="{{s.title}}">
                         {{s.title}}
                     </div>
                     <div class="detail">
@@ -14,14 +14,21 @@
                             <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
                         </div>
                         <div class="info">
+                            <div class="user-name hidden-sm hidden-lg hidden-md" title="{{s.title}}">
+                                {{s.title}}
+                            </div>
                             <div class="title car-model" title="{{(s.car.brand + ' ' + s.car.series)}}">
                                 {{ (s.car.brand + ' ' + s.car.series) }}
                             </div>
                             <div class="price">ทั้งหมด {{s.price?s.price:0}} บาท</div>
                             <rating-star rating="s.score"></rating-star>
+                            <div class="shop hidden-sm hidden-lg hidden-md" title="{{s.shop?s.shop.name:'ไม่ระบุ'}}">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                {{s.shop?s.shop.name:'ไม่ระบุ'}}
+                            </div>
                         </div>
                     </div>
-                    <div class="shop" title="{{s.shop?s.shop.name:'ไม่ระบุ'}}">
+                    <div class="shop hidden-xs" title="{{s.shop?s.shop.name:'ไม่ระบุ'}}">
                         <i class="fa fa-map-marker" aria-hidden="true"></i> 
                         {{s.shop?s.shop.name:'ไม่ระบุ'}}
                     </div>
