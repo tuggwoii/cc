@@ -7,12 +7,10 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
         $scope.months = Helper.monthArray();
         $scope.params = $location.search();
         $scope.carId = $scope.params.car;
-        $scope.from_car = $scope.params.car ? true : false;
+        $scope.from_car = false;
         $scope.provinces = [];
         $scope.isCreator = false;
-        $scope.isCanEdit = ($scope.params.cd == 'true' ? true : false);
-
-        console.log($scope.params.cd);
+        $scope.isCanEdit = false;
 
         function getById() {
             ShopService.getById($scope.params.id).then(function (data) {
@@ -41,6 +39,9 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
                     model.province_str = p.th;
                 }
             });
+            if ($scope.params.car) {
+                $scope.from_car = true;
+            }
             if (model.map) {
                 $timeout(function () {
                     $('.map').append(model.map);
@@ -48,6 +49,9 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
             }
             if ($scope.user && model.create_by == $scope.user.id) {
                 $scope.isCreator = true;
+            }
+            if ($scope.params.cd == 'true') {
+                $scope.isCanEdit = true;
             }
         }
 

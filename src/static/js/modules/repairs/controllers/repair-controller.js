@@ -47,6 +47,9 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                     }
                 });
                 initScroll();
+                $timeout(function () {
+                    shopExpandCollapse();
+                }, 500);
             });
         }
 
@@ -105,6 +108,19 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                     click: true
                 });
             }, 200);
+        }
+
+        function shopExpandCollapse() {
+
+            $('.shop-detail-on-repair .see-more').unbind('click');
+            $('.shop-detail-on-repair .close-more').unbind('click');
+
+            $('.shop-detail-on-repair .see-more').click(function () {
+                $(this).parents('.shop-detail-on-repair').addClass('active');
+            });
+            $('.shop-detail-on-repair .close-more').click(function () {
+                $(this).parents('.shop-detail-on-repair').removeClass('active');
+            });
         }
 
         $scope.repairPage = function () {

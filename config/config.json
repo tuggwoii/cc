@@ -1,5 +1,5 @@
 {
-  "development": {
+  "_development": {
     "username": "tugg",
     "password": "tugg2014",
     "database": "carcare",
@@ -9,7 +9,7 @@
       "encrypt": true
     }
   },
-  "_development": {
+  "development": {
     "username": "tugg",
     "password": "tugg2015",
     "database": "carcare",

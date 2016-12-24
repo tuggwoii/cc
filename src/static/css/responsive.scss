@@ -57,21 +57,26 @@
         max-width: 240px;
         margin-top: 8px;
     }
+
     .app header .navbar-right .login-button-container .btn.btn-default {
         min-width: 90px;
     }
+
     .app header nav .navbar-collapse {
         padding: 24px 15px 0;
     }
+
     .app header .navbar-right a {
         padding: 0 15px;
     }
 }
+
 @media screen and (max-width: 1120px) {
     .shares-list-index .col-lg-4 {
         width: 100%;
     }
 }
+
 @media screen and (max-width: 992px) {
     .app header nav {
         .navbar-header {
@@ -171,8 +176,9 @@
     .shares-list-index .col-lg-4 {
         width: 50%;
     }
+
     .app .wrapper .car-page .repair-filter .form-group {
-            width: 43%;
+        width: 43%;
     }
 }
 
@@ -180,13 +186,16 @@
     .app .notification-page .noti-filter .form-group {
         width: 50%;
     }
+
     .app .notification-page .noti-filter .form-group:last-of-type {
         padding-right: 0px;
     }
+
     .filter-form-section {
         display: inline-block;
-        width:100%;
+        width: 100%;
     }
+
     .app .notification-page .noti-filter button {
         margin-top: 5px;
     }
@@ -197,12 +206,15 @@
     .shares-list-index .col-lg-4 {
         width: 100%;
     }
+
     .app .wrapper {
         margin-top: 60px;
     }
+
     .app header, .app header nav, .app header nav .navbar-header {
         height: 60px;
     }
+
     .app h1 {
         font-size: 28px;
     }
@@ -301,7 +313,7 @@
         border-bottom: 1px dashed #444;
     }
 
-    .app .wrapper .shares-list  .share-item {
+    .app .wrapper .shares-list .share-item {
         height: auto;
         border-bottom: 1px dashed #444;
         padding-bottom: 15px;
@@ -382,7 +394,7 @@
     }
 
     .app .wrapper .detail-section {
-        padding-bottom: 50px;
+        padding-bottom: 15px;
     }
 
     .app .wrapper .detail-section .info {
@@ -400,7 +412,7 @@
         padding: 10px 25px 50px 25px;
     }
 
-    .app .wrapper .detail-section .info span, 
+    .app .wrapper .detail-section .info span,
     .app .wrapper .detail-section .info a {
         display: inline;
         padding-left: 5px;
@@ -466,28 +478,30 @@
     }
 
     .editcar .section .image, .newcar .section .image {
-        position:absolute;
+        position: absolute;
         top: 0;
         height: 240px;
         margin-left: 50%;
-        transform:translateX(-50%);
+        transform: translateX(-50%);
     }
 
-    .editcar form .left, .newcar  form .left {
-       padding-top: 260px;
+    .editcar form .left, .newcar form .left {
+        padding-top: 260px;
     }
+
     .section .image img {
         max-height: 160px;
     }
+
     .subpage form {
         position: relative;
     }
 
-    .user.subpage  form {
+    .user.subpage form {
         padding-top: 280px;
     }
 
-    .app .wrapper .user .sm-to-left{
+    .app .wrapper .user .sm-to-left {
         position: absolute;
         top: 0;
     }
@@ -496,15 +510,17 @@
         padding-left: 40px;
         padding-right: 40px;
     }
+
     .app .wrapper .detail-section .edit-link {
-        display:inline-block;
+        display: inline-block;
     }
+
     .edit-shop-button {
-       right: auto !important;
+        right: auto !important;
     }
 
     .repair-shop-button {
-        text-align:center;
+        text-align: center;
         margin-top: -10px;
     }
 
@@ -513,65 +529,80 @@
         padding: 5px 15px;
         border-radius: 3px;
     }
+
     .less h3 .see-more {
-         display:block;
-        float:right;
-        cursor:pointer;
+        display: block;
+        float: right;
+        cursor: pointer;
         font-size: 20px;
         margin-top: 3px;
+
         .fa {
             position: relative;
             top: 3px;
             right: -3px;
         }
     }
+
     .more h3 .close-more {
-        display:block;
-        float:right;
-        cursor:pointer;
+        display: block;
+        float: right;
+        cursor: pointer;
         font-size: 20px;
         margin-top: 3px;
+
         .fa {
             position: relative;
             top: 3px;
             right: -3px;
         }
     }
+
     .less h3 .close-more {
-        display:none;
+        display: none;
     }
+
     .more h3 .see-more {
-        display:none;
-    }  
+        display: none;
+    }
+
     .car-body-row.less {
-        display:none;
+        display: none;
     }
+
     .car-body-row.more {
-        display:block;
+        display: block;
     }
+
     .app .wrapper .user-profile h3 {
         font-size: 26px;
+
         .fa {
             margin-right: 5px;
             font-size: 18px;
         }
     }
+
     .user-info-section {
         margin-top: 20px;
         display: inline-block;
         width: 100%;
         margin-bottom: 20px;
     }
+
     .user-info-section.less {
-        display:none;
+        display: none;
     }
+
     .user-info-section.more {
-        display:inline-block;
+        display: inline-block;
     }
+
     .app .wrapper .user-profile {
         min-height: 100px;
         padding: 15px 0;
     }
+
     .app .wrapper .box {
         margin-top: 30px;
     }
@@ -579,15 +610,15 @@
     .app .wrapper .car-page .repair-filter .form-group {
         width: 38%;
     }
-	
+
     .app .wrapper .car-page .repair-filter button {
         height: 38px;
     }
-	
+
     .app .wrapper .shop-page .detail-section .info {
         width: 100%;
-	}
-	
+    }
+
     .app .wrapper .shares-list .share-item .detail .image {
         width: 90px;
         height: 90px;
@@ -598,10 +629,58 @@
         width: calc(100% - 90px);
         padding: 5px 0px 5px 30px;
     }
-	
+
     .app .wrapper .shares-list .share-item .shop {
         margin-top: 5px;
+    }
+    .shop-detail-on-repair {
+        .few {
+            display:block;
 
+            .title {
+                line-height: 0.9;
+                width: 80%;
+                display:inline-block;
+            }
+            .see-more {
+                display: block;
+                float: right;
+                cursor: pointer;
+                font-size: 20px;
+                position:relative;
+                top: -3px;
+
+                .fa {
+                    margin-right: 5px;
+                    font-size: 18px;
+                    color: #f05f23;
+                }
+            }
+        }
+        .full {
+            display:none;
+        }
+    }
+    .shop-detail-on-repair.active {
+        .few {
+            display:none;
+        }
+        .full {
+            display:block;
+
+            .close-more {
+                display: block;
+                float: right;
+                cursor: pointer;
+                font-size: 20px;
+
+                .fa {
+                    margin-right: 5px;
+                    font-size: 18px;
+                    color: #f05f23;
+                }
+            }
+        }
     }
 }
 
@@ -609,22 +688,28 @@
     .app .wrapper {
         margin-top: 50px;
     }
+
     .app header, .app header nav, .app header nav .navbar-header {
         height: 50px;
     }
+
     .app header .logo img {
         max-width: 210px;
     }
+
     .app .wrapper .detail-section {
         padding-left: 15px;
         padding-right: 15px;
     }
+
     .app header .logo {
         top: 11px;
     }
+
     .app header nav .navbar-toggle {
         top: -1px;
     }
+
     .app {
         .wrapper {
 
@@ -675,7 +760,6 @@
         width: auto;
         display: inline;
         line-height: 1.3;
-
     }
 
     .app .wrapper .subpage {
@@ -705,112 +789,141 @@
         height: 32px;
         min-width: 90px;
     }
+
     .app .wrapper .detail-section .edit-link {
         height: 32px;
         min-width: 100px;
-        top: -48px
+        top: -48px;
     }
+
     .app .wrapper .car-page .repair-filter .form-group {
         width: 49.2%;
     }
+
     .app .wrapper .car-page .repair-filter .form-group:last-of-type {
-        padding-right:0
+        padding-right: 0;
     }
+
     .app .wrapper .car-page .repair-filter button {
         min-width: 60px;
         margin-top: 25px;
         height: 40px;
     }
+
     .app .wrapper .box h3 {
-        padding-left:15px;
+        padding-left: 15px;
         padding-right: 15px;
     }
+
     .app .wrapper .detail-section .summary-price {
         font-size: 22px;
-        text-align:center;
+        text-align: center;
     }
+
     .app .wrapper .detail-section .summary-price .price {
-         font-size: 24px;
+        font-size: 24px;
     }
+
     .app .wrapper .shares-page .container .share-item .detail .info {
         padding-left: 20px;
     }
+
     .app .wrapper .shares-page .container .share-item {
         margin-top: 20px;
     }
+
     .app header .navbar-right .login-button-container .login-popup {
         height: 310px;
     }
+
     .app .breadcrumb {
         padding: 15px 15px 8px 15px;
     }
+
     .editcar .section .image, .newcar .section .image {
         top: 0;
     }
-    .editcar form,  .newcar form {
+
+    .editcar form, .newcar form {
         position: relative;
     }
+
     form .btn-container {
         margin-top: 20px;
     }
+
     .repair-form .btn-container, .shop-form .btn-container {
         margin-top: 0px;
     }
+
     form .btn-container button {
         height: 40px;
         min-width: 120px;
         font-size: 22px;
     }
-    
+
     .app .share-link {
-        font-size: 26px
+        font-size: 26px;
     }
+
     .app .del-repail {
         height: 40px;
         min-width: 120px;
         font-size: 22px;
     }
+
     h2 {
         font-size: 28px;
     }
+
     .app .wrapper .detail-section .summary-price, .app .wrapper .detail-section .summary-score {
-         font-size: 22px;
+        font-size: 22px;
     }
+
     .app .repair-detail .form-group label, .app .share-detail-page .form-group label {
-         font-size: 22px;
+        font-size: 22px;
     }
+
     .toggle {
         height: 40px;
     }
+
     .toggle span.choice {
         padding: 5px 10px;
     }
+
     .toggle span.yes {
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px;
     }
+
     .toggle span.no {
         border-top-right-radius: 20px;
         border-bottom-right-radius: 20px;
     }
+
     .popup-panel {
         width: 100% !important;
         height: 100% !important;
-        margin:0 !important;
-        left:0 !important;
+        margin: 0 !important;
+        left: 0 !important;
         top: 0 !important;
     }
+
     .popup-container .popup-panel.workpopup .btn {
         height: 40px;
         min-width: 120px;
         font-size: 22px;
     }
+
     .repair-images .col-xs-12 {
         padding: 0px !important;
     }
+
     .app .wrapper .shop-page .detail-section .info {
         width: 100%;
     }
+
     .section .shop-image {
         height: 240px;
         margin-left: 50%;
@@ -820,10 +933,12 @@
             max-height: 999px;
         }
     }
+
     .section .image-container {
         height: 160px;
         overflow: hidden;
     }
+
     .app .wrapper .notification-page {
         h1 {
             .btn {
@@ -835,45 +950,56 @@
                 top: 5px;
 
                 .fa {
-                        font-size: 15px;
+                    font-size: 15px;
                 }
             }
         }
+
         .car-filter {
-            padding-left:0;
-            padding-right:0;
+            padding-left: 0;
+            padding-right: 0;
         }
     }
+
     .app .notification-page .noti-filter button {
         margin-top: 10px;
         min-width: 55px;
         height: 45px;
     }
+
     .app .wrapper .notification-detail-section .info .info-column {
         max-width: 100%;
         width: 100%;
     }
+
     .app .wrapper .detail-section .info .info-column {
         padding-left: 0;
     }
+
     .app .wrapper .notification-detail-section .info a {
         padding-left: 0;
     }
+
     .app .wrapper .works .works-title h2 {
         font-size: 35px;
     }
+
     .back-office .wrapper .subpage {
-       padding: 10px 15px 50px 15px;
+        padding: 10px 15px 50px 15px;
     }
+
     .admin-dashboard {
-            padding: 20px 0;
+        padding: 20px 0;
     }
+
     .admin-dashboard span {
         font-size: 22px;
     }
+
     .back-office .container {
-        padding:0 30px;
+        padding: 0 30px;
     }
+
     .app .wrapper .backend-user h2 button {
         float: right;
         position: relative;
@@ -881,6 +1007,7 @@
         height: 35px;
         min-width: 90px;
     }
+
     .back-office .work-popup {
         .btn {
             margin-top: 20px;
@@ -889,24 +1016,30 @@
             font-size: 22px;
         }
     }
+
     .back-office .pages-table {
-            min-width: 600px;
+        min-width: 600px;
     }
+
     .app .wrapper .backend-user .detail-field {
         font-size: 24px;
         line-height: 1.3;
     }
+
     .backend-user form .btn-container button {
-        float:left;
+        float: left;
     }
+
     .short-field {
         width: 100%;
     }
+
     .app .wrapper {
         .backend-user {
             label {
                 line-height: 1.1;
             }
+
             .sort-section {
                 .form-group {
                     width: 47%;
@@ -914,7 +1047,7 @@
             }
         }
     }
-    
+
     .filter-car .filter-field .btn {
         margin-top: 32px;
     }
@@ -922,7 +1055,18 @@
     .app .wrapper .shares-list .share-item .detail .info .title {
         font-size: 20px;
     }
+
+    h2 .btn-action {
+
+        .btn {
+            height: 32px;
+            min-width: 100px;
+            font-size: 24px;
+            top: -2px;
+        }
+    }
 }
+
 
 @media screen and (max-width: 500px) {
 
@@ -939,12 +1083,22 @@
         padding-left: 15px;
         padding-right: 15px;
     }
+    h2 .edit-repair-shop-button {
+        display: block;
+        float: none;
+        text-align: right;
+        padding: 5px 0;
+    }
 }
 
 @media screen and (max-width: 450px) {
     .app .wrapper .shares-list .share-item .detail .info {
         padding: 5px 0px 5px 20px;
     }
+    h2 .edit-repair-info-button {
+        display: block;
+        float: none;
+        text-align: right;
+        padding: 5px 0;
+    }
 }
-
-

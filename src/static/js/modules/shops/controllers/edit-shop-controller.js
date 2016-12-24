@@ -170,7 +170,6 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         $scope.editShop();
 
         function checkSize() {
-            console.log($(window).width());
             if ($(window).width() <= 750) {
                 $scope.imageTop = true;
             }

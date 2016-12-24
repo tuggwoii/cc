@@ -9,6 +9,9 @@
                 <li>
                     <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
                 </li>
+                <li ng-if="from_car">
+                    <a ng-click="navigateTo('#/car?id='+carId)">Car ></a>
+                </li>
                 <li>{{model.name}}</li>
             </ul>
         </div>

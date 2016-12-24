@@ -123,6 +123,29 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
             }
         };
 
+        $scope.workgroupChange = function () {
+            console.log($scope.query.work);
+            if ($scope.query.work) {
+                angular.forEach($scope.workgroup, function (w) {
+                    if ($scope.query.work == w.id) {
+                        w.active = true;
+                    }
+                    else {
+                        w.active = false;
+                    }
+                });
+            }
+            else {
+                angular.forEach($scope.workgroup, function (w) {
+                    w.active = false;
+                });
+                if ($scope.query.work) {
+                    delete $scope.query['work'];
+                }
+            }
+            $scope.getAll(true);
+        };
+
         $scope.pickCar = function (car) {
             $scope.navigateTo('#/car?id=' + car.id);
         };

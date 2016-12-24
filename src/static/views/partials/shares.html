@@ -10,19 +10,25 @@
                 <div class="container">
                     <div class="works-title">
                         <h2>กลุ่มงานซ่อม</h2>
-                        <span>คลิ๊กเพื่อเลือกงานซ่อมที่สนใจ</span>
+                        <span class="hidden-xs">คลิ๊กเพื่อเลือกงานซ่อมที่สนใจ</span>
+                        <span class="hidden-sm hidden-md hidden-lg">เลือกงานซ่อมที่สนใจ</span>
                     </div>
-                    <div class="works-container">
-
+                    <div class="works-container hidden-xs">
                         <div class="work-list">
                             <div class="work-item {{query.work?'':'active'}}" ng-click="selectWorkgroup()">{{strings['general_work']}}</div>
                             <div class="work-item {{work.active?'active':''}}" ng-repeat="work in workgroup" ng-click="selectWorkgroup(work)">{{work.name}}</div>
                         </div>
-
                     </div>
-                    <div class="navs">
+                    <div class="navs hidden-xs">
                         <i class="fa fa-angle-left"></i>
                         <i class="fa fa-angle-right"></i>
+                    </div>
+                    <div class="form-group hidden-sm hidden-md hidden-lg">
+                        <label>บริการ</label>
+                        <select ng-model="query.work" class="form-control" ng-change="workgroupChange()">
+                            <option value="">{{strings['general_work']}}</option>
+                            <option ng-repeat="work in workgroup" value="{{work.id}}">{{work.name}}</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -47,12 +53,12 @@
                         <div class="form-group">
                             <label>คะแนน (ดาว)</label>
                             <select class="form-control" ng-model="query.rating">
-                                <option value=""></option>
-                                <option value="1">1 ดาว</option>
-                                <option value="2">2 ดาว</option>
-                                <option value="3">3 ดาว</option>
-                                <option value="4">4 ดาว</option>
-                                <option value="5">5 ดาว</option>
+                                <option value="">ทั้งหมด</option>
+                                <option value="1">1 ดาวขึ้นไป</option>
+                                <option value="2">2 ดาวขึ้นไป</option>
+                                <option value="3">3 ดาวขึ้นไป</option>
+                                <option value="4">4 ดาวขึ้นไป</option>
+                                <option value="5">5 ดาวขึ้นไป</option>
                             </select>
                         </div>
                         <button type="button" class="btn btn-danger" ng-click="getAll(true)"><i class="fa fa-search"></i></button>

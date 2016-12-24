@@ -237,7 +237,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="shop in shops" ng-click="navigateTo('#/shop?id=' + shop.id + '&car='+ car.id)">
+                            <tr ng-repeat="shop in shops">
                                 <td><a href="#/shop?id={{shop.id}}&car={{car.id}}&cd=true">{{shop.name}}</a></td>
                                 <td><a href="#/shop?id={{shop.id}}&car={{car.id}}&cd=true">{{shop.province?shop.province_str:'ไม่ระบุ'}}</a></td>
                             </tr>
