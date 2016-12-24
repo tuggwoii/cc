@@ -41,20 +41,12 @@
     -webkit-font-smoothing: antialiased;
 }
 
-body {
-    overflow-y: scroll;
-}
-.android .wrapper {
-	max-width: 100% !important;
-    height: 1px !important;
-}
 .app {
     margin: 0;
     padding: 0;
-    width: 100%;
+    display:block;
     font-family: 'saraban-new', 'gotham-light', sans-serif;
     font-size: 24px;
-    overflow-x: hidden;
     background: rgb(27,21,21);
     color: #fff;
 
@@ -478,6 +470,8 @@ body {
                     display: inline-block;
                     width: calc(100% - 95px);
                     overflow: hidden;
+                    position:relative;
+                    top: -5px;
 
                     span {
                         display: block;
@@ -939,6 +933,7 @@ body {
 
             p {
                 margin-left: 3.33%;
+                padding-top: 10px;
             }
         }
 
@@ -957,8 +952,7 @@ body {
             .container {
 
                 .shares-list {
-                    display: inline-block;
-                    width: 100%;
+                   
                 }
 
                 .loadMore {
@@ -2243,5 +2237,9 @@ h3 .see-more {
     max-height: 35px;
 }
 .share-item .shop {
-    max-height: 25px;
+    max-height: 30px;
+}
+.nplr {
+    padding-left:0 !important;
+    padding-right: 0 !important;
 }

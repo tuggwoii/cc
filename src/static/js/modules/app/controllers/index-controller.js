@@ -10,6 +10,11 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
         };
         $scope.provinces = [];
 
+        var limmits = 12;
+        if (IsMobile()) {
+            limmits = 5;
+        }
+
         function initModel(items) {
             angular.forEach(items, function (i) {
                 i.date_str = Helper.readableDate(i.date);
@@ -50,10 +55,10 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
                 WorkgroupService.get().then(function (res) {
                     $scope.workgroup = angular.copy(res.data);
                 }),
-                ShareService.get(1, { limits: 12 }).then(function (res) {
+                ShareService.get(1, { limits: limmits }).then(function (res) {
                     $scope.shares = res.data;
                 }),
-                ShopService.get($scope.shop_query.page).then(function (res) {
+                ShopService.get($scope.shop_query.page, '', '', '', 5).then(function (res) {
                     $scope.shops = res.data;
                     angular.forEach($scope.shops, function (s) {
                         angular.forEach($scope.provinces, function (p) {
@@ -90,10 +95,10 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
                 WorkgroupService.get().then(function (res) {
                     $scope.workgroup = angular.copy(res.data);
                 }),
-                ShareService.get(1, { limits: 12 }).then(function (res) {
+                ShareService.get(1, { limits: limmits }).then(function (res) {
                     $scope.shares = res.data;
                 }),
-                ShopService.get($scope.shop_query.page).then(function (res) {
+                ShopService.get($scope.shop_query.page, '', '', '', 5).then(function (res) {
                     $scope.shops = res.data;
                     angular.forEach($scope.shops, function (s) {
                         angular.forEach($scope.provinces, function (p) {
@@ -167,7 +172,7 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
             $scope.shop_query.page = 1;
             $rootScope.$broadcast(Event.Load.Display);
             $scope.shop_query.isLoad = true;
-            ShopService.get($scope.shop_query.page, '', $scope.shop_query.services, $scope.shop_query.province).then(function (res) {
+            ShopService.get($scope.shop_query.page, '', $scope.shop_query.services, $scope.shop_query.province, 5).then(function (res) {
                 $scope.shops = res.data;
                 angular.forEach($scope.shops, function (s) {
                     angular.forEach($scope.provinces, function (p) {
@@ -227,6 +232,20 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
                 $scope.shop_query.services = '';
             }
             $scope.loadShop();
+        };
+
+        $scope.shopWorkChange = function () {
+            
+            angular.forEach($scope.workgroup, function (_w) {
+                if ($scope.shop_query.services == _w.name) {
+                    _w.active = true;
+                }
+                else {
+                    _w.active = false;
+                }
+            });
+            $scope.loadShop();
+            console.log($scope.shop_query.services);
         };
 
         $scope.pickCar = function (car) {

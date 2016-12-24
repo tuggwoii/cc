@@ -1,85 +1,94 @@
 ﻿<div ng-controller="SharesController" class="shares-page">
-    <div class="row user-profile animated fadeIn" ng-if="user.id">
+    <div class="user-profile animated fadeIn" ng-if="user.id">
         <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
         <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
     </div>
-    <div class="row">
-        <div class="col-xs-12 works npad">
-            <div class="container">
-                <div class="works-title">
-                    <h2>กลุ่มงานซ่อม</h2>
-                    <span>คลิ๊กเพื่อเลือกงานซ่อมที่สนใจ</span>
-                </div>
-                <div class="works-container">
+    <div class="container-fluid">
 
-                    <div class="work-list">
-                        <div class="work-item {{query.work?'':'active'}}" ng-click="selectWorkgroup()">{{strings['general_work']}}</div>
-                        <div class="work-item {{work.active?'active':''}}" ng-repeat="work in workgroup" ng-click="selectWorkgroup(work)">{{work.name}}</div>
+        <div class="row">
+            <div class="col-xs-12 works">
+                <div class="container">
+                    <div class="works-title">
+                        <h2>กลุ่มงานซ่อม</h2>
+                        <span>คลิ๊กเพื่อเลือกงานซ่อมที่สนใจ</span>
                     </div>
+                    <div class="works-container">
 
+                        <div class="work-list">
+                            <div class="work-item {{query.work?'':'active'}}" ng-click="selectWorkgroup()">{{strings['general_work']}}</div>
+                            <div class="work-item {{work.active?'active':''}}" ng-repeat="work in workgroup" ng-click="selectWorkgroup(work)">{{work.name}}</div>
+                        </div>
+
+                    </div>
+                    <div class="navs">
+                        <i class="fa fa-angle-left"></i>
+                        <i class="fa fa-angle-right"></i>
+                    </div>
                 </div>
-                <div class="navs">
-                    <i class="fa fa-angle-left"></i>
-                    <i class="fa fa-angle-right"></i>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="filters col-xs-12">
+                <div class="container">
+                    <div class="field-container">
+                        <div class="form-group">
+                            <label>จังหวัด</label>
+                            <select class="form-control" ng-model="query.title">
+                                <option value="">ทั้งหมด</option>
+                                <option value="{{p.key}}" ng-repeat="p in provinces">{{p.th}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ราคา</label>
+                            <input type="text" class="form-control half" ng-model="query.lp" placeholder="ราคาต่ำสุด" />
+                            <input type="text" class="form-control half" ng-model="query.hp" placeholder="ราคาสูงสุด" />
+                        </div>
+                        <div class="form-group">
+                            <label>คะแนน (ดาว)</label>
+                            <select class="form-control" ng-model="query.rating">
+                                <option value=""></option>
+                                <option value="1">1 ดาว</option>
+                                <option value="2">2 ดาว</option>
+                                <option value="3">3 ดาว</option>
+                                <option value="4">4 ดาว</option>
+                                <option value="5">5 ดาว</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-danger" ng-click="getAll(true)"><i class="fa fa-search"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="filters col-xs-12 npad">
-            <div class="container">
-                <div class="field-container">
-                    <div class="form-group">
-                        <label>จังหวัด</label>
-                        <select class="form-control" ng-model="query.title">
-                            <option value="">ทั้งหมด</option>
-                            <option value="{{p.key}}" ng-repeat="p in provinces">{{p.th}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>ราคา</label>
-                        <input type="text" class="form-control half" ng-model="query.lp" placeholder="ราคาต่ำสุด" />
-                        <input type="text" class="form-control half" ng-model="query.hp" placeholder="ราคาสูงสุด" />
-                    </div>
-                    <div class="form-group">
-                        <label>คะแนน (ดาว)</label>
-                        <select class="form-control" ng-model="query.rating">
-                            <option value=""></option>
-                            <option value="1">1 ดาว</option>
-                            <option value="2">2 ดาว</option>
-                            <option value="3">3 ดาว</option>
-                            <option value="4">4 ดาว</option>
-                            <option value="5">5 ดาว</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btn btn-danger" ng-click="getAll(true)"><i class="fa fa-search"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="container">
-        <div class="shares-list">
-            <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
-                    <div class="share-item animated fadeIn">
-                        <a href="/share/{{s.id}}">
-                            <div class="user-name">{{s.car.brand}} {{s.car.series}}</div>
-                            <div class="detail">
-                                <div class="image">
-                                    <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
-                                    <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
-                                </div>
-                                <div class="info">
-                                    <div class="workgroup">{{s.workgroup.name}}</div>
-                                    <div class="title">{{s.title.length>20?s.title.substring(0, 20)+ '...':s.title}}</div>
-                                    <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
-                                    <div class="shop"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.shop?s.shop.name:'ไม่ระบุ'}}{{s.shop.province?', '+s.shop.province_str:''}}</div>
-                                    <rating-star rating="s.score"></rating-star>
-                                </div>
+        <div class="row shares-list">
+            <div class="col-md-12">
+                <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
+                <div class="share-item animated fadeIn">
+                    <a href="/share/{{s.id}}">
+                        <div class="user-name hidden-xs" title="{{s.title}}">{{s.title}}</div>
+                        <div class="detail">
+                            <div class="image">
+                                <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
+                                <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
                             </div>
-                        </a>
-                    </div>
+                            <div class="info">
+                                <div class="user-name hidden-sm hidden-md hidden-lg" title="{{s.title}}">{{s.title}}</div>
+                                <div class="workgroup">{{s.workgroup.name}}</div>
+                                <div class="title" title="{{s.car.brand}} {{s.car.series}}">{{s.car.brand}} {{s.car.series}}</div>
+                                <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
+                                <div class="shop">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    {{s.shop ? s.shop.name:'ไม่ระบุ'}} {{s.shop.province ? ', '+ s.shop.province_str : ''}}
+                                </div>
+                                <rating-star rating="s.score"></rating-star>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

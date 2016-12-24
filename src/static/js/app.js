@@ -61,7 +61,7 @@ $(window).resize(function () {
 function footer() {
     var window_height = $(window).height();
     var footer_height = $('footer').height();
-    $('.wrapper').css('min-height', (window_height - (footer_height + 70)) + 'px');
+    //$('.wrapper').css('min-height', (window_height - (footer_height + 70)) + 'px');
 }
 Number.prototype.formatMoney = function (c, d, t) {
     var n = this,
