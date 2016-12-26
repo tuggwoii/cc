@@ -13,6 +13,7 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
     dialectOptions: {
       encrypt: true
     },
-    omitNull: true
+    omitNull: true,
+    logging: false
 });
 module.exports = sequelize;

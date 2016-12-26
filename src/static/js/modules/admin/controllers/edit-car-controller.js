@@ -11,7 +11,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             $q.all([
                 CarService.getById($scope.params.id).then(function (data) {
                     $scope.model = data;
-                    setModelDate($scope.model);
+                    initModel($scope.model);
                 }).catch(function () {
                     alert('LOAD CAR ERROR');
                 }),
@@ -32,7 +32,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             return $scope.user && $scope.user.id && $scope.params.id
         }
 
-        function setModelDate(model) {
+        function initModel(model) {
             if (model.date) {
                 model.date = new Date(model.date);
                 model.day = model.date.getDate() + '';
@@ -48,6 +48,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 model.exp_day = model.exp_date.getDate() + '';
                 model.exp_month = (model.exp_date.getMonth() + 1) + '';
                 model.exp_year = model.exp_date.getFullYear() + 543;
+                model.max_file_size = model.max_file_size + '';
                 if (model.exp_date.getFullYear() == 1970 && model.day == '1' && model.month == '1') {
                     model.exp_date = undefined;
                     model.day = '';

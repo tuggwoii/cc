@@ -187,6 +187,10 @@ var Car = sequelize.define('cars', {
     exp_date: {
         type: Sequelize.DATE,
         field: 'exp_date'
+    },
+    max_file_size: {
+        type: Sequelize.INTEGER,
+        field: 'max_file_size'
     }
 });
 
@@ -485,7 +489,6 @@ var RepairImage = sequelize.define('repair_images', {
         type: Sequelize.INTEGER,
         field: 'repairId'
     },
-    
     image_id: {
         type: Sequelize.INTEGER,
         field: 'imageId'

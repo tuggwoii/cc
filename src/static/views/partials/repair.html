@@ -77,8 +77,12 @@
                 </span>
             </h2>
 
+            <div class="detail-section" ng-if="!model.shop || !model.shop.id">
+                <p>ยังไม่ระบุร้าน</p>
+            </div>
+
             <div class="detail-section shop-detail-on-repair" ng-if="model.shop && model.shop.id">
-            
+
                 <div class="few hidden-sm hidden-lg hidden-md">
                     <div class="title">
                         {{model.shop.name}}
@@ -122,7 +126,7 @@
                     </span>
                 </div>
 
-                
+
                 <p ng-if="!model.shop || !model.shop.id">ยังไม่ได้ระบุร้าน</p>
             </div>
 

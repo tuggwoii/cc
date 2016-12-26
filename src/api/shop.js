@@ -158,7 +158,6 @@ class ShopApi extends BaseApi {
         var user_limits = limits;
         var p = 1;
         
-        console.log(conditions);
         if (queries['q']) {
             conditions.name = { like: '%' + queries['q'] + '%'};
         }
