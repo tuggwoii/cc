@@ -21,7 +21,7 @@
     <meta property="og:image" content="http://www.carcarenote.com<%= car.image?car.image.url:'/img/no-photo.jpg' %>" />
 </head>
 <body class="app" ng-controller="AppController">
-    <div class="animated screen {{viewReady?'fadeIn':''}}">
+    <div class="screen {{viewReady?'fadeIn':''}}">
         <header ng-include="'/partials/nav.html'"></header>
         <div class="wrapper opacity-theme">
             <div ng-include="'/partials/background.html'"></div>
