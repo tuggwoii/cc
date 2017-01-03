@@ -4,20 +4,30 @@
         <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
     </div>
     <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                </li>
+                <li>Account</li>
+            </ul>
+        </div>
+
         <div class="subpage away-top">
             <h1>
                 <img src="img/logo.png" />
                 <span>ข้อมูลส่วนตัว</span>
             </h1>
-            <div class="breadcrumb">
-                <ul>
-                    <li>
-                        <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
-                    </li>
-                    <li>Account</li>
-                </ul>
-            </div>
-
+           
+            
+            <h2>
+                <span class="btn-action">
+                    <button class="btn btn-danger edit-link" ng-click="editAccount()">
+                        แก้ไขข้อมูล
+                    </button>
+                </span>
+                
+            </h2>
             <div class="detail-section">
                 <div class="image">
                     <img ng-if="!user.image || !user.image.url" src="/img/noprofile.png" alt="profile">
@@ -54,9 +64,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn-danger edit-link" ng-click="editAccount()">
-                    แก้ไขข้อมูล
-                </button>
+              
             </div>
         </div>
     </div>

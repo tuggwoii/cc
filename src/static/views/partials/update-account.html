@@ -1,20 +1,21 @@
 ﻿<div class="container">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+            </li>
+            <li>
+                <a ng-click="navigateTo('#/account')">Account ></a>
+            </li>
+            <li>Update</li>
+        </ul>
+    </div>
     <div class="subpage user away-top">
         <h1>
             <img src="img/logo.png" />
             <span>{{strings['edit_profile_header']}}</span>
         </h1>
-        <div class="breadcrumb">
-            <ul>
-                <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
-                </li>
-                <li>
-                    <a ng-click="navigateTo('#/account')">Account ></a>
-                </li>
-                <li>Update</li>
-            </ul>
-        </div>
+        
 
         <form name="form" ng-controller="UpdateAccountController" class="login-form">
             <span class="sr-only" ng-init="setForm(form)"></span>
