@@ -40,7 +40,9 @@
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
 }
-
+html,body,.screen {
+         height:9999px;
+    }
 .app {
     margin: 0;
     padding: 0;
@@ -290,9 +292,7 @@
             height: 35px;
         }
     }
-    .screen {
-         height:9999px;
-    }
+    
     .wrapper {
         display: block;
         position: relative;
