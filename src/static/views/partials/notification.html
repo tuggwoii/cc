@@ -18,72 +18,77 @@
                 <li>{{strings['nav_notification']}}</li>
             </ul>
         </div>
-        <div class="container">
-            <div class="subpage">
-                <h1>
-                    <img src="img/logo.png" />
-                    <span >{{model.title}}</span>
-                </h1>
-               
-                <h2><i class="fa fa-bell"></i> รายละเอียดการแจ้งเตือน</h2>
-                <div class="detail-section notification-detail-section">
-                    <div class="info">
-                        <div class="info-column">
-                            <div class="title">
-                                <label>เรื่อง: </label>
-                                <span>{{model.title}}</span>
-                            </div>
-                            <div class="title">
-                                <label>รถ: </label>
-                                <span>{{model.car.brand}} {{model.car.series}}</span>
-                            </div>
-                            <div class="title">
-                                <label>ประเภทการเตือน: </label>
-                                <span>{{model.type==1?'เตือนตามเวลา':'เตือนตามระยะทาง'}}</span>
-                            </div>
-                            <div class="title">
-                                <label>กลุ่มงาน: </label>
-                                <span>{{model.workgroup.name}}</span>
-                            </div>
-                        </div>
-                        <div class="info-column">
-                            <div class="title" ng-if="model.type==1">
-                                <label>วันที่แจ้งเตือน: </label>
-                                <span>{{model.date_str}}</span>
-                            </div>
-                            <div class="title" ng-if="model.type==2">
-                                <label>เลขกิโลที่แจ้งเตือน: </label>
-                                <span>{{model.mile.formatMoney(0, '.', ',')}} กิโลเมตร</span>
-                            </div>
-                            <div class="title">
-                                <label>รายละเอียด: </label>
-                                <span>{{model.detail}}</span>
-                            </div>
-                            <div class="title">
-                                <label>การแจ้งเตือน: </label>
-                                <span>
-                                   {{model.enable?'เปิดแจ้งเตือน':'ปิดแจ้งเตือน'}}
-                                </span>
-                            </div>
-                            <div class="title">
-                                <label>สร้างจากรายการ: </label>
-                                <span ng-if="model.repair_id">
-                                    <a href="#/repair?id={{model.repair_id}}&car={{model.car.id}}">{{model.repair.title}}</a>
-                                </span>
-                                <span ng-if="!model.repair_id">
-                                   ไม่ระบุ
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+        <div class="subpage">
+            <h1>
+                <img src="img/logo.png" />
+                <span>{{model.title}}</span>
+            </h1>
+
+            <h2>
+                <i class="fa fa-bell"></i> 
+                <span>รายละเอียดการแจ้งเตือน</span>
+
+                <span class="btn-action">
                     <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-notification?id=' + model.id +'&car=' + carId)" ng-if="from_car">
                         แก้ไขข้อมูล
                     </button>
                     <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-notification?id=' + model.id)" ng-if="!from_car">
                         แก้ไขข้อมูล
                     </button>
+                </span>
+                
+            </h2>
+            <div class="detail-section notification-detail-section">
+                <div class="info">
+                    <div class="info-column">
+                        <div class="title">
+                            <label>เรื่อง: </label>
+                            <span>{{model.title}}</span>
+                        </div>
+                        <div class="title">
+                            <label>รถ: </label>
+                            <span>{{model.car.brand}} {{model.car.series}}</span>
+                        </div>
+                        <div class="title">
+                            <label>ประเภทการเตือน: </label>
+                            <span>{{model.type==1?'เตือนตามเวลา':'เตือนตามระยะทาง'}}</span>
+                        </div>
+                        <div class="title">
+                            <label>กลุ่มงาน: </label>
+                            <span>{{model.workgroup.name}}</span>
+                        </div>
+                    </div>
+                    <div class="info-column">
+                        <div class="title" ng-if="model.type==1">
+                            <label>วันที่แจ้งเตือน: </label>
+                            <span>{{model.date_str}}</span>
+                        </div>
+                        <div class="title" ng-if="model.type==2">
+                            <label>เลขกิโลที่แจ้งเตือน: </label>
+                            <span>{{model.mile.formatMoney(0, '.', ',')}} กิโลเมตร</span>
+                        </div>
+                        <div class="title">
+                            <label>รายละเอียด: </label>
+                            <span>{{model.detail}}</span>
+                        </div>
+                        <div class="title">
+                            <label>การแจ้งเตือน: </label>
+                            <span>
+                                {{model.enable?'เปิดแจ้งเตือน':'ปิดแจ้งเตือน'}}
+                            </span>
+                        </div>
+                        <div class="title">
+                            <label>สร้างจากรายการ: </label>
+                            <span ng-if="model.repair_id">
+                                <a href="#/repair?id={{model.repair_id}}&car={{model.car.id}}">{{model.repair.title}}</a>
+                            </span>
+                            <span ng-if="!model.repair_id">
+                                ไม่ระบุ
+                            </span>
+                        </div>
+                    </div>
                 </div>
-         
+                
             </div>
 
         </div>
