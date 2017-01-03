@@ -40,9 +40,6 @@
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
 }
-html,body,.screen {
-         height:9999px;
-    }
 .app {
     margin: 0;
     padding: 0;
@@ -1539,14 +1536,15 @@ html,body,.screen {
     }
 
     .screen {
+        opacity:0;
         animation-duration: 0.2s;
         -webkit-animation-duration: 0.2s;
         -moz-animation-duration: 0.2s;
     }
 
     .screen.fadeIn {
-        visibility: visible;
         display: block;
+        opacity: 1;
     }
 
     .bg {
