@@ -154,18 +154,19 @@
                                         <thead>
                                             <tr>
                                                 <td>รายการ</td>
+                                                <td>ราคา</td>
                                                 <td>กลุ่มงาน</td>
                                                 <td>หมายเหตุ</td>
-                                                <td>ราคา</td>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <% for(var i=0; i < repair_works.length; i++) { %>
                                             <tr>
                                                 <td><%= repair_works[i].title?repair_works[i].title: 'ไม่ระบุ' %></td>
+                                                <td>{{money('<%= repair_works[i].price?repair_works[i].price:0 %>')}} บาท</td>
                                                 <td><%= repair_works[i].workgroup?repair_works[i].workgroup.name:'ไม่ระบุ' %></td>
                                                 <td><%= repair_works[i].detail?repair_works[i].detail:'ไม่ระบุ' %></td>
-                                                <td>{{money('<%= repair_works[i].price?repair_works[i].price:0 %>')}} บาท</td>
                                             </tr>
                                             <% } %>
                                         </tbody>
