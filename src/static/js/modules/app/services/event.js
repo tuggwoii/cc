@@ -21,7 +21,8 @@ module.factory('Event', [function () {
             PickCar: 'SELECT_CAR',
             Clear: 'CLEAR_ACTIVE',
             SetActive: 'SET_ACTIVE',
-            Update: 'UPDATE_CAR'
+            Update: 'UPDATE_CAR',
+            IDForUpload: 'SEND_ID_FOR_UPLOAD'
         },
         File: {
             Success: 'UPLOAD_SUCCESS'

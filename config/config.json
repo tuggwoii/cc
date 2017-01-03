@@ -1,17 +1,7 @@
 {
-  "_development": {
-    "username": "tugg",
-    "password": "tugg2014",
-    "database": "carcare",
-    "host": "localhost",
-    "dialect": "mssql",
-    "dialectOptions": {
-      "encrypt": true
-    }
-  },
   "development": {
     "username": "tugg",
-    "password": "tugg2015",
+    "password": "tugg2016",
     "database": "carcare",
     "host": "localhost",
     "dialect": "mssql",

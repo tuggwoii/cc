@@ -683,7 +683,19 @@
         }
     }
 }
+@media screen and (max-width: 600px) {
+    h2 .edit-repair-shop-button.repair-hot-fix {
+        display: block;
+        float: none;
+        width: 100%;
+        text-align: right;
+        padding-top: 5px;
 
+         .btn {
+             top: -8px;
+        }
+    }
+}
 @media screen and (max-width: 550px) {
     .app .wrapper {
         margin-top: 50px;
@@ -872,8 +884,12 @@
         font-size: 22px;
     }
 
+    .app h1 {
+        font-size: 24px;
+    }
+
     h2 {
-        font-size: 28px;
+        font-size: 22px;
     }
 
     .app .wrapper .detail-section .summary-price, .app .wrapper .detail-section .summary-score {
@@ -1061,9 +1077,33 @@
         .btn {
             height: 32px;
             min-width: 100px;
-            font-size: 24px;
+            font-size: 22px;
             top: -2px;
         }
+    }
+
+    h2 .edit-repair-shop-button.repair-hot-fix {
+
+         .btn {
+             top: -4px;
+        }
+    }
+    h2 .edit-repair-info-button {
+        .btn {
+            top: -12px;
+        }
+    }
+    .app .subpage h1 img {
+        width: 50px;
+    }
+    .app .repair-detail h2 .fa, .app .share-detail-page h2 .fa {
+        font-size: 16px;
+    }
+    .app .wrapper .detail-section .info .info-column {
+        max-width: 9999px;
+    }
+    h2 .btn-action .hotfix-noti-add-button {
+        top: -12px;
     }
 }
 
@@ -1089,6 +1129,18 @@
         text-align: right;
         padding: 5px 0;
     }
+    .shop-detail-on-repair .few .title {
+        width: 70%;
+    }
+     h2 .edit-repair-shop-button.repair-hot-fix {
+
+         .btn {
+             top: 1px;
+        }
+    }
+    h2 .btn-action .hotfix-noti-add-button {
+        top: 0px;
+    }
 }
 
 @media screen and (max-width: 450px) {
@@ -1100,5 +1152,10 @@
         float: none;
         text-align: right;
         padding: 5px 0;
+    }
+    h2 .edit-repair-info-button {
+        .btn {
+            top: 0px;
+        }
     }
 }

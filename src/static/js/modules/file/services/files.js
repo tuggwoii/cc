@@ -4,11 +4,14 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
     var service = 'files';
 
     return {
-        upload: function (file) {
+        upload: function (file, car) {
+
             return $q(function (resolve, reject) {
                 var fd = new FormData();
+                var url = URLS.model(service).all + (car ? ('?car=' + car) : '');
+                console.log('Send upload reques to: ' + url);
                 fd.append('file', file);
-                $http.post(URLS.model(service).all, fd, {
+                $http.post(url, fd, {
                     transformRequest: angular.identity,
                     headers: { 'Content-Type': undefined }
                 })

@@ -4,6 +4,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
 
         $scope.strings_ready = false;
         $scope.user_ready = false;
+        $scope.upload_car_id = '';
 
         function clearWorksState() {
             angular.forEach($scope.workgroup, function (w) {
@@ -87,15 +88,22 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             $('#invalidFile').hide();
             if (files && files.length) {
                 var file = files[0];
-                console.log(file.type);
                 if (file.type == 'image/jpeg' || file.type == 'image/jpg' || file.type == 'image/png' || file.type == 'image/gif') {
-                    FileService.upload(files[0]).then(function (file) {
+                    console.log($scope.upload_car_id);
+                    FileService.upload(files[0], $scope.upload_car_id).then(function (file) {
                         $rootScope.$broadcast(Event.File.Success, file);
                         $scope.uploading = false;
                         $('#fileUpload').val('');
-                    }).catch(function () {
+                    }).catch(function (res) {
+                        console.log(res);
+                        if (res.error && res.error.message == 'MAX_FILE') {
+                            $rootScope.$broadcast(Event.Message.Display, 'พื้นที่เก็บไฟล์สำหรับรถคันนี้เต็มแล้ว กรุณาติดต่อผู้ดูแลระบบเพื่ออัพเกรดพื้นที่เก็บไฟล์');
+                        }
+                        else {
+                            $rootScope.$broadcast(Event.Message.Display, 'อัพโหลดไฟล์ล้มเหลวกรุณาลองอีกครั้ง');
+                        }
                         $('#fileUpload').val('');
-                        alert('UPLOAD ERROR');
+                        $scope.uploading = false;
                     });
                 }
                 else {
@@ -205,6 +213,13 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             else {
                 $scope.setNavActive('');
             }
+            $scope.upload_car_id =''
+        });
+
+        $scope.$on(Event.Car.IDForUpload, function (event, id) {
+            $timeout(function () {
+                $scope.upload_car_id = id;
+            }, 500);
         });
 
         $scope.init();

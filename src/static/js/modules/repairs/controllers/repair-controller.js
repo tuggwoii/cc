@@ -46,6 +46,8 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                         _car.active = true;
                     }
                 });
+                $rootScope.$broadcast(Event.Car.IDForUpload, $scope.model.for_car);
+
                 initScroll();
                 $timeout(function () {
                     shopExpandCollapse();
@@ -249,7 +251,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 image_id: file.id
             };
             RepairService.uploadImage(fileData).then(function () {
-                $scope.reload()
+                $scope.reload();
             }).catch(function () {
                 $timeout(function () {
                     $rootScope.$broadcast(Event.Message.Display, 'Upload ไม่ได้กรุณาลองใหม่');

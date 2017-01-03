@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 'ShareService', function ($rootScope, $http, $q, $cookies, URLS, ShareService) {
+module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 'ShareService', 'CarService', function ($rootScope, $http, $q, $cookies, URLS, ShareService, CarService) {
 
     var service = 'repairs';
     var cache = {};
@@ -92,6 +92,7 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
                 $http.post(URLS.model(service).image, model).success(function (res) {
                     cache = {};
                     ShareService.clearCache();
+                    CarService.removeCache();
                     resolve(res)
                 }).error(reject);
             });
@@ -101,6 +102,7 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
                 $http.delete(URLS.model(service).image_id.replace('{id}', model.id)).success(function (res) {
                     cache = {};
                     ShareService.clearCache();
+                    CarService.removeCache();
                     resolve(res)
                 }).error(reject);
             });

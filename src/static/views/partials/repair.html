@@ -66,7 +66,7 @@
             <h2>
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                 <span>ร้านที่ทำการซ่อมบำรุง</span>
-                <span class="btn-action {{model.shop?'edit-repair-shop-button':'edit-repair-info-button'}}">
+                <span class="btn-action {{model.shop?'edit-repair-shop-button repair-hot-fix':'edit-repair-info-button'}}">
                     <button class="btn btn-danger edit-link" ng-click="openShop()">
                         {{model.shop ? 'เปลี่ยนร้าน':'ค้นหาร้าน'}}
                     </button>
@@ -199,7 +199,7 @@
                 <span>การแจ้งเตือนที่สร้างจากรายการนี้</span>
 
                 <span class="btn-action edit-repair-shop-button">
-                    <button class="btn btn-danger edit-link" ng-click="openNotification()">
+                    <button class="btn btn-danger edit-link hotfix-noti-add-button" ng-click="openNotification()">
                         เพิ่มรายการ
                     </button>
                 </span>

@@ -66,6 +66,14 @@
                             <label>อื่นๆ: </label>
                             <span>{{car.detail}}</span>
                         </div>
+
+                        <div class="title">
+                            <label>พื้นที่จัดเก็บไฟล์: </label>
+                            <div class="file-usage">
+                                <div class="pg" style="width:{{file_usage_percentage}}%"></div>
+                                <div class="file-usage-label">{{car.file_usage.toFixed(2)}}/{{car.max_file_size}} MB</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-car?id=' + car.id)">

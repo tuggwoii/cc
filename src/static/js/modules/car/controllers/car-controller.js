@@ -134,6 +134,11 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
             if (model.exp_date) {
                 model.exp_date_str = Helper.readableDate(model.exp_date);
             }
+            $scope.file_usage_percentage = model.file_usage/model.max_file_size;
+            if ($scope.file_usage_percentage > 1) {
+                $scope.file_usage_percentage = 1;
+            }
+            $scope.file_usage_percentage = $scope.file_usage_percentage * 100;
         }
 
         function isValid () {
