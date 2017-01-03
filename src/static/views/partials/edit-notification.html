@@ -21,200 +21,197 @@
                 <li>Edit</li>
             </ul>
         </div>
-        <div class="container">
-            <div class="subpage">
-                <h1>
-                    <img src="img/logo.png" />
-                    <span>{{strings['head_edit_notification']}}</span>
-                </h1>
-                <form name="form">
-                    <span class="sr-only" ng-init="setForm(form)"></span>
+        <div class="subpage">
+            <h1>
+                <img src="img/logo.png" />
+                <span>{{strings['head_edit_notification']}}</span>
+            </h1>
+            <form name="form">
+                <span class="sr-only" ng-init="setForm(form)"></span>
 
-                    <div class="form-group">
+                <div class="form-group">
+                    <label class="capital">
+                        {{strings['notification_title']}}
+                        <span class="required">*</span>
+                    </label>
+                    <input name="title"
+                           type="text"
+                           class="form-control"
+                           placeholder="หัวข้อเรื่องที่จะแจ้งเตือน"
+                           ng-model="model.title"
+                           ng-required="true" />
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="form.title.$error.required && form.title.$dirty">
+                        {{strings['required']}}{{strings['notification_title']}}
+                    </p>
+                </div>
+                <div class="form-group" ng-if="!from_car">
+                    <label class="capital">
+                        {{strings['select_car']}}
+                        <span class="required">*</span>
+                    </label>
+                    <select name="car"
+                            type="text"
+                            class="form-control"
+                            ng-model="model.car"
+                            ng-change="carChange()"
+                            ng-required="true">
+                        <option value=""></option>
+                        <option value="{{car.id}}" ng-repeat="car in cars">{{car.brand}} {{car.series}} {{car.serial}}</option>
+                    </select>
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="form.car.$error.required && form.car.$dirty">
+                        {{strings['required']}}{{strings['select_car']}}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="capital">
+                        {{strings['notification_type']}}
+                        <span class="required">*</span>
+                    </label>
+                    <select name="type"
+                            type="text"
+                            class="form-control"
+                            ng-change="typeChange()"
+                            ng-model="model.type"
+                            ng-required="true">
+                        <option value="1">{{strings['notification_type_time']}}</option>
+                        <option value="2">{{strings['notification_type_kilo']}}</option>
+                    </select>
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="form.type.$error.required && form.type.$dirty">
+                        {{strings['required']}}{{strings['notification_type']}}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="capital">
+                        {{strings['notification_workgroup']}}
+                        <span class="required">*</span>
+                    </label>
+                    <select name="group"
+                            type="text"
+                            class="form-control"
+                            ng-model="model.work"
+                            ng-required="true">
+                        <option value=""></option>
+                        <option value="{{work.id}}" ng-repeat="work in workgroup">{{work.name}}</option>
+                    </select>
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="form.group.$error.required && form.group.$dirty">
+                        {{strings['required']}}{{strings['notification_workgroup']}}
+                    </p>
+                </div>
+                <div class="form-group" ng-if="model.type == 2">
+                    <label class="capital">
+                        {{strings['notification_mile']}}
+                        <span class="required">*</span>
+                    </label>
+                    <input name="mile"
+                           type="number"
+                           class="form-control"
+                           placeholder="เลขกิโลเมตรที่จะแจ้งเตือน"
+                           ng-model="model.mile"
+                           ng-required="true" />
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="form.mile.$error.required && form.mile.$dirty">
+                        {{strings['required']}}{{strings['notification_mile']}}
+                    </p>
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="form.mile.$error.number && form.mile.$dirty">
+                        {{strings['only_number']}}
+                    </p>
+                </div>
+                <div class="form-group" ng-if="model.type == 1">
+                    <div class="short-field">
                         <label class="capital">
-                            {{strings['notification_title']}}
+                            วันที่แจ้งเตือน
                             <span class="required">*</span>
                         </label>
-                        <input name="title"
-                               type="text"
-                               class="form-control"
-                               placeholder="หัวข้อเรื่องที่จะแจ้งเตือน"
-                               ng-model="model.title"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.title.$error.required && form.title.$dirty">
-                            {{strings['required']}}{{strings['notification_title']}}
-                        </p>
-                    </div>
-                    <div class="form-group" ng-if="!from_car">
-                        <label class="capital">
-                            {{strings['select_car']}}
-                            <span class="required">*</span>
-                        </label>
-                        <select name="car"
-                                type="text"
-                                class="form-control"
-                                ng-model="model.car"
-                                ng-change="carChange()"
+                        <select class="form-control"
+                                name="day"
+                                ng-model="model.day"
                                 ng-required="true">
-                            <option value=""></option>
-                            <option value="{{car.id}}" ng-repeat="car in cars">{{car.brand}} {{car.series}} {{car.serial}}</option>
+                            <option ng-repeat="date in dates" value="{{date}}">{{date}}</option>
                         </select>
                         <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.car.$error.required && form.car.$dirty">
-                            {{strings['required']}}{{strings['select_car']}}
+                           ng-if="form.day.$error.required && form.day.$dirty">
+                            กรุณาเลือกวันที่แจ้งเตือน
                         </p>
                     </div>
-                    <div class="form-group">
+                    <div class="short-field">
                         <label class="capital">
-                            {{strings['notification_type']}}
+                            เดือนที่แจ้งเตือน
                             <span class="required">*</span>
                         </label>
-                        <select name="type"
-                                type="text"
+                        <select name="month"
                                 class="form-control"
-                                ng-change="typeChange()"
-                                ng-model="model.type"
+                                ng-model="model.month"
                                 ng-required="true">
-                            <option value="1">{{strings['notification_type_time']}}</option>
-                            <option value="2">{{strings['notification_type_kilo']}}</option>
+                            <option ng-repeat="month in months" value="{{month}}">{{month}}</option>
                         </select>
                         <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.type.$error.required && form.type.$dirty">
-                            {{strings['required']}}{{strings['notification_type']}}
+                           ng-if="form.month.$error.required && form.month.$dirty">
+                            กรุณาเลือกเดือนที่แจ้งเตือน
                         </p>
                     </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['notification_workgroup']}}
-                            <span class="required">*</span>
-                        </label>
-                        <select name="group"
-                                type="text"
-                                class="form-control"
-                                ng-model="model.work"
-                                ng-required="true">
-                            <option value=""></option>
-                            <option value="{{work.id}}" ng-repeat="work in workgroup">{{work.name}}</option>
-                        </select>
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.group.$error.required && form.group.$dirty">
-                            {{strings['required']}}{{strings['notification_workgroup']}}
-                        </p>
-                    </div>
-                    <div class="form-group" ng-if="model.type == 2">
-                        <label class="capital">
-                            {{strings['notification_mile']}}
-                            <span class="required">*</span>
-                        </label>
-                        <input name="mile"
-                               type="number"
-                               class="form-control"
-                               placeholder="เลขกิโลเมตรที่จะแจ้งเตือน"
-                               ng-model="model.mile"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.mile.$error.required && form.mile.$dirty">
-                            {{strings['required']}}{{strings['notification_mile']}}
-                        </p>
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.mile.$error.number && form.mile.$dirty">
-                            {{strings['only_number']}}
-                        </p>
-                    </div>
-                    <div class="form-group" ng-if="model.type == 1">
-                        <div class="short-field">
-                            <label class="capital">
-                                วันที่แจ้งเตือน
-                                <span class="required">*</span>
-                            </label>
-                            <select class="form-control"
-                                    name="day"
-                                    ng-model="model.day"
-                                    ng-required="true">
-                                <option ng-repeat="date in dates" value="{{date}}">{{date}}</option>
-                            </select>
-                            <p class="error-message margin-top animated fadeIn"
-                               ng-if="form.day.$error.required && form.day.$dirty">
-                                กรุณาเลือกวันที่แจ้งเตือน
-                            </p>
-                        </div>
-                        <div class="short-field">
-                            <label class="capital">
-                                เดือนที่แจ้งเตือน
-                                <span class="required">*</span>
-                            </label>
-                            <select name="month"
-                                    class="form-control"
-                                    ng-model="model.month"
-                                    ng-required="true">
-                                <option ng-repeat="month in months" value="{{month}}">{{month}}</option>
-                            </select>
-                            <p class="error-message margin-top animated fadeIn"
-                               ng-if="form.month.$error.required && form.month.$dirty">
-                                กรุณาเลือกเดือนที่แจ้งเตือน
-                            </p>
-                        </div>
-                    </div>
-                    <div class="form-group" ng-if="model.type == 1">
-                        <label class="capital">
-                            ปีที่แจ้งเตือน (พ.ศ.)
-                            <span class="required">*</span>
-                        </label>
-                        <input name="year"
-                               type="text"
-                               class="form-control"
-                               placeholder="ปี พ.ศ."
-                               ng-model="model.year"
-                               ng-required="true" />
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="form.year.$error.required && form.year.$dirty">
-                            กรุณากรอกปีที่แจ้งเตือน
-                        </p>
-                        <p class="error-message margin-top animated fadeIn"
-                           ng-if="status.invalid_year">
-                            ปีไม่ถูกต้อง
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['notification_detail']}}
-                        </label>
-                        <textarea type="text"
-                                  class="form-control"
-                                  placeholder="กรอกรายละเอียดเพิ่มเติม/หมายเหตุ"
-                                  ng-model="model.detail"></textarea>
-                    </div>
+                </div>
+                <div class="form-group" ng-if="model.type == 1">
+                    <label class="capital">
+                        ปีที่แจ้งเตือน (พ.ศ.)
+                        <span class="required">*</span>
+                    </label>
+                    <input name="year"
+                           type="text"
+                           class="form-control"
+                           placeholder="ปี พ.ศ."
+                           ng-model="model.year"
+                           ng-required="true" />
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="form.year.$error.required && form.year.$dirty">
+                        กรุณากรอกปีที่แจ้งเตือน
+                    </p>
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="status.invalid_year">
+                        ปีไม่ถูกต้อง
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="capital">
+                        {{strings['notification_detail']}}
+                    </label>
+                    <textarea type="text"
+                              class="form-control"
+                              placeholder="กรอกรายละเอียดเพิ่มเติม/หมายเหตุ"
+                              ng-model="model.detail"></textarea>
+                </div>
 
-                    <div class="form-group">
-                        <label class="capital">
-                            {{strings['notification_enable']}}
-                        </label>
-                        <div class="toggle">
-                            <span class="choice yes {{model.enable?'active':''}}" ng-click="model.enable=true">เตือน</span>
-                            <span class="choice no {{model.enable?'':'active'}}" ng-click="model.enable=false">ไม่เตือน</span>
-                        </div>
+                <div class="form-group">
+                    <label class="capital">
+                        {{strings['notification_enable']}}
+                    </label>
+                    <div class="toggle">
+                        <span class="choice yes {{model.enable?'active':''}}" ng-click="model.enable=true">เตือน</span>
+                        <span class="choice no {{model.enable?'':'active'}}" ng-click="model.enable=false">ไม่เตือน</span>
                     </div>
+                </div>
 
-                    <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
-                    <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
-                    <p class="error-message margin-top animated fadeIn" ng-if="status.car_expire">{{strings['car_expire_message']}}</p>
-                    <p class="success-message margin-top animated fadeIn" ng-if="status.success">{{strings['update_success']}}</p>
-                    <hr />
+                <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
+                <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
+                <p class="error-message margin-top animated fadeIn" ng-if="status.car_expire">{{strings['car_expire_message']}}</p>
+                <p class="success-message margin-top animated fadeIn" ng-if="status.success">{{strings['update_success']}}</p>
+                <hr />
 
-                    <div class="btn-container" >
-                        <button type="button" class="btn btn-danger" ng-click="update(form)">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i> {{strings['update']}}
-                        </button>
+                <div class="btn-container">
+                    <button type="button" class="btn btn-danger" ng-click="update(form)">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i> {{strings['update']}}
+                    </button>
 
-                        <button type="button" class="btn btn-danger btn-delete" ng-click="remove()">
-                            <i class="fa fa-remove"></i> {{strings['delete']}}
-                        </button>
-                    </div>
+                    <button type="button" class="btn btn-danger btn-delete" ng-click="remove()">
+                        <i class="fa fa-remove"></i> {{strings['delete']}}
+                    </button>
+                </div>
 
-                </form>
-            </div>
-
+            </form>
         </div>
     </div>
 </div>
