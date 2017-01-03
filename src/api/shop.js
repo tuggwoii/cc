@@ -157,6 +157,7 @@ class ShopApi extends BaseApi {
         var conditions = {};
         var user_limits = limits;
         var p = 1;
+        
         if (queries['q']) {
             conditions.name = { like: '%' + queries['q'] + '%'};
         }
@@ -172,10 +173,18 @@ class ShopApi extends BaseApi {
         if (queries['c']) {
             conditions.province = queries['c'];
         }
+        if (queries['using_count']) {
+            conditions = {
+                $and: [
+                    sequelize.where(sequelize.literal('(SELECT COUNT(*) FROM repairs WHERE repairs.shopId = shops.id)'), { $gte: queries['using_count'] }),
+                    conditions
+                ]
+            };
+        }
         var skip = user_limits * (p - 1);
 
         Shop.all({
-            where: conditions,
+            
             attributes: [
                 'id',
                 'name',
@@ -186,6 +195,7 @@ class ShopApi extends BaseApi {
                 'province',
                 [sequelize.literal('(SELECT COUNT(*) FROM repairs WHERE repairs.shopId = shops.id)'), 'RepairCount']
             ],
+            where: conditions,
             order: [["rating", "DESC"], [sequelize.literal('RepairCount'), 'DESC']],
             include: [
                 { model: User, as: 'create_user', include: [{ model: Image } ] },
@@ -249,16 +259,18 @@ class ShopApi extends BaseApi {
         context.validateUpdate(shop).then(function () {
             context.getShopById(shop.id).then(function (_shop) {
                 if (_shop) {
+                    /*
                     if (_shop.create_by == req.user.id) {
-                        _shop.updateAttributes(shop).then(function (_updated_shop) {
-                            context.success(req, res, _updated_shop);
-                        }).catch(function (err) {
-                            context.error(req, res, err, 500);
-                        });
+                       
                     }
                     else {
                         context.denied(res);
-                    }
+                    }*/
+                    _shop.updateAttributes(shop).then(function (_updated_shop) {
+                        context.success(req, res, _updated_shop);
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
                 }
                 else {
                     context.notfound(res);

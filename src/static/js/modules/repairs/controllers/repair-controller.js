@@ -46,7 +46,12 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                         _car.active = true;
                     }
                 });
+                $rootScope.$broadcast(Event.Car.IDForUpload, $scope.model.for_car);
+
                 initScroll();
+                $timeout(function () {
+                    shopExpandCollapse();
+                }, 500);
             });
         }
 
@@ -105,6 +110,19 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                     click: true
                 });
             }, 200);
+        }
+
+        function shopExpandCollapse() {
+
+            $('.shop-detail-on-repair .see-more').unbind('click');
+            $('.shop-detail-on-repair .close-more').unbind('click');
+
+            $('.shop-detail-on-repair .see-more').click(function () {
+                $(this).parents('.shop-detail-on-repair').addClass('active');
+            });
+            $('.shop-detail-on-repair .close-more').click(function () {
+                $(this).parents('.shop-detail-on-repair').removeClass('active');
+            });
         }
 
         $scope.repairPage = function () {
@@ -233,7 +251,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 image_id: file.id
             };
             RepairService.uploadImage(fileData).then(function () {
-                $scope.reload()
+                $scope.reload();
             }).catch(function () {
                 $timeout(function () {
                     $rootScope.$broadcast(Event.Message.Display, 'Upload ไม่ได้กรุณาลองใหม่');

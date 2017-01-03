@@ -21,8 +21,8 @@ module.factory('ShopService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 
                 }
             });
         },
-        get: function (p,q,s,c) {
-            var key = URLS.model(service).all + ('?p=' + p) + (q ? ('&q=' + q) : '') + (s ? ('&s=' + s) : '') + (c ? ('&c=' + c) : '');
+        get: function (p, q, s, c, using_count) {
+            var key = URLS.model(service).all + ('?p=' + p) + (q ? ('&q=' + q) : '') + (s ? ('&s=' + s) : '') + (c ? ('&c=' + c) : '') + (using_count ? ('&using_count=' + using_count) : '');
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);

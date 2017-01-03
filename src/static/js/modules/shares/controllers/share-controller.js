@@ -31,13 +31,15 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', 'CarService',
 
         function initScroll() {
             $timeout(function () {
-                var myScroll = new IScroll('#iscroll', {
-                    scrollX: true,
-                    scrollY: false,
-                    mouseWheel: false,
-                    scrollbars: true,
-                    click: true
-                });
+                if ($('#iscroll').length) {
+                    var myScroll = new IScroll('#iscroll', {
+                        scrollX: true,
+                        scrollY: false,
+                        mouseWheel: false,
+                        scrollbars: true,
+                        click: true
+                    });
+                }
             }, 300);
         }
 

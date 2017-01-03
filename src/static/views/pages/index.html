@@ -17,8 +17,8 @@
 <body class="app" ng-controller="AppController">
     <div class="animated screen {{viewReady?'fadeIn':''}}">
         <header ng-include="'partials/nav.html'"></header>
-        <div class="wrapper container-fluid {{mainClass}}">
-            <div class="row" ng-include="'partials/background.html'"></div>
+        <div class="wrapper {{mainClass}}">
+            <div ng-include="'partials/background.html'"></div>
             <div class="view animated fadeIn" ui-view></div>
         </div>
         <footer ng-include="'partials/footer.html'"></footer>
@@ -43,6 +43,8 @@
     <script src="js/libs/picker.date.js"></script>
     <script src="js/libs/iscroll/build/iscroll.js"></script>
     <script src="libs/lity/dist/lity.min.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/libs/jquery.dotdotdot.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/mobile-workgroup.js"></script>
     <script src="js/modules/app/directives/load.js"></script>
@@ -95,7 +97,6 @@
     <script src="/js/modules/app/directives/message.js"></script>
     <script src="resources/areas.js"></script>
     <script>var error_500 = false; var error_404 = false;</script>
-
     <div class="popup-container load animated fadeIn fakeLoad">
         <div class="load-container">
             <img src="/img/load.gif" alt="loading" />

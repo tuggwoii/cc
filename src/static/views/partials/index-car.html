@@ -1,22 +1,37 @@
-﻿<div class="row">
+﻿<div class="row car-head-row less">
     <div class="col-md-12 car-col">
-        <h3><i class="fa fa-car" aria-hidden="true"></i> {{strings['your_car']}}</h3>
+        <h3>
+            <i class="fa fa-car" aria-hidden="true"></i>
+            <span>{{strings['your_car']}}</span>
+            <span class="see-more">
+                ดูทั้งหมด
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+            <span class="close-more">
+               ปิด
+                <i class="fa fa-angle-up" aria-hidden="true"></i>
+            </span>
+        </h3>
     </div>
     <div class="col-md-12" ng-if="max_car">
         <p class="error-message margin-top animated fadeIn">{{strings['max_car_message']}}</p>
     </div>
 </div>
-<div class="row">
+<div class="row car-body-row less">
+    
     <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="car in cars">
         <div class="car-item {{car.active && !isNotificationsPage?'active':''}}" title="{{car.brand}} {{car.series}}">
             <a href="#/car?id={{car.id}}" ng-click="pickCar(car)">
-                <img src="img/car.png" alt="car" ng-if="!car.image" />
-                <img ng-src="{{car.image.url}}" alt="car" ng-if="car.image" />
+                <div class="index-car-image">
+                    <img src="img/car.png" alt="car" ng-if="!car.image" />
+                    <img ng-src="{{car.image.url}}" alt="car" ng-if="car.image" />
+                </div>
+                
                 <div class="detail">
                     <span>{{car.serial}}</span>
                     <span>{{car.brand}} {{car.series}}</span>
                 </div>
-                <!--<span class="noti-count" ng-if="isNotificationsPage || isNotificationPage">{{car.notifications}}</span>-->
+
                 <span class="noti-count" ng-if="isRepairPage || isRepairsPage">{{car.repairs}}</span>
             </a>
         </div>
@@ -27,10 +42,6 @@
             <span>{{strings['add']}}</span>
         </div>
     </div>
+
+    
 </div>
-<!--
-<p ng-if="isNotificationsPage" class="select-car-description">{{strings['notifications_selec_car_description']}}</p>
-<p ng-if="isNotificationPage" class="select-car-description">{{strings['notification_selec_car_description']}}</p>
-<p ng-if="isRepairsPage" class="select-car-description">{{strings['repairs_selec_car_description']}}</p>
-<p ng-if="isRepairPage" class="select-car-description">{{strings['repair_selec_car_description']}}</p>
- -->

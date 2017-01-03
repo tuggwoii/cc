@@ -134,6 +134,11 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
             if (model.exp_date) {
                 model.exp_date_str = Helper.readableDate(model.exp_date);
             }
+            $scope.file_usage_percentage = model.file_usage/model.max_file_size;
+            if ($scope.file_usage_percentage > 1) {
+                $scope.file_usage_percentage = 1;
+            }
+            $scope.file_usage_percentage = $scope.file_usage_percentage * 100;
         }
 
         function isValid () {
@@ -186,7 +191,6 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
         };
 
         $scope.setRepairPagings = function (meta) {
-
             $scope.repairPagings = [];
             $scope.repairTotal = meta.count;
             if (meta.count && meta.limits) {
@@ -238,7 +242,6 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
 
         $scope.filterRepair = function () {
             $rootScope.$broadcast(Event.Load.Display);
-            console.log($scope.repair_query);
             RepairService.get($scope.repairPage, $scope.repair_query).then(function (res) {
                 $scope.repairs = res.data;
                 initModel($scope.repairs);

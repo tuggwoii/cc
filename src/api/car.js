@@ -8,6 +8,9 @@ var Repair = require('../database/models').Repair;
 var BaseApi = require('./base');
 var url = require('url');
 var shortid = require('shortid');
+var RepairImage = require('../database/models').RepairImage;
+var File = require('../database/models').File;
+
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 //shortid.generate();
 var limits = 100;
@@ -19,10 +22,20 @@ class CarApi extends BaseApi {
             Car.findAll({
                 where: { owner: id },
                 include: [
-                { model: User },
-                { model: File },
-                { model: Notifications },
-                { model: Repair }
+                    { model: User },
+                    { model: File },
+                    { model: Notifications },
+                    {
+                        model: Repair,
+                        include: [
+                            {
+                                model: RepairImage,
+                                include: [
+                                  { model: File }
+                                ]
+                            }
+                        ]
+                    }
                 ]
             }).then(function (data) {
                 resolve(data);
@@ -38,7 +51,18 @@ class CarApi extends BaseApi {
             Car.findById(id, {
                 include: [
                     { model: User },
-                    { model: File }
+                    { model: File },
+                     {
+                         model: Repair,
+                         include: [
+                             {
+                                 model: RepairImage,
+                                 include: [
+                                   { model: File }
+                                 ]
+                             }
+                         ]
+                     }
                 ]
             }).then(function (data) {
                 resolve(data);
@@ -232,6 +256,7 @@ class CarApi extends BaseApi {
         };
         if (owner.role.id == 1) {
             model.exp_date = data.exp_date;
+            model.max_file_size = data.max_file_size;
         }
         if (data.id) {
             model.id = data.id;
@@ -257,6 +282,7 @@ class CarApi extends BaseApi {
         };
         if (owner.role.id == 1) {
             model.exp_date = data.exp_date;
+            model.max_file_size = data.max_file_size;
         }
         if (data.id) {
             model.id = data.id;

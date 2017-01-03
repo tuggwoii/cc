@@ -10,6 +10,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         $scope.repairId = $scope.params.repair;
         $scope.from_car = $scope.params.car ? true : false;
         $scope.from_repair = $scope.params.repair ? true : false;
+        $scope.isCanEdit = $scope.params.cd == 'true' ? true : false;
         $scope.provinces = [];
 
         function getById() {
@@ -61,7 +62,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
                 })
             ]).then(function () {
                 $timeout(function () {
-                    if ($scope.model.create_by == $scope.user.id) {
+                    if ($scope.model.create_by == $scope.user.id || $scope.isCanEdit) {
                         initWork($scope.model, $scope.works);
                         $scope.displayView();
                     }
@@ -169,7 +170,6 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         $scope.editShop();
 
         function checkSize() {
-            console.log($(window).width());
             if ($(window).width() <= 750) {
                 $scope.imageTop = true;
             }
