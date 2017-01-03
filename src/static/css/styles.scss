@@ -40,7 +40,9 @@
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
 }
-
+html, body {
+    overflow:auto;
+}
 .app {
     margin: 0;
     padding: 0;
@@ -2368,4 +2370,10 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
         text-align: center;
         text-shadow: 1px 1px #333;
     }
+}
+
+.app .wrapper .user-profile-hot-fix {
+    padding:0;
+    width:auto;
+    display:block;
 }
