@@ -183,7 +183,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         $scope.$watch(function () {
             return location.hash
         }, function (value) {
-            if (location.hash.indexOf('notification') > -1 || location.hash.indexOf('repair') > -1 || location.hash.indexOf('shares') > -1) {
+            if (location.hash.indexOf('notification') > -1 || location.hash.indexOf('repair') > -1 || location.hash.indexOf('shares') > -1 || location.hash.indexOf('shops') > -1) {
                 $scope.mainClass = 'opacity-theme';
             }
             else {

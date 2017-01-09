@@ -4,25 +4,16 @@ module.factory('ShopService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 
     var service = 'shops';
     var cache = {};
 
-    return {
-        getAll: function (q, province) {
-            var key = URLS.model(service).all + '?limits=20' + ('&q=' + q) + ( province? '&c=' + province : '');
-            return $q(function (resolve, reject) {
-                if (cache[key]) {
-                    resolve(cache[key]);
-                }
-                else {
-                    $http.get(key).success(function (res) {
-                        cache[key] = res;
-                        resolve(res);
-                    }).error(function (res) {
-                        reject(res);
-                    });
-                }
-            });
-        },
-        get: function (p, q, s, c, using_count) {
-            var key = URLS.model(service).all + ('?p=' + p) + (q ? ('&q=' + q) : '') + (s ? ('&s=' + s) : '') + (c ? ('&c=' + c) : '') + (using_count ? ('&using_count=' + using_count) : '');
+    return { 
+        get: function (page, query_text, services, province, using_count) {
+            var key = URLS.model(service).all
+                + ('?p=' + page)
+                + (query_text ? ('&q=' + query_text) : '')
+                + (services ? ('&s=' + services) : '')
+                + (province ? ('&c=' + province) : '')
+                + (using_count ? ('&using_count='
+                + using_count) : '');
+
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);
@@ -75,6 +66,22 @@ module.factory('ShopService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 
                     cache = {};
                     resolve(res)
                 }).error(reject);
+            });
+        },
+        search: function (q, province) {
+            var key = URLS.model(service).all + '?limits=20' + ('&q=' + q) + (province ? '&c=' + province : '');
+            return $q(function (resolve, reject) {
+                if (cache[key]) {
+                    resolve(cache[key]);
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        cache[key] = res;
+                        resolve(res);
+                    }).error(function (res) {
+                        reject(res);
+                    });
+                }
             });
         },
         clearCache: function () {

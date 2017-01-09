@@ -50,7 +50,11 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
             if ($scope.user && model.create_by == $scope.user.id) {
                 $scope.isCreator = true;
             }
+
             if ($scope.params.cd == 'true') {
+                $scope.isCanEdit = true;
+            }
+            else if ($scope.user && $scope.user.role.id === 1) {
                 $scope.isCanEdit = true;
             }
         }

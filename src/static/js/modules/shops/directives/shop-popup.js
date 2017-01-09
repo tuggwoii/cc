@@ -40,7 +40,7 @@
                     if (!scope.onSearchShop) {
                         scope.shopSearchTask = $timeout(function () {
                             scope.onSearchShop = true;
-                            ShopService.getAll(scope.search.key, scope.search.city).then(function (res) {
+                            ShopService.search(scope.search.key, scope.search.city).then(function (res) {
                                 scope.shops = res.data;
                                 initShop(scope.shops);
                                 $timeout(function () {

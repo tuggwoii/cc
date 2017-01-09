@@ -184,7 +184,6 @@ class ShopApi extends BaseApi {
         var skip = user_limits * (p - 1);
 
         Shop.all({
-            
             attributes: [
                 'id',
                 'name',

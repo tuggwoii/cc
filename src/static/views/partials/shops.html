@@ -1,0 +1,85 @@
+﻿<div ng-controller="ShopsController" class="shares-page shops-list-page">
+    <div class="user-profile" ng-if="user.id">
+        <div class="col-md-4" ng-include="'partials/index-profile.html'"></div>
+        <div class="col-md-8" ng-include="'partials/index-car.html'"></div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-xs-12 works">
+                <div class="container">
+                    <div class="works-title">
+                        <h2>ร้านซ่อม/อู่</h2>
+                        <span>ดูร้านซ่อม/ค้นหาร้านซ่อม ได้ที่นี่</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="filters col-xs-12">
+                <div class="container">
+                    <div class="field-container">
+                        <div class="form-group">
+                            <label>จังหวัด</label>
+                            <select class="form-control" ng-model="query.title">
+                                <option value="">ทั้งหมด</option>
+                                <option value="{{p.key}}" ng-repeat="p in provinces">{{p.th}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>บริการ</label>
+                            <select ng-model="query.work" class="form-control" ng-change="workgroupChange()">
+                                <option value="">{{strings['general_work']}}</option>
+                                <option ng-repeat="work in workgroup" value="{{work.id}}">{{work.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>คะแนน (ดาว)</label>
+                            <select class="form-control" ng-model="query.rating">
+                                <option value="">ทั้งหมด</option>
+                                <option value="1">1 ดาวขึ้นไป</option>
+                                <option value="2">2 ดาวขึ้นไป</option>
+                                <option value="3">3 ดาวขึ้นไป</option>
+                                <option value="4">4 ดาวขึ้นไป</option>
+                                <option value="5">5 ดาวขึ้นไป</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-danger" ng-click="getAll(true)"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row shares-list">
+            <div class="col-md-12">
+                <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares" ng-click="navigateTo('#/shop?id='+s.id, true)">
+                <div class="share-item animated fadeIn">
+                    <a href="#/shop?id={{s.id}}">
+                        <div class="user-name hidden-xs" title="{{s.name}}"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.name}}</div>
+                        <div class="detail">
+                            <div class="image">
+                                <img src="/img/no-photo.jpg" alt="shop-image" ng-if="!s.image || !s.image.url">
+                                <img ng-src="{{s.image.url}}" alt="shop-image" ng-if="s.image && s.image.url">
+                            </div>
+                            <div class="info">
+                                <div class="user-name hidden-sm hidden-md hidden-lg" title="{{s.name}}"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.name}}</div>
+                                <div class="price">จำนวนการใช้บริการ: {{s.RepairCount}} ครั้ง</div>
+                                <div class="shop">
+                                    <i class="fa fa-map-o" aria-hidden="true"></i>
+                                    {{s.province ? s.province_str:'ไม่ระบุ'}}
+                                </div>
+                                <rating-star rating="s.rating"></rating-star>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

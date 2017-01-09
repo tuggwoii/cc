@@ -17,6 +17,7 @@
         delete model.create_user['updatedAt'];
         delete model.create_user['ip'];
         delete model.create_user['ban'];
+        delete model.create_user['forgot_password_token'];
         if (model.create_user.file) {
             delete model.create_user.file['owner'];
             delete model.create_user.file['is_use'];
@@ -35,7 +36,7 @@
         delete model.update_user['updatedAt'];
         delete model.update_user['ip'];
         delete model.update_user['ban'];
-
+        delete model.update_user['forgot_password_token'];
         if (model.update_user.file) {
             delete model.update_user.file['owner'];
             delete model.update_user.file['is_use'];

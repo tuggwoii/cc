@@ -1026,8 +1026,6 @@
         .share-detail-page {
             position: relative;
 
-
-
             .social {
                 position: absolute;
                 top: 15px;
@@ -1531,6 +1529,15 @@
                 padding: 15px 30px;
                 color: #f55d36;
                 font-size: 28px;
+            }
+        }
+
+        .shops-list-page {
+            .container .share-item {
+                height: 200px;
+            }
+            .detail .info {
+                margin-top: -15px;
             }
         }
     }
@@ -2281,10 +2288,18 @@ h3 .see-more {
 .share-item .user-name,
 .title.car-model {
     max-height: 35px;
+
+    .fa {
+        font-size: 16px;
+    }
 }
 
 .share-item .shop {
     max-height: 35px;
+    .fa.fa-map-o {
+        font-size: 14px !important;
+        margin-right: 5px;
+    }
 }
 
 .app .subpage ul.car-repair-list li .date,
