@@ -3,12 +3,48 @@ var shareWorkSlide;
 module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'ShopService', 'WorkgroupService', 'CarService', 'Event', 'Helper',
     function ($scope, $rootScope, $timeout, $q, $location, ShopService, WorkgroupService, CarService, Event, Helper) {
 
+        $scope.provinces = _provinces;
+
         $scope.query = {
-            limits: 20,
-            page: 1
+            page: 1,
+            key: '',
+            limits: 20
         };
 
-        $scope.provinces = _provinces;
+        function loadModel(notify, isLoadMore) {
+            if (notify) {
+                $rootScope.$broadcast(Event.Load.Display);
+            }
+            ShopService.get(
+                $scope.query.page,
+                $scope.query.limits,
+                $scope.query.key
+            )
+            .then(function (res) {
+                var objects = initModel(res.data);
+                if (isLoadMore) {
+                    $scope.shops = Helper.mergeArray($scope.shops, objects);
+                }
+                else {
+                    $scope.shops = objects;
+                }
+                setMeta(res.meta);
+                $scope.isLoadMore = false;
+                if (notify) {
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                }
+            }).catch(function () {
+                if (isLoadMore) {
+                    $scope.query.page--;
+                    if ($scope.query.page < 0) {
+                        $scope.query.page = 1;
+                    }
+                }
+                $scope.isLoadMore = false;
+                $rootScope.$broadcast(Event.Load.Dismiss);
+                $rootScope.$broadcast(Event.Message.Display, 'มีบางอย่างผิดพลาดกรุณาลองใหม่');
+            });
+        }
 
         function initModel(model) {
             angular.forEach(model, function (item) {
@@ -18,38 +54,53 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
                     }
                 });
             });
+            return model;
+        }
+
+        function setMeta(meta) {
+            if (meta.limits * $scope.query.page < meta.count) {
+                $scope.hasMore = true;
+            }
+            else {
+                $scope.hasMore = false;
+            }
+        };
+
+        function loadDataForNotLoginUser() {
+            $q.all([
+                loadModel(),
+                WorkgroupService.get().then(function (res) {
+                    $scope.workgroup = angular.copy(res.data);
+                })
+            ]).then(onFinishLoadData);
+        }
+
+        function loadDataForLoginUser() {
+            $q.all([
+                loadModel(),
+                WorkgroupService.get().then(function (res) {
+                    $scope.workgroup = angular.copy(res.data);
+                }),
+                CarService.get().then(function (res) {
+                    $scope.cars = angular.copy(res.data);
+                })
+            ]).then(onFinishLoadData);
+        }
+
+        function onFinishLoadData() {
+            $timeout(function () {
+                shareWorkSlide = new ShareWorkSlide();
+            }, 500);
+            $scope.displayView();
         }
 
         $scope.shopsPage = function () {
             if ($scope.user_ready) {
                 if ($scope.user && $scope.user.id) {
-                    $q.all([
-                         $scope.getAll(),
-                         WorkgroupService.get().then(function (res) {
-                             $scope.workgroup = angular.copy(res.data);
-                         }),
-                         CarService.get().then(function (res) {
-                             $scope.cars = angular.copy(res.data);
-                         })
-                    ]).then(function () {
-                        $timeout(function () {
-                            shareWorkSlide = new ShareWorkSlide();
-                        }, 500);
-                        $scope.displayView();
-                    });
+                    loadDataForLoginUser();
                 }
                 else {
-                    $q.all([
-                         $scope.getAll(),
-                         WorkgroupService.get().then(function (res) {
-                             $scope.workgroup = angular.copy(res.data);
-                         })
-                    ]).then(function () {
-                        $timeout(function () {
-                            shareWorkSlide = new ShareWorkSlide();
-                        }, 500);
-                        $scope.displayView();
-                    });
+                    loadDataForNotLoginUser();
                 }
             }
             else {
@@ -59,45 +110,14 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
             }
         };
 
-        $scope.getAll = function (notify) {
-            if (notify) {
-                $rootScope.$broadcast(Event.Load.Display);
-            }
-            ShopService.get($scope.query.page).then(function (res) {
-                $scope.shares = res.data;
-                initModel($scope.shares);
-                $scope.meta(res.meta);
-                if (notify) {
-                    $rootScope.$broadcast(Event.Load.Dismiss);
-                }
-            }).catch(function () {
-                //window.location.reload();
-            });
-        };
-
-        $scope.meta = function (meta) {
-            if (meta.limits * $scope.query.page < meta.count) {
-                $scope.hasMore = true;
-            }
-            else {
-                $scope.hasMore = false;
-            }
+        $scope.getAll = function () {
+            loadModel();
         };
 
         $scope.loadMore = function () {
             $scope.query.page++;
-            $rootScope.$broadcast(Event.Load.Display);
-            ShareService.get($scope.query.page, { limits: 20 }).then(function (res) {
-                initModel(res.data);
-                $scope.shares = $scope.shares.concat(res.data);
-                $scope.meta(res.meta);
-                $rootScope.$broadcast(Event.Load.Dismiss);
-            }).catch(function () {
-                $timeout(function () {
-                    $rootScope.$broadcast(Event.Message.Display, 'ไม่สามารถโหลดกรุณาลองใหม่');
-                }, 500);
-                $rootScope.$broadcast(Event.Load.Display);
-            });
+            $scope.isLoadMore = true;   
+            loadModel(true, true);
         }
 
         $scope.selectWorkgroup = function (work) {

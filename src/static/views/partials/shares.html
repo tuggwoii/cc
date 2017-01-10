@@ -40,7 +40,7 @@
                     <div class="field-container">
                         <div class="form-group">
                             <label>จังหวัด</label>
-                            <select class="form-control" ng-model="query.title">
+                            <select class="form-control" ng-model="query.province">
                                 <option value="">ทั้งหมด</option>
                                 <option value="{{p.key}}" ng-repeat="p in provinces">{{p.th}}</option>
                             </select>
@@ -61,7 +61,7 @@
                                 <option value="5">5 ดาวขึ้นไป</option>
                             </select>
                         </div>
-                        <button type="button" class="btn btn-danger" ng-click="getAll(true)"><i class="fa fa-search"></i></button>
+                        <button type="button" class="btn btn-danger" ng-click="search()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
             </div>
@@ -98,6 +98,13 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="loadmore-container" ng-if="hasMore">
+                    <button type="button" class="btn btn-danger loadMore" ng-if="!isLoadMore" ng-click="loadMore()">โหลดเพิ่ม</button>
+                    <button type="button" class="btn btn-danger loadMore" ng-if="isLoadMore" disabled>กำลังโหลด...</button>
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>

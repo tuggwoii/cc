@@ -289,8 +289,8 @@ class RepairApi extends BaseApi {
         if (queries['work']) {
             q.work = parseInt(queries['work']);
         }
-        if (queries['title']) {
-            shop_associative.where = { province: queries['title'] }
+        if (queries['province']) {
+            shop_associative.where = { province: queries['province'] }
         }
         if (queries['lp']) {
             q.price.$gte = parseInt(queries['lp']);

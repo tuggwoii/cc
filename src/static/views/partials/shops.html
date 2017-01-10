@@ -55,9 +55,9 @@
     <div class="container">
         <div class="row shares-list">
             <div class="col-md-12">
-                <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>
+                <p ng-if="!shops.length">ยังไม่มีข้อมูลร้านในขณะนี้</p>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares" ng-click="navigateTo('#/shop?id='+s.id, true)">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shops" ng-click="navigateTo('#/shop?id='+s.id, true)">
                 <div class="share-item animated fadeIn">
                     <a href="#/shop?id={{s.id}}">
                         <div class="user-name hidden-xs" title="{{s.name}}"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.name}}</div>
@@ -80,6 +80,13 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="loadmore-container" ng-if="hasMore">
+                    <button type="button" class="btn btn-danger loadMore" ng-if="!isLoadMore" ng-click="loadMore()">โหลดเพิ่ม</button>
+                    <button type="button" class="btn btn-danger loadMore" ng-if="isLoadMore" disabled>กำลังโหลด...</button>
+                </div>
+            </div>
+        </div>
     </div>
-
 </div>

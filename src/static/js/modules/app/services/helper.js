@@ -66,6 +66,12 @@ module.factory('Helper', [function () {
                 }
             }
             return res;
+        },
+        mergeArray: function mergeArray(arr1, arr2) {
+            angular.forEach(arr2, function (m) {
+                arr1.push(m);
+            });
+            return arr1;
         }
     };
 }]);

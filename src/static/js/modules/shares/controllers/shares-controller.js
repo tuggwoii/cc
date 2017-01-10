@@ -3,11 +3,37 @@ var shareWorkSlide;
 module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'ShareService', 'WorkgroupService', 'CarService', 'Event', 'Helper',
     function ($scope, $rootScope, $timeout, $q, $location, ShareService, WorkgroupService, CarService, Event, Helper) {
 
-        $scope.query = {
-            limits: 20
-        };
-
         $scope.provinces = _provinces;
+
+        function loadModel(notify, isLoadMode) {
+            if (notify) {
+                $rootScope.$broadcast(Event.Load.Display);
+            }
+            ShareService.get($scope.query.page, $scope.query).then(function (res) {
+                var objects = initModel(res.data);
+                if (isLoadMode) {
+                    $scope.shares = Helper.mergeArray($scope.shares, objects);
+                }
+                else {
+                    $scope.shares = objects;
+                }
+                setMeta(res.meta);
+                $scope.isLoadMore = false;
+                if (notify) {
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                }
+            }).catch(function () {
+                if (isLoadMore) {
+                    $scope.query.page--;
+                    if ($scope.query.page < 0) {
+                        $scope.query.page = 1;
+                    }
+                }
+                $scope.isLoadMore = false;
+                $rootScope.$broadcast(Event.Load.Dismiss);
+                $rootScope.$broadcast(Event.Message.Display, 'มีบางอย่างผิดพลาดกรุณาลองใหม่');
+            });
+        }
 
         function initModel(model) {
             angular.forEach(model, function (item) {
@@ -17,39 +43,59 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                     }
                 });
             });
+            return model;
+        }
+
+        function setMeta(meta) {
+            if (meta.limits * $scope.query.page < meta.count) {
+                $scope.hasMore = true;
+            }
+            else {
+                $scope.hasMore = false;
+            }
+        }
+
+        function loadDataForNotLoginUser() {
+            $q.all([
+                loadModel(),
+                WorkgroupService.get().then(function (res) {
+                    $scope.workgroup = angular.copy(res.data);
+                })
+            ]).then(onLoadFinished);
+        }
+
+        function loadDataForLoginUser() {
+            $q.all([
+                loadModel(),
+                WorkgroupService.get().then(function (res) {
+                    $scope.workgroup = angular.copy(res.data);
+                }),
+                CarService.get().then(function (res) {
+                    $scope.cars = angular.copy(res.data);
+                })
+            ]).then(onLoadFinished);
+        }
+
+        function onLoadFinished() {
+            $timeout(function () {
+                shareWorkSlide = new ShareWorkSlide();
+            }, 500);
+            $scope.displayView();
         }
 
         $scope.sharesPage = function () {
-            $scope.currentPage = 1;
+
+            $scope.query = {
+                limits: 24,
+                page: 1
+            };
+
             if ($scope.user_ready) {
                 if ($scope.user && $scope.user.id) {
-                    $q.all([
-                         $scope.getAll(),
-                         WorkgroupService.get().then(function (res) {
-                             $scope.workgroup = angular.copy(res.data);
-                         }),
-                         CarService.get().then(function (res) {
-                             $scope.cars = angular.copy(res.data);
-                         })
-                    ]).then(function () {
-                        $timeout(function () {
-                            shareWorkSlide = new ShareWorkSlide();
-                        }, 500);
-                        $scope.displayView();
-                    });
+                    loadDataForLoginUser();
                 }
                 else {
-                    $q.all([
-                         $scope.getAll(),
-                         WorkgroupService.get().then(function (res) {
-                             $scope.workgroup = angular.copy(res.data);
-                         })
-                    ]).then(function () {
-                        $timeout(function () {
-                            shareWorkSlide = new ShareWorkSlide();
-                        }, 500);
-                        $scope.displayView();
-                    });
+                    loadDataForNotLoginUser();
                 }
             }
             else {
@@ -59,47 +105,20 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
             }
         };
 
-        $scope.getAll = function (notify) {
-            if (notify) {
-                $rootScope.$broadcast(Event.Load.Display);
-            }
-            $scope.currentPage = 1;
-            ShareService.get($scope.currentPage, $scope.query).then(function (res) {
-                $scope.shares = res.data;
-                initModel($scope.shares);
-                $scope.meta(res.meta);
-                if (notify) {
-                    $rootScope.$broadcast(Event.Load.Dismiss);
-                }
-            }).catch(function () {
-                //window.location.reload();
-            });
+        $scope.getAll = function () {
+            loadModel();
         };
 
-        $scope.meta = function (meta) {
-            if (meta.limits * $scope.currentPage < meta.count) {
-                $scope.hasMore = true;
-            }
-            else {
-                $scope.hasMore = false;
-            }
+        $scope.search = function () {
+            $scope.query.page = 1;
+            loadModel(true, false);
         };
 
         $scope.loadMore = function () {
-            $scope.currentPage++;
-            $rootScope.$broadcast(Event.Load.Display);
-            ShareService.get($scope.currentPage, { limits: 20 }).then(function (res) {
-                initModel(res.data);
-                $scope.shares = $scope.shares.concat(res.data);
-                $scope.meta(res.meta);
-                $rootScope.$broadcast(Event.Load.Dismiss);
-            }).catch(function () {
-                $timeout(function () {
-                    $rootScope.$broadcast(Event.Message.Display, 'ไม่สามารถโหลดกรุณาลองใหม่');
-                }, 500);
-                $rootScope.$broadcast(Event.Load.Display);
-            });
-        }
+            $scope.query.page++;
+            $scope.isLoadMore = true;
+            loadModel(true, true);
+        };
 
         $scope.selectWorkgroup = function (work) {
             if (work) {
@@ -109,7 +128,8 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                     });
                     work.active = true;
                     $scope.query.work = work.id;
-                    $scope.getAll(true);
+                    $scope.query.page = 1;
+                    loadModel(true, false);
                 }
             }
             else {
@@ -118,13 +138,13 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                 });
                 if ($scope.query.work) {
                     delete $scope.query['work'];
-                    $scope.getAll(true);
+                    $scope.query.page = 1;
+                    loadModel(true, false);
                 }
             }
         };
 
         $scope.workgroupChange = function () {
-            console.log($scope.query.work);
             if ($scope.query.work) {
                 angular.forEach($scope.workgroup, function (w) {
                     if ($scope.query.work == w.id) {
@@ -143,7 +163,8 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
                     delete $scope.query['work'];
                 }
             }
-            $scope.getAll(true);
+            $scope.query.page = 1;
+            loadModel(true, false);
         };
 
         $scope.pickCar = function (car) {
