@@ -8,6 +8,8 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
         $scope.query = {
             page: 1,
             key: '',
+            services: '',
+            rating: '',
             limits: 20
         };
 
@@ -15,10 +17,14 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
             if (notify) {
                 $rootScope.$broadcast(Event.Load.Display);
             }
+            console.log($scope.query);
             ShopService.get(
                 $scope.query.page,
                 $scope.query.limits,
-                $scope.query.key
+                $scope.query.key,
+                $scope.query.services,
+                $scope.query.province,
+                $scope.query.rating
             )
             .then(function (res) {
                 var objects = initModel(res.data);
@@ -94,9 +100,12 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
             $scope.displayView();
         }
 
-        $scope.shopsPage = function () {
+        function ShopsPage() {
             if ($scope.user_ready) {
                 if ($scope.user && $scope.user.id) {
+                    if ($scope.user.role.id === 1) {
+                        $scope.isCanCreateShop = true;
+                    }
                     loadDataForLoginUser();
                 }
                 else {
@@ -110,64 +119,23 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
             }
         };
 
-        $scope.getAll = function () {
+        $scope.search = function () {
             loadModel();
         };
 
         $scope.loadMore = function () {
             $scope.query.page++;
-            $scope.isLoadMore = true;   
+            $scope.isLoadMore = true;
             loadModel(true, true);
-        }
-
-        $scope.selectWorkgroup = function (work) {
-            if (work) {
-                if (!work.active) {
-                    angular.forEach($scope.workgroup, function (w) {
-                        w.active = false;
-                    });
-                    work.active = true;
-                    $scope.query.work = work.id;
-                    $scope.getAll(true);
-                }
-            }
-            else {
-                angular.forEach($scope.workgroup, function (w) {
-                    w.active = false;
-                });
-                if ($scope.query.work) {
-                    delete $scope.query['work'];
-                    $scope.getAll(true);
-                }
-            }
         };
 
-        $scope.workgroupChange = function () {
-            console.log($scope.query.work);
-            if ($scope.query.work) {
-                angular.forEach($scope.workgroup, function (w) {
-                    if ($scope.query.work == w.id) {
-                        w.active = true;
-                    }
-                    else {
-                        w.active = false;
-                    }
-                });
-            }
-            else {
-                angular.forEach($scope.workgroup, function (w) {
-                    w.active = false;
-                });
-                if ($scope.query.work) {
-                    delete $scope.query['work'];
-                }
-            }
-            $scope.getAll(true);
+        $scope.openCreateShopPopup = function () {
+            $rootScope.$broadcast(Event.Shop.DisplayCreatePopup);
         };
 
         $scope.pickCar = function (car) {
             $scope.navigateTo('#/car?id=' + car.id);
         };
 
-        $scope.shopsPage();
-    }]);
+        ShopsPage();
+}]);

@@ -31,7 +31,8 @@ module.factory('Event', [function () {
             Ready: 'SHARE_READY'
         },
         Shop: {
-            DispayPopup:'DISPLAY_SHOP_POPUP'
+            DispayPopup: 'DISPLAY_SHOP_POPUP',
+            DisplayCreatePopup: 'DISPLAY_SHOP_CREATE_POPUP'
         },
         Notification: {
             Ready: 'NOTIFICATION_READY',

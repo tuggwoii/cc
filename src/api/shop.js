@@ -173,6 +173,15 @@ class ShopApi extends BaseApi {
         if (queries['c']) {
             conditions.province = queries['c'];
         }
+        if (queries['r']) {
+            var r = parseInt(queries['r']);
+            if (r == 1) {
+                conditions.rating = { $gt: 0 };
+            }
+            else {
+                conditions.rating = { $gte: parseInt(queries['r']) - 0.5 };
+            }
+        }
         if (queries['using_count']) {
             conditions = {
                 $and: [

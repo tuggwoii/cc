@@ -5,28 +5,24 @@ module.factory('ShopService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 
     var cache = {};
 
     return { 
-        get: function (page, limits, query_text, services, province, using_count) {
+        get: function (page, limits, query_text, services, province, rating, using_count) {
+
             var key = URLS.model(service).all
                 + ('?p=' + page)
-                + (limits? '&limits=' + limits : '')
-                + (query_text ? ('&q=' + query_text) : '')
-                + (services ? ('&s=' + services) : '')
-                + (province ? ('&c=' + province) : '')
-                + (using_count ? ('&using_count='
-                + using_count) : '');
+                + (limits ? '&limits=' + limits : '')
+                + (query_text ? '&q=' + query_text : '')
+                + (services ? '&s=' + services : '')
+                + (province ? '&c=' + province : '')
+                + (rating ? '&r=' + rating : '')
+                + (using_count ? '&using_count='+ using_count : '');
 
             return $q(function (resolve, reject) {
-                //if (cache[key]) {
-                    //resolve(cache[key]);
-                //}
-                //else {
-                    $http.get(key).success(function (res) {
-                        cache[key] = res;
-                        resolve(res);
-                    }).error(function (res) {
-                        reject(res);
-                    });
-                //}
+                $http.get(key).success(function (res) {
+                    cache[key] = res;
+                    resolve(res);
+                }).error(function (res) {
+                    reject(res);
+                });
             });
         },
         getById: function (id) {

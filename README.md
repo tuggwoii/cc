@@ -1,4 +1,4 @@
-# CHECKPOINT
+# README
 ###How to build the app <br/>
 type "grunt"<br/>
 ###How to run the app <br/>

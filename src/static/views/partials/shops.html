@@ -8,10 +8,11 @@
         <div class="row">
             <div class="col-xs-12 works">
                 <div class="container">
-                    <div class="works-title">
+                    <div class="works-title shop-title">
                         <h2>ร้านซ่อม/อู่</h2>
                         <span>ดูร้านซ่อม/ค้นหาร้านซ่อม ได้ที่นี่</span>
                     </div>
+                    <button type="button" class="btn btn-danger admin-create-shop" ng-if="isCanCreateShop" ng-click="openCreateShopPopup()">สร้างร้าน</button>
                 </div>
             </div>
         </div>
@@ -22,16 +23,16 @@
                     <div class="field-container">
                         <div class="form-group">
                             <label>จังหวัด</label>
-                            <select class="form-control" ng-model="query.title">
+                            <select class="form-control" ng-model="query.province">
                                 <option value="">ทั้งหมด</option>
                                 <option value="{{p.key}}" ng-repeat="p in provinces">{{p.th}}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>บริการ</label>
-                            <select ng-model="query.work" class="form-control" ng-change="workgroupChange()">
+                            <select ng-model="query.services" class="form-control">
                                 <option value="">{{strings['general_work']}}</option>
-                                <option ng-repeat="work in workgroup" value="{{work.id}}">{{work.name}}</option>
+                                <option ng-repeat="work in workgroup" value="{{work.name}}">{{work.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -45,7 +46,7 @@
                                 <option value="5">5 ดาวขึ้นไป</option>
                             </select>
                         </div>
-                        <button type="button" class="btn btn-danger" ng-click="getAll(true)"><i class="fa fa-search"></i></button>
+                        <button type="button" class="btn btn-danger" ng-click="search()"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
             </div>
@@ -69,7 +70,7 @@
                             <div class="info">
                                 <div class="user-name hidden-sm hidden-md hidden-lg" title="{{s.name}}"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.name}}</div>
                                 <div class="price">จำนวนการใช้บริการ: {{s.RepairCount}} ครั้ง</div>
-                                <div class="shop">
+                                <div class="shop" title="{{s.province ? s.province_str:'ไม่ระบุ'}}">
                                     <i class="fa fa-map-o" aria-hidden="true"></i>
                                     {{s.province ? s.province_str:'ไม่ระบุ'}}
                                 </div>

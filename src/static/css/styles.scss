@@ -2394,3 +2394,13 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
     width:auto;
     display:block;
 }
+
+.admin-create-shop {
+    float: right;
+    position: relative;
+    top: 25px;
+}
+.app .wrapper .works .works-title.shop-title {
+    display:inline-block;
+    width:auto;
+}

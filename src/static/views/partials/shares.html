@@ -87,9 +87,9 @@
                                 <div class="workgroup">{{s.workgroup.name}}</div>
                                 <div class="title" title="{{s.car.brand}} {{s.car.series}}">{{s.car.brand}} {{s.car.series}}</div>
                                 <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
-                                <div class="shop">
+                                <div class="shop" title="{{s.shop ? s.shop.name:'ไม่ระบุ'}}{{s.shop.province ? ', '+ s.shop.province_str : ''}}">
                                     <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                    {{s.shop ? s.shop.name:'ไม่ระบุ'}} {{s.shop.province ? ', '+ s.shop.province_str : ''}}
+                                    {{s.shop ? s.shop.name:'ไม่ระบุ'}}{{s.shop.province ? ', '+ s.shop.province_str : ''}}
                                 </div>
                                 <rating-star rating="s.score"></rating-star>
                             </div>
