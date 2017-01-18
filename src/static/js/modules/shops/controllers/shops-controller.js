@@ -10,14 +10,13 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
             key: '',
             services: '',
             rating: '',
-            limits: 20
+            limits: 24
         };
 
         function loadModel(notify, isLoadMore) {
             if (notify) {
                 $rootScope.$broadcast(Event.Load.Display);
             }
-            console.log($scope.query);
             ShopService.get(
                 $scope.query.page,
                 $scope.query.limits,

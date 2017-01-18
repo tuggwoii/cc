@@ -14,7 +14,15 @@
                     <a ng-click="navigateTo('#/car?id='+carId)">Car ></a>
                 </li>
                 <li>
-                    <a ng-click="navigateTo('#/shop?id=' + model.id)">
+                    <a ng-click="navigateTo('#/shops')">Shops ></a>
+                </li>
+                <li ng-if="isFromShops">
+                    <a ng-click="navigateTo('#/shop?id=' + model.id + (isCanEdit? '&cd=true':'') + '&fs=true')">
+                        {{model.name?model.name:'ไม่ระบุ'}} >
+                    </a>
+                </li>
+                <li ng-if="!isFromShops">
+                    <a ng-click="navigateTo('#/shop?id=' + model.id + (isCanEdit? '&cd=true':''))">
                         {{model.name?model.name:'ไม่ระบุ'}} >
                     </a>
                 </li>

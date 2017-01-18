@@ -6,8 +6,8 @@
 
         },
         link: function (scope, element, attrs) {
-            scope.provinces = _provinces;
-            scope.shopSearchTask = {};
+            
+            var form;
 
             function initShop(shops) {
                 angular.forEach(shops, function (s) {
@@ -19,94 +19,7 @@
                 });
             }
 
-            scope.close = function () {
-                if (scope.display) {
-                    $timeout(function () {
-                        scope.animation = 'fadeOut';
-                    }, 10);
-                    $timeout(function () {
-                        scope.display = false;
-                        $('body').focus();
-                    }, 500);
-                }
-            };
-
-            scope.searchShop = function () {
-                $timeout.cancel(scope.shopSearchTask);
-                scope.trySearch = false;
-                scope.form_submit = true;
-                console.log(scope.search);
-                if (scope.search.key && scope.search.city) {
-                    if (!scope.onSearchShop) {
-                        scope.shopSearchTask = $timeout(function () {
-                            scope.onSearchShop = true;
-                            ShopService.search(scope.search.key, scope.search.city).then(function (res) {
-                                scope.shops = res.data;
-                                initShop(scope.shops);
-                                $timeout(function () {
-                                    scope.onSearchShop = false;
-                                    scope.trySearch = true;
-                                    $timeout(function () {
-                                        $('#searchShop').focus();
-                                    }, 200);
-                                }, 500);
-                            });
-                        }, 1500);
-                    }
-                }
-                else {
-                    scope.shops = [];
-                }
-            };
-
-            scope.provinceChange = function () {
-                if (scope.search.key) {
-                    scope.searchShop();
-                }
-            };
-
-            scope.createShop = function () {
-                $rootScope.$broadcast(Event.Confirm.Display, function () {
-                    $rootScope.$broadcast(Event.Load.Display, 'SAVE_SHOP');
-                    ShopService.create({ name: scope.search.key, province: scope.search.city }).then(function (res) {
-                        console.log(res.data);
-                        $rootScope.$broadcast(Event.Load.Dismiss);
-                        scope.close();
-                        scope.callback(res.data);
-                    }).catch(function () {
-                        $rootScope.$broadcast(Event.Load.Dismiss);
-                        alert('CREATE SHOP ERROR');
-                    });
-                }, 'คุณแน่ใจที่จะสร้างร้าน "' + scope.search.key + '" หรือไม่?');
-            };
-
-            scope.selectShop = function (shop) {
-                scope.close();
-                scope.callback(shop);
-            };
-
-            scope.$on(Event.Shop.DisplayCreatePopup, function (event, prev_shops, callback) {
-                if (!scope.display) {
-                    scope.animation = 'fadeIn';
-                    $timeout.cancel(scope.shopSearchTask);
-                    scope.shopSearchTask = {};
-                    scope.trySearch = false;
-                    scope.display = true;
-                    scope.trySearch = false;
-                    scope.onSearchShop = false;
-                    scope.prev_shops = prev_shops;
-                    scope.callback = callback;
-                    scope.shop = {
-                        selected: ''
-                    }
-                    scope.search = {
-                        city: 'krung_thep_maha_nakhon'
-                    };
-                    $timeout(scope.setHeight, 200);
-                }
-            });
-
-            scope.setHeight = function () {
+            function setHeight() {
                 if ($(window).height() < $('.shoppopup').height() + 150) {
                     var height = $(window).height() - 150;
                     if (height > 600) {
@@ -121,17 +34,60 @@
                 }
             };
 
-            scope.shopChange = function () {
-                if (scope.shop.selected) {
-                    var selected_shop = JSON.parse(scope.shop.selected);
-                    if (selected_shop.id) {
-                        scope.close();
-                        scope.callback(selected_shop);
-                    }
+            scope.provinces = _provinces;
+
+            scope.close = function () {
+                if (scope.display) {
+                    $timeout(function () {
+                        scope.animation = 'fadeOut';
+                    }, 10);
+
+                    $timeout(function () {
+                        scope.display = false;
+                        $('body').focus();
+                    }, 500);
                 }
             };
 
-            $(window).resize(scope.setHeight);
+            scope.provinceChange = function () {
+                if (scope.search.key) {
+                    scope.searchShop();
+                }
+            };
+
+            scope.createShop = function () {
+                scope.form_submit = true;
+                if (form.$valid) {
+                    $rootScope.$broadcast(Event.Load.Display);
+                    ShopService.create(scope.model).then(function (res) {
+                        $rootScope.$broadcast(Event.Load.Dismiss);
+                        scope.close();
+                        window.location.href = '/#/edit-shop?id=' + res.data.id + '&cd=true&fs=true';
+                    }).catch(function () {
+                        scope.close();
+                        $rootScope.$broadcast(Event.Message.Display, 'สร้างร้านไม่ได้กรุณาลองใหม่อีกครั้ง');
+                        $rootScope.$broadcast(Event.Load.Dismiss);
+                    });
+                }
+            };
+
+            scope.setFrom = function (_form) {
+                form = _form;
+            };
+
+            scope.$on(Event.Shop.DisplayCreatePopup, function () {
+                if (!scope.display) {
+                    scope.animation = 'fadeIn';
+                    scope.display = true;
+                    scope.model = {
+                        name: '',
+                        province: 'krung_thep_maha_nakhon'
+                    };
+                    $timeout(setHeight, 200);
+                }
+            });
+
+            $(window).resize(setHeight);
         }
     };
 }]);

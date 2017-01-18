@@ -2,52 +2,38 @@
     <div class="popup-panel shoppopup">
         <i class="fa fa-remove" ng-click="close()"></i>
         <div class="popup-body shop-popup">
-            <h2>ร้านที่เคยใช้บริการ</h2>
-            <select ng-model="shop.selected" ng-change="shopChange()">
-                <option value=""></option>
-                <option ng-repeat="s in prev_shops" value="{{s}}">{{s.name}}</option>
-            </select>
-            <h2>ค้นหาร้าน</h2>
-            <div class="form-group">
-                <select ng-model="search.city"
-                        ng-required="true" 
-                        ng-change="provinceChange()">
-                    <option value="" disabled>กรุณาเลือกจังหวัด</option>
-                    <option ng-repeat="p in provinces" value="{{p.key}}">{{p.th}}</option>
-                </select>
-                <p class="error-message margin-top animated fadeIn"
-                   ng-if="!search.city && form_submit">
-                    กรุณาเลือกจังหวัด
-                </p>
-            </div>
-            <div class="form-group">
-                <label></label>
-                <input name="search"
-                       id="searchShop"
-                       type="text"
-                       class="form-control"
-                       ng-model="search.key"
-                       ng-change="searchShop()"
-                       ng-disabled="onSearchShop"
-                       placeholder="ใส่ชื่อร้านเพื่อให้ระบบเริ่มค้นหา" />
-                <span class="field-helper">
-                    พิมพ์ชื่อร้านเพื่อค้นหาร้าน เมื่อผลลัพท์แสดงกรุณาหาร้านจากรายการ ถ้าไม่มีผลค้นหาหรือผลลัพท์ให้กดที่ "สร้างใหม่เพราะไม่มีในรายการค้นหา" กรุณาหาจากผลการค้นหาก่อนสร้างร้านใหม่เพื่อป้องกันการสร้างร้านซ้ำซ้อน
-                </span>
-                <div class="sm-load" ng-include="'partials/sm-load.html'" ng-show="onSearchShop"></div>
-            </div>
-           
-            <ul class="shop-list" ng-if="search.key && !onSearchShop && trySearch">
-                <li ng-repeat="s in shops" ng-click="selectShop(s)">
-                    <img ng-src="{{s.image.url}}" ng-if="s.image" />
-                    <img src="img/no-photo.jpg" ng-if="!s.image" />
-                    <span class="shop-name">{{s.name}}</span>
-                    <span class="shop-address">{{s.city?s.city:'ไม่ระบุเขต/อำเภอ'}}, {{s.province_str?s.province_str:'ไม่ระบุจังหวัด'}}</span>
-                </li>
-                <li ng-if="search.key && trySearch" class="add-new" ng-click="createShop()">
-                    <i class="fa fa-plus"></i>
-                    <span>สร้างใหม่เพราะไม่มีในรายการค้นหา</span>
-                </li>
-            </ul>
+          
+            <h2>สร้างร้าน</h2>
+            <form name="shopForm">
+                <div class="form-group">
+                    <label>ชื่อร้าน</label>
+                    <input name="search"
+                           ng-required="true"
+                           id="shopName"
+                           type="text"
+                           class="form-control"
+                           ng-model="model.name"
+                           placeholder="ใส่ชื่อร้าน" />
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="!model.name && form_submit">
+                        กรุณาเลือกกรอกชื่อร้าน
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label>จังหวัด</label>
+                    <select ng-model="model.province"
+                            ng-required="true">
+                        <option value="" disabled>กรุณาเลือกจังหวัด</option>
+                        <option ng-repeat="p in provinces" value="{{p.key}}">{{p.th}}</option>
+                    </select>
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="!model.province && form_submit">
+                        กรุณาเลือกจังหวัด
+                    </p>
+                </div>
+                <span ng-init="setFrom(shopForm)"></span>
+                <button class="btn btn-danger" ng-click="createShop()">สร้างร้าน</button>
+            </form>
         </div>
     </div>
 </div>

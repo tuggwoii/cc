@@ -11,6 +11,7 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
         $scope.provinces = [];
         $scope.isCreator = false;
         $scope.isCanEdit = false;
+        $scope.isFromShops = false;
 
         function getById() {
             ShopService.getById($scope.params.id).then(function (data) {
@@ -56,6 +57,9 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
             }
             else if ($scope.user && $scope.user.role.id === 1) {
                 $scope.isCanEdit = true;
+            }
+            if ($scope.params.fs == 'true') {
+                $scope.isFromShops = true;
             }
         }
 

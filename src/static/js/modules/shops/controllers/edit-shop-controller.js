@@ -11,6 +11,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         $scope.from_car = $scope.params.car ? true : false;
         $scope.from_repair = $scope.params.repair ? true : false;
         $scope.isCanEdit = $scope.params.cd == 'true' ? true : false;
+        $scope.isFromShops = $scope.params.fs == 'true' ? true : false;
         $scope.provinces = [];
 
         function getById() {
@@ -107,7 +108,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
                         $scope.navigateTo('#/repair?id=' + $scope.repairId + ($scope.carId ? '&car=' + $scope.carId : ''));
                     }
                     else {
-                        window.location.href = '/#/shop?id=' + $scope.model.id;
+                        window.location.href = '/#/shop?id=' + $scope.model.id + '&cd=true';
                     }
                 }).catch(function () {
                     $rootScope.$broadcast(Event.Load.Dismiss);
