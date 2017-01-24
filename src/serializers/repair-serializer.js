@@ -60,7 +60,7 @@ exports.share = function (data) {
     }
     
     if (model.car) {
-        delete model.car['exp_date'];
+        //delete model.car['exp_date'];
         delete model.car['createdAt'];
         delete model.car['updatedAt'];
         delete model.car['date'];

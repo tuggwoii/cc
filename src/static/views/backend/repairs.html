@@ -1,0 +1,103 @@
+﻿<div class="container backend-user">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#/')">Admin ></a>
+            </li>
+            <li>
+                Repairs
+            </li>
+        </ul>
+    </div>
+
+    <div class="subpage" ng-controller="RepairsController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>Repairs</span>
+        </h1>
+
+        <div class="user-filter">
+            <h2>ค้นหา</h2>
+            <div class="filter-field">
+                <div class="form-group">
+                    <label>ค้นหา</label>
+                    <input type="text" class="form-control" ng-model="query.q" />
+                </div>
+                <div class="form-group">
+                    <label>รูป</label>
+                    <select class="form-control" ng-model="query.has_image">
+                        <option value="">ทั้งเหมด</option>
+                        <option value="1">เฉพาะที่มีรูป</option>
+                    </select>
+                </div>
+                
+            </div>
+            <h2>การจัดเรียง</h2>
+            <div class="filter-field sort-section">
+                <div class="form-group">
+                    <label>เรียงโดย</label>
+                    <select class="form-control" ng-model="query.sort_column">
+                        <option value="date">วันที่ซ่อม</option>
+                        <option value="view_count">จำนวนการเข้าชม</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>เรียงจาก</label>
+                    <select class="form-control" ng-model="query.sort_order">
+                        <option value="ASC">น้อยไปมาก</option>
+                        <option value="DESC">มากไปน้อย</option>
+                    </select>
+                </div>
+
+            </div>
+            <button class="btn btn-danger" ng-if="!status.loading" ng-click="search()">
+                <i class="fa fa-search"></i>
+            </button>
+            <button class="btn btn-danger" ng-if="status.loading" disabled>
+                LOADING...
+            </button>
+        </div>
+
+        <div class="users-list">
+            <h2>Repairs ({{total}})</h2>
+            <div id="iscroll" class="iscroll">
+                <div class="table-scroll">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>วันที่ซ่อม</td>
+                                <td>ชื่อเรื่อง</td>
+                                <td>ทะเบียน</td>
+                                <td>ยี่ห้อรถ</td>
+                                <td>วันหมดอายุลงข้อมูล</td>
+                                <td>พท.ที่ใช้เก็บรูป</td>
+                                <td>จำนวนการเข้าชม</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in repairs" ng-click="navigateTo('#/repairs?id=' + item.id)">
+                                <td><a href="/admin#/repairs?id={{item.id}}">{{item.date_str}}</a></td>
+                                <td><a href="/admin#/repairs?id={{item.id}}">{{item.title}}</a></td>
+                                <td><a href="/admin#/repairs?id={{item.id}}">{{item.car.serial}}</a></td>
+                                <td><a href="/admin#/repairs?id={{item.id}}">{{item.car.brand}}</a></td>
+                                <td><a href="/admin#/repairs?id={{item.id}}">{{item.car.exp_date_str}}</a></td>
+                                <td><a href="/admin#/repairs?id={{item.id}}">{{item.car.max_file_size}}MB</a></td>
+                                <td><a href="/admin#/repairs?id={{item.id}}">0</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+
+            <ul class="paging" ng-if="pages.length>1">
+                <li ng-click="gotoPage(1)"><<</li>
+                <li ng-click="gotoPage(page - 1)"><</li>
+                <li ng-repeat="p in pages" class="page {{p==query.p?'active':''}}" ng-click="gotoPage(p)">{{p}}</li>
+                <li ng-click="gotoPage(page + 1)">></li>
+                <li ng-click="gotoPage(pages.length)">>></li>
+            </ul>
+        </div>
+
+    </div>
+</div>

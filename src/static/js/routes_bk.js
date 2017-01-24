@@ -37,5 +37,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('editpayment', {
           url: "/edit-payment",
           templateUrl: "backend/payment-edit.html"
+      }).state('repairs', {
+          url: "/repairs",
+          templateUrl: "backend/repairs.html"
       });
 });

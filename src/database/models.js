@@ -351,8 +351,11 @@ var Repair = sequelize.define('repairs', {
     price: {
         type: Sequelize.DOUBLE,
         field: 'price'
+    },
+    view_count: {
+        type: Sequelize.INTEGER,
+        field: 'viewCount'
     }
-    
 });
 
 var RepairWork = sequelize.define('repair_works', {

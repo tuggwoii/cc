@@ -8,12 +8,16 @@ module.factory('ShareService', ['$http', '$q', 'URLS', function ($http, $q, URLS
         get: function (p, q) {
             var key = URLS.model(service).all
                 + ('?p=' + p)
+                + ( q['q']? '&q=' + q['q'] : '')
                 + ('&limits=' + q['limits'])
                 + (q['work'] ? '&work=' + q['work'] : '')
                 + (q['province'] ? '&province=' + q['province'] : '')
                 + (q['lp'] ? '&lp=' + q['lp'] : '')
                 + (q['hp'] ? '&hp=' + q['hp'] : '')
-                + (q['rating'] ? '&rating=' + q['rating'] : '');
+                + (q['rating'] ? '&rating=' + q['rating'] : '')
+                + (q['sort_column'] ? '&sort_column=' + q['sort_column'] : '')
+                + (q['sort_order'] ? '&sort_order=' + q['sort_order'] : '')
+            ;
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     //resolve(cache[key]);

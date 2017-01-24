@@ -25,6 +25,10 @@ module.factory('Helper', [function () {
             var date = new Date(_date);
             return date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);
         },
+        shortDate: function (_date) {
+            var date = new Date(_date);
+            return date.getDate() + '-' + (date.getMonth() + 1) + '-' + (date.getFullYear() + 543);
+        },
         readableDateTime: function (_date) {
             var date = new Date(_date);
             var hour = date.getHours();

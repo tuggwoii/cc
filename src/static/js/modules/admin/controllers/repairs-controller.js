@@ -1,14 +1,15 @@
 ﻿'use strict';
-module.controller('UsersController', ['$scope', '$rootScope', '$timeout', '$q', 'AccountService', 'Helper', 'Event',
-function ($scope, $rootScope, $timeout, $q, AccountService, Helper, Event) {
+module.controller('RepairsController', ['$scope', '$rootScope', '$timeout', '$q', 'ShareService', 'Helper', 'Event',
+function ($scope, $rootScope, $timeout, $q, ShareService, Helper, Event) {
 
     $scope.query = {
         p: 1,
         q: '',
         e: '',
         r: '',
-        o: 'ASC',
-        s: 'name'
+        sort_order: 'DESC',
+        sort_column: 'date',
+        limits: 100
     };
 
     $scope.status = {
@@ -16,19 +17,19 @@ function ($scope, $rootScope, $timeout, $q, AccountService, Helper, Event) {
     };
 
     function loadUsers(isPaging) {
-        AccountService.getAll($scope.query).then(function (res) {
+        ShareService.get($scope.query.p, $scope.query).then(function (res) {
             if (app.debug) {
-                console.log('GET USERS', res);
+                console.log('GET REPAIRS', res);
             }
-            $scope.users = res.data;
-            initModel($scope.users);
+            $scope.repairs = res.data;
+            initModel($scope.repairs);
             $scope.pagings(res.meta);
             initScroll();
             if (isPaging) {
                 $rootScope.$broadcast(Event.Load.Dismiss);
             }
         }).catch(function () {
-            alert('CAN NOT LOAD USERS');
+            alert('CAN NOT LOAD REPAIRS');
             if (isPaging) {
                 $rootScope.$broadcast(Event.Load.Dismiss);
             }
@@ -49,7 +50,8 @@ function ($scope, $rootScope, $timeout, $q, AccountService, Helper, Event) {
 
     function initModel(users) {
         angular.forEach(users, function (u) {
-            u.register_date = Helper.readableDate(u.createdAt);
+            u.date_str = Helper.shortDate(u.date);
+            u.car.exp_date_str = Helper.shortDate(u.car.exp_date);
         });
     }
 
@@ -68,19 +70,19 @@ function ($scope, $rootScope, $timeout, $q, AccountService, Helper, Event) {
     $scope.search = function () {
         $scope.status.loading = true;
         $scope.query.p = 1;
-        AccountService.getAll($scope.query).then(function (res) {
+        ShareService.get($scope.query.p, $scope.query).then(function (res) {
             if (app.debug) {
-                console.log('GET USERS', res);
+                console.log('GET REPAIRS', res);
             }
-            $scope.users = res.data;
-            initModel($scope.users);
+            $scope.repairs = res.data;
+            initModel($scope.repairs);
             $scope.pagings(res.meta);
             initScroll();
             $timeout(function () {
                 $scope.status.loading = false;
             }, 500);
         }).catch(function () {
-            alert('CAN NOT LOAD USERS');
+            alert('CAN NOT LOAD REPAIRS');
             $timeout(function () {
                 $scope.status.loading = false;
             }, 500);

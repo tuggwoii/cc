@@ -1,5 +1,6 @@
 ﻿'use strict';
 var fs = require('fs');
+var sequelize = require('../database/connection');
 var Repair = require('../database/models').Repair;
 var User = require('../database/models').User;
 var Car = require('../database/models').Car;
@@ -280,48 +281,78 @@ class RepairApi extends BaseApi {
         }
         var skip = items * (p - 1);
 
-        var q = {
+        var CONDITIONS = {
             share: true,
             price: {},
-            score: {}
+            score: {},
         };
-        var shop_associative = { model: Shop };
+
+        var SHOP_ASSOSIATIVE = { model: Shop };
+        var CAR_ASSOSIATIVE = { model: Car, include: [{ model: File }] };
+
         if (queries['work']) {
-            q.work = parseInt(queries['work']);
+            CONDITIONS.work = parseInt(queries['work']);
         }
         if (queries['province']) {
-            shop_associative.where = { province: queries['province'] }
+            SHOP_ASSOSIATIVE.where = { province: queries['province'] }
         }
         if (queries['lp']) {
-            q.price.$gte = parseInt(queries['lp']);
+            CONDITIONS.price.$gte = parseInt(queries['lp']);
         }
         if (queries['hp']) {
-            q.price.$lte = parseInt(queries['hp']);
+            CONDITIONS.price.$lte = parseInt(queries['hp']);
         }
-        if (!q.price.$gte && !q.price.$lte) {
-            delete q['price'];
+        if (!CONDITIONS.price.$gte && !CONDITIONS.price.$lte) {
+            delete CONDITIONS['price'];
         }
         if (queries['rating']) {
-            q.score.$gte  = parseInt(queries['rating']);
+            CONDITIONS.score.$gte = parseInt(queries['rating']);
         }
-        if (!q.score.$gte) {
-            delete q['score'];
+        if (!CONDITIONS.score.$gte) {
+            delete CONDITIONS['score'];
+        }
+        if (queries['q']) {
+            
+            var AND_CONDITION = CONDITIONS;
+            CONDITIONS = {};
+            CONDITIONS.$and = [
+                AND_CONDITION,
+                {
+                    $or: [
+                       { title: { like: '%' + queries['q'] + '%' } },
+                       sequelize.where(sequelize.literal('(SELECT brand FROM cars WHERE repairs.carId = cars.id)'), { like: '%' + queries['q'] + '%' }),
+                       sequelize.where(sequelize.literal('(SELECT serial FROM cars WHERE repairs.carId = cars.id)'), { like: '%' + queries['q'] + '%' })
+                    ]
+                }
+            ]
+           /*
+            CAR_ASSOSIATIVE.where = {
+                $or: [
+                    { serial: { like: '%' + queries['q'] + '%' } },
+                    { brand: { like: '%' + queries['q'] + '%' } }
+                ]
+            }*/
+        }
+
+        var order_by = [["updatedAt", "DESC"]];
+        if (queries['sort_column']) {
+            order_by = [[queries['sort_column'], queries['sort_order']]];
         }
 
         Repair.all({
-            where: q,
-            order: [["updatedAt", "DESC"]],
+            where: CONDITIONS,
+            order: order_by,
             include: [
-                { model: Car, include: [{ model: File }]},
+                CAR_ASSOSIATIVE,
                 { model: Work },
                 { model: User, include: [{ model: File }] },
                 { model: RepairWork },
-                shop_associative
+                SHOP_ASSOSIATIVE
             ],
             offset: skip,
             limit: items
         }).then(function (data) {
-            Repair.count({ where: q, include: [shop_associative] }).then(function (count) {
+            Repair.count({ where: CONDITIONS, include: [CAR_ASSOSIATIVE, SHOP_ASSOSIATIVE] }).then(function (count) {
                 var meta = {
                     count: count,
                     limits: items

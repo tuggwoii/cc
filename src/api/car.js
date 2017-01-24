@@ -261,6 +261,9 @@ class CarApi extends BaseApi {
         if (data.id) {
             model.id = data.id;
         }
+        else {
+            model.max_file_size = 50;
+        }
         if (data.image && data.image.id) {
             model.image = data.image.id;
         }
