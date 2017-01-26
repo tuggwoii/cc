@@ -28,7 +28,8 @@ module.factory('URLS', function () {
             image: base + model + '/image',
             shops: base + model.slice(0, -1) + '/shops',
             image_id: base + model + '/image/{id}',
-            admin_all: base +'admin/'+ model
+            admin_all: base + 'admin/' + model,
+            countView: base + model + '/view/{id}'
         };
     }
 

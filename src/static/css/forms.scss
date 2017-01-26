@@ -282,24 +282,124 @@ input[type=checkbox] {
     width: 100%;
     max-width: 100%;
 }
+
 .app .wrapper .payment form label {
     width: 100%;
 }
-.app .wrapper .backend-user.payment form label  {
+
+.app .wrapper .backend-user.payment form label {
     width: 180px;
 }
 
+multiple-select .dropdown {
+    background: rgba(120,120,120,0.7);
+    position: relative;
+    border: 1px solid #646464;
+    border-radius: 4px;
+}
+
+multiple-select .dropdown dd,
+multiple-select .dropdown dt {
+    margin: 0px;
+    padding: 0px;
+}
+
+multiple-select .dropdown ul {
+    margin: -1px 0 0 0;
+}
+
+multiple-select .dropdown dd {
+    position: relative;
+}
+
+multiple-select .dropdown a,
+multiple-select .dropdown a:visited {
+    text-decoration: none;
+    outline: none;
+    font-size: 12px;
+}
+
+multiple-select .dropdown dt a {
+    display: block;
+    padding: 0px 20px 0px 10px;
+    height: 48px;
+    overflow: hidden;
+    border: 0;
+    width: 100%;
+}
+
+multiple-select .dropdown dt a span,
+multiple-select .multiSel span {
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 3px 2px 0;
+    font-size: 24px;
+    color: #fff;
+    font-weight: normal;
+}
+
+multiple-select .dropdown dd ul {
+    background: rgba(120,120,120, 1);
+    border: 1px solid #646464;
+    display: none;
+    left: 0px;
+    padding: 2px 15px 2px 5px;
+    position: absolute;
+    top: 4px;
+    width: 100%;
+    list-style: none;
+    height: 150px;
+    overflow: auto;
+    z-index: 99;
+    border-radius: 4px;
+}
+multiple-select .dropdown dd ul li {
+   width: 100%;
+}
+multiple-select .dropdown span.value {
+    display: none;
+}
+
+multiple-select .dropdown dd ul li a {
+    padding: 5px;
+    display: block;
+}
+
+multiple-select .dropdown dd ul li a:hover {
+    background-color: #fff;
+}
+
+multiple-select button {
+    background-color: #6BBE92;
+    width: 302px;
+    border: 0;
+    padding: 10px 0;
+    margin: 5px 0;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+}
+multiple-select .hida {
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+multiple-select .multiple-select-label {
+    position: relative;
+    top: -5px;
+    left: 5px;
+}
 @media screen and (max-width: 767px) {
 
-    input[type=text].form-control, 
-    input[type=password].form-control, 
-    input[type=email].form-control, 
+    input[type=text].form-control,
+    input[type=password].form-control,
+    input[type=email].form-control,
     input[type=number].form-control {
         height: 36px;
         font-size: 22px;
         padding: 3px 5px;
         max-width: 9999px;
-        min-width:0;
+        min-width: 0;
     }
 
     textarea.form-control {
@@ -316,8 +416,9 @@ input[type=checkbox] {
         font-size: 22px;
         padding: 3px 5px;
         max-width: 9999px;
-        min-width:0;
+        min-width: 0;
     }
+
     .app .wrapper .section {
         width: 100%;
         max-width: 100%;

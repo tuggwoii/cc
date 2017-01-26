@@ -2404,3 +2404,21 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
     display:inline-block;
     width:auto;
 }
+.view_count {
+    float: left;
+    position: relative;
+    top: -50px;
+
+    span.label {
+        font-size: 28px;
+        color: #f55d22;
+        .fa {
+            font-size: 20px;
+        }
+    }
+    span.counter {
+        font-size: 28px;
+        color: #44ff50;
+        font-family: saraban-bold;
+    }
+}

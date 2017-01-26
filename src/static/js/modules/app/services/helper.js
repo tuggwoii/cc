@@ -4,9 +4,11 @@ String.prototype.replaceAll = function (search, replacement) {
     return target.split(search).join(replacement);
 };
 module.factory('Helper', [function () {
+    var _monthsShort = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'ม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    var _monthsFull = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม ', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
     return {
-        monthsShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'ม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
-        monthsFull: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม ', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+        monthsShort: _monthsShort,
+        monthsFull: _monthsFull,
         monthArray: function () {
             var months = [];
             for (var i = 1; i <= 12; i++) {
@@ -20,6 +22,16 @@ module.factory('Helper', [function () {
                 dates.push(i);
             }
             return dates;
+        },
+        getMonthListAsKeyPair: function() {
+            var months = [];
+            for (var i = 0; i < 12; i++) {
+                months.push({
+                    key: _monthsShort[i],
+                    value: i
+                });
+            }
+            return months;
         },
         readableDate: function (_date) {
             var date = new Date(_date);

@@ -25,12 +25,21 @@
                 </div>
                 <div class="form-group">
                     <label>รูป</label>
-                    <select class="form-control" ng-model="query.has_image">
+                    <select class="form-control" ng-model="query.hasimage">
                         <option value="">ทั้งเหมด</option>
                         <option value="1">เฉพาะที่มีรูป</option>
                     </select>
                 </div>
-                
+            </div>
+            <div class="filter-field">
+                <div class="form-group">
+                    <label>เดือนที่หมดอายุ</label>
+                    <multiple-select options="months" model="query.months"></multiple-select>
+                </div>
+                <div class="form-group">
+                    <label>ปีที่หมดอายุ</label>
+                    <input type="number" class="form-control" ng-model="query.year"/>
+                </div>
             </div>
             <h2>การจัดเรียง</h2>
             <div class="filter-field sort-section">
@@ -82,7 +91,7 @@
                                 <td><a href="/admin#/repairs?id={{item.id}}">{{item.car.brand}}</a></td>
                                 <td><a href="/admin#/repairs?id={{item.id}}">{{item.car.exp_date_str}}</a></td>
                                 <td><a href="/admin#/repairs?id={{item.id}}">{{item.car.max_file_size}}MB</a></td>
-                                <td><a href="/admin#/repairs?id={{item.id}}">0</a></td>
+                                <td><a href="/admin#/repairs?id={{item.id}}">{{item.view_count? item.view_count : 0}}</a></td>
                             </tr>
                         </tbody>
                     </table>

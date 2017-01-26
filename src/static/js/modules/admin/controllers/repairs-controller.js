@@ -7,14 +7,18 @@ function ($scope, $rootScope, $timeout, $q, ShareService, Helper, Event) {
         q: '',
         e: '',
         r: '',
+        hasimage: '',
         sort_order: 'DESC',
         sort_column: 'date',
-        limits: 100
+        limits: 100,
+        months: ''
     };
 
     $scope.status = {
         loading: false
     };
+
+    $scope.months = Helper.getMonthListAsKeyPair();
 
     function loadUsers(isPaging) {
         ShareService.get($scope.query.p, $scope.query).then(function (res) {
@@ -70,6 +74,7 @@ function ($scope, $rootScope, $timeout, $q, ShareService, Helper, Event) {
     $scope.search = function () {
         $scope.status.loading = true;
         $scope.query.p = 1;
+        console.log($scope.query);
         ShareService.get($scope.query.p, $scope.query).then(function (res) {
             if (app.debug) {
                 console.log('GET REPAIRS', res);

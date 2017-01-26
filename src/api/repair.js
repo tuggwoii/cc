@@ -289,6 +289,7 @@ class RepairApi extends BaseApi {
 
         var SHOP_ASSOSIATIVE = { model: Shop };
         var CAR_ASSOSIATIVE = { model: Car, include: [{ model: File }] };
+        var REPAIR_IMAGE_ASSOSIATIVE = { model: RepairImage, include: [{ model: File }] };
 
         if (queries['work']) {
             CONDITIONS.work = parseInt(queries['work']);
@@ -311,8 +312,39 @@ class RepairApi extends BaseApi {
         if (!CONDITIONS.score.$gte) {
             delete CONDITIONS['score'];
         }
+        if (queries['hasimage']) {
+            CONDITIONS = {
+                $and: [
+                        sequelize.where(sequelize.literal('(SELECT COUNT(*) FROM repair_images WHERE repair_images.repairId = repairs.id)'), { $gte: 1 }),
+                        CONDITIONS
+                ]
+            }
+        }
+        if (queries['months'] && queries['year']) {
+            CAR_ASSOSIATIVE.where = {
+                $or: []
+            }
+            var _months = queries['months'].split(',');
+            for (var i = 0; i < _months.length; i++) {
+                var fdate = new Date(parseInt(queries['year']) - 543, parseInt(_months[i]), 1);
+                var bdate = new Date(parseInt(queries['year']) - 543, parseInt(_months[i]) + 1, 1)
+                CAR_ASSOSIATIVE.where.$or.push({
+                    $and: [
+                        {
+                            exp_date: {
+                                $gte: fdate
+                            }
+                        },
+                         {
+                             exp_date: {
+                                 $lte: bdate
+                             }
+                         }
+                    ]
+                });
+            }
+        }
         if (queries['q']) {
-            
             var AND_CONDITION = CONDITIONS;
             CONDITIONS = {};
             CONDITIONS.$and = [
@@ -325,16 +357,9 @@ class RepairApi extends BaseApi {
                     ]
                 }
             ]
-           /*
-            CAR_ASSOSIATIVE.where = {
-                $or: [
-                    { serial: { like: '%' + queries['q'] + '%' } },
-                    { brand: { like: '%' + queries['q'] + '%' } }
-                ]
-            }*/
         }
 
-        var order_by = [["updatedAt", "DESC"]];
+        var order_by = [["createdAt", "DESC"]];
         if (queries['sort_column']) {
             order_by = [[queries['sort_column'], queries['sort_order']]];
         }
@@ -725,6 +750,36 @@ class RepairApi extends BaseApi {
         });
     }
 
+    viewCount(context, req, res) {
+        if (req.params.id) {
+            Repair.findById(req.params.id, {
+                include: [
+                    { model: User }
+                ]
+            }).then(function (_repair) {
+                var attr = {
+                    view_count: _repair.view_count
+                };
+                if (attr.view_count) {
+                    attr.view_count = attr.view_count + 1;
+                }
+                else {
+                    attr.view_count = 1;
+                }
+                _repair.updateAttributes(attr).then(function (_updated_repair) {
+                    context.success(req, res, { success: 'success' });
+                }).catch(function (err) {
+                    context.error(req, res, err, 500);
+                });
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+        else {
+            context.notfound(res);
+        }
+    }
+
     endpoints() {
         return [
             { url: '/shares', method: 'get', roles: [], response: this.getAll },
@@ -736,7 +791,8 @@ class RepairApi extends BaseApi {
             { url: '/repairs/image', method: 'post', roles: ['admin', 'user'], response: this.saveImage },
             { url: '/repairs/image', method: 'delete', roles: ['admin', 'user'], response: this.deleteImage, params: ['id'] },
             { url: '/repairs/image', method: 'patch', roles: ['admin', 'user'], response: this.updateImage },
-            { url: '/repair/shops', method: 'get', roles: ['admin', 'user'], response: this.getPreviousShop }
+            { url: '/repair/shops', method: 'get', roles: ['admin', 'user'], response: this.getPreviousShop },
+            { url: '/repairs/view', method: 'patch', roles: [], response: this.viewCount, params: ['id'] }
         ];
     }
 }

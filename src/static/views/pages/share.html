@@ -43,6 +43,12 @@
                     </div>
 
                     <div class="subpage share-detail-page" ng-controller="ShareController">
+                        <span id="Id" class="sr-only" data-id="<%= id %>"></span>
+                        <div class="view_count">
+                            <span class="label"><i class="fa fa-user"></i> ดูทั้งหมด: </span>
+                            <span class="counter"><%= view_count ? view_count : 0 %> ครั้ง</span>
+                        </div>
+                        
                         <h1>
                             <img src="/img/logo.png" />
                             <span><%= title %></span>
