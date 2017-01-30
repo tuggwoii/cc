@@ -2422,3 +2422,40 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
         font-family: saraban-bold;
     }
 }
+.delete-image-popup {
+    overflow:hidden !important;
+
+    .images  {
+        overflow: auto;
+        height: 430px;
+
+        .image {
+            margin-top: 10px;
+            img {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    }
+
+    .btn {
+        position: relative;
+        top: 15px;
+    }
+}
+.removeImageControl {
+
+    position: relative;
+    top: 22px;
+
+    span {
+        cursor: pointer;
+    }
+    .fa {
+        font-size: 16px;
+    }
+}
+.app .wrapper .backend-user h2 .btn-link {
+    color:#fff;
+    min-width: 70px;
+}

@@ -82,6 +82,7 @@ exports.share = function (data) {
         if (model.user.file) {
             model.user.image = model.user.file;
             delete model.user['file'];
+            delete model.user['forgot_password_token'];
         }
     }
     if (model.repair_works && model.repair_works.length) {

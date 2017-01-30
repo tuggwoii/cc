@@ -51,5 +51,8 @@ module.factory('Event', [function () {
             Display: 'DISPLAY_MESSAGE',
             Dismiss: 'DISMISS_MESSAGE'
         },
+        ImageDeleteConfirm: {
+            Display: 'DISPLAY_IMAGE_DELETE_CONFIRM'
+        }
     };
 }]);

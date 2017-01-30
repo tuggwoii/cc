@@ -1,0 +1,14 @@
+﻿<div class="popup-container animated {{animation}}" ng-if="display">
+    <div class="popup-panel delete-image-popup">
+        <i class="fa fa-remove" ng-click="close()"></i>
+        <div class="popup-body work-popup">
+            <h2>ยืนยันการลบรูปภาพ ({{images.length}})</h2>
+            <div class="images">
+                <div class="image" ng-repeat="img in images">
+                    <img ng-src="{{img.file.url}}" />
+                </div>
+            </div>
+            <button class="btn btn-danger">ลบทั้งหมด</button>
+        </div>
+    </div>
+</div>

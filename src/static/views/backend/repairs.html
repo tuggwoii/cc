@@ -68,12 +68,27 @@
         </div>
 
         <div class="users-list">
-            <h2>Repairs ({{total}})</h2>
+            <h2>
+                <span>Repairs ({{total}})</span>
+                <span ng-if="!isRemoveImageMode"><button class="btn btn-danger remove-image-mode-button" ng-click="removeImageMode()"><i class="fa fa-photo"></i> โหมดลบรูป</button></span>
+                <span ng-if="isRemoveImageMode">
+                    <button class="btn btn-danger remove-image-mode-button" ng-click="removeImage()">
+                        <i class="fa fa-remove"></i> ลบทั้งหมด
+                    </button>
+                    <button class="btn btn-link" ng-click="cancelRemoveImageMode()">ยกเลิก</button>
+                </span>
+            </h2>
+            <div class="removeImageControl" ng-if="isRemoveImageMode">
+                <span class="selectAll" ng-click="checkAll()"><i class="fa fa-check-square-o"></i> Select All</span>
+                <span>/</span>
+                <span class="removeAll" ng-click="uncheckAll()"><i class="fa fa-minus-square-o"></i> Remove All</span>
+            </div>
             <div id="iscroll" class="iscroll">
                 <div class="table-scroll">
                     <table class="table">
                         <thead>
                             <tr>
+                                <td ng-if="isRemoveImageMode">เลือก</td>
                                 <td>วันที่ซ่อม</td>
                                 <td>ชื่อเรื่อง</td>
                                 <td>ทะเบียน</td>
@@ -84,7 +99,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in repairs" ng-click="navigateTo('#/repairs?id=' + item.id)">
+                            <tr ng-repeat="item in repairs">
+                                <td ng-if="isRemoveImageMode">
+                                    <input class="imageCheckbox" type="checkbox" value="{{item.id}}" />
+                                </td>
                                 <td><a href="/admin#/repairs?id={{item.id}}">{{item.date_str}}</a></td>
                                 <td><a href="/admin#/repairs?id={{item.id}}">{{item.title}}</a></td>
                                 <td><a href="/admin#/repairs?id={{item.id}}">{{item.car.serial}}</a></td>

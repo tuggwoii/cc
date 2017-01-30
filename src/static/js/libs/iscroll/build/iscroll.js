@@ -940,7 +940,7 @@ IScroll.prototype = {
 		eventType(window, 'resize', this);
 
 		if ( this.options.click ) {
-			eventType(this.wrapper, 'click', this, true);
+			//eventType(this.wrapper, 'click', this, true);
 		}
 
 		if ( !this.options.disableMouse ) {

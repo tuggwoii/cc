@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('RepairsController', ['$scope', '$rootScope', '$timeout', '$q', 'ShareService', 'Helper', 'Event',
-function ($scope, $rootScope, $timeout, $q, ShareService, Helper, Event) {
+module.controller('RepairsController', ['$scope', '$rootScope', '$timeout', '$q', 'RepairService', 'ShareService', 'Helper', 'Event',
+function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper, Event) {
 
     $scope.query = {
         p: 1,
@@ -71,6 +71,16 @@ function ($scope, $rootScope, $timeout, $q, ShareService, Helper, Event) {
         }, 200);
     }
 
+    function getById(elements, id) {
+        var r;
+        angular.forEach(elements, function (e) {
+            if (e.id == id) {
+                r = e;
+            }
+        });
+        return r;
+    }
+
     $scope.search = function () {
         $scope.status.loading = true;
         $scope.query.p = 1;
@@ -130,5 +140,49 @@ function ($scope, $rootScope, $timeout, $q, ShareService, Helper, Event) {
         }
     };
 
+    $scope.removeImageMode = function () {
+        $scope.isRemoveImageMode = true;
+    };
+
+    $scope.cancelRemoveImageMode = function () {
+        $scope.isRemoveImageMode = false;
+    };
+
+    function recursiveRemoveImages(curr, images) {
+
+    }
+
+    $scope.removeImage = function () {
+        var checked = $('.imageCheckbox:checked');
+        var images = [];
+        checked.each(function () {
+            var e = getById($scope.repairs, $(this).val());
+            if (e) {
+                angular.forEach(e.repair_images, function (img) {
+                    images.push(img);
+                });
+            };
+        });
+        if (images.length) {
+            $rootScope.$broadcast(Event.ImageDeleteConfirm.Display, images, function () {
+
+            });
+        }
+        else {
+            $rootScope.$broadcast(Event.Message.Display, 'ไม่พบรูปภาพในรายการทั้งหมด');
+        }
+
+    };
+
+    $scope.uncheckAll = function () {
+        $('.imageCheckbox').prop('checked', false);
+    };
+
+    $scope.checkAll = function () {
+        $('.imageCheckbox').prop('checked', true);
+    };
+
     $scope.usersPage();
+
+
 }]);

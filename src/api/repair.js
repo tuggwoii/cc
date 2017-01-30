@@ -372,7 +372,8 @@ class RepairApi extends BaseApi {
                 { model: Work },
                 { model: User, include: [{ model: File }] },
                 { model: RepairWork },
-                SHOP_ASSOSIATIVE
+                SHOP_ASSOSIATIVE,
+                REPAIR_IMAGE_ASSOSIATIVE
             ],
             offset: skip,
             limit: items
@@ -700,7 +701,7 @@ class RepairApi extends BaseApi {
                     var owner = _repair_image.owner;
                     var image_id = _repair_image.image_id;
                     var file_url = appRoot + _repair_image.file.url;
-                    if (req.user.id === owner) {
+                    if (req.user.id === owner || req.user.role === 1) {
                         RepairImage.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function () {
                             File.destroy({ where: { id: image_id, owner: req.user.id } }).then(function () {
                                 fs.unlinkSync(file_url);

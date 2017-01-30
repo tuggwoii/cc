@@ -677,6 +677,14 @@
             }
         }
     }
+
+    multiple-select .dropdown dt a {
+        height: 35px;
+    }
+    multiple-select .dropdown dt a span {
+        max-height: 25px;
+        overflow: hidden;
+    }
 }
 @media screen and (max-width: 600px) {
     h2 .edit-repair-shop-button.repair-hot-fix {
@@ -1104,6 +1112,10 @@
         height: 40px;
         min-width: 120px;
     }
+    .app .wrapper .backend-user h2 .remove-image-mode-button {
+        top: -13px;
+    }
+    
 }
 
 
