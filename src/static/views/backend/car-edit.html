@@ -189,16 +189,12 @@
                 </div>
                 <div class="form-group">
                     <label class="capital">
-                        ไฟล์ที่เก็บได้
+                        ไฟล์ที่เก็บได้ (MB)
                     </label>
-                    <select class="form-control"
+                    <input class="form-control"
+                           type="number"
                             ng-model="model.max_file_size"
-                            ng-required="true">
-                        <option value="100">100 MB</option>
-                        <option value="200">200 MB</option>
-                        <option value="500">500 MB</option>
-                        <option value="1000">1 GB</option>
-                    </select>
+                            ng-required="true"/>
                 </div>
             </div>
             <div class="section right hidden-xs">

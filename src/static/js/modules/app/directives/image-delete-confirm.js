@@ -52,6 +52,13 @@
                 }
             };
 
+            scope.confirm = function () {
+                close();
+                if (scope.callback) {
+                    scope.callback();
+                }
+            };
+
             $(window).resize(scope.setHeight);
         }
     };

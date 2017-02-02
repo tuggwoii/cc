@@ -397,7 +397,7 @@ class RepairApi extends BaseApi {
             context.getRepairById(req.params.id).then(function (_repair) {
                 if (_repair) {
                     var owner = _repair.owner;
-                    if (req.user.id === owner) {
+                    if (req.user.id === owner || req.user.role.id === 1) {
                         context.success(req, res, _repair, {}, RepairSerializer.default);
                     }
                     else {
@@ -609,10 +609,10 @@ class RepairApi extends BaseApi {
             }).then(function (_repair) {
                 if (_repair) {
                     var owner = _repair.owner;
-                    if (req.user.id === owner) {
+                    if (req.user.id === owner || req.user.role.id === 1) {
                         var shopId = _repair.repair_shop;
                         RepairWork.destroy({ where: { for_repair: _repair.id } }).then(function () {
-                            Repair.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function () {
+                            Repair.destroy({ where: { id: req.params.id, owner: owner } }).then(function () {
                                 context.updateShopScoreAndService(context, shopId).then(function () {
                                     context.success(req, res, {});
                                 }).catch(function (err) {
@@ -701,8 +701,9 @@ class RepairApi extends BaseApi {
                     var owner = _repair_image.owner;
                     var image_id = _repair_image.image_id;
                     var file_url = appRoot + _repair_image.file.url;
-                    if (req.user.id === owner || req.user.role === 1) {
-                        RepairImage.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function () {
+                    
+                    if (req.user.id === owner || req.user.role.id === 1) {
+                        RepairImage.destroy({ where: { id: req.params.id, owner: owner } }).then(function () {
                             File.destroy({ where: { id: image_id, owner: req.user.id } }).then(function () {
                                 fs.unlinkSync(file_url);
                                 context.success(req, res, {});

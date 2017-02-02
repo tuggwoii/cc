@@ -81,10 +81,28 @@ function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper,
         return r;
     }
 
+    function recursiveRemoveImages(curr, images) {
+        RepairService.deleteImage(images[curr]).then(function () {
+            recursiveRemoveImagesNext(curr, images);
+        }).catch(function () {
+            recursiveRemoveImagesNext(curr, images);
+        });
+    }
+
+    function recursiveRemoveImagesNext(curr, images) {
+        curr = curr+1;
+        if (curr < images.length) {
+            recursiveRemoveImages(curr, images);
+        }
+        else {
+            $scope.isRemoveImageMode = false;
+            $rootScope.$broadcast(Event.Load.Dismiss);
+        }
+    }
+
     $scope.search = function () {
         $scope.status.loading = true;
         $scope.query.p = 1;
-        console.log($scope.query);
         ShareService.get($scope.query.p, $scope.query).then(function (res) {
             if (app.debug) {
                 console.log('GET REPAIRS', res);
@@ -148,10 +166,6 @@ function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper,
         $scope.isRemoveImageMode = false;
     };
 
-    function recursiveRemoveImages(curr, images) {
-
-    }
-
     $scope.removeImage = function () {
         var checked = $('.imageCheckbox:checked');
         var images = [];
@@ -165,7 +179,8 @@ function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper,
         });
         if (images.length) {
             $rootScope.$broadcast(Event.ImageDeleteConfirm.Display, images, function () {
-
+                $rootScope.$broadcast(Event.Load.Display);
+                recursiveRemoveImages(0, images);
             });
         }
         else {

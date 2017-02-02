@@ -1,0 +1,204 @@
+﻿<div ng-controller="RepairController">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a ng-click="navigateTo('/admin#/')">Admin ></a>
+                </li>
+                <li>
+                    <a ng-click="navigateTo('#/repairs')">Repairs ></a>
+                </li>
+                <li>{{strings['nav_repair']}}</li>
+            </ul>
+        </div>
+
+        <div class="subpage repair-detail">
+            <h1>
+                <img src="img/logo.png" />
+                <span>{{model.title}}</span>
+            </h1>
+
+            <h2>
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <span>รายละเอียดการซ่อมบำรุง</span>
+                <span class="btn-action edit-repair-info-button">
+                    <button class="btn btn-danger edit-link" ng-click="impersonate()">
+                        จำลอง User เพื่อแก้ไขข้อมูล
+                    </button>
+                </span>
+            </h2>
+            <div class="detail-section">
+                <div class="info noimage">
+                    <div class="title">
+                        <label>ชื่อรายการ: </label>
+                        <span>{{model.title}}</span>
+                    </div>
+                    <div class="title">
+                        <label>กลุ่มงานหลัก: </label>
+                        <span>{{model.workgroup.name}}</span>
+                    </div>
+                    <div class="title">
+                        <label>วันที่: </label>
+                        <span>{{model.date_str}}</span>
+                    </div>
+                    <div class="title">
+                        <label>เลขกิโลเมตร: </label>
+                        <span>{{model.mile?model.mile:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
+                        <label>หมายเหตุ: </label>
+                        <span>{{model.remark}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2>
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>ร้านที่ทำการซ่อมบำรุง</span>
+            </h2>
+
+            <div class="detail-section" ng-if="!model.shop || !model.shop.id">
+                <p>ยังไม่ระบุร้าน</p>
+            </div>
+
+            <div class="detail-section shop-detail-on-repair" ng-if="model.shop && model.shop.id">
+
+                <div class="few hidden-sm hidden-lg hidden-md">
+                    <div class="title">
+                        {{model.shop.name}}
+                    </div>
+
+                    <span class="see-more">
+                        ดูทั้งหมด
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <div class="full">
+                    <div class="image">
+                        <img ng-src="{{model.shop.file?model.shop.file.url:'/img/no-photo.jpg'}}" alt="shop-image" />
+                    </div>
+                    <div class="info">
+                        <div class="title">
+                            <label>ชื่อร้าน: </label>
+                            <span>{{model.shop.name}}</span>
+                        </div>
+                        <div class="title">
+                            <label>เจ้าของร้าน: </label>
+                            <span>{{model.shop.owner_name? model.shop.owner_name:'ไม่ระบุ'}}</span>
+                        </div>
+                        <div class="title">
+                            <label>ที่อยู่: </label>
+                            <span>{{model.shop.address? model.shop.address:'ไม่ระบุ'}}</span>
+                        </div>
+                        <div class="title">
+                            <label>จังหวัด: </label>
+                            <span>{{model.shop.province? getProvinceByKey(model.shop.province):'ไม่ระบุ'}}</span>
+                        </div>
+                        <div class="title">
+                            <label>เบอร์โทรศัพท์: </label>
+                            <span>{{model.shop.telephone? model.shop.telephone:'ไม่ระบุ'}}</span>
+                        </div>
+                    </div>
+                    <span class="close-more hidden-sm hidden-lg hidden-md">
+                        ปิด
+                        <i class="fa fa-angle-up" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+
+                <p ng-if="!model.shop || !model.shop.id">ยังไม่ได้ระบุร้าน</p>
+            </div>
+
+            <h2><i class="fa fa-wrench" aria-hidden="true"></i> รายการซ่อมบำรุง <span class="count">({{model.repair_works.length ? model.repair_works.length : 0}})</span></h2>
+            <div class="detail-section">
+                <p ng-if="!model.repair_works.length">ไม่มีงานซ่อมบำรุง</p>
+                <div id="iscroll" class="iscroll">
+                    <div class="table-scroll">
+                        <table class="table" ng-if="model.repair_works.length">
+                            <thead>
+                                <tr>
+                                    <td>รายการ</td>
+                                    <td>ราคา</td>
+                                    <td>กลุ่มงาน</td>
+                                    <td>หมายเหตุ</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="work in model.repair_works">
+                                    <td>{{work.title?work.title:'ไม่ระบุ'}}</td>
+                                    <td>{{work.price ? work.price.formatMoney(2, '.', ',') : 0}} บาท</td>
+                                    <td>{{work.workgroup?work.workgroup.name:'ไม่ระบุ'}}</td>
+                                    <td>{{work.detail?work.detail:''}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="summary-price">รวมทั้งหมด: <span class="price">{{model.price?model.price.formatMoney(2, '.', ',') : 0}} บาท</span></p>
+            </div>
+
+            <h2><i class="fa fa-photo" aria-hidden="true"></i> รูปภาพ</h2>
+            <div class="detail-section repair-image-section">
+                <p class="error-message" id="invalidFile">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
+                <div class="repair-images" ng-if="model.repair_images && model.repair_images.length">
+                    <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4" ng-repeat="image in model.repair_images">
+                        <div class="image repair-image">
+                            <div class="img-border">
+                                <img ng-src="{{image.file?image.file.url:'/img/no-photo.jpg'}}" alt="images" />
+                            </div>
+                            <div class="caption">{{image.caption}}</div>
+                            <div class="controls" ng-click="lightbox(image.file.url, image.caption, $index)">
+                                <div class="cap" ng-click="imageCaption(image, $index);$event.stopPropagation()">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </div>
+                                <div class="del" ng-click="removeImage(image);$event.stopPropagation()">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p ng-if="!model.repair_images || !model.repair_images.length">ยังไม่มีรูป</p>
+            </div>
+
+            <h2>
+                <i class="fa fa-bell" aria-hidden="true"></i>
+                <span>การแจ้งเตือนที่สร้างจากรายการนี้</span>
+            </h2>
+            <div class="detail-section">
+                <div class="notification-link">
+                    <p ng-if="!model.notifications.length">ไม่มีการแจ้งเตือนที่สร้างจากรายการนี้</p>
+                    <table class="table hidden-sm hidden-xs" ng-if="model.notifications.length">
+                        <thead>
+                            <tr>
+                                <td>รายการ</td>
+                                <td>รายละเอียด</td>
+                                <td>วันที่</td>
+                                <td>เลขกิโลเมตร</td>
+                                <td>กลุ่มงาน</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="clickable" ng-repeat="n in model.notifications" ng-click="navigateTo('#/notification?id='+n.id+'&car='+model.car.id)">
+                                <td>{{n.title}}</td>
+                                <td>{{n.detail?n.detail:'-'}}</td>
+                                <td>{{n.date?n.date_str:'-'}}</td>
+                                <td>{{n.mile?n.mile:'-'}}</td>
+                                <td>{{n.work_str}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul class="hidden-lg hidden-md" ng-if="model.notifications.length">
+                        <li ng-repeat="n in model.notifications">
+                            <a href="#/notification?id={{n.id}}&car={{model.car.id}}">{{n.title}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-danger del-repail" ng-click="delete()"><i class="fa fa-remove"></i> ลบรายการ</button>
+        </div>
+
+    </div>
+</div>

@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'RepairService', 'CarService', 'WorkgroupService', 'WorkService', 'Event', 'Helper',
-    function ($scope, $rootScope, $timeout, $q, $location, RepairService, CarService, WorkgroupService, WorkService, Event, Helper) {
+module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'RepairService', 'CarService', 'AccountService', 'WorkgroupService', 'WorkService', 'Event', 'Helper',
+    function ($scope, $rootScope, $timeout, $q, $location, RepairService, CarService,AccountService, WorkgroupService, WorkService, Event, Helper) {
 
         $scope.provinces = _provinces;
         $scope.ratings = ['ไม่ระบุ', 'แย่มาก', 'แย่', 'พอได้', 'ดี', 'ดีมาก']
@@ -327,6 +327,9 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                     if ($scope.from_car) {
                         window.location.hash = '#car?id=' + $scope.carId;
                     }
+                    else if(window.location.href.toLowerCase().indexOf('admin') > -1) {
+                        window.location.href = '/admin#/repairs';
+                    }
                     else {
                         window.location.href = '/';
                     }
@@ -337,6 +340,19 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                     $rootScope.$broadcast(Event.Load.Dismiss);
                 });
             });
+        };
+
+        $scope.impersonate = function () {
+            AccountService.AccountService({ id: $scope.model.user.id }).then(function (res) {
+                AccountService.setAuthenticationToken(res).then(function () {
+                    window.location.href = '/#/repair?id=' + $scope.model.id;
+                });
+            }).catch(function () {
+                $rootScope.$broadcast(Event.Load.Dismiss);
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Message.Display, 'พบปัญหาในการเข้าใช้ User นี้');
+                }, 500);
+            })
         };
 
         $scope.$on(Event.File.Success, $scope.saveImage);

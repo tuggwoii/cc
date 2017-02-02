@@ -74,7 +74,6 @@ class FileApi extends BaseApi {
             context.getCarById(queries.car).then(function (_car) {
                 if (_car) {
                     var car = CarSerializer.default(_car);
-                    console.log(car);
                     if (car.file_usage < car.max_file_size) {
                         context.uploading(context, req, res);
                     }
