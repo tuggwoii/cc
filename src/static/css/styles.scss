@@ -2459,3 +2459,16 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
     color:#fff;
     min-width: 70px;
 }
+.report-image-button {
+    position: absolute;
+    right: 0;
+    bottom: -55px;
+}
+.report-popup img {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+.report-popup .btn {
+    margin-top: 20px;
+}

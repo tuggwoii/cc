@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('ShareController', ['$scope', '$q', '$timeout', '$cookies', 'CarService', 'ShareService',
-    function ($scope, $q, $timeout, $cookies, CarService, ShareService) {
+module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', '$cookies', 'CarService', 'ShareService', 'Event',
+    function ($scope, $rootScope, $q, $timeout, $cookies, CarService, ShareService, Event) {
 
         var lightbox = lity();
         var SHARES_KEY = 'SHRSID';
@@ -28,7 +28,7 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', '$cookies', 'C
             else {
                 $timeout(function () {
                     $scope.loadShare();
-                }, 200);
+                }, 500);
             }
         };
 
@@ -51,7 +51,9 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', '$cookies', 'C
                 }
                 if (shares) {
                     if (shares.ids && shares.ids.length) {
-                        if (!shares.exp_date || shares.exp_date < new Date()) {
+                        var currDate = new Date();
+                        var shareDate = new Date(shares.exp_date);
+                        if (!shares.exp_date || shareDate < new Date()) {
                             saveShareId(shares, id);
                             ShareService.countView(id)
                         }
@@ -63,6 +65,7 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', '$cookies', 'C
                                 }
                             });
                             if (!exist) {
+
                                 saveShareId(shares, id);
                                 ShareService.countView(id)
                             }
@@ -81,7 +84,9 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', '$cookies', 'C
         }
 
         function saveShareId(shares, id) {
-            if (!shares || shares == null || !shares.ids || !shares.exp_date || shares.exp_date < new Date()) {
+            var currDate = new Date();
+            var shareDate = new Date(shares.exp_date);
+            if (!shares || shares == null || !shares.ids || !shares.exp_date || shareDate < currDate) {
                 var date = new Date();
                 shares = {
                     ids: [],
@@ -112,6 +117,9 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', '$cookies', 'C
             }, 300);
         }
 
+        $scope.image_id = 0;
+        $scope.image_src = '';
+
         $scope.lightbox = function (url, caption, index) {
             lightbox(url);
             $timeout(function () {
@@ -120,29 +128,39 @@ module.controller('ShareController', ['$scope', '$q', '$timeout', '$cookies', 'C
                 }
                 var items = $('.repair-image');
                 if (items.length > 1) {
+                    $scope.image_id = $(items[index]).attr('data-id');
+                    $scope.image_src = url;
                     $('.lity-container').append('<span class="lb-next animated fadeIn"><i class="fa fa-angle-right"></i></span>');
                     $('.lity-container').append('<span class="lb-prev animated fadeIn"><i class="fa fa-angle-left"></i></span>');
-
+                    $('.lity-container').append('<button class="btn btn-danger report-image-button animated fadeIn"><i class="fa fa-photo"></i> Report รูป</button>');
                     $('.lb-next').click(function () {
                         index++;
                         if (index >= items.length) {
                             index = 0;
                         }
-                        var image_src = $($(items[index]).find('img')[0]).attr('src');
+                        $scope.image_id = $(items[index]).attr('data-id');
+                        $scope.image_src = $($(items[index]).find('img')[0]).attr('src');
                         var image_caption = $($(items[index]).find('.caption')[0]).text();
-                        $('.lity-container').find('img').attr('src', image_src);
+                        $('.lity-container').find('img').attr('src', $scope.image_src);
                         $('.lity-container').find('.lb-caption').text(image_caption);
-                    })
+                    });
                     $('.lb-prev').click(function () {
                         index--;
                         if (index < 0) {
                             index = items.length - 1;
                         }
-                        var image_src = $($(items[index]).find('img')[0]).attr('src');
+                        $scope.image_id = $(items[index]).attr('data-id');
+                        $scope.image_src = $($(items[index]).find('img')[0]).attr('src');
                         var image_caption = $($(items[index]).find('.caption')[0]).text();
-                        $('.lity-container').find('img').attr('src', image_src);
+                        $('.lity-container').find('img').attr('src', $scope.image_src);
                         $('.lity-container').find('.lb-caption').text(image_caption);
-                    })
+                    });
+                    $('.report-image-button').click(function () {
+                        $('.lity-close').trigger('click');
+                        $timeout(function () {
+                            $rootScope.$broadcast(Event.Report.Display, $scope.image_id, $scope.image_src);
+                        }, 300);
+                    });
                 }
             }, 200);
         };

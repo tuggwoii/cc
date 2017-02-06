@@ -193,7 +193,7 @@
                                 <div class="repair-images">
                                     <% for(var i=0; i < repair_images.length; i++) { %>
                                     <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-                                        <div class="image repair-image">
+                                        <div class="image repair-image" data-id="<%= repair_images[i].id %>">
                                             <div class="img-border">
                                                 <img ng-click="lightbox('<%= repair_images[i].file.url %>', '<%= repair_images[i].caption %>', <%= i %>)" ng-src="<%= repair_images[i].file ? repair_images[i].file.url: '/img/no-photo.jpg' %>" alt="images" />
                                             </div>
@@ -240,8 +240,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -249,7 +247,9 @@
         <footer ng-include="'/partials/footer.html'"></footer>
     </div>
     <load></load>
+    <message></message>
     <file-upload upload="upload"></file-upload>
+    <report-popup></report-popup>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script type="text/javascript">if (!window.jQuery) { document.write("<script type=\"text/javascript\" src=\"/libs/jquery/dist/jquery.min.js\"><\/script>"); }</script>
     <script src="/css/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
@@ -300,6 +300,9 @@
     <script src="/js/modules/shares/controllers/share-controller.js"></script>
     <script src="/js/modules/shares/controllers/shares-controller.js"></script>
     <script src="/js/modules/app/controllers/nav-controller.js"></script>
+    <script src="/js/modules/report/directives/report-popup.js"></script>
+    <script src="/js/modules/app/directives/message.js"></script>
+    <script src="/js/modules/report/services/reports.js"></script>
     <!-- Go to www.addthis.com/dashboard to customize your tools -->
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5793b03b9c677f27"></script>
     <script>var error_500 = false; var error_404 = false;</script>

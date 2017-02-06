@@ -1,7 +1,7 @@
 ﻿module.directive('message', ['$timeout', 'Event', function ($timeout, Event) {
     return {
         restrict: 'E',
-        templateUrl: 'partials/message.html',
+        templateUrl: '/partials/message.html',
         scope: {
 
         },

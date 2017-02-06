@@ -53,6 +53,9 @@ module.factory('Event', [function () {
         },
         ImageDeleteConfirm: {
             Display: 'DISPLAY_IMAGE_DELETE_CONFIRM'
+        },
+        Report: {
+            Display: 'DISPLAY_REPORT_POPUP'
         }
     };
 }]);

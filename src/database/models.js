@@ -550,6 +550,38 @@ var Contact = sequelize.define('contacts', {
     }
 });
 
+var Report = sequelize.define('reports', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        field: 'id'
+    },
+    createdAt: {
+        type: Sequelize.DATE,
+        field: 'createdAt'
+    },
+    updatedAt: {
+        type: Sequelize.DATE,
+        field: 'updatedAt'
+    },
+    file_id: {
+        type: Sequelize.INTEGER,
+        field: 'fileId'
+    },
+    email: {
+        type: Sequelize.STRING,
+        field: 'email'
+    },
+    name: {
+        type: Sequelize.INTEGER,
+        field: 'name'
+    },
+    message: {
+        type: Sequelize.INTEGER,
+        field: 'message'
+    }
+});
+
 User.belongsTo(Role, { foreignKey: 'user_role' });
 User.belongsTo(File, { foreignKey: 'image' });
 User.hasMany(Car, { foreignKey: 'owner' });
@@ -581,6 +613,7 @@ RepairImage.belongsTo(File, { foreignKey: 'image_id' });
 RepairImage.belongsTo(Repair, { foreignKey: 'repair_id' });
 RepairImage.belongsTo(User, { foreignKey: 'owner' });
 Contact.belongsTo(User, { foreignKey: 'send_by' });
+Report.belongsTo(File, { foreignKey: 'file_id' });
 
 exports.User = User;
 exports.Role = Role;
@@ -594,3 +627,4 @@ exports.Shop = Shop;
 exports.RepairWork = RepairWork;
 exports.RepairImage = RepairImage;
 exports.Contact = Contact;
+exports.Report = Report;
