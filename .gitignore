@@ -4,3 +4,5 @@ Dockerfile
 docker-compose.yml
 src/db/logs/*
 files/*
+files/*.*
+files/*/*

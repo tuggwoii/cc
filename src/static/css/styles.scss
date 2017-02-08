@@ -2472,3 +2472,15 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
 .report-popup .btn {
     margin-top: 20px;
 }
+.backend-user td {
+     min-width: 100px;
+}
+.backend-user td img {
+    max-width: 120px; 
+}
+.backend-user td button {
+    height: 36px;
+    margin-top: 10px;
+    min-width: 90px;
+    width: 90px;
+}

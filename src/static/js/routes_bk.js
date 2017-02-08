@@ -43,5 +43,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('repair', {
           url: "/repair",
           templateUrl: "backend/repair.html"
+      }).state('reports', {
+          url: "/reports",
+          templateUrl: "backend/reports.html"
       });
 });

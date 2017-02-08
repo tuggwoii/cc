@@ -27,14 +27,12 @@ class Share extends Base {
             }).then(function (_data) {
                 if (_data) {
                     var model = serializer.share(_data);
-                    console.log(model);
                     res.status(200).render(route.view, model);
                 }
                 else {
                     context.notfound(res);
                 }
             }).catch(function (err) {
-                console.log(err.stack);
                 context.error(res);
             })
         }

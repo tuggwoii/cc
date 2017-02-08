@@ -1,12 +1,33 @@
 ﻿'use strict';
 var Report = require('../database/models').Report;
+var File = require('../database/models').File;
+var RepairImage = require('../database/models').RepairImage;
 var BaseApi = require('./base');
+var url = require('url');
+var fs = require('fs');
+var limits = 100;
 
 class ReportApi extends BaseApi {
 
     queryById (id) {
         var promise = new Promise(function (resolve, reject) {
             Report.findById(id).then(function (data) {
+                resolve(data);
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+        return promise;
+    }
+
+    queryByImageId(id) {
+        var promise = new Promise(function (resolve, reject) {
+            Report.all({
+                where: { file_id: id },
+                include: [
+                    { model: File }
+                ]
+            }).then(function (data) {
                 resolve(data);
             }).catch(function (err) {
                 reject(err);
@@ -76,9 +97,48 @@ class ReportApi extends BaseApi {
         return model;
     }
 
-    getAll (context, req, res) {
-        Report.all().then(function (data) {
-            context.success(req, res, data);
+    getAll(context, req, res) {
+        var params = url.parse(req.url, true);
+        var queries = params.query;
+
+        var p = 1;
+        if (queries['p']) {
+            p = parseInt(queries['p']);
+        }
+        var _limit = limits;
+        var skip = limits * (p - 1);
+
+        var conditions = {};
+        if (queries['q']) {
+            var _or = {
+                email: { like: '%' + queries['q'] + '%' },
+                message: { like: '%' + queries['q'] + '%' },
+                name: { like: '%' + queries['q'] + '%' }
+            };
+            conditions = {
+                $or: _or
+            };
+        }
+
+        Report.all({
+            where: conditions,
+            include: [
+                { model: File }
+            ],
+            offset: skip,
+            limit: limits
+        }).then(function (data) {
+            Report.count({
+                where: conditions
+            }).then(function (count) {
+                var meta = {
+                    count: count,
+                    limits: _limit
+                };
+                context.success(req, res, data, meta);
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
         }).catch(function (err) {
             context.error(req, res, err, 500);
         });
@@ -158,9 +218,40 @@ class ReportApi extends BaseApi {
         }
     }
 
+    deleteImage(context, req, res) {
+        if (req.params.id) {
+            context.queryByImageId(req.params.id).then(function (_reports) {
+                var _report = _reports[0];
+                var file_url = appRoot + _report.file.url;
+                console.log(file_url);
+                _report.file_id = null;
+                _report.save(['file_id']).then(function (_newReport) {
+                    RepairImage.destroy({ where: { image_id: req.params.id } }).then(function () {
+                        File.destroy({ where: { id: req.params.id } }).then(function () {
+                            fs.unlinkSync(file_url);
+                            context.success(req, res, {});
+                        }).catch(function (err) {
+                            context.error(req, res, err, 500);
+                        });
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
+                }).catch(function (err) {
+                    context.error(req, res, err, 500);
+                });
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+        else {
+            context.notfound();
+        }
+    }
+
     endpoints() {
         return [
             { url: '/reports', method: 'get', roles: ['admin'], response: this.getById, params: ['id'] },
+            { url: '/reports/image', method: 'delete', roles: ['admin'], response: this.deleteImage, params: ['id'] },
             { url: '/reports', method: 'get', roles: ['admin'], response: this.getAll },
             { url: '/reports', method: 'post', roles: [], response: this.add },
             { url: '/reports', method: 'patch', roles: ['admin'], response: this.update },

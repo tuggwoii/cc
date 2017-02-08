@@ -566,7 +566,8 @@ var Report = sequelize.define('reports', {
     },
     file_id: {
         type: Sequelize.INTEGER,
-        field: 'fileId'
+        field: 'fileId',
+        allowNull: true
     },
     email: {
         type: Sequelize.STRING,

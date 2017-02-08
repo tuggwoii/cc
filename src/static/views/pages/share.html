@@ -193,7 +193,7 @@
                                 <div class="repair-images">
                                     <% for(var i=0; i < repair_images.length; i++) { %>
                                     <div class="col-sm-6 col-xs-12 col-md-6 col-lg-4">
-                                        <div class="image repair-image" data-id="<%= repair_images[i].id %>">
+                                        <div class="image repair-image" data-id="<%= repair_images[i].file.id %>">
                                             <div class="img-border">
                                                 <img ng-click="lightbox('<%= repair_images[i].file.url %>', '<%= repair_images[i].caption %>', <%= i %>)" ng-src="<%= repair_images[i].file ? repair_images[i].file.url: '/img/no-photo.jpg' %>" alt="images" />
                                             </div>

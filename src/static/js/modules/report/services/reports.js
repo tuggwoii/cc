@@ -5,8 +5,8 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
     var cache = {};
 
     return {
-        get: function (p, q) {
-            var key = URLS.model(service).all;
+        get: function (query) {
+            var key = URLS.model(service).all + '?p=' + query.p + (query.q ? '&q=' + query.q : '');
             return $q(function (resolve, reject) {
                 $http.get(key).success(function (res) {
                     cache[key] = res;
@@ -27,6 +27,25 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
                 });
             });
         },
-
+        delete: function (model) {
+            var key = URLS.model(service).one.replace('{id}', model.id);
+            return $q(function (resolve, reject) {
+                $http.delete(key).success(function (res) {
+                    resolve(res.data);
+                }).error(function (res) {
+                    reject(res);
+                });
+            });
+        },
+        deleteImage: function (id) {
+            var key = URLS.model(service).image_id.replace('{id}', id);
+            return $q(function (resolve, reject) {
+                $http.delete(key).success(function (res) {
+                    resolve(res.data);
+                }).error(function (res) {
+                    reject(res);
+                });
+            });
+        }
     };
 }]);
