@@ -20,9 +20,8 @@ class BaseApi {
             delete model.user['password'];
             delete model.user['createdAt'];
             delete model.user['updatedAt'];
-            if (model.user.forgot_password_token) {
-                delete model['forgot_password_token'];
-            }
+            delete model.user['forgot_password_token'];
+            delete model.user['ip'];
         }
         if (model.role) {
             delete model.role['createdAt'];

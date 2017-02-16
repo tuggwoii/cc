@@ -46,5 +46,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('reports', {
           url: "/reports",
           templateUrl: "backend/reports.html"
+      }).state('files', {
+          url: "/files",
+          templateUrl: "backend/files.html"
       });
 });

@@ -4,8 +4,18 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
     var service = 'files';
 
     return {
+        get: function (query) {
+            var key = URLS.model(service).all + '?p=' + query.p + (query.q ? '&q=' + query.q : '');
+            return $q(function (resolve, reject) {
+                $http.get(key).success(function (res) {
+                    resolve(res);
+                })
+                .error(function (err) {
+                    reject(err);
+                });
+            });
+        },
         upload: function (file, car) {
-
             return $q(function (resolve, reject) {
                 var fd = new FormData();
                 var url = URLS.model(service).all + (car ? ('?car=' + car) : '');
@@ -17,6 +27,17 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
                 })
                 .success(function (res) {
                     resolve(res.data);
+                })
+                .error(function (err) {
+                    reject(err);
+                });
+            });
+        },
+        delete: function (id) {
+            var key = URLS.model(service).one.replace('{id}', id);
+            return $q(function (resolve, reject) {
+                $http.delete(key).success(function (res) {
+                    resolve(res);
                 })
                 .error(function (err) {
                     reject(err);

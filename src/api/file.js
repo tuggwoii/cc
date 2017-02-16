@@ -5,6 +5,8 @@ var File = require('../database/models').File;
 var Car = require('../database/models').Car;
 var User = require('../database/models').User;
 var Repair = require('../database/models').Repair;
+var Report = require('../database/models').Report;
+var Shop = require('../database/models').Shop;
 var RepairImage = require('../database/models').RepairImage;
 var CarSerializer = require('../serializers/car-serializer');
 var shortid = require('shortid');
@@ -13,6 +15,7 @@ var mime = require('mime');
 var BaseApi = require('./base');
 var Jimp = require("jimp");
 var url = require('url');
+var limits = 100;
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 
 class FileApi extends BaseApi {
@@ -29,9 +32,38 @@ class FileApi extends BaseApi {
         return promise;
     }
 
-    getAll (context, req, res) {
-        File.all().then(function (data) {
-            context.success(req, res, data);
+    getAll(context, req, res) {
+        var params = url.parse(req.url, true);
+        var queries = params.query;
+        var p = 1;
+        if (queries['p']) {
+            p = parseInt(queries['p']);
+        }
+        var _limit = limits;
+        var skip = _limit * (p - 1);
+        var conditions = {};
+
+        if (queries['q']) {
+            conditions = { url: { like: '%' + queries['q'] + '%' } };
+        }
+
+        File.all({
+            where: conditions,
+            offset: skip,
+            limit: _limit,
+            include: [{ model: User }]
+        }).then(function (data) {
+            File.count({
+                where: conditions
+            }).then(function (count) {
+                var meta = {
+                    count: count,
+                    limits: _limit
+                };
+                context.success(req, res, data, meta);
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
         }).catch(function (err) {
             context.error(req, res, err, 500);
         });
@@ -43,13 +75,70 @@ class FileApi extends BaseApi {
         }
     }
 
+    findRelationInFile(id) {
+        var promise = new Promise(function (resolve, reject) {
+            var successCount = 0;
+
+            function increaseAndCheckDone() {
+                successCount++;
+                if (successCount == 5) {
+                    resolve();
+                }
+            }
+
+            function removeImageForEachModel(model, condition, prop) {
+                model.all({
+                    where: condition,
+                    include: [
+                        { model: File }
+                    ]
+                }).then(function (data) {
+                    if (data.length) {
+                        var _data = data[0];
+                        _data[prop] = null;
+                        _data.save([prop]).then(function (_new) {
+                            increaseAndCheckDone();
+                        });
+                    }
+                    else {
+                        increaseAndCheckDone();
+                    }
+                }).catch(function (err) {
+                    increaseAndCheckDone();
+                });
+            }
+
+            removeImageForEachModel(Report, { file_id: id }, 'file_id');
+            removeImageForEachModel(User, { image: id }, 'image');
+            removeImageForEachModel(Car, { image: id }, 'image');
+            removeImageForEachModel(Shop, { image: id }, 'image');
+            removeImageForEachModel(RepairImage, { image_id: id }, 'image_id');
+        });
+        return promise;
+    }
+
     delete (context, req, res) {
         if (req.params.id) {
-            File.destroy({ where: { id: req.params.id } }).then(function (model) {
-                context.success(req, res, {});
-            }).catch(function (err) {
-                context.error(req, res, err, 500);
+            File.findById(req.params.id).then(function (_file) {
+                if (_file) {
+                    var fileUrl = _file.url;
+                    context.findRelationInFile(req.params.id).then(function () {
+                        File.destroy({ where: { id: req.params.id } }).then(function (model) {
+                            var file_url = appRoot + fileUrl;
+                            fs.unlinkSync(file_url);
+                            context.success(req, res, {});
+                        }).catch(function (err) {
+                            context.error(req, res, err, 500);
+                        });
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
+                }
+                else {
+                    context.notfound(res);
+                }
             });
+            
         }
     }
 

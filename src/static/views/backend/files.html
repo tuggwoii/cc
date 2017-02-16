@@ -1,0 +1,86 @@
+﻿<div class="container backend-user">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#/')">Admin ></a>
+            </li>
+            <li>
+                Files
+            </li>
+        </ul>
+    </div>
+
+    <div class="subpage" ng-controller="AdminFilesController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>Files</span>
+        </h1>
+
+        <div class="user-filter filter-car">
+            <h2>ค้นหา</h2>
+            <div class="filter-field">
+                <div class="form-group search-all">
+                    <label>ค้นหาทั้งหมด</label>
+                    <input type="text" class="form-control" ng-model="query.q" />
+                </div>
+                <div>
+                    <label class="empty"></label>
+                    <button class="btn btn-danger" ng-if="!status.loading" ng-click="search()">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <button class="btn btn-danger" ng-if="status.loading" disabled>
+                        LOADING...
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="users-list">
+            <h2>
+                <span>Files ({{total}})</span>
+            </h2>
+            <div id="iscroll" class="iscroll">
+                <div class="table-scroll">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <!--<td>ลำดับที่</td>-->
+                                <td>รูป</td>
+                                <td>ชื่อไฟล์</td>
+                                <td>Email ผู้อัพโหลด</td>
+                                <td>ขนาดไฟล์</td>
+                                <td>จัดการ</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="m in model">
+                                <!--<td><a href="/admin#/edit-car?id={{m.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>-->
+                                <td>
+                                    <a href="javascript:void(0)">
+                                        <img ng-if="m.url" ng-src="{{m.url}}" />
+                                        <img ng-if="!m.url" ng-src="/img/imgd.png" />
+                                    </a>
+                                </td>
+                                <td><a href="javascript:void(0)">{{m.url}}</a></td>
+                                <td><a href="javascript:void(0)">{{m.user.email}}</a></td>
+                                <td><a href="javascript:void(0)">{{(m.size/(1024 * 1024)).toFixed(2)}} MB</a></td>
+                                <td class="action">
+                                    <button class="btn btn-danger" ng-click="delete(m)">ลบไฟล์</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <ul class="paging" ng-if="pages.length>1">
+                <li ng-click="gotoPage(1)"><<</li>
+                <li ng-click="gotoPage(page - 1)"><</li>
+                <li ng-repeat="p in pages" class="page {{p==query.p?'active':''}}" ng-click="gotoPage(p)">{{p}}</li>
+                <li ng-click="gotoPage(page + 1)">></li>
+                <li ng-click="gotoPage(pages.length)">>></li>
+            </ul>
+
+        </div>
+    </div>
+</div>

@@ -26,7 +26,8 @@ var User = sequelize.define('users', {
     },
     image: {
         type: Sequelize.INTEGER,
-        field: 'fileId'
+        field: 'fileId',
+        allowNull: true
     },
     max_car: {
         type: Sequelize.INTEGER,
@@ -138,7 +139,8 @@ var Car = sequelize.define('cars', {
     },
     image: {
         type: Sequelize.INTEGER,
-        field: 'image'
+        field: 'image',
+        allowNull: true
     },
     serial: {
         type: Sequelize.INTEGER,
@@ -438,7 +440,8 @@ var Shop = sequelize.define('shops', {
     },
     image: {
         type: Sequelize.INTEGER,
-        field: 'image'
+        field: 'image',
+        allowNull: true
     },
     city: {
         type: Sequelize.STRING,
@@ -494,7 +497,8 @@ var RepairImage = sequelize.define('repair_images', {
     },
     image_id: {
         type: Sequelize.INTEGER,
-        field: 'imageId'
+        field: 'imageId',
+        allowNull: true
     },
     caption: {
         type: Sequelize.STRING,
