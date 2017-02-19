@@ -3,6 +3,7 @@ module.controller('AdminFilesController', ['$scope', '$rootScope', '$timeout', '
 function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Event) {
 
     $scope.params = $location.search();
+    var lightbox = lity();
 
     $scope.status = {
         loading: false
@@ -102,8 +103,8 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Even
         });
     };
 
-    $scope.edit = function (car) {
-        $scope.navigateTo('#/edit-car?id=' + car.id);
+    $scope.showImage = function (img) {
+        lightbox(img.url);
     };
 
     $scope.delete = function (m) {
