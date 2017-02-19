@@ -2,6 +2,7 @@
 module.controller('AdminReportController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'Helper', 'ReportService', 'Event',
 function ($scope, $rootScope, $timeout, $q, $location, Helper, ReportService, Event) {
 
+    var lightbox = lity();
     $scope.params = $location.search();
 
     $scope.status = {
@@ -136,6 +137,10 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, ReportService, Ev
                 }, 500);
             });
         });
+    };
+
+    $scope.showImage = function (url) {
+        lightbox(url);
     };
 
     reports();

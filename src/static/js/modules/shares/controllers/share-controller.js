@@ -120,6 +120,12 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
         $scope.image_id = 0;
         $scope.image_src = '';
 
+        function setLightboxHeight() {
+            if ($('.lity-content img').height() > $(window).height() - 130) {
+                $('.lity-content img').css('max-height', $(window).height() - 130);
+            }
+        }
+
         $scope.lightbox = function (url, caption, index) {
             lightbox(url);
             $timeout(function () {
@@ -143,6 +149,7 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
                         var image_caption = $($(items[index]).find('.caption')[0]).text();
                         $('.lity-container').find('img').attr('src', $scope.image_src);
                         $('.lity-container').find('.lb-caption').text(image_caption);
+                        setLightboxHeight();
                     });
                     $('.lb-prev').click(function () {
                         index--;
@@ -160,8 +167,10 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
                         $timeout(function () {
                             $rootScope.$broadcast(Event.Report.Display, $scope.image_id, $scope.image_src);
                         }, 300);
+                        setLightboxHeight();
                     });
                 }
+                setLightboxHeight();
             }, 200);
         };
 

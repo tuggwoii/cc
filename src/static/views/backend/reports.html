@@ -54,7 +54,7 @@
                         <tbody>
                             <tr ng-repeat="m in model">
                                 <!--<td><a href="/admin#/edit-car?id={{m.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>-->
-                                <td>
+                                <td ng-click="showImage(m.image.url)">
                                     <a href="javascript:void(0)">
                                         <img ng-if="m.image" ng-src="{{m.image.url}}" />
                                         <img ng-if="!m.image" ng-src="/img/imgd.png" />
