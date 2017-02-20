@@ -248,6 +248,12 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
             console.log($scope.shop_query.services);
         };
 
+        var lightbox = lity();
+
+        $scope.simpleLightbox = function (url) {
+            lightbox(url);
+        };
+
         $scope.pickCar = function (car) {
             $scope.navigateTo('#/car?id=' + car.id);
         };

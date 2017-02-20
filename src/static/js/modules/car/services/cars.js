@@ -23,7 +23,10 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
         },
         getAll: function (query) {
             console.log(query);
-            var key = URLS.model(service).admin_all + '?p=' + query.p + (query.q ? '&q=' + query.q : '');
+            var key = URLS.model(service).admin_all
+                + '?p=' + query.p
+                + (query.q ? '&q=' + query.q : '')
+                + (query.order ? '&order=' + query.order : '');
             return $q(function (resolve, reject) {
                 if (cache[key]) {
                     resolve(cache[key]);

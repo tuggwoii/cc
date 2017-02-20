@@ -15,8 +15,8 @@
 
     <div class="user-info-section less">
         <div class="profile-image">
-            <img src="/img/noprofile.png" alt="profile" ng-if="!user.image" />
-            <img class="user-profile-image" ng-src="{{user.image.url}}" alt="profile" ng-if="user.image" />
+            <img src="/img/noprofile.png" alt="profile" ng-if="!user.image" ng-click="simpleLightbox('/img/noprofile.png')" />
+            <img class="user-profile-image" ng-src="{{user.image.url}}" alt="profile" ng-if="user.image" ng-click="simpleLightbox(user.image.url)" />
             <div class="user-menu">
                 <a href="/#/account" ng-click="navigateTo('#/account')">
                     <i class="fa fa-user" aria-hidden="true"></i>

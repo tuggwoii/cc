@@ -138,6 +138,12 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
             }
         };
 
+        var lightbox = lity();
+
+        $scope.simpleLightbox = function (url) {
+            lightbox(url);
+        };
+
         $scope.$on(Event.File.Success, $scope.setImage);
         $scope.editShop();
 

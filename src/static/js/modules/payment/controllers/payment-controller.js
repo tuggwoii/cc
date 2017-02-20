@@ -5,14 +5,70 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
         $scope.id = Helper.getQueryStringValue('id');
         $scope.isDetail = $scope.id ? true : false;
 
+        function generateDateTimeDropdown() {
+            $scope.hours = [];
+            $scope.mins = [];
+            $scope.days = [];
+            $scope.months = [];
+            $scope.years = [];
+
+            for (var i = 0; i < 24; i++) {
+                if (i < 10) {
+                    $scope.hours.push( '0' + i);
+                }
+                else {
+                    $scope.hours.push('' + i);
+                }
+            }
+
+            for (var j = 0; j < 60; j++) {
+                if (j < 10) {
+                    $scope.mins.push('0' + j);
+                }
+                else {
+                    $scope.mins.push('' + j);
+                }
+            }
+
+            for (var k = 1; k <= 31; k++) {
+                if (k < 10) {
+                    $scope.days.push('0' + k);
+                }
+                else {
+                    $scope.days.push('' + k);
+                }
+            }
+
+            for (var l = 1; l <= 12; l++) {
+                if (l < 10) {
+                    $scope.months.push('0' + l);
+                }
+                else {
+                    $scope.months.push('' + l);
+                }
+            }
+
+            var now = new Date();
+            var final_year = now.getFullYear() + 543;
+            for (var current_year = 2558; current_year <= final_year; current_year++) {
+                $scope.years.push(current_year + '');
+            }
+            
+        }
+
         function loadResources() {
             if (!$scope.isDetail) {
                 $q.all([
                     CarService.get().then(function (res) {
                         $scope.cars = angular.copy(res.data);
+                    }),
+                    PaymentService.captcha().then(function (res) {
+                        $scope.captcha = res.data;
                     })
                 ]).then(function () {
                     $scope.model = {};
+                    $scope.model.key = $scope.captcha.key;
+                    generateDateTimeDropdown();
                     $scope.displayView();
                 });
             }
@@ -20,9 +76,11 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
                 $q.all([
                     PaymentService.getById($scope.id).then(function (res) {
                         $scope.model = angular.copy(res);
-                        CarService.getByIds($scope.model.car_ids).then(function (res) {
-                            $scope.model.relate_cars = res;
-                        });
+                        if ($scope.model.car_ids) {
+                            CarService.getByIds($scope.model.car_ids).then(function (res) {
+                                $scope.model.relate_cars = res;
+                            });
+                        }
                     }).catch(function () {
                         $scope.notfound = true;
                     })
@@ -36,12 +94,18 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
             return $scope.user && $scope.user.id;
         }
 
+        function getPayDate(model) {
+            return model.h + ":" + model.m + " " + model.d + "-" + model.mo + "-" + model.y;
+        }
+
         $scope.submit = function (form) {
             $scope.status = {};
+            $scope.is_submit = true;
             angular.forEach(form.$error.required, function (field) {
                 field.$setDirty();
             });
-            if (form.$valid && !isNaN(parseFloat($scope.model.price))) {
+            if (form.$valid && !isNaN(parseFloat($scope.model.price)) && $scope.model.captcha === $scope.captcha.captcha) {
+                $scope.model.datetime = getPayDate($scope.model);
                 $rootScope.$broadcast(Event.Load.Display);
                 PaymentService.create($scope.model).then(function (res) {
                     window.location.href = '/payment?id=' + res.data.id;

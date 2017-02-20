@@ -122,23 +122,61 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="capital">
-                                        วันที่-เวลา ชำระเงิน (เช่น 08:00 01/01/2560)
+                                        เวลาที่ชำระเงิน
                                         <span class="required">*</span>
                                     </label>
-                                    <input type="text"
-                                           name="date"
-                                           class="form-control"
-                                           placeholder="วันที่ชำระเงินเช่น 10:00 13/07/2559"
-                                           ng-model="model.datetime"
-                                           ng-required="true" />
+                                    <select class="form-control half-width"  name="hour" ng-model="model.h" ng-required="true">
+                                        <option value="" disabled>ชั่วโมง</option>
+                                        <option ng-repeat="h in hours" value="{{h}}">{{h}}</option>
+                                    </select>
+                                    <select class="form-control half-width" name="min" ng-model="model.m" ng-required="true">
+                                        <option value="" disabled>นาที</option>
+                                        <option ng-repeat="m in mins" value="{{m}}">{{m}}</option>
+                                    </select>
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="form.hour.$error.required && form.hour.$dirty">
+                                       กรุณากรอกชั่วโมง
+                                    </p>
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="form.min.$error.required && form.min.$dirty">
+                                        กรุณากรอกนาที
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="capital">
+                                        วันที่ชำระเงิน
+                                        <span class="required">*</span>
+                                    </label>
+                                    
+                                    <select class="form-control half-width" name="day" ng-model="model.d" ng-required="true">
+                                        <option value="" disabled>วันที่</option>
+                                        <option ng-repeat="d in days" value="{{d}}">{{d}}</option>
+                                    </select>
+                                    <select class="form-control half-width" name="month" ng-model="model.mo" ng-required="true">
+                                        <option value="" disabled>เดือน</option>
+                                        <option ng-repeat="m in months" value="{{m}}">{{m}}</option>
+                                    </select>
+                                    <select class="form-control" name="year" ng-model="model.y" ng-required="true">
+                                        <option value="" disabled>ปี</option>
+                                        <option ng-repeat="y in years" value="{{y}}">{{y}}</option>
+                                    </select>
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="form.day.$error.required && form.day.$dirty">
+                                        กรุณากรอกวันที่
+                                    </p>
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="form.min.$error.required && form.min.$dirty">
+                                        กรุณากรอกเดือน
+                                    </p>
                                     <p class="error-message margin-top animated fadeIn"
                                        ng-if="form.date.$error.required && form.date.$dirty">
-                                        กรุณากรอกวันที่
+                                        กรุณากรอกปี
                                     </p>
                                 </div>
                                 <div class="form-group">
                                     <label class="capital">
                                         จำนวนเงิน
+                                        <span class="required">*</span>
                                     </label>
                                     <input type="text"
                                            name="price"
@@ -164,6 +202,27 @@
                                               class="form-control"
                                               placeholder="รายละเอียด"
                                               ng-model="model.detail"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="capital">
+                                        กรอกรหัสความปลอดภัย
+                                    </label>
+                                    <div class="captcha">
+                                        {{captcha.captcha}}
+                                    </div>
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="captcha"
+                                           ng-model="model.captcha"
+                                           ng-required="true" />
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="!model.captcha && is_submit">
+                                        กรุณากรอกรหัสความปลอดภัย
+                                    </p>
+                                    <p class="error-message margin-top animated fadeIn"
+                                       ng-if="model.captcha != captcha.captcha  && is_submit">
+                                        รหัสความปลอดภัยไม่ถูกต้อง
+                                    </p>
                                 </div>
                                 <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
                                 <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>

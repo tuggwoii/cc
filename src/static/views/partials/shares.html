@@ -69,6 +69,16 @@
     </div>
 
     <div class="container">
+
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                </li>
+                <li>Shares</li>
+            </ul>
+        </div>
+
         <div class="row shares-list">
             <div class="col-md-12">
                 <p ng-if="!shares.length">ยังไม่มีข้อมูลรายการซ่อมบำรุงที่แชร์ในขณะนี้</p>

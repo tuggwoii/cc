@@ -2484,3 +2484,12 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
     min-width: 90px;
     width: 90px;
 }
+.form-control.half-width {
+    width: 49%;
+    max-width: 222px;
+    display: inline-block;
+    margin-bottom: 25px;
+}
+.form-control.half-width:first-of-type {
+    margin-right: 2%;
+}

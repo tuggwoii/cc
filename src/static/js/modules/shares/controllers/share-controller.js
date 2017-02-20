@@ -174,6 +174,10 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
             }, 200);
         };
 
+        $scope.simpleLightbox = function (url) {
+            lightbox(url);
+        };
+
         $scope.money = function (num) {
             return num.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
         };

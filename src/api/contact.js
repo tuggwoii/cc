@@ -5,6 +5,8 @@ var User = require('../database/models').User;
 var MailHelper = require('../helpers/email');
 var DateHelper = require('../helpers/date');
 var url = require('url');
+var randomstring = require('randomstring');
+var captchas = {};
 
 class ContactApi extends BaseApi {
 
@@ -12,6 +14,10 @@ class ContactApi extends BaseApi {
         var promise = new Promise(function (resolve, reject) {
             if (!data || !data.type || !data.price || !data.datetime) {
                 reject('INVALID DATA');
+            }
+            else if (!captchas[data.key] || (captchas[data.key] && (captchas[data.key] != data.captcha))) {
+                console.log(captchas);
+                reject('INVALID CAPTCHA');
             }
             else {
                 if (data.type == 1 && !data.car_ids) {
@@ -56,7 +62,7 @@ class ContactApi extends BaseApi {
             detail: data.detail,
             type: data.type,
             send_by: user.id,
-            car_idsl: data.car,
+            car_ids: data.car,
             datetime: data.datetime,
             status: data.status,
             price: data.price
@@ -145,8 +151,8 @@ class ContactApi extends BaseApi {
 
 
     add(context, req, res) {
-        var data = context.model(req.body, req.user);
-        context.validate(data).then(function () {
+        context.validate(req.body).then(function () {
+            var data = context.model(req.body, req.user);
             Contact.create(data, { isNewRecord: true }).then(function (model) {
                 context.sendEmail(req.user.email, model['null']);
                 context.success(req, res, model);
@@ -210,8 +216,22 @@ class ContactApi extends BaseApi {
         return promise;
     }
 
+    captcha(context, req, res) {
+        var key = randomstring.generate({
+            length: 6,
+            charset: '0123456789'
+        });
+        var captcha = {
+            key: key,
+            captcha: randomstring.generate(6)
+        };
+        captchas[key] = captcha.captcha;
+        context.success(req, res, captcha);
+    }
+
     endpoints() {
         return [
+            { url: '/contacts/captcha', method: 'get', roles: [], response: this.captcha },
 			{ url: '/contacts', method: 'get', roles: ['admin'], response: this.getAll },
             { url: '/contacts', method: 'get', roles: ['admin', 'user'], response: this.get, params: ['id'] },
             { url: '/contacts', method: 'post', roles: ['admin', 'user'], response: this.add },

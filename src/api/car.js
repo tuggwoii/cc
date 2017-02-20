@@ -171,9 +171,20 @@ class CarApi extends BaseApi {
         var queries = params.query;
 
         var p = 1;
+        var order = [["createdAt", "DESC"]];
+
         if (queries['p']) {
             p = parseInt(queries['p']);
         }
+        if (queries['order']) {
+            if (queries['order'] == 'exp_date_asc') {
+                order = [["exp_date", "ASC"]]
+            }
+            else if (queries['order'] == 'exp_date_desc') {
+                order = [["exp_date", "DESC"]]
+            }
+        }
+
         var _limit = limits;
         var skip = limits * (p - 1);
 
@@ -194,6 +205,7 @@ class CarApi extends BaseApi {
 
         Car.all({
             where: conditions,
+            order: order,
             include: [
                 { model: User }
             ],

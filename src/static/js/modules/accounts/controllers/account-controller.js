@@ -87,6 +87,12 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
         $scope.navigateTo('#/car?id=' + car.id);
     };
 
+    var lightbox = lity();
+
+    $scope.simpleLightbox = function (url) {
+        lightbox(url);
+    };
+
     $scope.$on(Event.File.Success, $scope.setProfileImage);
     $scope.accountPage();
 }]);

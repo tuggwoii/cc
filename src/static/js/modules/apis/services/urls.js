@@ -29,7 +29,8 @@ module.factory('URLS', function () {
             shops: base + model.slice(0, -1) + '/shops',
             image_id: base + model + '/image/{id}',
             admin_all: base + 'admin/' + model,
-            countView: base + model + '/view/{id}'
+            countView: base + model + '/view/{id}',
+            captcha: base + model + '/captcha'
         };
     }
 

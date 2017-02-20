@@ -63,6 +63,13 @@ module.factory('PaymentService', ['$rootScope', '$http', '$q', 'URLS', function 
                     resolve(res)
                 }).error(reject);
             });
+        },
+        captcha: function () {
+            return $q(function (resolve, reject) {
+                $http.get(URLS.model(service).captcha).success(function (res) {
+                    resolve(res)
+                }).error(reject);
+            });
         }
     };
 }]);

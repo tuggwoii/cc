@@ -9,13 +9,24 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PaymentService, E
         loading: false
     };
     $scope.query = {
-        year: date.getFullYear() +543
+        year: (date.getFullYear() + 543) + ""
     };
+
+    function genYear() {
+        var years = [];
+        var now = new Date();
+        var final_year = now.getFullYear() + 543;
+        for (var current_year = 2558; current_year <= final_year; current_year++) {
+            years.push(current_year + '');
+        }
+        return years;
+    }
 
     function loadResources() {
         $q.all([
             load()
         ]).then(function () {
+            $scope.years = genYear();
             $scope.displayView();
         });
     }

@@ -61,7 +61,7 @@
 
                         <h2><i class="fa fa-car"></i> รถที่ทำการซ่อมบำรุง</h2>
                         <div class="detail-section">
-                            <div class="image">
+                            <div class="image" ng-click="simpleLightbox('<%= car.image?car.image.url:'/img/no-photo.jpg' %>')">
                                 <img src="<%= car.image?car.image.url:'/img/no-photo.jpg' %>" alt="car-image" />
                             </div>
                             <div class="info">
@@ -113,7 +113,7 @@
                         <h2><i class="fa fa-map-marker" aria-hidden="true"></i> ร้านที่ทำการซ่อมบำรุง</h2>
                         <div class="detail-section">
                             <% if(shop) {%>
-                            <div class="image">
+                            <div class="image" ng-click="simpleLightbox('<%= shop.file?shop.file.url:'/img/no-photo.jpg'%>')">
                                 <img src="<%= shop.file?shop.file.url:'/img/no-photo.jpg' %>" alt="shop-image" />
                             </div>
                             <div class="info">
@@ -218,7 +218,7 @@
 
                         <h2><i class="fa fa-user"></i> แชร์โดย</h2>
                         <div class="detail-section">
-                            <div class="image">
+                            <div class="image" ng-click="simpleLightbox('<%= user.image?user.image.url:'/img/noprofile.png' %>')">
                                 <img src="<%= user.image?user.image.url:'/img/noprofile.png' %>" alt="user-image" />
                             </div>
                             <div class="info">

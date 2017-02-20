@@ -9,7 +9,8 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, CarService, Event
     };
 
     $scope.query = {
-        p: 1
+        p: 1,
+        order: ''
     };
 
     function loadResources() {
@@ -33,7 +34,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, CarService, Event
                 if (app.debug) {
                     console.log('GET CARS', res);
                 }
-                $scope.model = res.data;
+                $scope.model = initModel(res.data);
                 $scope.pagings(res.meta);
                 initScroll();
                 resolve();
@@ -42,6 +43,13 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, CarService, Event
                 $rootScope.$broadcast(Event.Message.Display, 'โหลดข้อมูลล้มเหลวกรุณาลองอีกครั้ง');
             });
         })
+    }
+
+    function initModel(data) {
+        angular.forEach(data, function (m) {
+            m.exp_date_str = Helper.shortDate(m.exp_date);
+        });
+        return data;
     }
 
     function initScroll() {

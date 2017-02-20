@@ -39,7 +39,7 @@ module.factory('Helper', [function () {
         },
         shortDate: function (_date) {
             var date = new Date(_date);
-            return date.getDate() + '-' + (date.getMonth() + 1) + '-' + (date.getFullYear() + 543);
+            return (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + (date.getFullYear() + 543);
         },
         readableDateTime: function (_date) {
             var date = new Date(_date);
