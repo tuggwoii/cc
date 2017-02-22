@@ -52,6 +52,10 @@ var User = sequelize.define('users', {
     forgot_password_token: {
         type: Sequelize.STRING,
         field: 'forgot_password_token'
+    },
+    telephone: {
+        type: Sequelize.STRING,
+        field: 'telephone'
     }
 }, {
     freezeTableName: true
@@ -551,6 +555,10 @@ var Contact = sequelize.define('contacts', {
     price: {
         type: Sequelize.DOUBLE,
         field: 'price'
+    },
+    telephone: {
+        type: Sequelize.STRING,
+        field: 'telephone'
     }
 });
 

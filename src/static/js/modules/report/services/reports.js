@@ -46,6 +46,13 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
                     reject(res);
                 });
             });
+        },
+        captcha: function () {
+            return $q(function (resolve, reject) {
+                $http.get(URLS.model(service).captcha).success(function (res) {
+                    resolve(res)
+                }).error(reject);
+            });
         }
     };
 }]);

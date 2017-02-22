@@ -54,6 +54,10 @@
                                         <span>{{model.price.formatMoney(2, '.', ',')}} บาท</span>
                                     </div>
                                     <div class="title">
+                                        <label>เบอร์โทรติดต่อ: </label>
+                                        <span>{{model.telephone?model.telephone:'ไม่ระบุ'}}</span>
+                                    </div>
+                                    <div class="title">
                                         <label>รายละเอียด: </label>
                                         <span>{{model.detail?model.detail:'ไม่ระบุ'}}</span>
                                     </div>
@@ -192,6 +196,16 @@
                                        ng-if="status.invalid_price">
                                         กรุณากรอกจำนวนเงินให้ถูกต้อง (ตัวเลขเท่านั้น)
                                     </p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="capital">
+                                        เบอร์โทรติดต่อ
+                                    </label>
+                                    <input type="text"
+                                           name="telephone"
+                                           class="form-control"
+                                           placeholder="เบอร์โทรติดต่อ"
+                                           ng-model="model.telephone" />
                                 </div>
                                 <div class="form-group">
                                     <label class="capital">

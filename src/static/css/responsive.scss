@@ -316,7 +316,7 @@
     .app .wrapper .shares-list .share-item {
         height: auto;
         border-bottom: 1px dashed #444;
-        padding-bottom: 15px;
+        padding-bottom: 5px;
     }
 
     .app .wrapper .box .filter-box label {
@@ -613,7 +613,9 @@
     .app .wrapper .shop-page .detail-section .info {
         width: 100%;
     }
-
+    .app .wrapper .shares-list .share-item  {
+        margin-top: 5px;
+    }
     .app .wrapper .shares-list .share-item .detail .image {
         width: 90px;
         height: 90px;
@@ -684,6 +686,19 @@
     multiple-select .dropdown dt a span {
         max-height: 25px;
         overflow: hidden;
+    }
+
+    .login-button-container .btn-menu {
+        display:block;
+        margin-bottom: 10px;
+        width: 120px;
+        min-width: 120px;
+
+        img {
+            position: relative;
+            max-width: 25px;
+            top: 3px;
+        }
     }
 }
 @media screen and (max-width: 600px) {

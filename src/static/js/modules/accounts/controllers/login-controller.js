@@ -69,6 +69,15 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         });
     };
 
+    $scope.facebookLoginClick = function () {
+        FB.login(function (res) {
+            checkLoginState(res);
+        },
+        function (res) {
+            console.log(res);
+        });
+    };
+
     $scope.init();
 
 }]);

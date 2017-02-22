@@ -50,6 +50,10 @@
                         <span>{{model.price.formatMoney(2, '.', ',')}} บาท</span>
                     </div>
                     <div class="title">
+                        <label>เบอร์โทรติดต่อ: </label>
+                        <span>{{model.telephone?model.telephone:'ไม่ระบุ'}}</span>
+                    </div>
+                    <div class="title">
                         <label>รายละเอียด: </label>
                         <span>{{model.detail?model.detail:'ไม่ระบุ'}}</span>
                     </div>

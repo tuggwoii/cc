@@ -20,7 +20,7 @@ class ContactApi extends BaseApi {
                 reject('INVALID CAPTCHA');
             }
             else {
-                if (data.type == 1 && !data.car_ids) {
+                if (data.type == 1 && !data.car) {
                     reject('INVALID CAR');
                 }
                 else {
@@ -51,6 +51,7 @@ class ContactApi extends BaseApi {
             car_ids: data.car,
             datetime: data.datetime,
             price: data.price,
+            telephone: data.telephone,
             status: 0
         };
         return model;

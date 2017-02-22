@@ -46,7 +46,7 @@
                         {{strings['required']}}{{strings['notification_title']}}
                     </p>
                 </div>
-                <div class="form-group" ng-if="!from_car">
+                <div class="form-group" ng-if="!from_car && cars.length > 1">
                     <label class="capital">
                         {{strings['select_car']}}
                         <span class="required">*</span>

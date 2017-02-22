@@ -130,6 +130,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                     model.day = '';
                     model.month = '';
                 }
+               
             }
             if (model.exp_date) {
                 model.exp_date_str = Helper.readableDate(model.exp_date);
@@ -139,6 +140,12 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                 $scope.file_usage_percentage = 1;
             }
             $scope.file_usage_percentage = $scope.file_usage_percentage * 100;
+
+            var exp_date = new Date(model.exp_date);
+            var date_now = new Date();
+            if (exp_date < date_now) {
+                model.expire = true;
+            }
         }
 
         function isValid () {
@@ -248,7 +255,16 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                 $scope.setRepairPagings(res.meta);
                 $rootScope.$broadcast(Event.Load.Dismiss);
             });
-        }
+        };
+
+        $scope.createRepair = function () {
+            if ($scope.car.expire) {
+                $rootScope.$broadcast(Event.Message.Display, 'รถคันนี้หมดอายุการบันทึกข้อมูลแล้ว กรุณาติดต่อผู้ดูแลระบบเพื่อต่ออายุ');
+            }
+            else {
+                $scope.navigateTo('#/new-repair?car=' + car.id);
+            }
+        };
 
         $scope.carPage();
 }]);

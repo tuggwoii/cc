@@ -35,6 +35,27 @@
                               class="form-control"></textarea>
                     <p class="error-message" ng-show="is_submit && reportForm.message.$error.required">กรุณากรอกเหตุผลในการแจ้ง</p>
                 </div>
+                <div class="form-group">
+                    <label class="capital">
+                        กรอกรหัสความปลอดภัย
+                    </label>
+                    <div class="captcha">
+                        {{captcha.captcha}}
+                    </div>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="captcha"
+                           ng-model="model.captcha"
+                           ng-required="true" />
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="!model.captcha && is_submit">
+                        กรุณากรอกรหัสความปลอดภัย
+                    </p>
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-show="model.captcha != captcha.captcha  && is_submit">
+                        รหัสความปลอดภัยไม่ถูกต้อง
+                    </p>
+                </div>
             </form>
             <button class="btn btn-danger" ng-click="submit(reportForm)">ส่งการแจ้ง</button>
         </div>

@@ -40,8 +40,17 @@ class AccountApi extends BaseApi {
                 data['id'] = 0;
             }
         }
+        if (data.file) {
+            data.image = data.file
+        }
         var json = JSON.stringify(data);
         var model = JSON.parse(json);
+        delete model.ip;
+        delete model.forgot_password_token;
+        delete model.createdAt;
+        delete model.updatedAt;
+        delete model.password;
+        delete model.ban;
         return model;
     }
 
@@ -452,8 +461,15 @@ class AccountApi extends BaseApi {
         }
     }
 
-    me (context, req, res) {
-        context.success(req, res, req.user);
+    me(context, req, res) {
+        User.findById(req.user.id, {
+            include: [
+                { model: Role },
+                { model: File }
+            ]
+        }).then(function (u) {
+            context.success(req, res, u, {}, context.loginSerializer);
+        });
     }
 
     delete (context, req, res) {

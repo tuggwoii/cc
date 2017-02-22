@@ -15,8 +15,10 @@
                 <li class="menu-item {{m.isActive?'active':''}}" ng-repeat="m in menu"><a href="{{m.url}}">{{m.name}}</a></li>
                 <li class="menu-item {{isPaymentPage?'active':''}}" ng-if="user.id"><a href="/payment">Payment</a></li>
                 <li>
-                    <div class="login-button-container" ng-if="!user.id">
-                        <button type="button" class="btn btn-default" ng-click="loginToggle()">{{strings['login']}}</button>
+                    <div class="login-button-container" ng-if="!user.id" ng-controller="LoginController">
+                        <button type="button" class="btn btn-menu btn-default" ng-click="loginToggle()">{{strings['login']}}</button>
+                        <button type="button" class="btn btn-menu btn-success hidden-lg hidden-md hidden-sm" ng-click="navigateTo('#/register')">สมัครฟรี</button>
+                        <button type="button" class="btn btn-menu btn-info hidden-lg hidden-md hidden-sm" ng-click="facebookLoginClick()">สมัครด้วย <img src="/img/fb-icon.png" /></button>
                         <div class="login-popup animated fadeIn" ng-include="'/partials/login.html'" ng-show="displayLogin"></div>
                     </div>
                     <div class="login-button-container" ng-if="user.id">

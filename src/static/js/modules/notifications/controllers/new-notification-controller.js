@@ -31,6 +31,10 @@ module.controller('NewNotificationController', ['$scope', '$rootScope', '$timeou
                      $scope.workgroup = angular.copy(res.data);
                 })
             ]).then(function () {
+                if ($scope.cars.length == 1) {
+                    $scope.model.car = $scope.cars[0].id;
+                    console.log($scope.model.car);
+                }
                 $scope.displayView();
             });
         };

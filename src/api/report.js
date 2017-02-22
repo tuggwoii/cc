@@ -5,6 +5,8 @@ var RepairImage = require('../database/models').RepairImage;
 var BaseApi = require('./base');
 var url = require('url');
 var fs = require('fs');
+var randomstring = require('randomstring');
+var captchas = {};
 var limits = 100;
 
 class ReportApi extends BaseApi {
@@ -52,6 +54,10 @@ class ReportApi extends BaseApi {
             }
             else if (!data.file_id) {
                 reject('FILE REQUIRED');
+            }
+            else if (!captchas[data.key] || (captchas[data.key] && (captchas[data.key] != data.captcha))) {
+                console.log(captchas);
+                reject('INVALID CAPTCHA');
             }
             else {
                 resolve();
@@ -144,8 +150,6 @@ class ReportApi extends BaseApi {
         });
     }
 
-    
-
     update (context, req, res) {
         var model = context.model(req.body);
         context.validateUpdate(model).then(function () {
@@ -185,8 +189,8 @@ class ReportApi extends BaseApi {
     }
 
     add (context, req, res) {
-        var data = context.model(req.body);
-        context.validateCreate(data).then(function () {
+        context.validateCreate(req.body).then(function () {
+            var data = context.model(req.body);
             Report.create(data, { isNewRecord: true }).then(function (model) {
                 context.success(req, res, model);
             }).catch(function (err) {
@@ -248,8 +252,22 @@ class ReportApi extends BaseApi {
         }
     }
 
+    captcha(context, req, res) {
+        var key = randomstring.generate({
+            length: 6,
+            charset: '0123456789'
+        });
+        var captcha = {
+            key: key,
+            captcha: randomstring.generate(6)
+        };
+        captchas[key] = captcha.captcha;
+        context.success(req, res, captcha);
+    }
+
     endpoints() {
         return [
+            { url: '/reports/captcha', method: 'get', roles: [], response: this.captcha },
             { url: '/reports', method: 'get', roles: ['admin'], response: this.getById, params: ['id'] },
             { url: '/reports/image', method: 'delete', roles: ['admin'], response: this.deleteImage, params: ['id'] },
             { url: '/reports', method: 'get', roles: ['admin'], response: this.getAll },

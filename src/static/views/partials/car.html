@@ -69,9 +69,13 @@
 
                         <div class="title">
                             <label>พื้นที่จัดเก็บไฟล์: </label>
-                            <div class="file-usage">
+                            <div class="file-usage" ng-if="!car.expire">
                                 <div class="pg" style="width:{{file_usage_percentage}}%"></div>
                                 <div class="file-usage-label">{{car.file_usage.toFixed(2)}}/{{car.max_file_size}} MB</div>
+                            </div>
+                            <div class="file-usage" ng-if="car.expire">
+                                <div class="pg" style="width:0%"></div>
+                                <div class="file-usage-label">เฉพาะรถที่ชำระเงินเท่านั้น</div>
                             </div>
                         </div>
                     </div>
@@ -227,7 +231,7 @@
                         <li ng-click="gotoRepairPage(repairPagings.length)">>></li>
                     </ul>
                 </div>
-                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/new-repair?car=' + car.id)">
+                <button class="btn btn-danger edit-link" ng-click="createRepair()">
                     <i class="fa fa-plus"></i>
                     สร้าง
                 </button>

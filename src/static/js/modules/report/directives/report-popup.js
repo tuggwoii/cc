@@ -24,14 +24,18 @@
             };
 
             scope.$on(Event.Report.Display, function (event, id, url) {
+                scope.model = {
+                    file_id: id
+                };
+                ReportService.captcha().then(function (res) {
+                    scope.captcha = res.data;
+                    scope.model.key = scope.captcha.key;
+                });
                 scope.animation = 'fadeIn';
                 scope.display = true;
                 scope.login = false;
                 scope.is_submit = false;
                 scope.url = url;
-                scope.model = {
-                    file_id: id
-                };
                 if (window.carcare.user && window.carcare.user.id) {
                     scope.login = true;
                     scope.model.name = window.carcare.user.name;
@@ -39,7 +43,6 @@
                 }
                 $('body,html').css('overflow', 'hidden');
                 scope.setHeight();
-                console.log(scope.model);
             });
 
             scope.setHeight = function () {
@@ -59,7 +62,7 @@
 
             scope.submit = function (form) {
                 scope.is_submit = true;
-                if (form.$valid) {
+                if (form.$valid && scope.captcha && scope.model.captcha === scope.captcha.captcha) {
                     $rootScope.$broadcast(Event.Load.Display);
                     ReportService.send(scope.model).then(function () {
                         close();

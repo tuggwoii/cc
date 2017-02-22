@@ -66,7 +66,9 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
                         $scope.captcha = res.data;
                     })
                 ]).then(function () {
-                    $scope.model = {};
+                    $scope.model = {
+                        telephone: window.carcare.user.telephone
+                    };
                     $scope.model.key = $scope.captcha.key;
                     generateDateTimeDropdown();
                     $scope.displayView();
