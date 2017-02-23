@@ -65,7 +65,8 @@ class AccountApi extends BaseApi {
                 where: { email: email },
                 include: [
                     { model: Role },
-                    { model: File }
+                    { model: File },
+                    { model: Contact }
                 ]
             }).then(function (users) {
                 resolve(users);
