@@ -69,6 +69,7 @@
                 ประวัติการชำระค่าบริการ
             </h2>
             <div class="detail-section">
+                <p ng-if="!user.contacts.length">ยังไม่มีประวัติการชำระเงิน</p>
                 <ul>
                     <li class="user-pay-list" ng-repeat="c in user.contacts">
                         <a href="/payment?id={{c.id}}">
