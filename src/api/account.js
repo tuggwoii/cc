@@ -5,6 +5,7 @@ var User = require('../database/models').User;
 var Role = require('../database/models').Role;
 var Car = require('../database/models').Car;
 var File = require('../database/models').File;
+var Contact = require('../database/models').Contact;
 var Serializer = require('../serializers/user-serializer');
 var bcrypt = require('bcrypt-nodejs');
 var salt = bcrypt.genSaltSync(10);
@@ -465,7 +466,8 @@ class AccountApi extends BaseApi {
         User.findById(req.user.id, {
             include: [
                 { model: Role },
-                { model: File }
+                { model: File },
+                { model: Contact }
             ]
         }).then(function (u) {
             context.success(req, res, u, {}, context.loginSerializer);

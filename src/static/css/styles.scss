@@ -962,6 +962,7 @@
                     padding: 20px;
                     cursor: pointer;
                     width: 100%;
+                    position: relative;
 
                     .shop {
                         font-size: 20px;
@@ -978,16 +979,9 @@
                         width: 100%;
 
                         .image {
-                            width: 70px;
-                            height: 70px;
-                            float: left;
-
-                            img {
-                                width: 100%;
-                                position: relative;
-                                top: 50%;
-                                transform: translateY(-50%);
-                            }
+                            position: absolute;
+                            top:0;
+                            left:0;
                         }
 
                         .info {
@@ -2488,4 +2482,63 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
 }
 .form-control.half-width:first-of-type {
     margin-right: 2%;
+}
+
+.shares-list-image-container {
+    width: 100% !important;
+    height:100% !important;
+
+    .shares-list-image {
+        min-width: 100%;
+        min-height: 100%;
+    }
+}
+.overflow-share-detail {
+    width: 100% !important;
+    background-color: rgba(235,235,235,0.8);
+    height: 90px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding-left: 10px !important;
+}
+.share-item .share-title {
+    color: #f05f23;
+    text-shadow: 1px 0px #444;
+    font-size: 26px;
+    margin-bottom: -5px;
+
+    .share-price {
+        color: rgb(30,156,27);
+    }
+}
+.share-item .car-brand {
+    color: #333;
+    font-weight: bold;
+} 
+.share-item .shop-share
+{
+    color: #666;
+    font-weight: bold;
+    font-size: 20px;
+
+    .fa {
+        position:relative;
+        top: 3px;
+    }
+}
+.share-item .car-brand .stars {
+    display:inline-block;
+    float:right;
+    margin-right: 15px;
+}
+.user-pay-list {
+    display:inline-block;
+    width: 100%;
+    border-bottom: 1px dashed #444;
+    padding: 10px;
+
+    a  {
+        color: #fff;
+    }
 }

@@ -86,22 +86,26 @@
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shares" ng-click="navigateTo('/share/'+s.id, true)">
                 <div class="share-item animated fadeIn">
                     <a href="/share/{{s.id}}">
-                        <div class="user-name hidden-xs" title="{{s.title}}">{{s.title}}</div>
                         <div class="detail">
-                            <div class="image">
-                                <img src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
-                                <img ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
+                            <div class="image shares-list-image-container">
+                                <img class="shares-list-image" src="/img/car.png" alt="profile" ng-if="!s.car.image || !s.car.image.url">
+                                <img class="shares-list-image" ng-src="{{s.car.image.url}}" alt="profile" ng-if="s.car.image && s.car.image.url">
                             </div>
-                            <div class="info">
-                                <div class="user-name hidden-sm hidden-md hidden-lg" title="{{s.title}}">{{s.title}}</div>
-                                <div class="workgroup">{{s.workgroup.name}}</div>
-                                <div class="title" title="{{s.car.brand}} {{s.car.series}}">{{s.car.brand}} {{s.car.series}}</div>
-                                <div class="price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</div>
-                                <div class="shop" title="{{s.shop ? s.shop.name:'ไม่ระบุ'}}{{s.shop.province ? ', '+ s.shop.province_str : ''}}">
+                            <div class="info overflow-share-detail">
+                                <div class="user-name share-title" title="{{s.title}} ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท">
+                                    <span>{{s.title}}</span>
+                                    <span class="share-price">ทั้งหมด {{s.price?s.price.formatMoney(0, '.', ','):0}} บาท</span>
+                                </div>
+                                <!--<div class="workgroup">{{s.workgroup.name}}</div>-->
+                                <div class="title car-brand" title="{{s.car.brand}} {{s.car.series}}">
+                                    <span>{{s.car.brand}} {{s.car.series}}</span>
+                                    <rating-star rating="s.score"></rating-star>
+                                </div>
+                                <div class="shop-share" title="{{s.shop ? s.shop.name:'ไม่ระบุ'}}{{s.shop.province ? ', '+ s.shop.province_str : ''}}">
                                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                                     {{s.shop ? s.shop.name:'ไม่ระบุ'}}{{s.shop.province ? ', '+ s.shop.province_str : ''}}
                                 </div>
-                                <rating-star rating="s.score"></rating-star>
+                               
                             </div>
                         </div>
                     </a>

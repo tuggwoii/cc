@@ -361,6 +361,10 @@ var Repair = sequelize.define('repairs', {
     view_count: {
         type: Sequelize.INTEGER,
         field: 'viewCount'
+    },
+    ip: {
+        type: Sequelize.STRING,
+        field: 'ip'
     }
 });
 
@@ -598,6 +602,7 @@ var Report = sequelize.define('reports', {
 User.belongsTo(Role, { foreignKey: 'user_role' });
 User.belongsTo(File, { foreignKey: 'image' });
 User.hasMany(Car, { foreignKey: 'owner' });
+User.hasMany(Contact, { foreignKey: 'send_by' });
 File.belongsTo(User, { foreignKey: 'owner' });
 Car.belongsTo(User, { foreignKey: 'owner' });
 Car.belongsTo(File, { foreignKey: 'image' })

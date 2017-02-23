@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookies', '$q', 'AccountService', 'StringService', 'Event', 'FileService', 'WorkgroupService', 'CarService',
-    function ($scope, $rootScope, $timeout, $cookies, $q, AccountService, StringService, Event, FileService, WorkgroupService, CarService) {
+module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookies', '$q', 'AccountService', 'StringService', 'Event', 'FileService', 'WorkgroupService', 'CarService', 'Helper',
+    function ($scope, $rootScope, $timeout, $cookies, $q, AccountService, StringService, Event, FileService, WorkgroupService, CarService, Helper) {
 
         $scope.strings_ready = false;
         $scope.user_ready = false;
@@ -10,6 +10,15 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             angular.forEach($scope.workgroup, function (w) {
                 w.active = false;
             });
+        }
+
+        function initUserModel(model) {
+            if (model.contacts && model.contacts.length) {
+                angular.forEach(model.contacts, function (c) {
+                    c.pay_date = Helper.readableDate(c.createdAt);
+                });
+            }
+            return model;
         }
 
         $scope.displayView = function () {
@@ -34,6 +43,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         $scope.init = function () {
             AccountService.initializeUserOnLoad().then(function () {
                 $scope.user_ready = true;
+                $scope.user = initUserModel($scope.user);
                 if (app.debug) {
                     console.log('LOGIN BY', $scope.user);
                 }

@@ -262,7 +262,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                 $rootScope.$broadcast(Event.Message.Display, 'รถคันนี้หมดอายุการบันทึกข้อมูลแล้ว กรุณาติดต่อผู้ดูแลระบบเพื่อต่ออายุ');
             }
             else {
-                $scope.navigateTo('#/new-repair?car=' + car.id);
+                $scope.navigateTo('#/new-repair?car=' + $scope.car.id);
             }
         };
 

@@ -355,6 +355,10 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             })
         };
 
+        $scope.back = function () {
+            $scope.navigateTo('#/car?id=' + $scope.model.for_car);
+        };
+
         $scope.$on(Event.File.Success, $scope.saveImage);
         $scope.repairPage();
     }]);

@@ -531,10 +531,31 @@ class RepairApi extends BaseApi {
         return promise;
     }
 
+    getIP(req) {
+        var ip = req.headers['x-forwarded-for'];
+        if (!ip) {
+            if (req.connection && req.connection.remoteAddress) {
+                ip = req.connection.remoteAddress;
+            }
+            else if (req.socket && req.socket.remoteAddress) {
+                ip = req.socket.remoteAddress;
+            }
+            else if (req.connection && req.connection.socket && req.connection.socket.remoteAddress) {
+                ip = req.connection.socket.remoteAddress;
+            }
+        }
+        if (!ip) {
+            ip = 'UNKNOW';
+        }
+        return ip;
+    }
+
     add(context, req, res) {
         var repair = context.model(req.body, req.user.id);
         var shopId = repair.repair_shop;
+        var ip = context.getIP(req);
         context.validateCreate(repair).then(function () {
+            repair.ip = ip;
             Repair.create(repair, { isNewRecord: true }).then(function (_repair) {
                 context.success(req, res, _repair, {}, RepairSerializer.default);
             }).catch(function (err) {
@@ -551,6 +572,7 @@ class RepairApi extends BaseApi {
     update(context, req, res) {
         var repair = context.model(req.body, req.user.id);
         var shopId = repair.repair_shop;
+        var ip = context.getIP(req);
         context.validateUpdate(repair).then(function () {
             context.getRepairById(repair.id).then(function (_repair) {
                 if (_repair) {
@@ -558,6 +580,7 @@ class RepairApi extends BaseApi {
                     var score = _repair.score;
                     var old_shopId = _repair.repair_shop;
                     if (req.user.id === owner) {
+                        repair.ip = ip;
                         _repair.updateAttributes(repair).then(function (_updated_repair) {
                             if (shopId) {
                                 context.updateShopScoreAndService(context, shopId, repair.group).then(function () {

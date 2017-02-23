@@ -18,15 +18,15 @@
                 <img src="img/logo.png" />
                 <span>ข้อมูลส่วนตัว</span>
             </h1>
-           
-            
+
+
             <h2>
                 <span class="btn-action">
                     <button class="btn btn-danger edit-link" ng-click="editAccount()">
                         แก้ไขข้อมูล
                     </button>
                 </span>
-                
+
             </h2>
             <div class="detail-section">
                 <div class="image">
@@ -44,18 +44,18 @@
                         </label>
                         <span>{{user.email}}</span>
                     </div>
-                   <div class="title">
+                    <div class="title">
                         <label>
                             เบอร์โทร:
                         </label>
                         <span>{{user.telephone?user.telephone:'ไม่ระบุ'}}</span>
                     </div>
-                     <!--<div class="title">
-                        <label>
-                            ที่อยู่:
-                        </label>
-                        <span>{{user.address?user.address:'ไม่ระบุ'}}</span>
-                    </div>-->
+                    <!--<div class="title">
+                    <label>
+                        ที่อยู่:
+                    </label>
+                    <span>{{user.address?user.address:'ไม่ระบุ'}}</span>
+                </div>-->
                     <div class="title">
                         <label>
                             จำนวนรถที่มีได้:
@@ -63,8 +63,23 @@
                         <span>{{user.max_car}} คัน</span>
                     </div>
                 </div>
+            </div>
 
-              
+            <h2>
+                ประวัติการชำระค่าบริการ
+            </h2>
+            <div class="detail-section">
+                <ul>
+                    <li class="user-pay-list" ng-repeat="c in user.contacts">
+                        <a href="/payment?id={{c.id}}">
+                            <span>ชำระเมื่อ: </span>
+                            <span>{{c.pay_date}}, </span>
+                            <span>จำนวน: </span>
+                            <span>{{c.price}} บาท,</span>
+                            <span>เพื่อ: {{c.type == 1? 'ต่ออายุรถ':'เพิ่มจำนวนรถ'}}</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
