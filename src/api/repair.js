@@ -392,6 +392,54 @@ class RepairApi extends BaseApi {
         });
     }
 
+    getAllByShop(context, req, res) {
+        var params = url.parse(req.url, true);
+        var queries = params.query;
+        var items = 20;
+        var p = 1;
+        if (queries['p']) {
+            p = parseInt(queries['p']);
+        }
+        if (queries['limit']) {
+            items = parseInt(queries['limit']);
+        }
+        var skip = items * (p - 1);
+
+
+        var CONDITIONS = {
+            share: true
+        };
+        if (queries['shop']) {
+            CONDITIONS.repair_shop = parseInt(queries['shop']);
+        }
+        var order_by = [["createdAt", "DESC"]];
+        if (queries['sort_column']) {
+            order_by = [[queries['sort_column'], queries['sort_order']]];
+        }
+
+        Repair.all({
+            where: CONDITIONS,
+            order: order_by,
+            include: [
+                { model: Car}
+            ],
+            offset: skip,
+            limit: items
+        }).then(function (data) {
+            Repair.count({ where: CONDITIONS}).then(function (count) {
+                var meta = {
+                    count: count,
+                    limits: items
+                };
+                context.success(req, res, data, meta, RepairSerializer.share);
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }).catch(function (err) {
+            context.error(req, res, err, 500);
+        });
+    }
+
     getById(context, req, res) {
         if (req.params.id) {
             context.getRepairById(req.params.id).then(function (_repair) {
@@ -808,6 +856,7 @@ class RepairApi extends BaseApi {
     endpoints() {
         return [
             { url: '/shares', method: 'get', roles: [], response: this.getAll },
+            { url: '/repairs/shop', method: 'get', roles: [], response: this.getAllByShop },
             { url: '/repairs', method: 'get', roles: ['admin', 'user'], response: this.getByUser },
             { url: '/repairs', method: 'get', roles: ['admin', 'user'], response: this.getById, params: ['id'] },
             { url: '/repairs', method: 'post', roles: ['admin', 'user'], response: this.add },

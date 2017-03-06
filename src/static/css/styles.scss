@@ -872,7 +872,7 @@
 
         .shares-list {
 
-            .share-item {
+            .share-item, .shop-item {
                 display: inline-block;
                 width: 100%;
                 line-height: 1;
@@ -953,8 +953,54 @@
                 .loadMore {
                     margin-top: 50px;
                 }
+                .shop-item {
+                    line-height: 1;
+                    margin-top: 30px;
+                    height: 200px;
+                    background: rgb(65,65,65);
+                    padding: 20px;
+                    cursor: pointer;
+                    width: 100%;
+                    position: relative;
 
-                .share-item {
+                    .shop {
+                        font-size: 20px;
+                        color: #fff;
+                        margin-bottom: 10px;
+
+                        .fa {
+                            font-size: 16px;
+                        }
+                    }
+                    .detail {
+                        display: inline-block;
+                        width: 100%;
+
+                        .info {
+                            width: calc(100% - 70px);
+                            padding-left: 45px;
+                            float: left;
+
+                            .workgroup {
+                                font-size: 22px;
+                                color: rgb(134,186,255);
+                                margin-bottom: 5px;
+                            }
+
+                            .title {
+                                font-size: 22px;
+                            }
+
+                            .price {
+                                font-size: 20px;
+                                color: rgb(84,193,97);
+                                margin-top: 5px;
+                                margin-bottom: 10px;
+                            }
+                        }
+                    }
+                }
+                .share-item{
                     line-height: 1;
                     margin-top: 30px;
                     height: 260px;

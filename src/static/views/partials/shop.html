@@ -85,6 +85,35 @@
                 <p ng-if="!model.map">ยังไม่มีแผนที่ร้าน</p>
                 <div class="map" ng-if="model.map"></div>
             </div>
+
+
+            <h2><i class="fa fa-wrench" aria-hidden="true"></i> รายการที่เคยมาใช้บริการ</h2>
+            <div class="detail-section">
+                <p ng-if="!repairs.length">ยังไม่มีรายการ</p>
+                <table class="table repair-table ng-scope" ng-if="repairs.length">
+                    <thead>
+                        <tr>
+                            <td>รายการ</td>
+                            <td>รถ</td>
+                            <td>Rating</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="r in repairs" class="ng-scope" ng-click="navigateTo('/share/' + r.id, true)">
+                            <td><a href="/share/{{r.id}}"></a>{{r.title}}</td>
+                            <td><a href="/share/{{r.id}}"></a>{{r.car.brand}} {{r.car.series}}</td>
+                            <td>
+                                <rating-star rating="r.score"></rating-star>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="loadmore-container" ng-if="hasMore && repairs.length">
+                    <button type="button" class="btn btn-danger loadMore" ng-if="!isRepairLoad" ng-click="loadMoreRepair()">โหลดเพิ่ม</button>
+                    <button type="button" class="btn btn-danger loadMore" ng-if="isRepairLoad" disabled>กำลังโหลด...</button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

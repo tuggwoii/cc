@@ -58,22 +58,7 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
                 ShareService.get(1, { limits: limmits }).then(function (res) {
                     $scope.shares = res.data;
                 }),
-                ShopService.get($scope.shop_query.page, '', '', '', 5).then(function (res) {
-                    $scope.shops = res.data;
-                    angular.forEach($scope.shops, function (s) {
-                        angular.forEach($scope.provinces, function (p) {
-                            if (s.province == p.key) {
-                                s.province_str = p.th;
-                            }
-                        });
-                    });
-                    if (res.meta.count > $scope.shops.length) {
-                        $scope.shop_query.hasMore = true;
-                    }
-                    else {
-                        $scope.shop_query.hasMore = false;
-                    }
-                })
+                 $scope.loadShop()
             ])
             .then(function () {
                 $timeout(function () {
@@ -98,22 +83,7 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
                 ShareService.get(1, { limits: limmits }).then(function (res) {
                     $scope.shares = res.data;
                 }),
-                ShopService.get($scope.shop_query.page, '', '', '', 5).then(function (res) {
-                    $scope.shops = res.data;
-                    angular.forEach($scope.shops, function (s) {
-                        angular.forEach($scope.provinces, function (p) {
-                            if (s.province == p.key) {
-                                s.province_str = p.th;
-                            }
-                        });
-                    });
-                    if (res.meta.count > $scope.shops.length) {
-                        $scope.shop_query.hasMore = true;
-                    }
-                    else {
-                        $scope.shop_query.hasMore = false;
-                    }
-                })
+                 $scope.loadShop()
             ])
             .then(function () {
                 $timeout(function () {
@@ -172,7 +142,8 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
             $scope.shop_query.page = 1;
             $rootScope.$broadcast(Event.Load.Display);
             $scope.shop_query.isLoad = true;
-            ShopService.get($scope.shop_query.page, '', $scope.shop_query.services, $scope.shop_query.province, 5).then(function (res) {
+      
+            ShopService.get($scope.shop_query.page, 20, '', $scope.shop_query.services, $scope.shop_query.province, 0, 5).then(function (res) {
                 $scope.shops = res.data;
                 angular.forEach($scope.shops, function (s) {
                     angular.forEach($scope.provinces, function (p) {
@@ -191,14 +162,15 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
                     $rootScope.$broadcast(Event.Load.Dismiss);
                     $scope.shop_query.isLoad = false;
                 }, 500);
-            })
+            });
         };
 
         $scope.loadMoreShop = function () {
             $scope.shop_query.page++;
             $rootScope.$broadcast(Event.Load.Display);
             $scope.shop_query.isLoad = true;
-            ShopService.get($scope.shop_query.page, '', $scope.shop_query.services, $scope.shop_query.province).then(function (res) {
+
+            ShopService.get($scope.shop_query.page, 20, '', $scope.shop_query.services, $scope.shop_query.province, 0, 5).then(function (res) {
                 angular.forEach(res.data, function (s) {
                     angular.forEach($scope.provinces, function (p) {
                         if (s.province == p.key) {

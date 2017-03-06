@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'Event', 'Helper', 'ShopService', 'WorkService', 'CarService', 'WorkgroupService',
-    function ($scope, $rootScope, $timeout, $q, $location, Event, Helper, ShopService, WorkService, CarService, WorkgroupService) {
+module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'Event', 'Helper', 'ShopService', 'WorkService', 'CarService', 'WorkgroupService', 'RepairService',
+    function ($scope, $rootScope, $timeout, $q, $location, Event, Helper, ShopService, WorkService, CarService, WorkgroupService, RepairService) {
 
         $scope.status = {};
         $scope.dates = Helper.dateArray();
@@ -13,13 +13,40 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
         $scope.isCanEdit = false;
         $scope.isFromShops = false;
 
+       
+        $scope.repairs = [];
+        $scope.repairPage = 1;
+        $scope.repairQuery = {};
+
         function getById() {
             ShopService.getById($scope.params.id).then(function (data) {
                 $scope.model = angular.copy(data);
                 initModel($scope.model);
             }).catch(function () {
-
+                alert('Load resource error');
             });
+
+            $scope.repairQuery.shop = $scope.params.id;
+            $scope.repairQuery.limit = 20;
+            $scope.isRepairLoad = true;
+            RepairService.getByShop($scope.repairPage, $scope.repairQuery)
+                .then(function (res) {
+                    $scope.repairs = res.data;
+                    $scope.isRepairLoad = false;
+                    setMetaRepair(res.meta);
+                })
+                .catch(function () {
+                    alert('Load resource error');
+                });
+        }
+
+        function setMetaRepair(meta) {
+            if (meta.limits * $scope.repairPage < meta.count) {
+                $scope.hasMore = true;
+            }
+            else {
+                $scope.hasMore = false;
+            }
         }
 
         function initModel(model) {
@@ -142,6 +169,20 @@ module.controller('ShopController', ['$scope', '$rootScope', '$timeout', '$q', '
 
         $scope.simpleLightbox = function (url) {
             lightbox(url);
+        };
+
+        $scope.loadMoreRepair = function () {
+            $scope.repairPage += 1;
+            $scope.isRepairLoad = true;
+            RepairService.getByShop($scope.repairPage, $scope.repairQuery)
+                .then(function (res) {
+                    $scope.repairs = Helper.mergeArray($scope.repairs, res.data);
+                    $scope.isRepairLoad = false;
+                    setMetaRepair(res.meta);
+                })
+                .catch(function () {
+                    alert('Load resource error');
+                });
         };
 
         $scope.$on(Event.File.Success, $scope.setImage);

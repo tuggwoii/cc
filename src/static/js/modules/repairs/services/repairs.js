@@ -30,6 +30,25 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
                 }
             });
         },
+        getByShop: function (p, q) {
+            var key = URLS.model(service).all + '/shop'
+                + ('?p=' + p)
+                + (q['shop'] ? '&shop=' + q['shop'] : '')
+                + (q['limit'] ? '&limit=' + q['limit'] : '');
+            return $q(function (resolve, reject) {
+                if (cache[key]) {
+                    resolve(cache[key]);
+                }
+                else {
+                    $http.get(key).success(function (res) {
+                        cache[key] = res;
+                        resolve(res);
+                    }).error(function (res) {
+                        reject(res);
+                    });
+                }
+            });
+        },
         getById: function (id) {
             return $q(function (resolve, reject) {
                 var key = URLS.model(service).one.replace('{id}', id);

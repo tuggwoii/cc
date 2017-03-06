@@ -68,7 +68,8 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
             $cookies.remove('Authorization');
             window.location.href = '/';
         }).catch(function () {
-            alert('ERROR');
+            $cookies.remove('Authorization');
+            window.location.href = '/';
         });
     };
 

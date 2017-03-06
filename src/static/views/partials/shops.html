@@ -59,7 +59,7 @@
                 <p ng-if="!shops.length">ยังไม่มีข้อมูลร้านในขณะนี้</p>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shops" ng-click="navigateTo('#/shop?id='+s.id + '&fs=true', true)">
-                <div class="share-item animated fadeIn">
+                <div class="shop-item animated fadeIn">
                     <a href="#/shop?id={{s.id}}&fs=true">
                         <div class="user-name hidden-xs" title="{{s.name}}"><i class="fa fa-map-marker" aria-hidden="true"></i> {{s.name}}</div>
                         <div class="detail">
