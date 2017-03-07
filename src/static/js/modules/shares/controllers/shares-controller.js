@@ -84,7 +84,7 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
         }
 
         $scope.sharesPage = function () {
-
+      
             $scope.query = {
                 limits: 24,
                 page: 1

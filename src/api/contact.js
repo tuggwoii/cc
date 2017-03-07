@@ -2,6 +2,7 @@
 var BaseApi = require('./base');
 var Contact = require('../database/models').Contact;
 var User = require('../database/models').User;
+var Car = require('../database/models').Car;
 var MailHelper = require('../helpers/email');
 var DateHelper = require('../helpers/date');
 var url = require('url');
@@ -150,13 +151,66 @@ class ContactApi extends BaseApi {
         }
     }
 
+    autoExpandCarEpire(ids) {
+        var total = ids.length;
+        var current = 0;
+        var promise = new Promise(function (resolve, reject) {
+            if (total == 0) {
+                resolve();
+            }
+            for (var i = 0; i < ids.length; i++) {
+                var id = ids[i];
+                if (id) {
+                    Car.findById(id).then(function (_c) {
+                        var date = new Date(_c.exp_date);
+                        date = date.setFullYear(date.getFullYear() + 1);
+                        var update = { exp_date: date };
+                        _c.updateAttributes(update).then(function () {
+                            current++;
+                            if (current == total) {
+                                resolve();
+                            }
+                        });
+                    }).catch(function () {
+                        current++;
+                        if(current == total) {
+                            resolve();
+                        }
+                    });
+                }
+                else {
+                    current++;
+                    if(current == total) {
+                        resolve();
+                    }
+                }
+            }
+        });
+        return promise;
+    }
 
     add(context, req, res) {
         context.validate(req.body).then(function () {
             var data = context.model(req.body, req.user);
             Contact.create(data, { isNewRecord: true }).then(function (model) {
                 context.sendEmail(req.user.email, model['null']);
-                context.success(req, res, model);
+                if (data.type == 1) {
+                    var ids = model.car_ids.split(',');
+                    console.log(ids);
+                    context.autoExpandCarEpire(ids).then(function () {
+                        context.success(req, res, model);
+                    });
+                }
+                else if (data.type == 2) {
+                    User.findById(req.user.id).then(function (_u) {
+                        var update = { max_car: _u.max_car += 1 };
+                        _u.updateAttributes(update).then(function () {
+                            context.success(req, res, model);
+                        });
+                    }).catch(function () {
+                        context.error(req, res, err, 500);
+                    });
+                }
             }).catch(function (err) {
                 context.error(req, res, err, 500);
             });

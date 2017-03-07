@@ -85,13 +85,23 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
 
         function saveShareId(shares, id) {
             var currDate = new Date();
-            var shareDate = new Date(shares.exp_date);
-            if (!shares || shares == null || !shares.ids || !shares.exp_date || shareDate < currDate) {
+            
+            if (!shares || shares == null || !shares.ids || !shares.exp_date) {
                 var date = new Date();
                 shares = {
                     ids: [],
                     exp_date: new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
                 };
+            }
+            else {
+                var shareDate = new Date(shares.exp_date);
+                if (shareDate < currDate) {
+                    var date = new Date();
+                    shares = {
+                        ids: [],
+                        exp_date: new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)
+                    };
+                }
             }
             shares.ids.push(id);
             if (typeof (Storage) !== "undefined") {

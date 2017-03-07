@@ -33,6 +33,7 @@
                             <span>แจ้งชำระเงิน</span>
                         </h1>
                         <div ng-if="isDetail">
+                            <p>ระบบได้ดำเนินการจัดการคำขอให้ท่านโดยอัตโนมัติแล้วท่านสามารใช้ต่อได้ทันที แต่คำร้องขอจะสมบูรณ์เมื่อผู้ดูแล้วระบบได้ตรวจสอบความถูกต้องแล้ว</p>
                             <p>ข้อมูลการแจ้งชำระเงินของท่านมีดังต่อไปนี้ (กรุณาบุคมาร์กไว้เพื่อตรวจสอบสถานะหรือตรวจสอบอีเมลล์ของท่าน)</p>
                             <h2>ข้อมูลการชำระเงิน</h2>
                             <div class="detail-section" ng-if="!notfound">
@@ -75,22 +76,6 @@
                             <p>กรุณากรอกข้อมูลด้านล่างให้ครบถ้วนเพื่อแจ้งชำระเงิน</p>
 
                             <form name="form">
-                                <!--<div class="form-group">
-                                    <label class="capital">
-                                        หัวข้อเรื่อง
-                                        <span class="required">*</span>
-                                    </label>
-                                    <input name="title"
-                                           type="text"
-                                           class="form-control"
-                                           placeholder="ใส่หัวข้อเรื่อง ต่ออายุรถ, เพิ่มจำนวนรถ"
-                                           ng-model="model.title"
-                                           ng-required="true" />
-                                    <p class="error-message margin-top animated fadeIn"
-                                       ng-if="form.title.$error.required && form.title.$dirty">
-                                        กรุณากรอกหัวข้อเรื่อง
-                                    </p>
-                                </div>-->
                                 <div class="form-group">
                                     <label class="capital">
                                         ประเภทการชำระ
@@ -169,11 +154,11 @@
                                         กรุณากรอกวันที่
                                     </p>
                                     <p class="error-message margin-top animated fadeIn"
-                                       ng-if="form.min.$error.required && form.min.$dirty">
+                                       ng-if="form.month.$error.required && form.month.$dirty">
                                         กรุณากรอกเดือน
                                     </p>
                                     <p class="error-message margin-top animated fadeIn"
-                                       ng-if="form.date.$error.required && form.date.$dirty">
+                                       ng-if="form.year.$error.required && form.year.$dirty">
                                         กรุณากรอกปี
                                     </p>
                                 </div>

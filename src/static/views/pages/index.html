@@ -103,6 +103,7 @@
     <script src="/js/modules/report/services/reports.js"></script>
     <script src="resources/areas.js"></script>
     <script>var error_500 = false; var error_404 = false;</script>
+
     <div class="popup-container load animated fadeIn fakeLoad">
         <div class="load-container">
             <img src="/img/load.gif" alt="loading" />
@@ -118,5 +119,14 @@
 	  ga('create', 'UA-86514509-2', 'auto');
 	  ga('send', 'pageview');
 	</script>
+
+    <script>
+        $(window).bind('pageshow', function (event) {
+            if (event.originalEvent.persisted) {
+                $('.screen').hide();
+                window.location.reload()
+            }
+        });
+    </script>
 </body>
 </html>
