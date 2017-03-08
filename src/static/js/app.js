@@ -44,6 +44,9 @@ $(document).ready(function () {
     if(isAndroid) {
         $('body').addClass('android');
     }
+    else if(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+        $('body').addClass('ios');
+    }
 });
 $(window).resize(function () {
     footer();

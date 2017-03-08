@@ -437,12 +437,12 @@
 
                 a {
                     color: #fff;
-                    position: absolute;
                     top: 0;
                     left: 0;
                     width: 100%;
                     height: 100%;
                     padding: 10px;
+                    display: block;
                 }
 
                 a:hover, a:active, a:focus {
@@ -2587,4 +2587,10 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
     a  {
         color: #fff;
     }
+}
+.ios.app .wrapper .user-profile .car-item .index-car-image {
+    top: -23px;
+}
+.ios.app .wrapper .user-profile .car-item .detail {
+    top: 5px;
 }
