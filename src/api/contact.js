@@ -128,7 +128,7 @@ class ContactApi extends BaseApi {
             if (!isNaN(parseInt(req.params.id))) {
                 context.getById(req.params.id).then(function (data) {
                     if (data) {
-                        if (data.send_by == req.user.id) {
+                        if (data.send_by == req.user.id || req.user.role.id == 1) {
                             context.success(req, res, data);
                         }
                         else {

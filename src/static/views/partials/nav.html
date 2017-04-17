@@ -12,6 +12,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="menu-item {{isHomePage?'active':''}}"><a href="/#/">Home</a></li>
                 <li class="menu-item {{isSharePage?'active':''}}"><a href="/#/shares">Share</a></li>
+                <li class="menu-item {{isShopPage?'active':''}}"><a href="/#/shops">Shops</a></li>
                 <li class="menu-item {{m.isActive?'active':''}}" ng-repeat="m in menu"><a href="{{m.url}}">{{m.name}}</a></li>
                 <li class="menu-item {{isPaymentPage?'active':''}}" ng-if="user.id"><a href="/payment">Payment</a></li>
                 <li>

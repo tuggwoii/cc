@@ -27,6 +27,7 @@ class AccountApi extends BaseApi {
             email: data.email,
             password: bcrypt.hashSync(data.password, salt),
             name: data.name,
+            telephone: data.telephone,
             user_role: 2,
             max_car: 1
         };

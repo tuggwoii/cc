@@ -67,7 +67,7 @@
     }
 
     .app header .navbar-right a {
-        padding: 0 15px;
+        padding: 0 12px;
     }
 }
 
@@ -1182,5 +1182,10 @@
         .btn {
             top: 0px;
         }
+    }
+    .app .wrapper .share-detail-page .social {
+        top: 70px;
+        right: 0;
+        left: 15px;
     }
 }

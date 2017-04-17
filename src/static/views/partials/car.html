@@ -178,16 +178,20 @@
                         <thead>
                             <tr>
                                 <td>วันที่เข้าทำ</td>
+                                <td>ชื่อรายการ</td>
                                 <td>ร้านที่ทำ</td>
                                 <td>เลข กม.</td>
                                 <td>รวมราคา</td>
-                                <td>หมายเหตุ</td>
+                                
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="repair in repairs" ng-click="navigateTo('#/repair?id=' + repair.id + '&car='+ car.id)">
                                 <td>
                                     <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.date_str}}</a>
+                                </td>
+                                <td>
+                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.title?repair.title:'-'}}</a>
                                 </td>
                                 <td>
                                     <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.shop?repair.shop.name:'ไม่ระบุ'}}</a>
@@ -198,9 +202,7 @@
                                 <td>
                                     <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.price?repair.price.formatMoney(0, '.', ','):'0'}}</a>
                                 </td>
-                                <td>
-                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.remark?repair.remark:'-'}}</a>
-                                </td>
+                                
                             </tr>
                         </tbody>
                     </table>

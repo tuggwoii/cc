@@ -71,13 +71,17 @@
             <div class="detail-section">
                 <p ng-if="!user.contacts.length">ยังไม่มีประวัติการชำระเงิน</p>
                 <ul>
-                    <li class="user-pay-list" ng-repeat="c in user.contacts">
+                    <li class="user-pay-list" ng-repeat="c in model.contacts">
                         <a href="/payment?id={{c.id}}">
                             <span>ชำระเมื่อ: </span>
                             <span>{{c.pay_date}}, </span>
                             <span>จำนวน: </span>
                             <span>{{c.price}} บาท,</span>
                             <span>เพื่อ: {{c.type == 1? 'ต่ออายุรถ':'เพิ่มจำนวนรถ'}}</span>
+                            <p ng-if="c.cars && c.cars.length && c.type==1">
+                                <span>รถ: </span>
+                                <span ng-repeat="a in c.cars">{{$index != 0 ? ', ':''}}{{a.brand}} {{a.series}}</span>
+                            </p>
                         </a>
                     </li>
                 </ul>

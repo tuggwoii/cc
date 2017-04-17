@@ -94,10 +94,10 @@
                 </div>
 
                 <div class="full">
-                    <div class="image">
+                    <div class="image" ng-if="model.shop.file">
                         <img ng-src="{{model.shop.file?model.shop.file.url:'/img/no-photo.jpg'}}" alt="shop-image" />
                     </div>
-                    <div class="info">
+                    <div class="info" style="{{model.shop.file?'':'padding-left:0'}}">
                         <div class="title">
                             <label>ชื่อร้าน: </label>
                             <span>{{model.shop.name}}</span>

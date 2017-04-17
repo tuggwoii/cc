@@ -158,7 +158,7 @@ class RepairApi extends BaseApi {
         var promise = new Promise(function (resolve, reject) {
             Repair.findAll({
                 where: queries,
-                order: [["createdAt", "DESC"]],
+                order: [["date", "DESC"]],
                 include: [
                     { model: Car },
                     { model: Work },
@@ -197,7 +197,7 @@ class RepairApi extends BaseApi {
                     { model: Car },
                     { model: Work },
                     { model: User },
-                    { model: Shop },
+                    { model: Shop, include: [{ model: File }] },
                     { model: RepairWork, include: [{ model: Work }] },
                     { model: RepairImage, include: [{ model: File }] },
                     { model: Notification }
