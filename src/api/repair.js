@@ -154,7 +154,8 @@ class RepairApi extends BaseApi {
         return promise;
     }
 
-    getRepairByUserId(id, queries, limits, skip) {
+    getRepairByUserId(queries, limits, skip) {
+        
         var promise = new Promise(function (resolve, reject) {
             Repair.findAll({
                 where: queries,
@@ -177,7 +178,7 @@ class RepairApi extends BaseApi {
         return promise;
     }
 
-    countRepairByUserId(id, queries) {
+    countRepairByUserId(queries) {
         var promise = new Promise(function (resolve, reject) {
             Repair.count({
                 where: queries
@@ -225,6 +226,7 @@ class RepairApi extends BaseApi {
             owner: req.user.id,
             price: { }
         };
+
         if (queries['car']) {
             q.for_car = parseInt(queries['car']);
         }
@@ -253,8 +255,8 @@ class RepairApi extends BaseApi {
             _limit = parseInt(queries['limit']);
         }
 
-        context.getRepairByUserId(req.user.id, q, _limit, skip).then(function (data) {
-            context.countRepairByUserId(req.user.id, q).then(function (count) {
+        context.getRepairByUserId(q, _limit, skip).then(function (data) {
+            context.countRepairByUserId(q).then(function (count) {
                 var meta = {
                     count: count,
                     limits: _limit

@@ -703,6 +703,34 @@
             top: 3px;
         }
     }
+
+    h2 .see-more {
+        display: block;
+    }
+
+    .more .close-more {
+        display: block;
+    }
+
+    .more .see-more {
+        display: none;
+    }
+
+    .shop-sm-hide {
+        display:none;
+    }
+
+    .more .shop-sm-hide {
+        display: block;
+    }
+
+    .share-shop-section .image {
+        display:none;
+    }
+
+    .more.share-shop-section .image {
+        display: block;
+    }
 }
 @media screen and (max-width: 600px) {
     h2 .edit-repair-shop-button.repair-hot-fix {
@@ -717,6 +745,7 @@
         }
     }
 }
+
 @media screen and (max-width: 550px) {
     .app .wrapper {
         margin-top: 50px;
@@ -1133,9 +1162,11 @@
     .app .wrapper .backend-user h2 .remove-image-mode-button {
         top: -13px;
     }
-    
-}
 
+    h2 .see-more, h2 .close-more {
+        margin-top: 0px;
+    }
+}
 
 @media screen and (max-width: 500px) {
 
@@ -1166,6 +1197,19 @@
     h2 .btn-action .hotfix-noti-add-button {
         top: 0px;
     }
+
+    #share-car .info {
+        padding-left: 15px;
+        padding-top: 15px;
+    }
+
+    #share-car .not-mobile {
+        display:none;
+    }
+
+    #share-car .is-mobile {
+        display: block;
+    }
 }
 
 @media screen and (max-width: 450px) {
@@ -1187,5 +1231,10 @@
         top: 70px;
         right: 0;
         left: 15px;
+    }
+    #share-car .info {
+        width: 100%;
+        padding-left: 0px;
+        padding-top: 15px;
     }
 }

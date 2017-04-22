@@ -1,5 +1,5 @@
 ﻿'use strict';
-module.factory('ShopService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', function ($rootScope, $http, $q, $cookies, URLS) {
+module.factory('ShopService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 'RepairService', function ($rootScope, $http, $q, $cookies, URLS, RepairService) {
 
     var service = 'shops';
     var cache = {};
@@ -53,6 +53,7 @@ module.factory('ShopService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', 
             return $q(function (resolve, reject) {
                 $http.patch(URLS.model(service).all, model).success(function (res) {
                     cache = {};
+                    RepairService.clearCache();
                     resolve(res.data);
                 }).error(reject);
             });
