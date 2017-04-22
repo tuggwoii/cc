@@ -426,6 +426,7 @@
     <Content Include="package.json" />
     <Content Include="Procfile" />
     <Content Include="README.md" />
+    <Content Include="src\authorize\authorizeSession.txt" />
     <Content Include="src\database\routes\views.json" />
     <Content Include="src\static\css\animate.css" />
     <Content Include="src\static\css\bootstrap-3.3.6-dist\css\bootstrap-theme.css" />

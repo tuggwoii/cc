@@ -60,13 +60,13 @@
             </div>
             <div class="section right sm-to-left">
                 <div class="image">
-                    <div ng-if="!user.image">
-                        <img src="/img/noprofile.png" alt="profile" ng-if="!user.image">
+                    <div ng-if="!user.file">
+                        <img src="/img/noprofile.png" alt="profile" ng-if="!user.file">
                         <button ng-if="!uploading" class="btn btn-danger" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['select_image']}}</button>
                         <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>
                     </div>
-                    <div ng-if="user.image">
-                        <img class="user-profile-image" ng-src="{{user.image.url}}" alt="profile">
+                    <div ng-if="user.file">
+                        <img class="user-profile-image" ng-src="{{user.file.url}}" alt="profile">
                         <p class="error-message" id="invalidFile">ระบบรองรับเฉพาะไฟล์ .png .jpg และ .gif</p>
                         <button class="btn btn-danger" ng-if="!uploading" onclick="document.getElementById('fileUpload').click()"><i class="fa fa-photo"></i> {{strings['change_image']}}</button>
                         <button ng-if="uploading" class="btn btn-danger" disabled>LOADING...</button>

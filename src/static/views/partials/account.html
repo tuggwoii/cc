@@ -30,8 +30,8 @@
             </h2>
             <div class="detail-section">
                 <div class="image">
-                    <img ng-if="!user.image || !user.image.url" src="/img/noprofile.png" alt="profile">
-                    <img ng-if="user.image && user.image.url" class="user-profile-image" ng-src="{{user.image.url}}" alt="profile">
+                    <img ng-if="!user.file || !user.file.url" src="/img/noprofile.png" alt="profile">
+                    <img ng-if="user.file && user.file.url" class="user-profile-image" ng-src="{{user.file.url}}" alt="profile">
                 </div>
                 <div class="info">
                     <div class="title">

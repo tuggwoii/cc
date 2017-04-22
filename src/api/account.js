@@ -1,4 +1,5 @@
 ﻿'use strict';
+var sequelize = require('../database/connection');
 var Authorize = require('../authorize/auth');
 var BaseApi = require('./base');
 var User = require('../database/models').User;
@@ -31,29 +32,6 @@ class AccountApi extends BaseApi {
             user_role: 2,
             max_car: 1
         };
-    }
-
-    loginSerializer (data) {
-        if (!data.id) {
-            if (data['null']) {
-                data['id'] = data['null'];
-            }
-            else {
-                data['id'] = 0;
-            }
-        }
-        if (data.file) {
-            data.image = data.file
-        }
-        var json = JSON.stringify(data);
-        var model = JSON.parse(json);
-        delete model.ip;
-        delete model.forgot_password_token;
-        delete model.createdAt;
-        delete model.updatedAt;
-        delete model.password;
-        delete model.ban;
-        return model;
     }
 
     comparePassword (password, hash) {
@@ -108,7 +86,10 @@ class AccountApi extends BaseApi {
                 me.findByEmail(data.email).then(function (users) {
                     if (users.length) {
                         var user = users[0].dataValues;
-                        if (me.comparePassword(data.password, user.password)) {
+                        if (user.ban) {
+                            reject({ message: 'BAN' });
+                        }
+                        else if (me.comparePassword(data.password, user.password)) {
                             resolve(user);
                         }
                         else {
@@ -217,14 +198,25 @@ class AccountApi extends BaseApi {
 
         //order by
         var order = [[queries['s']?queries['s']: 'name', queries['o']?queries['o']:'ASC']]
+        if (queries['s'] == 'CarCount') {
+            order = [[sequelize.literal('CarCount'), queries['o'] ? queries['o'] : 'ASC']]
+        }
 
         User.all({
             where: q,
-            order: order,
+            attributes: [
+                'id',
+                'name',
+                'email',
+                'createdAt',
+                ['roleId','user_role'],
+                [sequelize.literal('(SELECT COUNT(*) FROM cars WHERE cars.userId = users.id)'), 'CarCount']
+            ],
             include: [
                 { model: Role },
                 { model: Car }
             ],
+            order: order,
             offset: skip,
             limit: limits
         }).then(function (data) {
@@ -272,16 +264,16 @@ class AccountApi extends BaseApi {
                     }
                     if (valid_password_process) {
                         user.email = _user.email;
-                        if (user.image && user.image.id) {
-                            user.image = user.image.id;
+                        if (user.file && user.file.id) {
+                            user.image = user.file.id;
                         }
                         context.validateUpdate(user).then(function () {
                             _user.updateAttributes(user).then(function (data) {
                                 context.findByEmail(user.email).then(function (_users) {
                                     if (_users.length) {
-                                        var aut_user = context.loginSerializer(_users[0]);
+                                        var aut_user = Serializer.login(_users[0]);
                                         Authorize.updateAuthorizeUser(aut_user).then(function () {
-                                            context.success(req, res, _users[0]);
+                                            context.success(req, res, _users[0], Serializer.me);
                                         }).catch(function (err) {
                                             context.error(req, res, err, 500);
                                         });
@@ -321,6 +313,11 @@ class AccountApi extends BaseApi {
             if (_user) {
                 context.validateAdminUpdate(user).then(function (user_attributes) {
                     _user.updateAttributes(user_attributes).then(function (data) {
+                        if (data.ban) {
+                            Authorize.removeAuthorizeUser(user).then(function () {
+
+                            });
+                        }
                         context.success(req, res, data);
                     }).catch(function () {
                         context.error(req, res, err, 500);
@@ -343,7 +340,7 @@ class AccountApi extends BaseApi {
 		}
 		else {
 			context.validateLogin(req.body).then(function (_user) {
-			    var user = context.loginSerializer(_user);
+                var user = Serializer.login(_user);
 			    if (user.ban) {
 			        context.error(req, res, { message: 'BAN'}, 400);
 			    }
@@ -370,7 +367,7 @@ class AccountApi extends BaseApi {
 			else {
 				context.findByEmail(_res.email).then(function (users) {
 					if (users.length) {
-						var user = context.loginSerializer(users[0]);
+                        var user = Serializer.login(users[0]);
 						if (user.ban) {
 						    context.error(req, res, { message: 'BAN' }, 400);
 						}
@@ -394,7 +391,7 @@ class AccountApi extends BaseApi {
 						    User.create(user, { isNewRecord: true }).then(function (model) {
 								context.findByEmail(_res.email).then(function (_users) {
 									if(_users.length) {
-										var _user = context.loginSerializer(_users[0]);
+                                        var _user = Serializer.login(_users[0]);
 										Authorize.authorizeUser(_user).then(function (auth_user) {
 											context.success(req, res, auth_user);
 										}).catch(function (err) {
@@ -427,13 +424,13 @@ class AccountApi extends BaseApi {
             var model = context.registerModel(data);
             model.ip = context.getIP(req);
             User.create(model, { isNewRecord: true }).then(function (_user) {
-                var user = context.loginSerializer(_user);
+                var user = Serializer.login(_user);
                 User.findById(user.id, {
                     include: [
                         { model: Role }
                     ]
                 }).then(function (___user) {
-                    var auth_user = context.loginSerializer(___user);
+                    var auth_user = Serializer.login(___user);
                     Authorize.authorizeUser(auth_user).then(function (login_user) {
                         context.success(req, res, login_user);
                     }).catch(function (err) {
@@ -452,7 +449,7 @@ class AccountApi extends BaseApi {
 
     logout (context, req, res) {
         var user = req.user;
-        if (user && user.email) {
+        if (user) {
             Authorize.removeUser(user).then(function () {
                 context.success(req, res, {});
             }).catch(function (err) {
@@ -472,7 +469,7 @@ class AccountApi extends BaseApi {
                 { model: Contact }
             ]
         }).then(function (u) {
-            context.success(req, res, u, {}, context.loginSerializer);
+            context.success(req, res, u, {}, Serializer.me);
         });
     }
 
@@ -640,7 +637,7 @@ class AccountApi extends BaseApi {
         if (data.id) {
             context.findById(data.id).then(function (_user) {
                 if (_user) {
-                    var user = context.loginSerializer(_user);
+                    var user = Serializer.login(_user);
                     Authorize.authorizeUser(user).then(function (_authUser) {
                         context.success(req, res, _authUser);
                     }).catch(function (err) {

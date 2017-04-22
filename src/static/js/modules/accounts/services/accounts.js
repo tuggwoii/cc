@@ -72,6 +72,7 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
             return me();
         },
         update: function (model) {
+            caches = {};
             return $http.patch(URLS.model(service).update, model);
         },
         delete: function (id) {
@@ -92,12 +93,14 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                 FB.getLoginStatus(function (crets) {
                     if (crets.authResponse) {
                         FB.logout(function (response) {
-                            $http.post(URLS.model(service).logout).success(resolve).error(reject);
+                            //$http.post(URLS.model(service).logout).success(resolve).error(reject);
                         });
                     } else {
-                        $http.post(URLS.model(service).logout).success(resolve).error(reject);
+                        //$http.post(URLS.model(service).logout).success(resolve).error(reject);
                     }
                 });
+
+                $http.post(URLS.model(service).logout).success(resolve).error(reject);
             });
         },
         setAuthenticationToken: function (res) {
@@ -158,6 +161,7 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
             return $q(function (resolve, reject) {
                 var key = URLS.model(service).admin;
                 $http.patch(key, model).success(function (res) {
+                    caches = {};
                     caches[key] = res;
                     resolve(caches[key]);
                 }).catch(function (res) {

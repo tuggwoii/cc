@@ -12,7 +12,6 @@ var RepairImage = require('../database/models').RepairImage;
 var File = require('../database/models').File;
 
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
-//shortid.generate();
 var limits = 100;
 
 class CarApi extends BaseApi {

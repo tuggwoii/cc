@@ -105,7 +105,6 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                         $scope.uploading = false;
                         $('#fileUpload').val('');
                     }).catch(function (res) {
-                        console.log(res);
                         if (res.error && res.error.message == 'MAX_FILE') {
                             $rootScope.$broadcast(Event.Message.Display, 'พื้นที่เก็บไฟล์สำหรับรถคันนี้เต็มแล้ว กรุณาติดต่อผู้ดูแลระบบเพื่ออัพเกรดพื้นที่เก็บไฟล์');
                         }
@@ -163,10 +162,16 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         });
 
         $scope.logout = function () {
-            $rootScope.$broadcast(Event.Load.Display, 'PAGE_CHANGE');
-            AccountService.logout();
-            $cookies.remove('Authorization', { path: '/' });
-            window.location.href = '/';
+            $rootScope.$broadcast(Event.Load.Display);
+            AccountService.logout().then(function () {
+                $cookies.remove('Authorization', { path: '/' });
+                window.location.href = '/';
+            }).catch(function (err) {
+                $cookies.remove('Authorization', { path: '/' });
+                //window.location.href = '/';
+                console.log(err);
+            });
+           
         };
 
         $scope.loginToggle = function () {

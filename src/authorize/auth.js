@@ -1,6 +1,29 @@
 ﻿'use strict';
 var crypto = require('crypto');
-var tokenSession = [];
+var fs = require('fs');
+var tokenSession;
+var authoPath = '/src/authorize/authorizeSession.txt';
+
+function readUserSession() {
+    if (tokenSession) {
+        return tokenSession;
+    }
+    else {
+        tokenSession = JSON.parse(fs.readFileSync(appRoot + authoPath, 'utf8'));
+        if (!tokenSession) {
+            tokenSession = {};
+        }
+        return tokenSession;
+    } 
+}
+
+function saveUserSession() {
+    tokenSession = readUserSession();
+    var data = JSON.stringify(tokenSession);
+    if (data) {
+        fs.writeFileSync(appRoot + authoPath, data, 'utf8');
+    }
+}
 
 function generateToken () {
     var promise = new Promise(function (resolve, reject) {
@@ -24,6 +47,7 @@ function permission (res) {
 }
 
 exports.getUser = function (token) {
+    tokenSession = readUserSession();
     if (tokenSession[token]) {
         return tokenSession[token];
     }
@@ -35,8 +59,10 @@ exports.getUser = function (token) {
 exports.authorizeUser = function (user) {
     var promise = new Promise(function (resolve, reject) {
         generateToken().then(function (token) {
+            tokenSession = readUserSession();
             user.token = token;
             tokenSession[token] = user;
+            saveUserSession();
             resolve(user);
         }).catch(function (err) {
             reject(err);
@@ -47,9 +73,11 @@ exports.authorizeUser = function (user) {
 
 exports.updateAuthorizeUser = function (user) {
     var promise = new Promise(function (resolve, reject) {
+        tokenSession = readUserSession();
         for (var token in tokenSession) {
             if (tokenSession[token].id === user.id) {
                 tokenSession[token] = user;
+                saveUserSession();
             }
         }
         resolve(user);
@@ -57,10 +85,30 @@ exports.updateAuthorizeUser = function (user) {
     return promise;
 };
 
+exports.removeAuthorizeUser = function (user) {
+    var promise = new Promise(function (resolve, reject) {
+        tokenSession = readUserSession();
+        var isAny = false;
+        for (var token in tokenSession) {
+            if (tokenSession[token].id === user.id) {
+                isAny = true;
+                delete tokenSession[token];
+            }
+        }
+        if (isAny) {
+            saveUserSession();
+        }
+        resolve();
+    });
+    return promise;
+};
+
 exports.removeUser = function (user) {
     var promise = new Promise(function (resolve, reject) {
+        tokenSession = readUserSession();
         if (tokenSession[user.token]) {
             delete tokenSession[user.token];
+            saveUserSession();
             resolve();
         }
         else {
@@ -71,6 +119,7 @@ exports.removeUser = function (user) {
 };
 
 exports.isAuthorize = function (request, roles) {
+    tokenSession = readUserSession();
     var token = request.headers['authorization'];
     if (!token) {
         return false;
@@ -84,6 +133,7 @@ exports.isAuthorize = function (request, roles) {
 };
 
 exports.isPageAuthorize = function (req, roles) {
+    tokenSession = readUserSession();
     var token = req.cookies.Authorization;
     if (!token) {
         return false;
@@ -97,6 +147,7 @@ exports.isPageAuthorize = function (req, roles) {
 };
 
 exports.protectPath = function (request, response, next) {
+    tokenSession = readUserSession();
     var token = request.headers['authorization'];
     if (!token) {
         permission(response);
