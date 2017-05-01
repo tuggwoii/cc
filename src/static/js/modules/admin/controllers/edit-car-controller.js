@@ -101,11 +101,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 }
                 
                 CarService.updateAdmin($scope.model).then(function (car) {
-                    $scope.status.success = true;
-                    $timeout(function () {
-                        $scope.status.success = true;
-                    }, 5000);
-                    $rootScope.$broadcast(Event.Load.Dismiss);
+                    window.location.hash = '#/cars';
                 }).catch(function (res) {
                     if (res.error.message == 'CAR EXPIRE') {
                         $scope.status.car_expire = true;

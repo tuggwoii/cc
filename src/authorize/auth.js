@@ -1,5 +1,6 @@
 ﻿'use strict';
 var crypto = require('crypto');
+var log = require('../helpers/log.js');
 var fs = require('fs');
 var tokenSession;
 var authoPath = '/src/authorize/authorizeSession.txt';
@@ -9,8 +10,22 @@ function readUserSession() {
         return tokenSession;
     }
     else {
-        tokenSession = JSON.parse(fs.readFileSync(appRoot + authoPath, 'utf8'));
-        if (!tokenSession) {
+        try {
+            tokenSession = JSON.parse(fs.readFileSync(appRoot + authoPath, 'utf8'));
+            if (!tokenSession) {
+                tokenSession = {};
+            }
+        }
+        catch (err) {
+            var error = {
+                url: 'auth.js',
+                data: tokenSession,
+                params: '',
+                message: err.message ? err.message : err ? err : '',
+                stack: err.stack ? err.stack : '',
+                status: 500
+            }
+            log.logToDatabase(error);
             tokenSession = {};
         }
         return tokenSession;

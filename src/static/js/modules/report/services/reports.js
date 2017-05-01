@@ -54,5 +54,6 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
                 }).error(reject);
             });
         }
+        
     };
 }]);

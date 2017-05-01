@@ -26,7 +26,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                     setModelDate($scope.car);
                    
                 }).catch(function () {
-                    alert('LOAD CAR ERROR');
+                    window.location.href = '/'; 
                 }),
                 CarService.get().then(function (res) {
                     $scope.cars = angular.copy(res.data);

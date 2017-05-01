@@ -47,6 +47,7 @@
                     <label>เรียงโดย</label>
                     <select class="form-control" ng-model="query.sort_column">
                         <option value="date">วันที่ซ่อม</option>
+                        <option value="exp_date">วันหมดอายุ</option>
                         <option value="view_count">จำนวนการเข้าชม</option>
                     </select>
                 </div>
@@ -108,7 +109,7 @@
                                 <td><a href="/admin#/repair?id={{item.id}}">{{item.car.serial}}</a></td>
                                 <td><a href="/admin#/repair?id={{item.id}}">{{item.car.brand}}</a></td>
                                 <td><a href="/admin#/repair?id={{item.id}}">{{item.car.exp_date_str}}</a></td>
-                                <td><a href="/admin#/repair?id={{item.id}}">{{item.car.max_file_size}}MB</a></td>
+                                <td><a href="/admin#/repair?id={{item.id}}">{{status.showSize? item.using_storage +'/' + item.car.max_file_size : item.car.max_file_size}}MB</a></td>
                                 <td><a href="/admin#/repair?id={{item.id}}">{{item.view_count? item.view_count : 0}}</a></td>
                             </tr>
                         </tbody>

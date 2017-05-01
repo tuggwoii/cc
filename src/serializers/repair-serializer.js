@@ -79,11 +79,27 @@ exports.share = function (data) {
         delete model.user['password'];
         delete model.user['createdAt'];
         delete model.user['updatedAt'];
+        delete model.user['forgot_password_token'];
+        delete model.user['ban'];
+        delete model.user['ip'];
         if (model.user.file) {
             model.user.image = model.user.file;
             delete model.user['file'];
             delete model.user['forgot_password_token'];
         }
+    }
+    if (model.repair_images && model.repair_images.length) {
+        var total = 0;
+        for (var i = 0; i < model.repair_images.length; i++) {
+            var f = model.repair_images[i].file;
+            if (f) {
+                total += f.size;
+            }
+        }
+        model.using_storage = (total / (1024 * 1024)).toFixed(2);
+    }
+    else {
+        model.using_storage = 0;
     }
     if (model.repair_works && model.repair_works.length) {
         for (var i = 0; i < model.repair_works.length; i++) {

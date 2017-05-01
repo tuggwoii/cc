@@ -309,18 +309,16 @@ class AccountApi extends BaseApi {
 
     adminUpdate (context, req, res) {
         var user = req.body;
-        User.findById(user.id).then(function (_user) {
+        User.findById(user.id, { include: { model: Role } }).then(function (_user) {
             if (_user) {
                 context.validateAdminUpdate(user).then(function (user_attributes) {
                     _user.updateAttributes(user_attributes).then(function (data) {
                         if (data.ban) {
-                            Authorize.removeAuthorizeUser(user).then(function () {
-
-                            });
+                            Authorize.removeAuthorizeUser(user).then(function () { });
                         }
-                        context.success(req, res, data);
-                    }).catch(function () {
-                        context.error(req, res, err, 500);
+                        Authorize.updateAuthorizeUser(Serializer.login(_user)).then(function () {
+                            context.success(req, res, data);
+                        });
                     });
                 }).catch(function (err) {
                     context.error(req, res, err, 500);

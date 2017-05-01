@@ -31,7 +31,8 @@ exports.login = function (data) {
         role: model.user_role,
         ban: model.ban,
         token: model.token,
-        role: model.role
+        role: model.role,
+        max_car: model.max_car
     };
     if (user.role) {
         delete user.role.createdAt;

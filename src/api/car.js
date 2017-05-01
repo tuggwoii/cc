@@ -375,7 +375,7 @@ class CarApi extends BaseApi {
             }).then(function (_car) {
                 var owner = _car.dataValues.user.dataValues;
                 if (req.user.id === owner.id || req.user.role.id === 1) {
-                    Car.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function (model) {
+                    Car.destroy({ where: { id: req.params.id }}).then(function (model) {
                         context.success(req, res, {});
                     }).catch(function (err) {
                         context.error(req, res, err, 500);
