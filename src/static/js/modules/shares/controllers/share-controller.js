@@ -143,6 +143,8 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
                     $('.lity-container').append('<p class="lb-caption animated fadeIn">' + caption + '</p>');
                 }
                 var items = $('.repair-image');
+                console.log(items.length);
+
                 if (items.length > 1) {
                     $scope.image_id = $(items[index]).attr('data-id');
                     $scope.image_src = url;
@@ -181,7 +183,7 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
                     });
                 }
                 setLightboxHeight();
-            }, 200);
+            }, 500);
         };
 
         $scope.simpleLightbox = function (url) {

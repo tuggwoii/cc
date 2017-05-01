@@ -9355,7 +9355,6 @@ module.controller('EditNotificationController', ['$scope', '$rootScope', '$timeo
                 NotificationService.getById($scope.params.id).then(function (res) {
                     $scope.model = angular.copy(res.data);
                     setInitModel($scope.model);
-
                 }).catch(function () {
                     alert('ERROR LOAD NOTIFICATION');
                 }),
