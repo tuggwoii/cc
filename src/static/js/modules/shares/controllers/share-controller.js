@@ -143,14 +143,25 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
                     $('.lity-container').append('<p class="lb-caption animated fadeIn">' + caption + '</p>');
                 }
                 var items = $('.repair-image');
-                console.log(items.length);
+   
+                if (items.length > 0) {
+                    $('.lity-container').append('<button class="btn btn-danger report-image-button animated fadeIn"><i class="fa fa-photo"></i> Report รูป</button>');
+
+                    $('.report-image-button').click(function () {
+                        $('.lity-close').trigger('click');
+                        $timeout(function () {
+                            $rootScope.$broadcast(Event.Report.Display, $scope.image_id, $scope.image_src);
+                        }, 300);
+                        setLightboxHeight();
+                    });
+                }
 
                 if (items.length > 1) {
                     $scope.image_id = $(items[index]).attr('data-id');
                     $scope.image_src = url;
                     $('.lity-container').append('<span class="lb-next animated fadeIn"><i class="fa fa-angle-right"></i></span>');
                     $('.lity-container').append('<span class="lb-prev animated fadeIn"><i class="fa fa-angle-left"></i></span>');
-                    $('.lity-container').append('<button class="btn btn-danger report-image-button animated fadeIn"><i class="fa fa-photo"></i> Report รูป</button>');
+                    
                     $('.lb-next').click(function () {
                         index++;
                         if (index >= items.length) {
@@ -173,13 +184,6 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
                         var image_caption = $($(items[index]).find('.caption')[0]).text();
                         $('.lity-container').find('img').attr('src', $scope.image_src);
                         $('.lity-container').find('.lb-caption').text(image_caption);
-                    });
-                    $('.report-image-button').click(function () {
-                        $('.lity-close').trigger('click');
-                        $timeout(function () {
-                            $rootScope.$broadcast(Event.Report.Display, $scope.image_id, $scope.image_src);
-                        }, 300);
-                        setLightboxHeight();
                     });
                 }
                 setLightboxHeight();
