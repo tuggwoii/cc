@@ -10234,6 +10234,7 @@ module.controller('NavController', ['$scope', 'PageService',
                     url = url.replace('http://carcarenote.com', '');
                     url = url.split('?')[0];
                     url = url.replace('#!', '');
+                    console.log(url);
                     if (url == m.url) {
                         m.isActive = true;
                     }
