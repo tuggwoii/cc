@@ -123,11 +123,11 @@
                                         <option ng-repeat="m in mins" value="{{m}}">{{m}}</option>
                                     </select>
                                     <p class="error-message margin-top animated fadeIn"
-                                       ng-if="form.hour.$error.required && form.hour.$dirty">
+                                       ng-if="form.hour.$error.required && form.hour.$dirty && is_submit">
                                        กรุณากรอกชั่วโมง
                                     </p>
                                     <p class="error-message margin-top animated fadeIn"
-                                       ng-if="form.min.$error.required && form.min.$dirty">
+                                       ng-if="form.min.$error.required && form.min.$dirty && is_submit">
                                         กรุณากรอกนาที
                                     </p>
                                 </div>
@@ -150,15 +150,15 @@
                                         <option ng-repeat="y in years" value="{{y}}">{{y}}</option>
                                     </select>
                                     <p class="error-message margin-top animated fadeIn"
-                                       ng-if="form.day.$error.required && form.day.$dirty">
+                                       ng-if="form.day.$error.required && form.day.$dirty && is_submit">
                                         กรุณากรอกวันที่
                                     </p>
                                     <p class="error-message margin-top animated fadeIn"
-                                       ng-if="form.month.$error.required && form.month.$dirty">
+                                       ng-if="form.month.$error.required && form.month.$dirty && is_submit">
                                         กรุณากรอกเดือน
                                     </p>
                                     <p class="error-message margin-top animated fadeIn"
-                                       ng-if="form.year.$error.required && form.year.$dirty">
+                                       ng-if="form.year.$error.required && form.year.$dirty && is_submit">
                                         กรุณากรอกปี
                                     </p>
                                 </div>
