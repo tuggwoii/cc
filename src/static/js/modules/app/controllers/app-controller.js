@@ -207,7 +207,15 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             else {
                 $scope.mainClass = '';
             }
-            if (location.hash == '/#!/' || location.hash == '#!/') {
+
+            var url = decodeURIComponent(location.href).replace('http://127.0.0.1:1337', '');
+            url = url.replace('http://localhost:1337', '');
+            url = url.replace('http://www.carcarenote.com', '');
+            url = url.replace('http://carcarenote.com', '');
+            url = url.split('?')[0];
+            url = url.replace('#!/', '');
+
+            if (location.hash == '/#!/' || location.hash == '#!/' && url == '/') {
                 $scope.setNavActive('isHomePage');
             }
             else if (location.hash.indexOf('shares') > -1 || location.href.indexOf('share') > -1) {
