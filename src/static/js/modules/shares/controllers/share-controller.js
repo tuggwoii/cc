@@ -193,11 +193,11 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.getProvinceByKey = function (key) {

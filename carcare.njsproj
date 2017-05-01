@@ -115,6 +115,11 @@
     <Compile Include="src\static\css\bootstrap-3.3.6-dist\js\bootstrap.min.js" />
     <Compile Include="src\static\css\bootstrap-3.3.6-dist\js\npm.js" />
     <Compile Include="src\static\js\app.js" />
+    <Compile Include="src\static\js\build\frontend.js" />
+    <Compile Include="src\static\js\build\frontend.min.js">
+      <SubType>Code</SubType>
+      <DependentUpon>src\static\js\build\frontend.js</DependentUpon>
+    </Compile>
     <Compile Include="src\static\js\libs\fb.js" />
     <Compile Include="src\static\js\libs\iscroll\build\iscroll-infinite.js" />
     <Compile Include="src\static\js\libs\iscroll\build\iscroll-lite.js" />
@@ -531,6 +536,7 @@
     <Content Include="src\static\img\s-bg.png" />
     <Content Include="src\static\img\sm-load.gif" />
     <Content Include="src\static\img\sm-load.svg" />
+    <Content Include="src\static\js\build\frontend.min.js.map" />
     <Content Include="src\static\js\libs\tinymce\changelog.txt" />
     <Content Include="src\static\js\libs\tinymce\js\tinymce\langs\readme.md" />
     <Content Include="src\static\js\libs\tinymce\js\tinymce\license.txt" />
@@ -791,6 +797,7 @@
     <Folder Include="src\static\js\modules\works\" />
     <Folder Include="src\static\js\modules\works\directives\" />
     <Folder Include="src\static\js\modules\works\services\" />
+    <Folder Include="src\static\js\build\" />
     <Folder Include="src\static\resources\" />
     <Folder Include="src\static\views\" />
     <Folder Include="src\static\views\backend\" />

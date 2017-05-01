@@ -7,13 +7,13 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    <a ng-click="navigateTo('#!/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li ng-if="from_car">
-                    <a ng-click="navigateTo('#/car?id='+carId)">Car ></a>
+                    <a ng-click="navigateTo('#!/car?id='+carId)">Car ></a>
                 </li>
                 <li ng-if="!from_car">
-                    <a ng-click="navigateTo('#/notifications')">{{strings['nav_notifications']}} ></a>
+                    <a ng-click="navigateTo('#!/notifications')">{{strings['nav_notifications']}} ></a>
                 </li>
                 <li>{{strings['nav_notification']}}</li>
             </ul>
@@ -29,10 +29,10 @@
                 <span>รายละเอียดการแจ้งเตือน</span>
 
                 <span class="btn-action">
-                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-notification?id=' + model.id +'&car=' + carId)" ng-if="from_car">
+                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#!/edit-notification?id=' + model.id +'&car=' + carId)" ng-if="from_car">
                         แก้ไขข้อมูล
                     </button>
-                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-notification?id=' + model.id)" ng-if="!from_car">
+                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#!/edit-notification?id=' + model.id)" ng-if="!from_car">
                         แก้ไขข้อมูล
                     </button>
                 </span>
@@ -80,7 +80,7 @@
                         <div class="title">
                             <label>สร้างจากรายการ: </label>
                             <span ng-if="model.repair_id">
-                                <a href="#/repair?id={{model.repair_id}}&car={{model.car.id}}">{{model.repair.title}}</a>
+                                <a href="#!/repair?id={{model.repair_id}}&car={{model.car.id}}">{{model.repair.title}}</a>
                             </span>
                             <span ng-if="!model.repair_id">
                                 ไม่ระบุ

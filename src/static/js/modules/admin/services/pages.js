@@ -12,10 +12,10 @@ module.factory('PagesService', ['$rootScope', '$http', '$q', '$cookies', 'URLS',
                     resolve(cache[key]);
                 }
                 else {
-                    $http.get(URLS.model(service).all).success(function (res) {
-                        cache[key] = res;
-                        resolve(res);
-                    }).error(function (res) {
+                    $http.get(URLS.model(service).all).then(function (res) {
+                        cache[key] = res.data;
+                        resolve(res.data);
+                    }).catch(function (res) {
                         reject(res);
                     });
                 }
@@ -28,10 +28,10 @@ module.factory('PagesService', ['$rootScope', '$http', '$q', '$cookies', 'URLS',
                     resolve(angular.copy(cache[key]));
                 }
                 else {
-                    $http.get(URLS.model(service).one.replace('{id}', id)).success(function (res) {
-                        resolve(res.data);
-                        cache[key] = res.data;
-                    }).error(function (res) {
+                    $http.get(URLS.model(service).one.replace('{id}', id)).then(function (res) {
+                        resolve(res.data.data);
+                        cache[key] = res.data.data;
+                    }).catch(function (res) {
                         reject(res);
                     });
                 }
@@ -40,26 +40,26 @@ module.factory('PagesService', ['$rootScope', '$http', '$q', '$cookies', 'URLS',
         },
         create: function (model) {
             return $q(function (resolve, reject) {
-                $http.post(URLS.model(service).all, model).success(function (res) {
+                $http.post(URLS.model(service).all, model).then(function (res) {
                     cache = {};
-                    resolve(res);
-                }).error(reject);
+                    resolve(res.data);
+                }).catch(reject);
             });
         },
         update: function (model) {
             return $q(function (resolve, reject) {
-                $http.patch(URLS.model(service).all, model).success(function (res) {
+                $http.patch(URLS.model(service).all, model).then(function (res) {
                     cache = {};
-                    resolve(res.data);
-                }).error(reject);
+                    resolve(res.data.data);
+                }).catch(reject);
             });
         },
         delete: function (id) {
             return $q(function (resolve, reject) {
-                $http.delete(URLS.model(service).one.replace('{id}', id)).success(function (res) {
+                $http.delete(URLS.model(service).one.replace('{id}', id)).then(function (res) {
                     cache = {};
-                    resolve(res)
-                }).error(reject);
+                    resolve(res.data)
+                }).catch(reject);
             });
         },
         removeCache: function () {

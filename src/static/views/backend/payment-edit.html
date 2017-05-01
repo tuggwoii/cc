@@ -2,10 +2,10 @@
     <div class="breadcrumb">
         <ul>
             <li>
-                <a ng-click="navigateTo('#/')">Admin ></a>
+                <a ng-click="navigateTo('#!/')">Admin ></a>
             </li>
             <li>
-                <a ng-click="navigateTo('#/payment')">Payment ></a>
+                <a ng-click="navigateTo('#!/payment')">Payment ></a>
             </li>
             <li>
                 Edit
@@ -30,12 +30,12 @@
                     </div>
                     <div class="title">
                         <label>User: </label>
-                        <a href="/admin#/user?id={{model.user.id}}">{{model.user.name}}</a>
+                        <a href="/admin#!/user?id={{model.user.id}}">{{model.user.name}}</a>
                     </div>
                     <div class="title" ng-if="model.type==1">
                         <label>รถที่ดำเนินการ: </label>
                         <p class="payment-car-link" ng-repeat="car in model.relate_cars">
-                            <a  href="/admin#/edit-car?id={{car.id}}">
+                            <a  href="/admin#!/edit-car?id={{car.id}}">
                                 <span>{{car.brand}} {{car.series}} {{car.serial}}</span>
                             </a>
                         </p>

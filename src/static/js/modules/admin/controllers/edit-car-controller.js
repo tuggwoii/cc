@@ -62,7 +62,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                     getById();
                 }
                 else {
-                    window.location.hash = '#/';
+                    window.location.hash = '#!/';
                 }
             }
             else {
@@ -101,7 +101,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 }
                 
                 CarService.updateAdmin($scope.model).then(function (car) {
-                    window.location.hash = '#/cars';
+                    window.location.hash = '#!/cars';
                 }).catch(function (res) {
                     if (res.error.message == 'CAR EXPIRE') {
                         $scope.status.car_expire = true;
@@ -128,7 +128,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 $rootScope.$broadcast(Event.Load.Display);
                 CarService.delete($scope.params.id).then(function () {
                     CarService.get().then(function (res) {
-                        $scope.navigateTo('#/');
+                        $scope.navigateTo('#!/');
                     }).catch(function () {
                         $rootScope.$broadcast(Event.Load.Dismiss);
                     });
@@ -146,7 +146,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.editCarPage();

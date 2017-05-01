@@ -68,7 +68,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
                         $scope.displayView();
                     }
                     else {
-                        $scope.navigateTo('#/shop?id=' + $scope.params.id);
+                        $scope.navigateTo('#!/shop?id=' + $scope.params.id);
                     }
                     checkSize();
                 }, 100);
@@ -85,7 +85,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
                     loadResource();
                 }
                 else {
-                    $scope.navigateTo('#/shop?id=' + $scope.params.id);
+                    $scope.navigateTo('#!/shop?id=' + $scope.params.id);
                 }
             }
             else {
@@ -105,10 +105,10 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
                 $rootScope.$broadcast(Event.Load.Display);
                 ShopService.update($scope.model).then(function () {
                     if ($scope.from_repair) {
-                        $scope.navigateTo('#/repair?id=' + $scope.repairId + ($scope.carId ? '&car=' + $scope.carId : ''));
+                        $scope.navigateTo('#!/repair?id=' + $scope.repairId + ($scope.carId ? '&car=' + $scope.carId : ''));
                     }
                     else {
-                        window.location.href = '/#/shop?id=' + $scope.model.id + '&cd=true';
+                        window.location.href = '/#!/shop?id=' + $scope.model.id + '&cd=true';
                     }
                 }).catch(function () {
                     $rootScope.$broadcast(Event.Load.Dismiss);
@@ -125,7 +125,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.setImage = function (event, file) {

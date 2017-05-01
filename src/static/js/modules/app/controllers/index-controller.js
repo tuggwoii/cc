@@ -227,7 +227,7 @@ module.controller('IndexController', ['$scope', '$rootScope', '$q', '$timeout', 
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.loadIndex();

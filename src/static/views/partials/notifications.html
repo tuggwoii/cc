@@ -9,7 +9,7 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    <a ng-click="navigateTo('#!/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li>{{strings['nav_notifications']}}</li>
             </ul>
@@ -18,7 +18,7 @@
             <h1>
                 <img src="img/logo.png" />
                 <span >{{strings['head_notification']}}</span>
-                <button type="button" class="btn btn-danger" ng-click="navigateTo('#/new-notification')"><i class="fa fa-plus"></i> {{strings['add']}}</button>
+                <button type="button" class="btn btn-danger" ng-click="navigateTo('#!/new-notification')"><i class="fa fa-plus"></i> {{strings['add']}}</button>
             </h1>
             <div class="noti-filter">
                 <div class="filter-form-section">
@@ -72,7 +72,7 @@
                                 <span ng-if="cars_.length>1" class="car-model"><i class="fa fa-car"></i> {{car.brand}} {{car.series}}, {{car.serial}}</span>
                                 <ul>
                                     <li class="nodata" ng-if="!car.noti_mile.length">{{strings['no_data']}}</li>
-                                    <li class="index-noti-item" ng-repeat="n in car.noti_mile" ng-click="navigateTo('#/notification?id='+n.id)">
+                                    <li class="index-noti-item" ng-repeat="n in car.noti_mile" ng-click="navigateTo('#!/notification?id='+n.id)">
                                         <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
                                         <span class="title">{{n.title}}</span>
                                     </li>
@@ -91,7 +91,7 @@
                                 <span ng-if="cars_.length>1" class="car-model"><i class="fa fa-car"></i> {{car.brand}} {{car.series}}, {{car.serial}}</span>
                                 <ul>
                                     <li class="nodata" ng-if="!car.noti_date.length">{{strings['no_data']}}</li>
-                                    <li class="index-noti-item" ng-repeat="n in car.noti_date" ng-click="navigateTo('#/notification?id='+n.id)">
+                                    <li class="index-noti-item" ng-repeat="n in car.noti_date" ng-click="navigateTo('#!/notification?id='+n.id)">
                                         <span>{{n.date_str}} | </span>
                                         <span class="title">{{n.title}}</span>
                                     </li>
@@ -104,7 +104,7 @@
 
                 <!--
                 <ul ng-if="notifications.length">
-                    <li class="notification-item" ng-repeat="notification in notifications" ng-click="navigateTo('#/notification?id=' + notification.id)">
+                    <li class="notification-item" ng-repeat="notification in notifications" ng-click="navigateTo('#!/notification?id=' + notification.id)">
                         <span class="notification-detail">
                             <span class="title">{{notification.title}}</span>
                             <span class="detail">{{notification.detail}}</span>

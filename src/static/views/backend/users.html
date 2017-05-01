@@ -2,7 +2,7 @@
     <div class="breadcrumb">
         <ul>
             <li>
-                <a ng-click="navigateTo('#/')">Admin ></a>
+                <a ng-click="navigateTo('#!/')">Admin ></a>
             </li>
             <li>
                 Users
@@ -81,13 +81,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="user in users" ng-click="navigateTo('#/user?id=' + user.id)">
-                                <td><a href="/admin#/user?id={{user.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>
-                                <td><a href="/admin#/user?id={{user.id}}">{{user.name}}</a></td>
-                                <td><a href="/admin#/user?id={{user.id}}">{{user.email}}</a></td>
-                                <td><a href="/admin#/user?id={{user.id}}">{{user.role.name}}</a></td>
-                                <td><a href="/admin#/user?id={{user.id}}">{{user.register_date}}</a></td>
-                                <td><a href="/admin#/user?id={{user.id}}">{{user.cars.length}}</a></td>
+                            <tr ng-repeat="user in users" ng-click="navigateTo('#!/user?id=' + user.id)">
+                                <td><a href="/admin#!/user?id={{user.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>
+                                <td><a href="/admin#!/user?id={{user.id}}">{{user.name}}</a></td>
+                                <td><a href="/admin#!/user?id={{user.id}}">{{user.email}}</a></td>
+                                <td><a href="/admin#!/user?id={{user.id}}">{{user.role.name}}</a></td>
+                                <td><a href="/admin#!/user?id={{user.id}}">{{user.register_date}}</a></td>
+                                <td><a href="/admin#!/user?id={{user.id}}">{{user.cars.length}}</a></td>
                             </tr>
                         </tbody>
                     </table>

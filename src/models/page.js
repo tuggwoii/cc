@@ -74,6 +74,9 @@ class Pages extends Base {
 
     delete (id) {
         var context = this;
+        if (!pages) {
+            context.sync();
+        }
         var promise = new Promise(function (resolve, reject) {
             var index = -1;
             var page;

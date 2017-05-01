@@ -53,8 +53,8 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                 }
                 $scope.user_ready = true;
             });
-            StringService.getStrings().success(function (strings) {
-                $scope.strings = strings;
+            StringService.getStrings().then(function (res) {
+                $scope.strings = res.data;
                 $scope.strings_ready = true;
             });
             if (error_404 || error_500) {
@@ -63,12 +63,15 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         };
 
         $scope.navigateTo = function (url, isRedirect) {
-            if (url === '#/new-car' && $scope.user.max_car < $('.car-item').length) {
+            if (url === '#!/new-car' && $scope.user.max_car < $('.car-item').length) {
                 $scope.max_car = true;
             }
             else {
                 $scope.max_car = false;
                 if (isRedirect) {
+                    if (url[0] != '/') {
+                        url = '/' + url;
+                    }
                     $rootScope.$broadcast(Event.Load.Display);
                     window.location.href = url;
                 }
@@ -76,7 +79,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                     if (url !== window.location.hash) {
                         $rootScope.$broadcast(Event.Load.Display);
                         if (!window.location.hash) {
-                            if (url == '#/') {
+                            if (url == '#!/') {
                                 window.location.href = '/';
                             }
                             else {
@@ -204,7 +207,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             else {
                 $scope.mainClass = '';
             }
-            if (location.hash == '/#/' || location.hash == '#/') {
+            if (location.hash == '/#!/' || location.hash == '#!/') {
                 $scope.setNavActive('isHomePage');
             }
             else if (location.hash.indexOf('shares') > -1 || location.href.indexOf('share') > -1) {

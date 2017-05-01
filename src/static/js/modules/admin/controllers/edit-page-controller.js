@@ -11,9 +11,6 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
     function loadPages() {
         return $q(function (resolve, reject) {
             PagesService.get().then(function (res) {
-                if (app.debug) {
-                    console.log('GET PAGES', res);
-                }
                 $scope.pages = angular.copy(res.data);
                 resolve();
             }).catch(function () {
@@ -40,7 +37,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
             }
         });
         if ($scope.model) {
-            $.get($scope.model.view).success(function (res) {
+            $.get($scope.model.view).then(function (res) {
                 $scope.model.content = res;
                 initRTE();
             });
@@ -127,11 +124,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
         if ($scope.validate() && form.$valid) {
             $rootScope.$broadcast(Event.Load.Display);
             PagesService.update($scope.model).then(function () {
-                $rootScope.$broadcast(Event.Load.Dismiss);
-                $scope.status.success = true;
-                $timeout(function () {
-                    $scope.status.success = false;
-                }, 5000);
+                window.location.hash = '#!/pages';
             }).catch(function () {
                 $scope.status.error = true;
                 $rootScope.$broadcast(Event.Load.Dismiss);
@@ -147,8 +140,8 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
     $scope.delete = function () {
         $rootScope.$broadcast(Event.Confirm.Display, function () {
             $rootScope.$broadcast(Event.Load.Display);
-            PagesService.delete($scope.model.name).then(function () {
-                $scope.navigateTo('#/pages');
+            PagesService.delete($scope.model.id).then(function () {
+                $scope.navigateTo('#!/pages');
             }).catch(function () {
                 $rootScope.$broadcast(Event.Load.Dismiss);
                 $timeout(function () {

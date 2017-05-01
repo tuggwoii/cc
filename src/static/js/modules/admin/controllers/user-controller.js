@@ -60,7 +60,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, AccountService, E
             AccountService.save($scope.model).then(function () {
                 $rootScope.$broadcast(Event.Load.Dismiss);
                 $scope.status.success = true;
-                window.location.href = '/admin#/users';
+                window.location.href = '/admin#!/users';
                 $timeout(function () {
                     $scope.status.success = false;
                 }, 5000);
@@ -82,7 +82,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, AccountService, E
         $rootScope.$broadcast(Event.Confirm.Display, function () {
             $rootScope.$broadcast(Event.Load.Display);
             AccountService.delete($scope.params.id).then(function () {
-                window.location.href = '/admin#/users';
+                window.location.href = '/admin#!/users';
             }).catch(function () {
                 $rootScope.$broadcast(Event.Load.Dismiss);
                 $timeout(function () {

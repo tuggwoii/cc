@@ -111,7 +111,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, CarService, Event
     };
 
     $scope.edit = function (car) {
-        $scope.navigateTo('#/edit-car?id=' + car.id);
+        $scope.navigateTo('#!/edit-car?id=' + car.id);
     };
 
     $scope.delete = function (page) {

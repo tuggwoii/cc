@@ -50,7 +50,7 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    <a ng-click="navigateTo('#!/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li>{{strings['nav_repairs']}}</li>
             </ul>
@@ -59,7 +59,7 @@
             <h1>
                 <img src="img/logo.png" />
                 <span>{{strings['head_repair']}}</span>
-                <button type="button" class="btn btn-danger" ng-click="navigateTo('#/repair')"><i class="fa fa-plus"></i> {{strings['add']}}</button>
+                <button type="button" class="btn btn-danger" ng-click="navigateTo('#!/repair')"><i class="fa fa-plus"></i> {{strings['add']}}</button>
             </h1>
             <div class="list">
                 <p>{{total?total:0}} Repairs</p>
@@ -77,7 +77,7 @@
                             <span class="state-open" ng-if="repair.share">{{strings['share']}}</span>
                             <span class="state-close" ng-if="!repair.share">{{strings['not_share']}}</span>
                         </span>
-                        <span class="view" ng-click="navigateTo('#/repair?id=' + repair.id)">{{strings['edit_data']}}</span>
+                        <span class="view" ng-click="navigateTo('#!/repair?id=' + repair.id)">{{strings['edit_data']}}</span>
                     </li>
                 </ul>
                 <ul class="paging" ng-if="pages.length>1">

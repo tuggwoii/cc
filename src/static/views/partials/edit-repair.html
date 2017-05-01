@@ -7,15 +7,15 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    <a ng-click="navigateTo('#!/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li ng-if="!from_car">
-                    <a ng-click="navigateTo('#/repairs')">{{strings['nav_repairs']}} ></a>
+                    <a ng-click="navigateTo('#!/repairs')">{{strings['nav_repairs']}} ></a>
                 </li>
                 <li ng-if="from_car">
-                    <a ng-click="navigateTo('#/car?id=' + carId)">Car ></a>
+                    <a ng-click="navigateTo('#!/car?id=' + carId)">Car ></a>
                 </li>
-                <li><a ng-click="navigateTo('#/repair?id=' + model.id + (from_car? ('&car=' + carId):''))">Repair ></a></li>
+                <li><a ng-click="navigateTo('#!/repair?id=' + model.id + (from_car? ('&car=' + carId):''))">Repair ></a></li>
                 <li>Edit</li>
             </ul>
         </div>

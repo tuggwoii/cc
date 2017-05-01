@@ -18,7 +18,7 @@ module.controller('UpdateAccountController', ['$scope', '$rootScope', '$timeout'
                 $scope.displayView();
             }
             else {
-                window.location.hash = '#/';
+                window.location.hash = '#!/';
             }
         }
         else {
@@ -29,7 +29,7 @@ module.controller('UpdateAccountController', ['$scope', '$rootScope', '$timeout'
     };
 
     $scope.edit = function () {
-        window.location.href = '#/account';
+        window.location.href = '#!/account';
     };
 
     $scope.update = function (form, noRedirect) {
@@ -45,7 +45,7 @@ module.controller('UpdateAccountController', ['$scope', '$rootScope', '$timeout'
                     }
                     else {
                         $rootScope.$broadcast(Event.User.Update);
-                        $scope.navigateTo('#/account');
+                        $scope.navigateTo('#!/account');
                     }
                 });
             }).catch(function (res) {

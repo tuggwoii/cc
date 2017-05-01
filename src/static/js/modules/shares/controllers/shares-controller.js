@@ -168,7 +168,7 @@ module.controller('SharesController', ['$scope', '$rootScope', '$timeout', '$q',
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.sharesPage();

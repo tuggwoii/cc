@@ -61,7 +61,7 @@ module.controller('EditNotificationController', ['$scope', '$rootScope', '$timeo
                     getById();
                 }
                 else {
-                    window.location.hash = '#/';
+                    window.location.hash = '#!/';
                 }
             }
             else {
@@ -88,10 +88,10 @@ module.controller('EditNotificationController', ['$scope', '$rootScope', '$timeo
                     $scope.status = {};
                     NotificationService.update($scope.model).then(function (res) {
                         if ($scope.from_car) {
-                            $scope.navigateTo('#/notification?id=' + $scope.model.id + '&car=' + $scope.carId);
+                            $scope.navigateTo('#!/notification?id=' + $scope.model.id + '&car=' + $scope.carId);
                         }
                         else {
-                            $scope.navigateTo('#/notification?id=' + $scope.model.id);
+                            $scope.navigateTo('#!/notification?id=' + $scope.model.id);
                         }
                     }).catch(function (res) {
                         if (res.error.message == 'CAR EXPIRE') {
@@ -123,10 +123,10 @@ module.controller('EditNotificationController', ['$scope', '$rootScope', '$timeo
                 $rootScope.$broadcast(Event.Load.Display);
                 NotificationService.delete($scope.params.id).then(function () {
                     if ($scope.from_car) {
-                        $scope.navigateTo('#/car?id=' + $scope.carId);
+                        $scope.navigateTo('#!/car?id=' + $scope.carId);
                     }
                     else {
-                        $scope.navigateTo('#/notifications');
+                        $scope.navigateTo('#!/notifications');
                     }
                 }).catch(function () {
                     $rootScope.$broadcast(Event.Load.Dismiss);
@@ -136,7 +136,7 @@ module.controller('EditNotificationController', ['$scope', '$rootScope', '$timeo
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.editNotificationPage();

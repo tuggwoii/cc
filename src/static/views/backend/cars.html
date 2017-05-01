@@ -2,7 +2,7 @@
     <div class="breadcrumb">
         <ul>
             <li>
-                <a ng-click="navigateTo('#/')">Admin ></a>
+                <a ng-click="navigateTo('#!/')">Admin ></a>
             </li>
             <li>
                 Cars
@@ -62,12 +62,12 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="car in model" ng-click="edit(car)">
-                                <td><a href="/admin#/edit-car?id={{car.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>
-                                <td><a href="/admin#/edit-car?id={{car.id}}">{{car.serial}}</a></td>
-                                <td><a href="/admin#/edit-car?id={{car.id}}">{{car.brand}}</a></td>
-                                <td><a href="/admin#/edit-car?id={{car.id}}">{{car.series}}</a></td>
-                                <td><a href="/admin#/edit-car?id={{car.id}}">{{car.exp_date_str}}</a></td>
-                                <td><a href="/admin#/edit-car?id={{car.id}}">{{car.max_file_size}} MB</a></td>
+                                <td><a href="/admin#!/edit-car?id={{car.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>
+                                <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.serial}}</a></td>
+                                <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.brand}}</a></td>
+                                <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.series}}</a></td>
+                                <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.exp_date_str}}</a></td>
+                                <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.max_file_size}} MB</a></td>
                                 <td class="action">
                                     <i class="fa fa-edit" ng-click="edit(car);$event.stopPropagation();"></i>
                                     <i class="fa fa-remove" ng-click="delete(car);$event.stopPropagation();"></i>

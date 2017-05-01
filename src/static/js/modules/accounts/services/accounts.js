@@ -20,14 +20,14 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
             if (app.debug) {
                 console.log('HAS USER COOKIE');
             }
-            me().success(function (res) {
+            me().then(function (res) {
                 if (app.debug) {
                     console.log('SUCCESS ON GET ME INFO');
                 }
-                window.carcare.user = res.data;
+                window.carcare.user = res.data.data;
                 $rootScope.$broadcast(Event.User.Update);
                 userAuthenticationCallback();
-            }).error(function () {
+            }).catch(function () {
                 if (app.debug) {
                     console.error('ERROR ON GET ME INFO');
                 }
@@ -49,12 +49,12 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
     }
 
     function facebookLogin(creds) {
-        login(creds).success(function (res) {
+        login(creds).then(function (res) {
             var date = new Date();
             var expire_date = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
-            $cookies.put('Authorization', res.data.token, { path: '/', expires: expire_date });
-            window.carcare.user = res.data;
-        }).error(function () {
+            $cookies.put('Authorization', res.data.data.token, { path: '/', expires: expire_date });
+            window.carcare.user = res.data.data;
+        }).catch(function () {
             notLoginState();
         }).finally(function () {
             userAuthenticationCallback();
@@ -77,10 +77,10 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         },
         delete: function (id) {
             return $q(function (resolve, reject) {
-                $http.delete(URLS.model(service).one.replace('{id}', id)).success(function (res) {
+                $http.delete(URLS.model(service).one.replace('{id}', id)).then(function (res) {
                     caches = {};
-                    resolve(res);
-                }).error(function (err) {
+                    resolve(res.data);
+                }).catch(function (err) {
                     reject(err);
                 });
             });
@@ -93,14 +93,14 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                 FB.getLoginStatus(function (crets) {
                     if (crets.authResponse) {
                         FB.logout(function (response) {
-                            //$http.post(URLS.model(service).logout).success(resolve).error(reject);
+                            //$http.post(URLS.model(service).logout).then(resolve).catch(reject);
                         });
                     } else {
-                        //$http.post(URLS.model(service).logout).success(resolve).error(reject);
+                        //$http.post(URLS.model(service).logout).then(resolve).catch(reject);
                     }
                 });
 
-                $http.post(URLS.model(service).logout).success(resolve).error(reject);
+                $http.post(URLS.model(service).logout).then(resolve).catch(reject);
             });
         },
         setAuthenticationToken: function (res) {
@@ -132,8 +132,8 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                     resolve(caches[key]);
                 }
                 else {
-                    $http.get(key).success(function (res) {
-                        caches[key] = res;
+                    $http.get(key).then(function (res) {
+                        caches[key] = res.data;
                         resolve(caches[key]);
                     }).catch(function (res) {
                         reject(res);
@@ -148,8 +148,8 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                     resolve(caches[key]);
                 }
                 else {
-                    $http.get(key).success(function (res) {
-                        caches[key] = res;
+                    $http.get(key).then(function (res) {
+                        caches[key] = res.data;
                         resolve(caches[key]);
                     }).catch(function (res) {
                         reject(res);
@@ -160,9 +160,9 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         save: function (model) {
             return $q(function (resolve, reject) {
                 var key = URLS.model(service).admin;
-                $http.patch(key, model).success(function (res) {
+                $http.patch(key, model).then(function (res) {
                     caches = {};
-                    caches[key] = res;
+                    caches[key] = res.data;
                     resolve(caches[key]);
                 }).catch(function (res) {
                     reject(res);
@@ -172,8 +172,8 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         forgotPassword: function (model) {
             return $q(function (resolve, reject) {
                 var key = URLS.model(service).forgot_password;
-                $http.post(key, model).success(function (res) {
-                    resolve(res);
+                $http.post(key, model).then(function (res) {
+                    resolve(res.data);
                 }).catch(function (res) {
                     reject(res);
                 });
@@ -182,8 +182,8 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         validateForgotPasswordToken: function (model) {
             return $q(function (resolve, reject) {
                 var key = URLS.model(service).forgot_password_token;
-                $http.post(key, model).success(function (res) {
-                    resolve(res);
+                $http.post(key, model).then(function (res) {
+                    resolve(res.data);
                 }).catch(function (res) {
                     reject(res);
                 });
@@ -192,8 +192,8 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         changePasswordByToken: function (model) {
             return $q(function (resolve, reject) {
                 var key = URLS.model(service).change_password_by_token;
-                $http.post(key, model).success(function (res) {
-                    resolve(res);
+                $http.post(key, model).then(function (res) {
+                    resolve(res.data);
                 }).catch(function (res) {
                     reject(res);
                 });
@@ -202,8 +202,8 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
         AccountService: function (model) {
             return $q(function (resolve, reject) {
                 var key = URLS.model(service).hijack;
-                $http.post(key, model).success(function (res) {
-                    resolve(res);
+                $http.post(key, model).then(function (res) {
+                    resolve(res.data);
                 }).catch(function (res) {
                     reject(res);
                 });

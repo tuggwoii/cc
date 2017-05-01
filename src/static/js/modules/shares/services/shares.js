@@ -26,10 +26,10 @@ module.factory('ShareService', ['$http', '$q', 'URLS', function ($http, $q, URLS
                     //resolve(cache[key]);
                 }
                 //else {
-                    $http.get(key).success(function (res) {
-                        cache[key] = res;
-                        resolve(res);
-                    }).error(function (res) {
+                    $http.get(key).then(function (res) {
+                        cache[key] = res.data;
+                        resolve(res.data);
+                    }).catch(function (res) {
                         reject(res);
                     });
                 //}
@@ -42,10 +42,10 @@ module.factory('ShareService', ['$http', '$q', 'URLS', function ($http, $q, URLS
                     resolve(cache[key]);
                 }
                 else {
-                    $http.get(key).success(function (res) {
-                        cache[key] = res.data;
-                        resolve(res.data);
-                    }).error(function (res) {
+                    $http.get(key).then(function (res) {
+                        cache[key] = res.data.data;
+                        resolve(res.data.data);
+                    }).catch(function (res) {
                         reject(res);
                     });
                 }
@@ -55,10 +55,10 @@ module.factory('ShareService', ['$http', '$q', 'URLS', function ($http, $q, URLS
             var key = URLS.model('repairs').countView.replace('{id}', id);
             return $q(function (resolve, reject) {
                 if (id) {
-                    $http.patch(key).success(function (res) {
-                        cache[key] = res;
-                        resolve(res);
-                    }).error(function (res) {
+                    $http.patch(key).then(function (res) {
+                        cache[key] = res.data;
+                        resolve(res.data);
+                    }).catch(function (res) {
                         reject(res)
                     });
                 }

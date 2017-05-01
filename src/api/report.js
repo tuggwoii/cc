@@ -95,7 +95,8 @@ class ReportApi extends BaseApi {
             name: data.name,
             email: data.email,
             message: data.message,
-            file_id: data.file_id
+            file_id: data.file_id,
+            count: 1
         };
         if (data.id) {
             model.id = data.id;
@@ -191,10 +192,37 @@ class ReportApi extends BaseApi {
     add (context, req, res) {
         context.validateCreate(req.body).then(function () {
             var data = context.model(req.body);
-            Report.create(data, { isNewRecord: true }).then(function (model) {
-                context.success(req, res, model);
-            }).catch(function (err) {
-                context.error(req, res, err, 500);
+
+            Report.all({
+                where: {
+                    file_id: data.file_id
+                }
+            }).then(function (r) {
+                if (r && r.length) {
+                    var report = r[0];
+                    if (report.name.indexOf(data.name) > -1) {
+                        context.success(req, res, report);
+                    }
+                    else {
+                        var update = {
+                            count: report.count + 1,
+                            name: report.name + ', ' + data.name
+                        };
+                        report.updateAttributes(update).then(function (updated) {
+                            context.success(req, res, updated);
+                        }).catch(function (err) {
+                            context.error(req, res, err, 500);
+                        });
+                    }
+                }
+                else {
+                    Report.create(data, { isNewRecord: true }).then(function (model) {
+                        context.success(req, res, model);
+                    }).catch(function (err) {
+                        context.error(req, res, err, 500);
+                    });
+                }
+
             });
         }).catch(function (err) {
             var error = {
@@ -227,8 +255,24 @@ class ReportApi extends BaseApi {
             context.queryByImageId(req.params.id).then(function (_reports) {
                 var _report = _reports[0];
                 var file_url = appRoot + _report.file.url;
-                console.log(file_url);
-                _report.file_id = null;
+                var fileId = _report.file_id;
+               
+                File.findById(fileId).then(function (_file) {
+                    var url = _file.url;
+                    var paths = url.split('/');
+                    var file_name_with_ext = paths[paths.length - 1];
+                    var file_exts = file_name_with_ext.split('.');
+                    var file_name = file_exts[0];
+                    var file_ext = file_exts[1];
+                    var file_url_del = appRoot + '/files/' + file_name + '_del' + '.' + file_ext;
+                    fs.rename(file_url, file_url_del, function (err) { console.log(err) });
+                    _file.is_delete = true;
+                    _file.save(['is_delete']).then(function () {
+                        context.success(req, res, {});
+                    });
+                });
+
+                /*
                 _report.save(['file_id']).then(function (_newReport) {
                     RepairImage.destroy({ where: { image_id: req.params.id } }).then(function () {
                         File.destroy({ where: { id: req.params.id } }).then(function () {
@@ -242,6 +286,35 @@ class ReportApi extends BaseApi {
                     });
                 }).catch(function (err) {
                     context.error(req, res, err, 500);
+                });*/
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+        else {
+            context.notfound();
+        }
+    }
+
+    recoverImage(context, req, res) {
+        if (req.params.id) {
+            context.queryByImageId(req.params.id).then(function (_reports) {
+                var _report = _reports[0];
+                var file_url = appRoot + _report.file.url;
+                var fileId = _report.file_id;
+                File.findById(fileId).then(function (_file) {
+                    var url = _file.url;
+                    var paths = url.split('/');
+                    var file_name_with_ext = paths[paths.length - 1];
+                    var file_exts = file_name_with_ext.split('.');
+                    var file_name = file_exts[0];
+                    var file_ext = file_exts[1];
+                    var file_url_del = appRoot + '/files/' + file_name + '_del' + '.' + file_ext;
+                    fs.rename(file_url_del, file_url, function (err) { console.log(err) });
+                    _file.is_delete = false;
+                    _file.save(['is_delete']).then(function () {
+                        context.success(req, res, {});
+                    });
                 });
             }).catch(function (err) {
                 context.error(req, res, err, 500);
@@ -270,6 +343,7 @@ class ReportApi extends BaseApi {
             { url: '/reports/captcha', method: 'get', roles: [], response: this.captcha },
             { url: '/reports', method: 'get', roles: ['admin'], response: this.getById, params: ['id'] },
             { url: '/reports/image', method: 'delete', roles: ['admin'], response: this.deleteImage, params: ['id'] },
+            { url: '/reports/image', method: 'patch', roles: ['admin'], response: this.recoverImage, params: ['id'] },
             { url: '/reports', method: 'get', roles: ['admin'], response: this.getAll },
             { url: '/reports', method: 'post', roles: [], response: this.add },
             { url: '/reports', method: 'patch', roles: ['admin'], response: this.update },

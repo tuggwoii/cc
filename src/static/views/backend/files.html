@@ -2,7 +2,7 @@
     <div class="breadcrumb">
         <ul>
             <li>
-                <a ng-click="navigateTo('#/')">Admin ></a>
+                <a ng-click="navigateTo('#!/')">Admin ></a>
             </li>
             <li>
                 Files
@@ -54,7 +54,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="m in model">
-                                <!--<td><a href="/admin#/edit-car?id={{m.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>-->
+                                <!--<td><a href="/admin#!/edit-car?id={{m.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>-->
                                 <td ng-click="showImage(m)">
                                     <a href="javascript:void(0)">
                                         <img ng-if="m.url" ng-src="{{m.url}}" />

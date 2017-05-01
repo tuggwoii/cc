@@ -36,11 +36,7 @@ module.controller('EditPaymentController', ['$scope', '$rootScope', '$timeout', 
             if (form.$valid && !isNaN(parseFloat($scope.model.price))) {
                 $rootScope.$broadcast(Event.Load.Display);
                 PaymentService.update($scope.model).then(function (res) {
-                    $scope.status.success = true;
-                    $rootScope.$broadcast(Event.Load.Dismiss);
-                    $timeout(function () {
-                        $scope.status.success = false;
-                    }, 5000);
+                    window.location.hash = '#!/payment';
                 }).catch(function () {
                     $scope.status.error = true;
                     $rootScope.$broadcast(Event.Load.Dismiss);
@@ -60,7 +56,7 @@ module.controller('EditPaymentController', ['$scope', '$rootScope', '$timeout', 
                     loadResources();
                 }
                 else {
-                    window.location.hash = '#/';
+                    window.location.hash = '#!/';
                 }
             }
             else {
@@ -74,7 +70,7 @@ module.controller('EditPaymentController', ['$scope', '$rootScope', '$timeout', 
             $rootScope.$broadcast(Event.Confirm.Display, function () {
                 $rootScope.$broadcast(Event.Load.Display);
                 PaymentService.delete($scope.id).then(function () {
-                    window.location.hash = '#/payment';
+                    window.location.hash = '#!/payment';
                 }).catch(function () {
                     $rootScope.$broadcast(Event.Load.Dismiss);
                     $timeout(function () {

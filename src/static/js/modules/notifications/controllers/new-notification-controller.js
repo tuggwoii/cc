@@ -56,10 +56,10 @@ module.controller('NewNotificationController', ['$scope', '$rootScope', '$timeou
                     $scope.status = {};
                     NotificationService.create($scope.model).then(function (res) {
                         if ($scope.from_car) {
-                            $scope.navigateTo('#/car?id=' + $scope.carId);
+                            $scope.navigateTo('#!/car?id=' + $scope.carId);
                         }
                         else {
-                            $scope.navigateTo('#/notifications');
+                            $scope.navigateTo('#!/notifications');
                         }
                     }).catch(function (res) {
                         if (res.error.message == 'CAR EXPIRE') {
@@ -99,7 +99,7 @@ module.controller('NewNotificationController', ['$scope', '$rootScope', '$timeou
 
         $scope.pickCar = function (car) {
             if ($scope.from_car) {
-                $scope.navigateTo('#/car?id=' + car.id);
+                $scope.navigateTo('#!/car?id=' + car.id);
             }
             else {
                 $scope.model.car = car.id+'';

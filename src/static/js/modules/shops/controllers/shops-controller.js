@@ -113,7 +113,7 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
             }
             else {
                 $timeout(function () {
-                    $scope.shopsPage();
+                    ShopsPage();
                 }, 200);
             }
         };
@@ -133,7 +133,7 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         ShopsPage();

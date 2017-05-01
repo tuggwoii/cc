@@ -7,13 +7,13 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    <a ng-click="navigateTo('#!/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li ng-if="from_car">
-                    <a ng-click="navigateTo('#/car?id='+carId)">Car ></a>
+                    <a ng-click="navigateTo('#!/car?id='+carId)">Car ></a>
                 </li>
                 <li ng-if="!from_car">
-                    <a ng-click="navigateTo('#/repairs')">{{strings['nav_repairs']}} ></a>
+                    <a ng-click="navigateTo('#!/repairs')">{{strings['nav_repairs']}} ></a>
                 </li>
                 <li>{{strings['nav_repair']}}</li>
             </ul>
@@ -29,10 +29,10 @@
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 <span>รายละเอียดการซ่อมบำรุง</span>
                 <span class="btn-action edit-repair-info-button">
-                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-repair?id=' + model.id +'&car=' + carId)" ng-if="from_car">
+                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#!/edit-repair?id=' + model.id +'&car=' + carId)" ng-if="from_car">
                         แก้ไขข้อมูล
                     </button>
-                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-repair?id=' + model.id)" ng-if="!from_car">
+                    <button class="btn btn-danger edit-link" ng-click="navigateTo('#!/edit-repair?id=' + model.id)" ng-if="!from_car">
                         แก้ไขข้อมูล
                     </button>
                 </span>
@@ -70,7 +70,7 @@
                         {{model.shop ? 'เปลี่ยนร้าน':'ค้นหาร้าน'}}
                     </button>
                     <button ng-if="model.shop" class="btn btn-danger edit-link edit-shop-button" 
-                            ng-click="navigateTo('#/edit-shop?id=' + model.shop.id + '&repair=' + model.id + '&car=' + model.car.id + '&cd=true')">
+                            ng-click="navigateTo('#!/edit-shop?id=' + model.shop.id + '&repair=' + model.id + '&car=' + model.car.id + '&cd=true')">
                         แก้ไขร้าน
                     </button>
                 </span>
@@ -217,7 +217,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="clickable" ng-repeat="n in model.notifications" ng-click="navigateTo('#/notification?id='+n.id+'&car='+model.car.id)">
+                            <tr class="clickable" ng-repeat="n in model.notifications" ng-click="navigateTo('#!/notification?id='+n.id+'&car='+model.car.id)">
                                 <td>{{n.title}}</td>
                                 <td>{{n.detail?n.detail:'-'}}</td>
                                 <td>{{n.date?n.date_str:'-'}}</td>
@@ -228,7 +228,7 @@
                     </table>
                     <ul class="hidden-lg hidden-md" ng-if="model.notifications.length">
                         <li ng-repeat="n in model.notifications">
-                            <a href="#/notification?id={{n.id}}&car={{model.car.id}}">{{n.title}}</a>
+                            <a href="#!/notification?id={{n.id}}&car={{model.car.id}}">{{n.title}}</a>
                         </li>
                     </ul>
                 </div>

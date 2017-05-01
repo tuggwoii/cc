@@ -2,7 +2,7 @@
     <div class="breadcrumb">
         <ul>
             <li>
-                <a ng-click="navigateTo('#/')">Admin ></a>
+                <a ng-click="navigateTo('#!/')">Admin ></a>
             </li>
             <li>
                 Repairs
@@ -104,13 +104,13 @@
                                 <td ng-if="isRemoveImageMode">
                                     <input class="imageCheckbox" type="checkbox" value="{{item.id}}" />
                                 </td>
-                                <td><a href="/admin#/repair?id={{item.id}}">{{item.date_str}}</a></td>
-                                <td><a href="/admin#/repair?id={{item.id}}">{{item.title}}</a></td>
-                                <td><a href="/admin#/repair?id={{item.id}}">{{item.car.serial}}</a></td>
-                                <td><a href="/admin#/repair?id={{item.id}}">{{item.car.brand}}</a></td>
-                                <td><a href="/admin#/repair?id={{item.id}}">{{item.car.exp_date_str}}</a></td>
-                                <td><a href="/admin#/repair?id={{item.id}}">{{status.showSize? item.using_storage +'/' + item.car.max_file_size : item.car.max_file_size}}MB</a></td>
-                                <td><a href="/admin#/repair?id={{item.id}}">{{item.view_count? item.view_count : 0}}</a></td>
+                                <td><a href="/admin#!/repair?id={{item.id}}">{{item.date_str}}</a></td>
+                                <td><a href="/admin#!/repair?id={{item.id}}">{{item.title}}</a></td>
+                                <td><a href="/admin#!/repair?id={{item.id}}">{{item.car.serial}}</a></td>
+                                <td><a href="/admin#!/repair?id={{item.id}}">{{item.car.brand}}</a></td>
+                                <td><a href="/admin#!/repair?id={{item.id}}">{{item.car.exp_date_str}}</a></td>
+                                <td><a href="/admin#!/repair?id={{item.id}}">{{status.showSize? item.using_storage +'/' + item.car.max_file_size : item.car.max_file_size}}MB</a></td>
+                                <td><a href="/admin#!/repair?id={{item.id}}">{{item.view_count? item.view_count : 0}}</a></td>
                             </tr>
                         </tbody>
                     </table>

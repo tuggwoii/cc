@@ -2,7 +2,7 @@
     <div class="breadcrumb">
         <ul>
             <li>
-                <a ng-click="navigateTo('#/')">Admin ></a>
+                <a ng-click="navigateTo('#!/')">Admin ></a>
             </li>
             <li>
                 Pages
@@ -19,7 +19,7 @@
         <div class="users-list">
             <h2>
                 <span>Pages ({{model.length}})</span>
-                <button class="btn btn-danger" ng-click="navigateTo('#/page')"><i class="fa fa-plus"></i> เพิ่ม</button>
+                <button class="btn btn-danger" ng-click="navigateTo('#!/page')"><i class="fa fa-plus"></i> เพิ่ม</button>
             </h2>
             <div id="iscroll" class="iscroll">
                 <div class="table-scroll pages-table">
@@ -33,8 +33,8 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="page in model" ng-click="edit(page)">
-                                <td><a href="/admin#/edit-page?id={{page.id}}">{{page.name}}</a></td>
-                                <td><a href="/admin#/edit-page?id={{page.id}}">{{page.url?page.url:'/'}}</a></td>
+                                <td><a href="/admin#!/edit-page?id={{page.id}}">{{page.name}}</a></td>
+                                <td><a href="/admin#!/edit-page?id={{page.id}}">{{page.url?page.url:'/'}}</a></td>
                                 <td class="action">
                                     <i ng-if="!page.isSys" class="fa fa-edit" ng-click="edit(page);$event.stopPropagation();"></i>
                                     <i ng-if="!page.isSys" class="fa fa-remove" ng-click="delete(page);$event.stopPropagation();"></i>

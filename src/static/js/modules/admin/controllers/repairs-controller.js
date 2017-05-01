@@ -135,7 +135,7 @@ function ($scope, $rootScope, $timeout, $q, RepairService, Helper, Event) {
                 loadResources();
             }
             else {
-                window.location.hash = '/admin#/';
+                window.location.hash = '/admin#!/';
             }
         }
         else {

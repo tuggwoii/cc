@@ -28,6 +28,20 @@ exports.default = function (data) {
             model.repair_works[i].work = model.repair_works[i].work + '';
         }
     }
+    if (model.repair_images && model.repair_images.length) {
+        var total = 0;
+        for (var i = 0; i < model.repair_images.length; i++) {
+            var f = model.repair_images[i].file;
+            if (f) {
+                total += f.size;
+            }
+            if (f.is_delete) {
+                model.repair_images.splice(i, 1);
+                i--;
+            }
+        }
+        model.using_storage = (total / (1024 * 1024)).toFixed(2);
+    }
     
     return model;
 }
@@ -94,6 +108,10 @@ exports.share = function (data) {
             var f = model.repair_images[i].file;
             if (f) {
                 total += f.size;
+            }
+            if (f.is_delete) {
+                model.repair_images.splice(i, 1);
+                i--;
             }
         }
         model.using_storage = (total / (1024 * 1024)).toFixed(2);

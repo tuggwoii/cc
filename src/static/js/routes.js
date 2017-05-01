@@ -6,63 +6,63 @@ module.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('index', {
           url: "/",
-          templateUrl: "partials/index.html"
+          templateUrl: "/partials/index.html"
       }).state('register', {
           url: "/register",
-          templateUrl: "partials/register.html"
+          templateUrl: "/partials/register.html"
       }).state('account', {
           url: "/account",
           templateUrl: "partials/account.html"
       }).state('update-account', {
           url: "/update-account",
-          templateUrl: "partials/update-account.html"
+          templateUrl: "/partials/update-account.html"
       }).state('car', {
           url: "/car",
-          templateUrl: "partials/car.html"
+          templateUrl: "/partials/car.html"
       }).state('editcar', {
           url: "/edit-car",
-          templateUrl: "partials/edit-car.html"
+          templateUrl: "/partials/edit-car.html"
       }).state('newcar', {
           url: "/new-car",
-          templateUrl: "partials/new-car.html"
+          templateUrl: "/partials/new-car.html"
       }).state('notifications', {
           url: "/notifications",
-          templateUrl: "partials/notifications.html"
+          templateUrl: "/partials/notifications.html"
       }).state('notification', {
           url: "/notification",
-          templateUrl: "partials/notification.html"
+          templateUrl: "/partials/notification.html"
       }).state('editnotification', {
           url: "/edit-notification",
-          templateUrl: "partials/edit-notification.html"
+          templateUrl: "/partials/edit-notification.html"
       }).state('newnotification', {
           url: "/new-notification",
-          templateUrl: "partials/new-notification.html"
+          templateUrl: "/partials/new-notification.html"
       }).state('repairs', {
           url: "/repairs",
-          templateUrl: "partials/repairs.html"
+          templateUrl: "/partials/repairs.html"
       }).state('repair', {
           url: "/repair",
-          templateUrl: "partials/repair.html"
+          templateUrl: "/partials/repair.html"
       }).state('shares', {
           url: "/shares",
-          templateUrl: "partials/shares.html"
+          templateUrl: "/partials/shares.html"
       }).state('new-repair', {
           url: "/new-repair",
-          templateUrl: "partials/new-repair.html"
+          templateUrl: "/partials/new-repair.html"
       }).state('edit-repair', {
           url: "/edit-repair",
-          templateUrl: "partials/edit-repair.html"
+          templateUrl: "/partials/edit-repair.html"
       }).state('shops', {
           url: "/shops",
-          templateUrl: "partials/shops.html"
+          templateUrl: "/partials/shops.html"
       }).state('shop', {
           url: "/shop",
-          templateUrl: "partials/shop.html"
+          templateUrl: "/partials/shop.html"
       }).state('edit-shop', {
           url: "/edit-shop",
-          templateUrl: "partials/edit-shop.html"
+          templateUrl: "/partials/edit-shop.html"
       }).state('forgot-password', {
           url: "/forgot-password",
-          templateUrl: "partials/forgot-password.html"
+          templateUrl: "/partials/forgot-password.html"
       });
 });

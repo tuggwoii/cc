@@ -8,21 +8,21 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    <a ng-click="navigateTo('#!/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li ng-if="from_car">
-                    <a ng-click="navigateTo('#/car?id='+carId)">Car ></a>
+                    <a ng-click="navigateTo('#!/car?id='+carId)">Car ></a>
                 </li>
                 <li>
-                    <a ng-click="navigateTo('#/shops')">Shops ></a>
+                    <a ng-click="navigateTo('#!/shops')">Shops ></a>
                 </li>
                 <li ng-if="isFromShops">
-                    <a ng-click="navigateTo('#/shop?id=' + model.id + (isCanEdit? '&cd=true':'') + '&fs=true')">
+                    <a ng-click="navigateTo('#!/shop?id=' + model.id + (isCanEdit? '&cd=true':'') + '&fs=true')">
                         {{model.name?model.name:'ไม่ระบุ'}} >
                     </a>
                 </li>
                 <li ng-if="!isFromShops">
-                    <a ng-click="navigateTo('#/shop?id=' + model.id + (isCanEdit? '&cd=true':''))">
+                    <a ng-click="navigateTo('#!/shop?id=' + model.id + (isCanEdit? '&cd=true':''))">
                         {{model.name?model.name:'ไม่ระบุ'}} >
                     </a>
                 </li>

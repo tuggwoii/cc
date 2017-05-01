@@ -42,7 +42,7 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
                 
             }
             else {
-                window.location.hash = '#/';
+                window.location.hash = '#!/';
             }
         }
         else {
@@ -53,7 +53,7 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
     };
 
     $scope.edit = function () {
-        window.location.href = '#/account';
+        window.location.href = '#!/account';
     };
 
     $scope.update = function (form) {
@@ -101,11 +101,11 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
     };
 
     $scope.editAccount = function () {
-        $scope.navigateTo('#/update-account');
+        $scope.navigateTo('#!/update-account');
     };
 
     $scope.pickCar = function (car) {
-        $scope.navigateTo('#/car?id=' + car.id);
+        $scope.navigateTo('#!/car?id=' + car.id);
     };
 
     var lightbox = lity();

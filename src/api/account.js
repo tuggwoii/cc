@@ -622,8 +622,8 @@ class AccountApi extends BaseApi {
             var subject = 'Password Recovery';
             var email_body = '<p>ท่านได้รับอีเมลล์ฉบับนี้เนื่องจากท่านได้ทำการแจ้งลืมพาสเวิร์ดบน www.carcarenote.com</p>' +
               '<p>ถ้าท่านได้ทำการแจ้งลืมพาสเวิร์ดจริงกรุณาคลิ๊กลิงค์ ' +
-              '<a href="www.carcarenote.com/#/forgot-password?token=' + token +
-              '">www.carcarenote.com/#/forgot-password?token=' + token + '</a> เพื่อทำการกู้รหัสผ่าน</p>' +
+              '<a href="www.carcarenote.com/#!/forgot-password?token=' + token +
+              '">www.carcarenote.com/#!/forgot-password?token=' + token + '</a> เพื่อทำการกู้รหัสผ่าน</p>' +
               '<p>ถ้าท่านไม่ได้ดำเนินการดังกล่าวท่านสามารถลบอีเมลล์ฉบับนี้ทิ้งได้โดยไม่มีผลกระทบใดๆทั้งสิ้น</p>';
             MailHelper.send(subject, email_to, email_body, resolve, reject);
         });

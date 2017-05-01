@@ -8,10 +8,10 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
         get: function (query) {
             var key = URLS.model(service).all + '?p=' + query.p + (query.q ? '&q=' + query.q : '');
             return $q(function (resolve, reject) {
-                $http.get(key).success(function (res) {
-                    cache[key] = res;
-                    resolve(res);
-                }).error(function (res) {
+                $http.get(key).then(function (res) {
+                    cache[key] = res.data;
+                    resolve(res.data);
+                }).catch(function (res) {
                     reject(res);
                 });
             });
@@ -19,10 +19,10 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
         send: function (model) {
             var key = URLS.model(service).all;
             return $q(function (resolve, reject) {
-                $http.post(key, model).success(function (res) {
-                    cache[key] = res.data;
-                    resolve(res.data);
-                }).error(function (res) {
+                $http.post(key, model).then(function (res) {
+                    cache[key] = res.data.data;
+                    resolve(res.data.data);
+                }).catch(function (res) {
                     reject(res);
                 });
             });
@@ -30,9 +30,9 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
         delete: function (model) {
             var key = URLS.model(service).one.replace('{id}', model.id);
             return $q(function (resolve, reject) {
-                $http.delete(key).success(function (res) {
-                    resolve(res.data);
-                }).error(function (res) {
+                $http.delete(key).then(function (res) {
+                    resolve(res.data.data);
+                }).catch(function (res) {
                     reject(res);
                 });
             });
@@ -40,18 +40,28 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
         deleteImage: function (id) {
             var key = URLS.model(service).image_id.replace('{id}', id);
             return $q(function (resolve, reject) {
-                $http.delete(key).success(function (res) {
-                    resolve(res.data);
-                }).error(function (res) {
+                $http.delete(key).then(function (res) {
+                    resolve(res.data.data);
+                }).catch(function (res) {
+                    reject(res);
+                });
+            });
+        },
+        recoverImage: function (id) {
+            var key = URLS.model(service).image_id.replace('{id}', id);
+            return $q(function (resolve, reject) {
+                $http.patch(key).then(function (res) {
+                    resolve(res.data.data);
+                }).catch(function (res) {
                     reject(res);
                 });
             });
         },
         captcha: function () {
             return $q(function (resolve, reject) {
-                $http.get(URLS.model(service).captcha).success(function (res) {
-                    resolve(res)
-                }).error(reject);
+                $http.get(URLS.model(service).captcha).then(function (res) {
+                    resolve(res.data)
+                }).catch(reject);
             });
         }
         

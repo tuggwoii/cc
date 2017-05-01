@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="s in shops">
                 <div class="index-shop">
-                    <a href="/#/shop?id={{s.id}}">
+                    <a href="/#!/shop?id={{s.id}}">
                         <div><i class="fa fa-map-marker"></i> {{s.name}}</div>
                         <div><i class="fa fa-map-o"></i> จังหวัด: {{s.province?s.province_str:'ไม่ระบุ'}}</div>
                         <div><i class="fa fa-asterisk"></i> จำนวนการใช้บริการ: {{s.repairs}}</div>
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <a class="view-all ng-binding" href="#/shops" ng-click="navigateTo('#/shares')">ดูทั้งหมด &gt;&gt;</a>
+        <a class="view-all ng-binding" href="#!/shops" ng-click="navigateTo('#!/shares')">ดูทั้งหมด &gt;&gt;</a>
         <!--
         <div class="loadmore-container" ng-if="shop_query.hasMore">
             <button type="button" class="btn btn-danger loadMore" ng-if="!shop_query.isLoad" ng-click="loadMoreShop()">โหลดเพิ่ม</button>
