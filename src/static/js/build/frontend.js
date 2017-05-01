@@ -10233,6 +10233,7 @@ module.controller('NavController', ['$scope', 'PageService',
                     url = url.replace('http://www.carcarenote.com','');
                     url = url.replace('http://carcarenote.com', '');
                     url = url.split('?')[0];
+                    url = url.replace('#!', '');
                     if (url == m.url) {
                         m.isActive = true;
                     }
