@@ -10,10 +10,9 @@ module.controller('NotificationController', ['$scope', '$rootScope', '$timeout',
 
         function getById() {
             $q.all([
-                NotificationService.getById($scope.params.id).then(function (data) {
-                    $scope.model = angular.copy(data);
+                NotificationService.getById($scope.params.id).then(function (res) {
+                    $scope.model = angular.copy(res.data);
                     setInitModel($scope.model);
-
                 }).catch(function () {
                     alert('ERROR LOAD NOTIFICATION');
                 }),
