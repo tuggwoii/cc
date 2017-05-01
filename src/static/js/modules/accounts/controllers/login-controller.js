@@ -7,9 +7,9 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         });
     }
 
-    function error (res, code) {
-        if (code === 400) {
-            if (res.error && res.error.message == 'BAN') {
+    function error(res) {
+        if (res.status === 400) {
+            if (res.data && res.data.error && res.data.error.message == 'BAN') {
                 $scope.status.ban = true;
             }
             else {
@@ -48,7 +48,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
             AccountService.login($scope.model).then(function (res) {
                 success(res.data);
             }).catch(function (res, code) {
-                error(res, code);
+                error(res);
             });
         }
     };
@@ -65,7 +65,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         AccountService.login(creds).then(function (res) {
             success(res.data);
         }).catch(function (res) {
-            error(res, 500)
+            error(res)
         });
     };
 

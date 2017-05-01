@@ -30,8 +30,8 @@ module.controller('RegisterController', ['$scope', '$rootScope', 'AccountService
                     window.location.href = '/';
                     $rootScope.$broadcast(Event.Load.Dismiss);
                 })
-                .catch(function (ressponse, status) {
-                    if (status === 400 && ressponse.error.message.toLowerCase() === 'email exist') {
+                .catch(function (res) {
+                    if (res.status === 400 && res.data && res.data.error && res.data.error.message && res.data.error.message.toLowerCase() === 'email exist') {
                         $scope.status.exist = true;
                     }
                     else {

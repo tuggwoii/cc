@@ -189,7 +189,8 @@ class FileApi extends BaseApi {
             url: path,
             size: req.file.size,
             owner: req.user.id,
-            is_use: false
+            is_use: false,
+            is_delete: false
         };
         var mb_size = (file.size / (1024 * 1024));
         if (mb_size > 1) {
