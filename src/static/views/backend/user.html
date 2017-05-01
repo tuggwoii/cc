@@ -115,7 +115,7 @@
                     <label class="capital">
                         รถที่มี
                     </label>
-                    <div class="detail-field" ng-repeat="car in model.cars">
+                    <div id="adminUserCar" class="detail-field" ng-repeat="car in model.cars">
                         <a href="/admin#!/edit-car?id={{car.id}}">{{car.brand}} {{car.series}} {{car.serial}}</a>
                     </div>
                 </div>
