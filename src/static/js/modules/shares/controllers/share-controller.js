@@ -145,6 +145,9 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
                 var items = $('.repair-image');
    
                 if (items.length > 0) {
+                    $scope.image_id = $(items[index]).attr('data-id');
+                    $scope.image_src = url;
+
                     $('.lity-container').append('<button class="btn btn-danger report-image-button animated fadeIn"><i class="fa fa-photo"></i> Report รูป</button>');
 
                     $('.report-image-button').click(function () {
@@ -157,8 +160,7 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
                 }
 
                 if (items.length > 1) {
-                    $scope.image_id = $(items[index]).attr('data-id');
-                    $scope.image_src = url;
+                   
                     $('.lity-container').append('<span class="lb-next animated fadeIn"><i class="fa fa-angle-right"></i></span>');
                     $('.lity-container').append('<span class="lb-prev animated fadeIn"><i class="fa fa-angle-left"></i></span>');
                     
