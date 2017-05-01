@@ -51,7 +51,7 @@ module.controller('EditRepairController', ['$scope', '$rootScope', '$timeout', '
                     });
                 }
                 else {
-                    window.location.hash = '#/';
+                    window.location.hash = '#!/';
                 }
             }
             else {
@@ -73,10 +73,10 @@ module.controller('EditRepairController', ['$scope', '$rootScope', '$timeout', '
                     $scope.status = {};
                     RepairService.update($scope.model).then(function (res) {
                         if ($scope.from_car) {
-                            $scope.navigateTo('#/repair?id=' + res.id + '&car=' + $scope.carId);
+                            $scope.navigateTo('#!/repair?id=' + res.id + '&car=' + $scope.carId);
                         }
                         else {
-                            $scope.navigateTo('#/repair?id=' + res.id);
+                            $scope.navigateTo('#!/repair?id=' + res.id);
                         }
                     }).catch(function (res) {
                         if (res.error.message == 'CAR EXPIRE') {
@@ -106,7 +106,7 @@ module.controller('EditRepairController', ['$scope', '$rootScope', '$timeout', '
 
         $scope.pickCar = function (car) {
             if ($scope.from_car) {
-                $scope.navigateTo('#/car?id=' + car.id);
+                $scope.navigateTo('#!/car?id=' + car.id);
             }
             else {
                 $scope.model.car = car.id + '';

@@ -29,10 +29,12 @@
                 </div>
                 <div class="from-group">
                     <label>เหตุผลการแจ้ง <span class="required">*</span></label>
-                    <textarea name="message"
-                              ng-model="model.message"
-                              ng-required="true"
-                              class="form-control"></textarea>
+                    <select name="message" ng-model="model.message" ng-required="true" class="form-control">
+                        <option value="ภาพอนาจาร">1.ภาพอนาจาร</option>
+                        <option value="ภาพหมิ่น">2.ภาพหมิ่น</option>
+                        <option value="ภาพละเมิด">3.ภาพละเมิด</option>
+                        <option value="อื่นๆ">4.อื่นๆ</option>
+                    </select>
                     <p class="error-message" ng-show="is_submit && reportForm.message.$error.required">กรุณากรอกเหตุผลในการแจ้ง</p>
                 </div>
                 <div class="form-group">

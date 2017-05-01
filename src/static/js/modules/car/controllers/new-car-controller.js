@@ -16,7 +16,7 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
                     })
                 }
                 else {
-                    window.location.hash = '#/';
+                    window.location.hash = '#!/';
                 }
             }
             else {
@@ -44,7 +44,7 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
                     $scope.model.date = new Date($scope.model.year, parseInt($scope.model.month) - 1, $scope.model.day);
                 }
                 CarService.create($scope.model).then(function (res) {
-                    $scope.navigateTo('#/car?id=' + res.data.id);
+                    $scope.navigateTo('#!/car?id=' + res.data.id);
                 }).catch(function (res) {
                     if (res.error.message === 'MAX CAR') {
                         $scope.status.maxcar = true;
@@ -74,7 +74,7 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.newCarPage();

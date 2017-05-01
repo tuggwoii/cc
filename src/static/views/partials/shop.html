@@ -7,13 +7,13 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    <a ng-click="navigateTo('#!/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li ng-if="from_car">
-                    <a ng-click="navigateTo('#/car?id='+carId)">Car ></a>
+                    <a ng-click="navigateTo('#!/car?id='+carId)">Car ></a>
                 </li>
                 <li>
-                    <a ng-click="navigateTo('#/shops')">Shops ></a>
+                    <a ng-click="navigateTo('#!/shops')">Shops ></a>
                 </li>
                 <li>{{model.name}}</li>
             </ul>
@@ -64,7 +64,7 @@
                         <span>{{model.updatedAt?model.update_str:'ไม่ระบุ'}}</span>
                     </div>
                 </div>
-                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-shop?id=' + model.id + (isCanEdit? '&cd=true' : ''))" ng-if="(isCreator || isCanEdit)">
+                <button class="btn btn-danger edit-link" ng-click="navigateTo('#!/edit-shop?id=' + model.id + (isCanEdit? '&cd=true' : ''))" ng-if="(isCreator || isCanEdit)">
                     แก้ไขข้อมูล
                 </button>
             </div>

@@ -10,6 +10,9 @@
     var json = JSON.stringify(data);
     var model = JSON.parse(json);
     if (model.user) {
+        delete model.user['ban'];
+        delete model.user['ip'];
+        delete model.user['forgot_password_token'];
         delete model.user['password'];
         delete model.user['createdAt'];
         delete model.user['updatedAt'];

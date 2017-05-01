@@ -68,7 +68,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, ReportService, Ev
         }
         else {
             $timeout(function () {
-                $scope.cars();
+                reports();
             }, 1000);
         }
     };
@@ -104,7 +104,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, ReportService, Ev
     };
 
     $scope.edit = function (car) {
-        $scope.navigateTo('#/edit-car?id=' + car.id);
+        $scope.navigateTo('#!/edit-car?id=' + car.id);
     };
 
     $scope.delete = function (m) {
@@ -137,6 +137,35 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, ReportService, Ev
                 }, 500);
             });
         });
+    };
+
+    $scope.recoverImage = function (m) {
+        $rootScope.$broadcast(Event.Confirm.Display, function () {
+            $rootScope.$broadcast(Event.Load.Display);
+            ReportService.recoverImage(m.id).then(function () {
+                loadModels().then(function () {
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                });
+            }).catch(function () {
+                $rootScope.$broadcast(Event.Load.Dismiss);
+                $timeout(function () {
+                    $rootScope.$broadcast(Event.Message.Display, 'กู้ภาพไม่ได้กรุณาลองใหม่อีกครั้ง');
+                }, 500);
+            });
+        }, 'ยืนยันที่จะกู้คืนภาพหรือไม่');
+    };
+
+    $scope.getDeleteImge = function (url) {
+        if (url) {
+            var paths = url.split('/');
+            var file_name_with_ext = paths[paths.length - 1];
+            var file_exts = file_name_with_ext.split('.');
+            var file_name = file_exts[0];
+            var file_ext = file_exts[1];
+            var file_url_del = '/files/' + file_name + '_del' + '.' + file_ext;
+            url = file_url_del;
+        }
+        return url;
     };
 
     $scope.showImage = function (url) {

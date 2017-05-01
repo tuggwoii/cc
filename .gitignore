@@ -3,6 +3,7 @@ node_modules
 Dockerfile
 docker-compose.yml
 src/db/logs/*
+src/authorize/authorizeSession.txt
 files/*
 files/*.*
 files/*/*

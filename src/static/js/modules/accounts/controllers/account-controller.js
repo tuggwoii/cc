@@ -5,6 +5,22 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
         return $scope.user && $scope.user.id;
     }
 
+    function recursiveGetCars(start, end) {
+        if ($scope.model.contacts[start].car_ids) {
+            CarService.getByIds($scope.model.contacts[start].car_ids).then(function (res) {
+                $scope.model.contacts[start].cars = res;
+                if (start < end - 1) {
+                    recursiveGetCars(start + 1, end);
+                }
+            });
+        }
+        else {
+            if (start < end - 1) {
+                recursiveGetCars(start + 1, end);
+            }
+        }
+    }
+
     $scope.setForm = function (form) {
         $scope.form = form;
     };
@@ -19,10 +35,14 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
                 CarService.get().then(function (res) {
                     $scope.cars = angular.copy(res.data);
                     $scope.displayView();
+
+                    recursiveGetCars(0, $scope.model.contacts.length);
                 });
+
+                
             }
             else {
-                window.location.hash = '#/';
+                window.location.hash = '#!/';
             }
         }
         else {
@@ -33,7 +53,7 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
     };
 
     $scope.edit = function () {
-        window.location.href = '#/account';
+        window.location.href = '#!/account';
     };
 
     $scope.update = function (form) {
@@ -81,11 +101,11 @@ module.controller('AccountController', ['$scope', '$rootScope', '$timeout', '$co
     };
 
     $scope.editAccount = function () {
-        $scope.navigateTo('#/update-account');
+        $scope.navigateTo('#!/update-account');
     };
 
     $scope.pickCar = function (car) {
-        $scope.navigateTo('#/car?id=' + car.id);
+        $scope.navigateTo('#!/car?id=' + car.id);
     };
 
     var lightbox = lity();

@@ -40,7 +40,6 @@ class Share extends Base {
             context.notfound(res);
         }
     }
-
 }
 
 module.exports = new Share();

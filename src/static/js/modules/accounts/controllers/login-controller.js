@@ -37,7 +37,7 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
             };
         }
         else {
-            window.location.hash = '#/';
+            window.location.hash = '#!/';
         }
     };
 
@@ -45,9 +45,9 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
         if (form.$valid) {
             $scope.status = {};
             $rootScope.$broadcast(Event.Load.Display, 'LOG_IN');
-            AccountService.login($scope.model).success(function (res) {
-                success(res);
-            }).error(function (res, code) {
+            AccountService.login($scope.model).then(function (res) {
+                success(res.data);
+            }).catch(function (res, code) {
                 error(res, code);
             });
         }
@@ -62,9 +62,9 @@ module.controller('LoginController', ['$scope', '$rootScope', '$cookies', 'Accou
     $scope.facebookLogin = function (creds) {
         $rootScope.$broadcast(Event.Load.Display);
         $scope.status = {};
-        AccountService.login(creds).success(function (res) {
-            success(res);
-        }).error(function (res) {
+        AccountService.login(creds).then(function (res) {
+            success(res.data);
+        }).catch(function (res) {
             error(res, 500)
         });
     };

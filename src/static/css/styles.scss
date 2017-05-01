@@ -1062,7 +1062,7 @@
 
             .social {
                 position: absolute;
-                top: 15px;
+                top: 25px;
                 right: 15px;
             }
 
@@ -2298,6 +2298,33 @@ h3 .see-more {
     display: none;
 }
 
+h2 .see-more {
+    display: none;
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 3px;
+
+    .fa {
+        margin-right: 5px;
+        font-size: 18px;
+        color: #f05f23;
+    }
+}
+h2 .close-more {
+    display: none;
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 3px;
+
+    .fa {
+        margin-right: 5px;
+        font-size: 18px;
+        color: #f05f23;
+    }
+}
+
 .user-menu a {
     color: #fff;
 
@@ -2593,4 +2620,46 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
 }
 .ios.app .wrapper .user-profile .car-item .detail {
     top: 5px;
+}
+#share-car .info {
+    float: left;
+    width: calc(100% - 150px);
+    padding-left: 50px;
+}
+#share-car-image {
+    float: left;
+    margin: 0;
+}
+#share-car .is-mobile {
+    display: none;
+}
+#sm-image {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 !important;
+    top: 10px;
+    margin-right: 5px;
+    position:relative;
+}
+.ios #sm-image {
+    top: -5px;
+}
+#sm-image img {
+    width: 100%;
+    transform: translateY(-50%);
+    top: 50%;
+    position: relative;
+    min-height: 36px;
+}
+.up-top {
+    position:relative;
+    top:-10px;
+}
+.ios .up-top {
+    position: relative;
+    top: 0px;
 }

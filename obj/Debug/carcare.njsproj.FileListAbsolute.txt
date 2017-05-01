@@ -1,0 +1,2 @@
+D:\git\carcare\obj\Debug\carcare.njsprojResolveAssemblyReference.cache
+D:\git\carcare\bin\Microsoft.NodejsTools.WebRole.dll

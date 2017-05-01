@@ -21,7 +21,7 @@ function ($scope, $timeout, $q) {
                 loadResources();
             }
             else {
-                window.location.hash = '#/';
+                window.location.hash = '#!/';
             }
         }
         else {

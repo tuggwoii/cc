@@ -7,10 +7,10 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
         get: function (query) {
             var key = URLS.model(service).all + '?p=' + query.p + (query.q ? '&q=' + query.q : '');
             return $q(function (resolve, reject) {
-                $http.get(key).success(function (res) {
-                    resolve(res);
+                $http.get(key).then(function (res) {
+                    resolve(res.data);
                 })
-                .error(function (err) {
+                .catch(function (err) {
                     reject(err);
                 });
             });
@@ -25,10 +25,10 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
                     transformRequest: angular.identity,
                     headers: { 'Content-Type': undefined }
                 })
-                .success(function (res) {
-                    resolve(res.data);
+                .then(function (res) {
+                    resolve(res.data.data);
                 })
-                .error(function (err) {
+                .catch(function (err) {
                     reject(err);
                 });
             });
@@ -36,10 +36,10 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
         delete: function (id) {
             var key = URLS.model(service).one.replace('{id}', id);
             return $q(function (resolve, reject) {
-                $http.delete(key).success(function (res) {
-                    resolve(res);
+                $http.delete(key).then(function (res) {
+                    resolve(res.data);
                 })
-                .error(function (err) {
+                .catch(function (err) {
                     reject(err);
                 });
             });

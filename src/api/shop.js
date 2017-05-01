@@ -24,7 +24,8 @@ class ShopApi extends BaseApi {
             lon: data.lon,
             map: data.map,
             services: data.services,
-            website: data.website
+            website: data.website,
+            telephone: data.telephone
         };
         if (data.image) {
             model.image = data.image.id

@@ -62,7 +62,7 @@
                     ShopService.create(scope.model).then(function (res) {
                         $rootScope.$broadcast(Event.Load.Dismiss);
                         scope.close();
-                        window.location.href = '/#/edit-shop?id=' + res.data.id + '&cd=true&fs=true';
+                        window.location.href = '/#!/edit-shop?id=' + res.data.id + '&cd=true&fs=true';
                     }).catch(function () {
                         scope.close();
                         $rootScope.$broadcast(Event.Message.Display, 'สร้างร้านไม่ได้กรุณาลองใหม่อีกครั้ง');

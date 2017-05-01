@@ -2,10 +2,10 @@
     <div class="breadcrumb">
         <ul>
             <li>
-                <a ng-click="navigateTo('#/')">Admin ></a>
+                <a ng-click="navigateTo('#!/')">Admin ></a>
             </li>
             <li>
-                <a ng-click="navigateTo('#/cars')">Cars ></a>
+                <a ng-click="navigateTo('#!/cars')">Cars ></a>
             </li>
             <li>
                 Edit
@@ -33,6 +33,12 @@
                 </div>
             </div>
             <div class="section left">
+                <div class="form-group">
+                    <label class="capital">
+                       User
+                    </label>
+                    <a href="/admin#!/user?id={{model.user.id}}">{{model.user.name}}</a>
+                </div>
                 <div class="form-group">
                     <label class="capital">
                         {{strings['brand']}}

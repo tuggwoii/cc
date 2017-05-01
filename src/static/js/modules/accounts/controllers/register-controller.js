@@ -5,10 +5,10 @@ module.controller('RegisterController', ['$scope', '$rootScope', 'AccountService
     $scope.status = {};
     $scope.captcha = {};
     $scope.registerPage = function () {
-        AccountService.captcha().success(function (res) {
-            $scope.captcha = res.data;
+        AccountService.captcha().then(function (res) {
+            $scope.captcha = res.data.data;
             $scope.model.key = $scope.captcha.key;
-        }).error(function () {
+        }).catch(function () {
 
         }).finally(function () {
             $scope.displayView();
@@ -25,12 +25,12 @@ module.controller('RegisterController', ['$scope', '$rootScope', 'AccountService
         if (form.$valid && $scope.model.password === $scope.model.confirm_password && $scope.model.captcha === $scope.captcha.captcha) {
             $rootScope.$broadcast(Event.Load.Display);
             AccountService.register($scope.model)
-                .success(function (res) {
-                    AccountService.setAuthenticationToken(res);
+                .then(function (res) {
+                    AccountService.setAuthenticationToken(res.data);
                     window.location.href = '/';
                     $rootScope.$broadcast(Event.Load.Dismiss);
                 })
-                .error(function (ressponse, status) {
+                .catch(function (ressponse, status) {
                     if (status === 400 && ressponse.error.message.toLowerCase() === 'email exist') {
                         $scope.status.exist = true;
                     }

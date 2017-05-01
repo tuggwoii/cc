@@ -26,7 +26,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                     setModelDate($scope.car);
                    
                 }).catch(function () {
-                    alert('LOAD CAR ERROR');
+                    window.location.href = '/'; 
                 }),
                 CarService.get().then(function (res) {
                     $scope.cars = angular.copy(res.data);
@@ -158,7 +158,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                     loadResources();
                 }
                 else {
-                    window.location.hash = '#/';
+                    window.location.hash = '#!/';
                 }
             }
             else {
@@ -170,7 +170,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
 
         $scope.pickCar = function (car) {
             if ($scope.car != car.id) {
-                window.location.href = '#/car?id=' + car.id;
+                window.location.href = '#!/car?id=' + car.id;
                 window.location.reload();
             }
         };
@@ -262,7 +262,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
                 $rootScope.$broadcast(Event.Message.Display, 'รถคันนี้หมดอายุการบันทึกข้อมูลแล้ว กรุณาติดต่อผู้ดูแลระบบเพื่อต่ออายุ');
             }
             else {
-                $scope.navigateTo('#/new-repair?car=' + $scope.car.id);
+                $scope.navigateTo('#!/new-repair?car=' + $scope.car.id);
             }
         };
 

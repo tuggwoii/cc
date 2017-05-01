@@ -12,10 +12,10 @@ module.factory('PageService', ['$q', '$http', 'URLS', function ($q, $http, URLS)
                     resolve(cache[key]);
                 }
                 else {
-                    $http.get(URLS.model(service).all).success(function (res) {
-                        cache[key] = res;
-                        resolve(res);
-                    }).error(function (res) {
+                    $http.get(URLS.model(service).all).then(function (res) {
+                        cache[key] = res.data;
+                        resolve(res.data);
+                    }).catch(function (res) {
                         reject(res);
                     });
                 }

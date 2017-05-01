@@ -9,9 +9,10 @@
   "author": "TuGG",
   "license": "ISC",
   "dependencies": {
-    "angular": "1.5.8",
-    "angular-animate": "1.5.8",
-    "angular-cookies": "1.5.8",
+    "angular": "1.6.4",
+    "angular-animate": "1.6.4",
+    "angular-cookies": "1.6.4",
+    "angular-ui-router": "^0.4.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.2",
     "bootstrap": "^3.3.6",
@@ -21,6 +22,7 @@
     "fb": "^1.1.0",
     "ipware": "0.0.8",
     "jimp": "^0.2.27",
+    "jquery": "2.2.4",
     "lity": "^1.6.6",
     "mime": "^1.3.4",
     "multer": "^1.1.0",
@@ -32,11 +34,13 @@
   },
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-sass": "~1.0.0",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-contrib-watch": "~1.0.0",
     "grunt-eslint": "18.1.0",
     "grunt-execute": "^0.2.2",
-    "grunt-open": "^0.2.3",
-    "grunt-contrib-sass": "~1.0.0",
-    "grunt-contrib-watch": "~1.0.0"
+    "grunt-open": "^0.2.3"
   },
   "repository": {
     "url": "https://github.com/tuggwoii/cc.git",

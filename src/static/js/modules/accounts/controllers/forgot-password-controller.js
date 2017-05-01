@@ -35,7 +35,7 @@ module.controller('ForgotPasswordController', ['$scope', '$rootScope', '$timeout
                 }
             }
             else {
-                window.location.hash = '#/';
+                window.location.hash = '#!/';
             }
         }
         else {
@@ -46,7 +46,7 @@ module.controller('ForgotPasswordController', ['$scope', '$rootScope', '$timeout
     };
 
     $scope.edit = function () {
-        window.location.href = '#/account';
+        window.location.href = '#!/account';
     };
 
     $scope.submit = function (form) {

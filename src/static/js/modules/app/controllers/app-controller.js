@@ -53,8 +53,8 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                 }
                 $scope.user_ready = true;
             });
-            StringService.getStrings().success(function (strings) {
-                $scope.strings = strings;
+            StringService.getStrings().then(function (res) {
+                $scope.strings = res.data;
                 $scope.strings_ready = true;
             });
             if (error_404 || error_500) {
@@ -63,12 +63,15 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         };
 
         $scope.navigateTo = function (url, isRedirect) {
-            if (url === '#/new-car' && $scope.user.max_car < $('.car-item').length) {
+            if (url === '#!/new-car' && $scope.user.max_car < $('.car-item').length) {
                 $scope.max_car = true;
             }
             else {
                 $scope.max_car = false;
                 if (isRedirect) {
+                    if (url[0] != '/') {
+                        url = '/' + url;
+                    }
                     $rootScope.$broadcast(Event.Load.Display);
                     window.location.href = url;
                 }
@@ -76,7 +79,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                     if (url !== window.location.hash) {
                         $rootScope.$broadcast(Event.Load.Display);
                         if (!window.location.hash) {
-                            if (url == '#/') {
+                            if (url == '#!/') {
                                 window.location.href = '/';
                             }
                             else {
@@ -105,7 +108,6 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                         $scope.uploading = false;
                         $('#fileUpload').val('');
                     }).catch(function (res) {
-                        console.log(res);
                         if (res.error && res.error.message == 'MAX_FILE') {
                             $rootScope.$broadcast(Event.Message.Display, 'พื้นที่เก็บไฟล์สำหรับรถคันนี้เต็มแล้ว กรุณาติดต่อผู้ดูแลระบบเพื่ออัพเกรดพื้นที่เก็บไฟล์');
                         }
@@ -163,10 +165,16 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         });
 
         $scope.logout = function () {
-            $rootScope.$broadcast(Event.Load.Display, 'PAGE_CHANGE');
-            AccountService.logout();
-            $cookies.remove('Authorization', { path: '/' });
-            window.location.href = '/';
+            $rootScope.$broadcast(Event.Load.Display);
+            AccountService.logout().then(function () {
+                $cookies.remove('Authorization', { path: '/' });
+                window.location.href = '/';
+            }).catch(function (err) {
+                $cookies.remove('Authorization', { path: '/' });
+                //window.location.href = '/';
+                console.log(err);
+            });
+           
         };
 
         $scope.loginToggle = function () {
@@ -178,7 +186,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             }
         };
 
-        var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarPage', 'isWorksPage', 'isPage', 'isPaymentPage'];
+        var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarPage', 'isWorksPage', 'isPage', 'isPaymentPage', 'isShopPage'];
         $scope.setNavActive = function (active) {
             angular.forEach(navs, function (n) {
                 if (n === active) {
@@ -199,7 +207,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             else {
                 $scope.mainClass = '';
             }
-            if (location.hash == '/#/' || location.hash == '#/') {
+            if (location.hash == '/#!/' || location.hash == '#!/') {
                 $scope.setNavActive('isHomePage');
             }
             else if (location.hash.indexOf('shares') > -1 || location.href.indexOf('share') > -1) {
@@ -219,6 +227,9 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             }
             else if (location.href.indexOf('payment') > -1) {
                 $scope.setNavActive('isPaymentPage');
+            }
+            else if (location.href.indexOf('shops') > -1) {
+                $scope.setNavActive('isShopPage');
             }
             else {
                 $scope.setNavActive('');

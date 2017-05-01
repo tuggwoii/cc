@@ -111,7 +111,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PaymentService, E
     };
 
     $scope.edit = function (pm) {
-        $scope.navigateTo('#/edit-payment?id=' + pm.id);
+        $scope.navigateTo('#!/edit-payment?id=' + pm.id);
     };
 
     $scope.delete = function (pm) {

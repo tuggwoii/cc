@@ -193,11 +193,11 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.getProvinceByKey = function (key) {
@@ -211,5 +211,15 @@ module.controller('ShareController', ['$scope', '$rootScope', '$q', '$timeout', 
         }
 
         $scope.loadShare();
+
+        $('.see-more').click(function () {
+            $(this).parent('h2').addClass('more');
+            $(this).parent('h2').next().addClass('more');
+        });
+
+        $('.close-more').click(function () {
+            $(this).parent('h2').removeClass('more');
+            $(this).parent('h2').next().removeClass('more');
+        });
         
     }]);

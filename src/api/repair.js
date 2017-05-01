@@ -154,11 +154,12 @@ class RepairApi extends BaseApi {
         return promise;
     }
 
-    getRepairByUserId(id, queries, limits, skip) {
+    getRepairByUserId(queries, limits, skip) {
+        
         var promise = new Promise(function (resolve, reject) {
             Repair.findAll({
                 where: queries,
-                order: [["createdAt", "DESC"]],
+                order: [["date", "DESC"]],
                 include: [
                     { model: Car },
                     { model: Work },
@@ -177,7 +178,7 @@ class RepairApi extends BaseApi {
         return promise;
     }
 
-    countRepairByUserId(id, queries) {
+    countRepairByUserId(queries) {
         var promise = new Promise(function (resolve, reject) {
             Repair.count({
                 where: queries
@@ -197,7 +198,7 @@ class RepairApi extends BaseApi {
                     { model: Car },
                     { model: Work },
                     { model: User },
-                    { model: Shop },
+                    { model: Shop, include: [{ model: File }] },
                     { model: RepairWork, include: [{ model: Work }] },
                     { model: RepairImage, include: [{ model: File }] },
                     { model: Notification }
@@ -225,6 +226,7 @@ class RepairApi extends BaseApi {
             owner: req.user.id,
             price: { }
         };
+
         if (queries['car']) {
             q.for_car = parseInt(queries['car']);
         }
@@ -253,8 +255,8 @@ class RepairApi extends BaseApi {
             _limit = parseInt(queries['limit']);
         }
 
-        context.getRepairByUserId(req.user.id, q, _limit, skip).then(function (data) {
-            context.countRepairByUserId(req.user.id, q).then(function (count) {
+        context.getRepairByUserId(q, _limit, skip).then(function (data) {
+            context.countRepairByUserId(q).then(function (count) {
                 var meta = {
                     count: count,
                     limits: _limit
@@ -362,6 +364,134 @@ class RepairApi extends BaseApi {
         var order_by = [["createdAt", "DESC"]];
         if (queries['sort_column']) {
             order_by = [[queries['sort_column'], queries['sort_order']]];
+        }
+
+        Repair.all({
+            where: CONDITIONS,
+            order: order_by,
+            include: [
+                CAR_ASSOSIATIVE,
+                { model: Work },
+                { model: User, include: [{ model: File }] },
+                { model: RepairWork },
+                SHOP_ASSOSIATIVE,
+                REPAIR_IMAGE_ASSOSIATIVE
+            ],
+            offset: skip,
+            limit: items
+        }).then(function (data) {
+            Repair.count({ where: CONDITIONS, include: [CAR_ASSOSIATIVE, SHOP_ASSOSIATIVE] }).then(function (count) {
+                var meta = {
+                    count: count,
+                    limits: items
+                };
+                context.success(req, res, data, meta, RepairSerializer.share);
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }).catch(function (err) {
+            context.error(req, res, err, 500);
+        });
+    }
+
+    getAllAdmin(context, req, res) {
+        var params = url.parse(req.url, true);
+        var queries = params.query;
+        var items = 20;
+        var p = 1;
+        if (queries['p']) {
+            p = parseInt(queries['p']);
+        }
+        if (queries['limits']) {
+            items = parseInt(queries['limits']);
+        }
+        var skip = items * (p - 1);
+
+        var CONDITIONS = {
+            share: true,
+            price: {},
+            score: {},
+        };
+
+        var SHOP_ASSOSIATIVE = { model: Shop };
+        var CAR_ASSOSIATIVE = { model: Car, include: [{ model: File }] };
+        var REPAIR_IMAGE_ASSOSIATIVE = { model: RepairImage, include: [{ model: File }] };
+
+        if (queries['work']) {
+            CONDITIONS.work = parseInt(queries['work']);
+        }
+        if (queries['province']) {
+            SHOP_ASSOSIATIVE.where = { province: queries['province'] }
+        }
+        if (queries['lp']) {
+            CONDITIONS.price.$gte = parseInt(queries['lp']);
+        }
+        if (queries['hp']) {
+            CONDITIONS.price.$lte = parseInt(queries['hp']);
+        }
+        if (!CONDITIONS.price.$gte && !CONDITIONS.price.$lte) {
+            delete CONDITIONS['price'];
+        }
+        if (queries['rating']) {
+            CONDITIONS.score.$gte = parseInt(queries['rating']);
+        }
+        if (!CONDITIONS.score.$gte) {
+            delete CONDITIONS['score'];
+        }
+        if (queries['hasimage']) {
+            CONDITIONS = {
+                $and: [
+                    sequelize.where(sequelize.literal('(SELECT COUNT(*) FROM repair_images WHERE repair_images.repairId = repairs.id)'), { $gte: 1 }),
+                    CONDITIONS
+                ]
+            }
+        }
+        if (queries['months'] && queries['year']) {
+            CAR_ASSOSIATIVE.where = {
+                $or: []
+            }
+            var _months = queries['months'].split(',');
+            for (var i = 0; i < _months.length; i++) {
+                var fdate = new Date(parseInt(queries['year']) - 543, parseInt(_months[i]), 1);
+                var bdate = new Date(parseInt(queries['year']) - 543, parseInt(_months[i]) + 1, 1)
+                CAR_ASSOSIATIVE.where.$or.push({
+                    $and: [
+                        {
+                            exp_date: {
+                                $gte: fdate
+                            }
+                        },
+                        {
+                            exp_date: {
+                                $lte: bdate
+                            }
+                        }
+                    ]
+                });
+            }
+        }
+        if (queries['q']) {
+            var AND_CONDITION = CONDITIONS;
+            CONDITIONS = {};
+            CONDITIONS.$and = [
+                AND_CONDITION,
+                {
+                    $or: [
+                        { title: { like: '%' + queries['q'] + '%' } },
+                        sequelize.where(sequelize.literal('(SELECT brand FROM cars WHERE repairs.carId = cars.id)'), { like: '%' + queries['q'] + '%' }),
+                        sequelize.where(sequelize.literal('(SELECT serial FROM cars WHERE repairs.carId = cars.id)'), { like: '%' + queries['q'] + '%' })
+                    ]
+                }
+            ]
+        }
+
+        var order_by = [["createdAt", "DESC"]];
+        if (queries['sort_column']) {
+            order_by = [[queries['sort_column'], queries['sort_order']]];
+            if (queries['sort_column'] == 'exp_date') {
+                order_by = [[CAR_ASSOSIATIVE, 'exp_date', queries['sort_order'] ? queries['sort_order'] : 'ASC']]
+                console.log(order_by);
+            }
         }
 
         Repair.all({
@@ -866,7 +996,8 @@ class RepairApi extends BaseApi {
             { url: '/repairs/image', method: 'delete', roles: ['admin', 'user'], response: this.deleteImage, params: ['id'] },
             { url: '/repairs/image', method: 'patch', roles: ['admin', 'user'], response: this.updateImage },
             { url: '/repair/shops', method: 'get', roles: ['admin', 'user'], response: this.getPreviousShop },
-            { url: '/repairs/view', method: 'patch', roles: [], response: this.viewCount, params: ['id'] }
+            { url: '/repairs/view', method: 'patch', roles: [], response: this.viewCount, params: ['id'] },
+            { url: '/admin/repairs', method: 'get', roles: ['admin'], response: this.getAllAdmin }
         ];
     }
 }

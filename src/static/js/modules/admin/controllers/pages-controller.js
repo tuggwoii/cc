@@ -67,7 +67,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PagesService, Eve
 
     $scope.edit = function (page) {
         if (page.isStatic) {
-            $scope.navigateTo('#/edit-page?id=' + page.id);
+            $scope.navigateTo('#!/edit-page?id=' + page.id);
         }
     };
 

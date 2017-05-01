@@ -10,14 +10,15 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li class="menu-item {{isHomePage?'active':''}}"><a href="/#/">Home</a></li>
-                <li class="menu-item {{isSharePage?'active':''}}"><a href="/#/shares">Share</a></li>
+                <li class="menu-item {{isHomePage?'active':''}}"><a href="/#!/">Home</a></li>
+                <li class="menu-item {{isSharePage?'active':''}}"><a href="/#!/shares">Share</a></li>
+                <li class="menu-item {{isShopPage?'active':''}}"><a href="/#!/shops">Shops</a></li>
                 <li class="menu-item {{m.isActive?'active':''}}" ng-repeat="m in menu"><a href="{{m.url}}">{{m.name}}</a></li>
                 <li class="menu-item {{isPaymentPage?'active':''}}" ng-if="user.id"><a href="/payment">Payment</a></li>
                 <li>
                     <div class="login-button-container" ng-if="!user.id" ng-controller="LoginController">
                         <button type="button" class="btn btn-menu btn-default" ng-click="loginToggle()">{{strings['login']}}</button>
-                        <button type="button" class="btn btn-menu btn-success hidden-lg hidden-md hidden-sm" ng-click="navigateTo('#/register')">สมัครฟรี</button>
+                        <button type="button" class="btn btn-menu btn-success hidden-lg hidden-md hidden-sm" ng-click="navigateTo('#!/register')">สมัครฟรี</button>
                         <button type="button" class="btn btn-menu btn-info hidden-lg hidden-md hidden-sm" ng-click="facebookLoginClick()">สมัครด้วย <img src="/img/fb-icon.png" /></button>
                         <div class="login-popup animated fadeIn" ng-include="'/partials/login.html'" ng-show="displayLogin"></div>
                     </div>

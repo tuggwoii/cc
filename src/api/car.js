@@ -12,7 +12,6 @@ var RepairImage = require('../database/models').RepairImage;
 var File = require('../database/models').File;
 
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
-//shortid.generate();
 var limits = 100;
 
 class CarApi extends BaseApi {
@@ -157,7 +156,6 @@ class CarApi extends BaseApi {
         return promise;
     }
 
-
     getByUser (context, req, res) {
         context.getCarByUserId(req.user.id).then(function (data) {
             context.success(req, res, data, {}, CarSerializer.default);
@@ -266,10 +264,6 @@ class CarApi extends BaseApi {
             color: data.color,
             detail: data.detail
         };
-        if (owner.role.id == 1) {
-            model.exp_date = data.exp_date;
-            model.max_file_size = data.max_file_size;
-        }
         if (data.id) {
             model.id = data.id;
         }
@@ -380,8 +374,8 @@ class CarApi extends BaseApi {
                 ]
             }).then(function (_car) {
                 var owner = _car.dataValues.user.dataValues;
-                if (req.user.id === owner.id) {
-                    Car.destroy({ where: { id: req.params.id, owner: req.user.id } }).then(function (model) {
+                if (req.user.id === owner.id || req.user.role.id === 1) {
+                    Car.destroy({ where: { id: req.params.id }}).then(function (model) {
                         context.success(req, res, {});
                     }).catch(function (err) {
                         context.error(req, res, err, 500);

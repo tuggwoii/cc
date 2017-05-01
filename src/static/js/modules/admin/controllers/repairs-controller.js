@@ -1,6 +1,6 @@
 ﻿'use strict';
-module.controller('RepairsController', ['$scope', '$rootScope', '$timeout', '$q', 'RepairService', 'ShareService', 'Helper', 'Event',
-function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper, Event) {
+module.controller('RepairsController', ['$scope', '$rootScope', '$timeout', '$q', 'RepairService', 'Helper', 'Event',
+function ($scope, $rootScope, $timeout, $q, RepairService, Helper, Event) {
 
     $scope.query = {
         p: 1,
@@ -13,15 +13,16 @@ function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper,
         limits: 100,
         months: ''
     };
-
+    
     $scope.status = {
-        loading: false
+        loading: false,
+        showSize: false
     };
 
     $scope.months = Helper.getMonthListAsKeyPair();
 
-    function loadUsers(isPaging) {
-        ShareService.get($scope.query.p, $scope.query).then(function (res) {
+    function loadRepairs(isPaging) {
+        RepairService.getAdmin($scope.query.p, $scope.query).then(function (res) {
             if (app.debug) {
                 console.log('GET REPAIRS', res);
             }
@@ -42,7 +43,7 @@ function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper,
 
     function loadResources() {
         $q.all([
-            loadUsers()
+            loadRepairs()
         ]).then(function () {
             $scope.displayView();
         });
@@ -103,7 +104,13 @@ function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper,
     $scope.search = function () {
         $scope.status.loading = true;
         $scope.query.p = 1;
-        ShareService.get($scope.query.p, $scope.query).then(function (res) {
+        if ($scope.query.hasimage) {
+            $scope.status.showSize = true;
+        }
+        else {
+            $scope.status.showSize = false;
+        }
+        RepairService.getAdmin($scope.query.p, $scope.query).then(function (res) {
             if (app.debug) {
                 console.log('GET REPAIRS', res);
             }
@@ -122,18 +129,18 @@ function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper,
         })
     };
 
-    $scope.usersPage = function () {
+    $scope.repairsPage = function () {
         if ($scope.user_ready) {
             if (isValid()) {
                 loadResources();
             }
             else {
-                window.location.hash = '/admin#/';
+                window.location.hash = '/admin#!/';
             }
         }
         else {
             $timeout(function () {
-                $scope.usersPage();
+                $scope.repairsPage();
             }, 1000);
         }
     };
@@ -154,7 +161,7 @@ function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper,
         if (page != $scope.query.p) {
             $scope.query.p = page;
             $rootScope.$broadcast(Event.Load.Display);
-            loadUsers(true);
+            loadRepairs(true);
         }
     };
 
@@ -197,7 +204,7 @@ function ($scope, $rootScope, $timeout, $q, RepairService, ShareService, Helper,
         $('.imageCheckbox').prop('checked', true);
     };
 
-    $scope.usersPage();
+    $scope.repairsPage();
 
 
 }]);

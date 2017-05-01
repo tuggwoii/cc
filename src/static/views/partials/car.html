@@ -10,7 +10,7 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    <a ng-click="navigateTo('#!/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li>{{strings['nav_car']}}</li>
             </ul>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/edit-car?id=' + car.id)">
+                <button class="btn btn-danger edit-link" ng-click="navigateTo('#!/edit-car?id=' + car.id)">
                     แก้ไขข้อมูล
                 </button>
             </div>
@@ -94,8 +94,8 @@
                     </h4>
                     <p class="nodata" ng-if="!noti_miles.length">{{strings['no_data']}}</p>
                     <ul ng-if="noti_miles.length" class="notilist">
-                        <li ng-repeat="n in noti_miles" ng-click="navigateTo('#/notification?id='+n.id + '&car=' + car.id)">
-                            <a href="#/notification?id={{n.id}}&car={{car.id}}">
+                        <li ng-repeat="n in noti_miles" ng-click="navigateTo('#!/notification?id='+n.id + '&car=' + car.id)">
+                            <a href="#!/notification?id={{n.id}}&car={{car.id}}">
                                 <span>กม.ที่ {{n.mile.formatMoney(0, '.', ',')}} | </span>
                                 <span class="title">{{n.title}}</span>
                                 <!--<span class="title">{{n.title}}</span>
@@ -123,8 +123,8 @@
                     </h4>
                     <p class="nodata" ng-if="!noti_date.length">{{strings['no_data']}}</p>
                     <ul class="notilist" ng-if="noti_date.length">
-                        <li ng-repeat="n in noti_date" ng-click="navigateTo('#/notification?id='+n.id + '&car=' + car.id)">
-                            <a href="#/notification?id={{n.id}}&car={{car.id}}">
+                        <li ng-repeat="n in noti_date" ng-click="navigateTo('#!/notification?id='+n.id + '&car=' + car.id)">
+                            <a href="#!/notification?id={{n.id}}&car={{car.id}}">
                                 <span>{{n.date_str}} | </span>
                                 <span class="title">{{n.title}}</span>
                                 
@@ -146,7 +146,7 @@
                         <li ng-click="gotoDatePage(datePagings.length)">>></li>
                     </ul>
                 </div>
-                <button class="btn btn-danger edit-link" ng-click="navigateTo('#/new-notification?car=' + car.id)">
+                <button class="btn btn-danger edit-link" ng-click="navigateTo('#!/new-notification?car=' + car.id)">
                     <i class="fa fa-plus"></i>
                     สร้าง
                 </button>
@@ -178,34 +178,36 @@
                         <thead>
                             <tr>
                                 <td>วันที่เข้าทำ</td>
+                                <td>ชื่อรายการ</td>
                                 <td>ร้านที่ทำ</td>
                                 <td>เลข กม.</td>
                                 <td>รวมราคา</td>
-                                <td>หมายเหตุ</td>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="repair in repairs" ng-click="navigateTo('#/repair?id=' + repair.id + '&car='+ car.id)">
+                            <tr ng-repeat="repair in repairs" ng-click="navigateTo('#!/repair?id=' + repair.id + '&car='+ car.id)">
                                 <td>
-                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.date_str}}</a>
+                                    <a href="#!/repair?id={{repair.id}}&car={{ car.id}}">{{repair.date_str}}</a>
                                 </td>
                                 <td>
-                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.shop?repair.shop.name:'ไม่ระบุ'}}</a>
+                                    <a href="#!/repair?id={{repair.id}}&car={{ car.id}}">{{repair.title?repair.title:'-'}}</a>
                                 </td>
                                 <td>
-                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.mile?repair.mile.formatMoney(0, '.', ','):'ไม่ระบุ'}}</a>
+                                    <a href="#!/repair?id={{repair.id}}&car={{ car.id}}">{{repair.shop?repair.shop.name:'ไม่ระบุ'}}</a>
                                 </td>
                                 <td>
-                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.price?repair.price.formatMoney(0, '.', ','):'0'}}</a>
+                                    <a href="#!/repair?id={{repair.id}}&car={{ car.id}}">{{repair.mile?repair.mile.formatMoney(0, '.', ','):'ไม่ระบุ'}}</a>
                                 </td>
                                 <td>
-                                    <a href="#/repair?id={{repair.id}}&car={{ car.id}}">{{repair.remark?repair.remark:'-'}}</a>
+                                    <a href="#!/repair?id={{repair.id}}&car={{ car.id}}">{{repair.price?repair.price.formatMoney(0, '.', ','):'0'}}</a>
                                 </td>
+                                
                             </tr>
                         </tbody>
                     </table>
                     <ul ng-if="repairs.length" class="hidden-lg hidden-md car-repair-list">
-                        <li ng-repeat="repair in repairs" ng-click="navigateTo('#/repair?id=' + repair.id + '&car='+ car.id)">
+                        <li ng-repeat="repair in repairs" ng-click="navigateTo('#!/repair?id=' + repair.id + '&car='+ car.id)">
                             <span class="notification-detail repair-list-detail">
                                 <span class="block">
                                     <span class="date">{{strings['repair_date_label']}}: {{repair.date_str}}, </span>
@@ -250,8 +252,8 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="shop in shops">
-                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}&cd=true">{{shop.name}}</a></td>
-                                <td><a href="#/shop?id={{shop.id}}&car={{car.id}}&cd=true">{{shop.province?shop.province_str:'ไม่ระบุ'}}</a></td>
+                                <td><a href="#!/shop?id={{shop.id}}&car={{car.id}}&cd=true">{{shop.name}}</a></td>
+                                <td><a href="#!/shop?id={{shop.id}}&car={{car.id}}&cd=true">{{shop.province?shop.province_str:'ไม่ระบุ'}}</a></td>
                             </tr>
                         </tbody>
                     </table>

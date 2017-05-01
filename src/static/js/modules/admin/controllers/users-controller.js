@@ -93,7 +93,7 @@ function ($scope, $rootScope, $timeout, $q, AccountService, Helper, Event) {
                 loadResources();
             }
             else {
-                window.location.hash = '/admin#/';
+                window.location.hash = '/admin#!/';
             }
         }
         else {

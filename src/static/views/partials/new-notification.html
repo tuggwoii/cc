@@ -11,13 +11,13 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a ng-click="navigateTo('#/')">{{strings['nav_home']}} ></a>
+                    <a ng-click="navigateTo('#!/')">{{strings['nav_home']}} ></a>
                 </li>
                 <li ng-if="!from_car">
-                    <a ng-click="navigateTo('#/notifications')">{{strings['nav_notifications']}} ></a>
+                    <a ng-click="navigateTo('#!/notifications')">{{strings['nav_notifications']}} ></a>
                 </li>
                 <li ng-if="from_car">
-                    <a ng-click="navigateTo('#/car?id=' + carId)">Car ></a>
+                    <a ng-click="navigateTo('#!/car?id=' + carId)">Car ></a>
                 </li>
                 <li>{{strings['nav_notification']}}</li>
             </ul>

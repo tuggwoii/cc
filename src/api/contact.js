@@ -128,7 +128,7 @@ class ContactApi extends BaseApi {
             if (!isNaN(parseInt(req.params.id))) {
                 context.getById(req.params.id).then(function (data) {
                     if (data) {
-                        if (data.send_by == req.user.id) {
+                        if (data.send_by == req.user.id || req.user.role.id == 1) {
                             context.success(req, res, data);
                         }
                         else {
@@ -162,8 +162,8 @@ class ContactApi extends BaseApi {
                 var id = ids[i];
                 if (id) {
                     Car.findById(id).then(function (_c) {
-                        var date = new Date(_c.exp_date);
-                        date = date.setFullYear(date.getFullYear() + 1);
+                        var date = new Date();//Date(_c.exp_date);
+                        date = date.setFullYear(date.getFullYear() + 2);
                         var update = { exp_date: date };
                         _c.updateAttributes(update).then(function () {
                             current++;

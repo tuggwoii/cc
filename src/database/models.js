@@ -129,6 +129,10 @@ var File = sequelize.define('files', {
         type: Sequelize.BOOLEAN,
         field: 'is_use'
     },
+    is_delete: {
+        type: Sequelize.BOOLEAN,
+        field: 'is_delete'
+    },
     owner: {
         type: Sequelize.INTEGER,
         field: 'userId'
@@ -594,8 +598,12 @@ var Report = sequelize.define('reports', {
         field: 'name'
     },
     message: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         field: 'message'
+    },
+    count: {
+        type: Sequelize.STRING,
+        field: 'count'
     }
 });
 

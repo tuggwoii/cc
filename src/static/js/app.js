@@ -24,7 +24,7 @@ var app = {
             FB.init({
                 appId: '1722927571299619',
                 xfbml: true,
-                version: 'v2.6'
+                version: 'v2.9'
             });
             app.dissmissLoad();
             angular.bootstrap(document, ['app']);

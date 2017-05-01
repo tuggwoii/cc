@@ -15,10 +15,10 @@
     <link href="/css/styles.css" rel="stylesheet" type="text/css" />
 
     <meta property="og:title" content="<%= title %>" />
-    <meta property="og:description" content="<%= remark %>" />
+    <meta property="og:description" content="<%= title %>, ร้าน<%= shop? shop.name : 'ไม่ระบุ' %>, ราคารวม <%= price ? price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,') : 0 %> บาท, <%= score? score :'ไม่ระบุ' %> ดาว" />
     <meta property="og:type" content="content" />
     <meta property="og:url" content="http://www.carcarenote.com/share/<%= id %>" />
-    <meta property="og:image" content="http://www.carcarenote.com<%= car.image?car.image.url:'/img/no-photo.jpg' %>" />
+    <meta property="og:image" content="http://www.carcarenote.com<%= repair_images.length ? repair_images[0].file.url : (car.image.url? car.image.url:'')  %>" />
 </head>
 <body class="app" ng-controller="AppController">
     <div class="screen {{viewReady?'fadeIn':''}}">
@@ -31,10 +31,10 @@
                     <div class="breadcrumb">
                         <ul>
                             <li>
-                                <a ng-click="navigateTo('/#/')">{{strings['nav_home']}} ></a>
+                                <a ng-click="navigateTo('/#!/')">{{strings['nav_home']}} ></a>
                             </li>
                             <li>
-                                <a ng-click="navigateTo('/#/shares')">{{strings['nav_share']}} ></a>
+                                <a ng-click="navigateTo('/#!/shares')">{{strings['nav_share']}} ></a>
                             </li>
                             <li>
                                 <%= title %>
@@ -55,16 +55,24 @@
                         </h1>
 
                         <div class="social">
-                            <!-- Go to www.addthis.com/dashboard to customize your tools -->
-                            <div class="addthis_inline_share_toolbox_2cav"></div>
+                            <div class="fb-share-button"
+                                 data-href="http://www.carcarenote.com/share/<%= id %>"
+                                 data-layout="button_count"
+                                 data-size="large"
+                                 data-mobile-iframe="true"
+                                 >
+                            </div>
+                            <!--
+
+                            <div class="addthis_inline_share_toolbox_2cav"></div>-->
                         </div>
 
                         <h2><i class="fa fa-car"></i> รถที่ทำการซ่อมบำรุง</h2>
-                        <div class="detail-section">
-                            <div class="image" ng-click="simpleLightbox('<%= car.image?car.image.url:'/img/no-photo.jpg' %>')">
+                        <div class="detail-section" id="share-car">
+                            <div id="share-car-image" class="image" ng-click="simpleLightbox('<%= car.image?car.image.url:'/img/no-photo.jpg' %>')">
                                 <img src="<%= car.image?car.image.url:'/img/no-photo.jpg' %>" alt="car-image" />
                             </div>
-                            <div class="info">
+                            <div class="info not-mobile">
                                 <div class="title">
                                     <label>ยี่ห้อ: </label>
                                     <span><%= car.brand %></span>
@@ -73,13 +81,47 @@
                                     <label>รุ่น: </label>
                                     <span><%= car.series %></span>
                                 </div>
-                                <div class="title">
+                                <div class="title" ng-if="user.role.id==1">
                                     <label>ทะเบียน: </label>
                                     <span><%= car.serial %></span>
                                 </div>
                                 <div class="title">
                                     <label>สีตัวรถ: </label>
                                     <span><%= car.color %></span>
+                                </div>
+                                <div class="title up-top">
+                                    <label>แชร์โดย: </label>
+                                    <span>
+                                        <span id="sm-image">
+                                            <img ng-click="simpleLightbox('<%= user.image?user.image.url:'/img/noprofile.png' %>')" src="<%= user.image?user.image.url:'/img/noprofile.png' %>" alt="user-image" />
+                                        </span>
+                                        
+                                        <%= user.name %> เมื่อ <time val="'<%= createdAt %>'"></time>
+                                    </span>
+                                </div>
+                                <div class="title up-top"  ng-if="user.role.id==1">
+                                    <label>อัพเด็ดล่าสุดเมื่อ: </label>
+                                    <time val="'<%= updatedAt %>'"></time>
+                                </div>
+                            </div>
+                            <div class="info is-mobile">
+                                <div class="title">
+                                    <label>รถ: </label>
+                                    <span><%= car.brand %> <%= car.series %> สี<%= car.color?car.color: '-' %></span>
+                                </div>
+                                <div class="title"  ng-if="user.role.id==1">
+                                    <span><%= car.serial %></span>
+                                </div>
+
+                                <div class="title up-top">
+                                    <label>แชร์โดย: </label>
+                                    <span>
+                                        <span id="sm-image">
+                                            <img ng-click="simpleLightbox('<%= user.image?user.image.url:'/img/noprofile.png' %>')" src="<%= user.image?user.image.url:'/img/noprofile.png' %>" alt="user-image" />
+                                        </span>
+
+                                        <%= user.name %> เมื่อ <time val="'<%= createdAt %>'"></time>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -110,22 +152,35 @@
                             </div>
                         </div>
 
-                        <h2><i class="fa fa-map-marker" aria-hidden="true"></i> ร้านที่ทำการซ่อมบำรุง</h2>
-                        <div class="detail-section">
+                        <h2>
+                            <i class="fa fa-map-marker" aria-hidden="true"></i> 
+                            ร้านที่ทำการซ่อมบำรุง
+                            <span class="see-more">
+                                ดูทั้งหมด
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                            <span class="close-more">
+                                ปิด
+                                <i class="fa fa-angle-up" aria-hidden="true"></i>
+                            </span>
+                        </h2>
+                        <div class="detail-section share-shop-section">
                             <% if(shop) {%>
-                            <div class="image" ng-click="simpleLightbox('<%= shop.file?shop.file.url:'/img/no-photo.jpg'%>')">
-                                <img src="<%= shop.file?shop.file.url:'/img/no-photo.jpg' %>" alt="shop-image" />
-                            </div>
-                            <div class="info">
+                                <% if(shop.file) {%>
+                                    <div class="image" ng-click="simpleLightbox('<%= shop.file?shop.file.url:'/img/no-photo.jpg'%>')">
+                                        <img src="<%= shop.file?shop.file.url:'/img/no-photo.jpg' %>" alt="shop-image" />
+                                    </div>
+                                <% } %>
+                            <div class="info" style="<%= shop.file? '' : 'padding-left:0;width:100%;'%>">
                                 <div class="title">
                                     <label>ชื่อร้าน: </label>
                                     <span><%= shop.name %></span>
                                 </div>
-                                <div class="title">
+                                <div class="title shop-sm-hide">
                                     <label>เจ้าของร้าน: </label>
                                     <span><%= shop.owner_name? shop.owner_name:'ไม่ระบุ' %></span>
                                 </div>
-                                <div class="title">
+                                <div class="title shop-sm-hide">
                                     <label>ที่อยู่: </label>
                                     <span><%= shop.address? shop.address:'ไม่ระบุ' %></span>
                                 </div>
@@ -133,14 +188,10 @@
                                     <label>จังหวัด: </label>
                                     <span><%= shop.province? '{{getProvinceByKey("'+shop.province+'")}}':'ไม่ระบุ' %></span>
                                 </div>
-                                <div class="title">
+                                <div class="title shop-sm-hide">
                                     <label>เบอร์โทรศัพท์: </label>
                                     <span><%= shop.telephone? shop.telephone:'ไม่ระบุ' %></span>
                                 </div>
-                                <!--<div class="title">
-                                    <label>Rating: </label>
-                                    <rating-star rating="<%= shop.rating %>"></rating-star>
-                                </div>-->
                             </div>
                             <% } %>
                             <% if(!shop) {%>
@@ -213,32 +264,6 @@
                             <p>ยังไม่มีรูป</p>
                             <% } %>
 
-                        </div>
-
-
-                        <h2><i class="fa fa-user"></i> แชร์โดย</h2>
-                        <div class="detail-section">
-                            <div class="image" ng-click="simpleLightbox('<%= user.image?user.image.url:'/img/noprofile.png' %>')">
-                                <img src="<%= user.image?user.image.url:'/img/noprofile.png' %>" alt="user-image" />
-                            </div>
-                            <div class="info">
-                                <div class="title">
-                                    <label>แชร์โดย: </label>
-                                    <span><%= user.name %></span>
-                                </div>
-                                <div class="title">
-                                    <label>ทำเมื่อ: </label>
-                                    <time val="'<%= date %>'" dateonly="true"></time>
-                                </div>
-                                <div class="title">
-                                    <label>แชร์เมื่อ: </label>
-                                    <time val="'<%= createdAt %>'"></time>
-                                </div>
-                                <div class="title">
-                                    <label>อัพเด็ดล่าสุดเมื่อ: </label>
-                                    <time val="'<%= updatedAt %>'"></time>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

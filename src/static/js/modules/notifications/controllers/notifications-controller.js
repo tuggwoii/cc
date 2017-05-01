@@ -46,7 +46,7 @@ function ($scope, $timeout, $rootScope, $q, NotificationService, CarService, Wor
                 $scope.getAll();
             }
             else {
-                window.location.hash = '#/';
+                window.location.hash = '#!/';
             }
         }
         else {
@@ -128,7 +128,7 @@ function ($scope, $timeout, $rootScope, $q, NotificationService, CarService, Wor
     };
 
     $scope.pickCar = function (car) {
-        $scope.navigateTo('#/car?id=' + car.id);
+        $scope.navigateTo('#!/car?id=' + car.id);
     };
 
     $scope.carFilter = function (car) {

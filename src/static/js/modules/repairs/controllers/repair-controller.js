@@ -131,7 +131,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                     getById();
                 }
                 else {
-                    window.location.hash = '#/';
+                    window.location.hash = '#!/';
                 }
             }
             else {
@@ -238,7 +238,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.rated = function (score) {
@@ -325,10 +325,10 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
             $rootScope.$broadcast(Event.Confirm.Display, function () {
                 RepairService.delete($scope.model.id).then(function (res) {
                     if ($scope.from_car) {
-                        window.location.hash = '#car?id=' + $scope.carId;
+                        window.location.hash = '#!/car?id=' + $scope.carId;
                     }
                     else if(window.location.href.toLowerCase().indexOf('admin') > -1) {
-                        window.location.href = '/admin#/repairs';
+                        window.location.href = '/admin#!/repairs';
                     }
                     else {
                         window.location.href = '/';
@@ -345,7 +345,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         $scope.impersonate = function () {
             AccountService.AccountService({ id: $scope.model.user.id }).then(function (res) {
                 AccountService.setAuthenticationToken(res).then(function () {
-                    window.location.href = '/#/repair?id=' + $scope.model.id;
+                    window.location.href = '/#!/repair?id=' + $scope.model.id;
                 });
             }).catch(function () {
                 $rootScope.$broadcast(Event.Load.Dismiss);
@@ -356,7 +356,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         };
 
         $scope.back = function () {
-            $scope.navigateTo('#/car?id=' + $scope.model.for_car);
+            $scope.navigateTo('#!/car?id=' + $scope.model.for_car);
         };
 
         $scope.$on(Event.File.Success, $scope.saveImage);

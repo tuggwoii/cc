@@ -50,7 +50,7 @@ module.controller('NotificationController', ['$scope', '$rootScope', '$timeout',
                     getById();
                 }
                 else {
-                    window.location.hash = '#/';
+                    window.location.hash = '#!/';
                 }
             }
             else {
@@ -61,7 +61,7 @@ module.controller('NotificationController', ['$scope', '$rootScope', '$timeout',
         };
 
         $scope.pickCar = function (car) {
-            $scope.navigateTo('#/car?id=' + car.id);
+            $scope.navigateTo('#!/car?id=' + car.id);
         };
 
         $scope.notificationPage();

@@ -47,7 +47,7 @@ function ($scope, $rootScope, $timeout, $q, WorkgroupService, Event) {
                 loadResources();
             }
             else {
-                window.location.hash = '/admin#/';
+                window.location.hash = '/admin#!/';
             }
         }
         else {
