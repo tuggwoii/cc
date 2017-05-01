@@ -5503,6 +5503,9 @@ var ShareWorkSlide = function () {
                         if (s.province == p.key) {
                             s.province_str = p.th;
                         }
+                        if (s.image) {
+                            s.file = s.image;
+                        }
                     })
                 });
             }
@@ -8437,6 +8440,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
 
         $scope.openShop = function () {
             $rootScope.$broadcast(Event.Shop.DisplayPopup, $scope.previous_shops, function (shop) {
+                console.log(shop);
                 $scope.model.shop = shop;
                 $timeout(function () {
                     $scope.save();

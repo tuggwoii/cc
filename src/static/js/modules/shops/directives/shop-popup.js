@@ -15,6 +15,9 @@
                         if (s.province == p.key) {
                             s.province_str = p.th;
                         }
+                        if (s.image) {
+                            s.file = s.image;
+                        }
                     })
                 });
             }

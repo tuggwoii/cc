@@ -172,6 +172,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
 
         $scope.openShop = function () {
             $rootScope.$broadcast(Event.Shop.DisplayPopup, $scope.previous_shops, function (shop) {
+                console.log(shop);
                 $scope.model.shop = shop;
                 $timeout(function () {
                     $scope.save();
