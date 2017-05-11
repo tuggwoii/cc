@@ -9,6 +9,7 @@ var BaseApi = require('./base');
 var url = require('url');
 var shortid = require('shortid');
 var RepairImage = require('../database/models').RepairImage;
+var Setting = require('../database/models').Setting;
 var File = require('../database/models').File;
 
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
@@ -396,19 +397,22 @@ class CarApi extends BaseApi {
     add (context, req, res) {
         var data = context.model(req.body, req.user);
         context.validateCreate(req, data).then(function () {
-            var exp_date = new Date();
-            exp_date.setFullYear(exp_date.getFullYear() + 1);
-            data.exp_date = exp_date;
-            Car.create(data, { isNewRecord: true }).then(function (model) {
-                context.success(req, res, model, {}, CarSerializer.default);
+            Setting.all().then(function (_setting) {
+                var setting = { y: _setting[0].exp_year, m: _setting[0].exp_month};
+                var exp_date = new Date();
+                exp_date.setMonth(exp_date.getMonth() + setting.m)
+                exp_date.setFullYear(exp_date.getFullYear() + setting.y);
+                data.exp_date = exp_date;
+                Car.create(data, { isNewRecord: true }).then(function (model) {
+                    context.success(req, res, model, {}, CarSerializer.default);
+                }).catch(function (err) {
+                    context.error(req, res, err, 500);
+                });
             }).catch(function (err) {
                 context.error(req, res, err, 500);
             });
         }).catch(function (err) {
-            var error = {
-                message: err
-            };
-            context.error(req, res, error, 400);
+            context.error(req, res, { message: err }, 400);
         });
     }
 

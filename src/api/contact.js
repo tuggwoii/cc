@@ -3,6 +3,7 @@ var BaseApi = require('./base');
 var Contact = require('../database/models').Contact;
 var User = require('../database/models').User;
 var Car = require('../database/models').Car;
+var Setting = require('../database/models').Setting;
 var MailHelper = require('../helpers/email');
 var DateHelper = require('../helpers/date');
 var url = require('url');
@@ -158,33 +159,37 @@ class ContactApi extends BaseApi {
             if (total == 0) {
                 resolve();
             }
-            for (var i = 0; i < ids.length; i++) {
-                var id = ids[i];
-                if (id) {
-                    Car.findById(id).then(function (_c) {
-                        var date = new Date();//Date(_c.exp_date);
-                        date = date.setFullYear(date.getFullYear() + 2);
-                        var update = { exp_date: date };
-                        _c.updateAttributes(update).then(function () {
+            Setting.all().then(function (_setting) {
+                var setting = { y: _setting[0].exp_year, m: _setting[0].exp_month };
+                for (var i = 0; i < ids.length; i++) {
+                    var id = ids[i];
+                    if (id) {
+                        Car.findById(id).then(function (_c) {
+                            var date = new Date();
+                            date.setMonth(date.getMonth() + setting.m)
+                            date.setFullYear(date.getFullYear() + setting.y);
+                            var update = { exp_date: date };
+                            _c.updateAttributes(update).then(function () {
+                                current++;
+                                if (current == total) {
+                                    resolve();
+                                }
+                            });
+                        }).catch(function () {
                             current++;
                             if (current == total) {
                                 resolve();
                             }
                         });
-                    }).catch(function () {
+                    }
+                    else {
                         current++;
-                        if(current == total) {
+                        if (current == total) {
                             resolve();
                         }
-                    });
-                }
-                else {
-                    current++;
-                    if(current == total) {
-                        resolve();
                     }
                 }
-            }
+            });
         });
         return promise;
     }

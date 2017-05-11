@@ -91,6 +91,7 @@
     <Compile Include="src\api\repair.js" />
     <Compile Include="src\api\report.js" />
     <Compile Include="src\api\role.js" />
+    <Compile Include="src\api\setting.js" />
     <Compile Include="src\api\shop.js" />
     <Compile Include="src\api\static.js" />
     <Compile Include="src\api\work.js" />
@@ -197,10 +198,14 @@
     <Compile Include="src\static\js\modules\admin\controllers\payment-controller.js" />
     <Compile Include="src\static\js\modules\admin\controllers\repairs-controller.js" />
     <Compile Include="src\static\js\modules\admin\controllers\reports-controller.js" />
+    <Compile Include="src\static\js\modules\admin\controllers\settings-controller.js" />
     <Compile Include="src\static\js\modules\admin\controllers\user-controller.js" />
     <Compile Include="src\static\js\modules\admin\controllers\users-controller.js" />
     <Compile Include="src\static\js\modules\admin\controllers\works-controller.js" />
     <Compile Include="src\static\js\modules\admin\services\pages.js" />
+    <Compile Include="src\static\js\modules\admin\services\settings.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\static\js\modules\apis\services\urls.js" />
     <Compile Include="src\static\js\modules\app\controllers\app-controller.js" />
     <Compile Include="src\static\js\modules\app\controllers\index-controller.js" />
@@ -593,6 +598,7 @@
     <Content Include="src\static\views\backend\repair.html" />
     <Content Include="src\static\views\backend\repairs.html" />
     <Content Include="src\static\views\backend\reports.html" />
+    <Content Include="src\static\views\backend\settings.html" />
     <Content Include="src\static\views\backend\user.html" />
     <Content Include="src\static\views\backend\users.html" />
     <Content Include="src\static\views\backend\works.html" />

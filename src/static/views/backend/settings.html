@@ -1,0 +1,56 @@
+﻿<div class="container backend-user">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('#!/')">Admin ></a>
+            </li>
+            <li>
+                Settings
+            </li>
+        </ul>
+    </div>
+
+    <div class="subpage" ng-controller="SettingsController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>Settings</span>
+        </h1>
+
+        <div class="row users-list">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4>เพิ่มวันหมดอายุในแต่ละครั้งของการต่ออายุ</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>ปี</label>
+                            <input type="number" min="0" placeholder="จำนวนปี" class="form-control" ng-model="model.y" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>เดือน</label>
+                            <input type="number" min="0" placeholder="จำนวนเดือน" class="form-control" ng-model="model.m" />
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger setting-btn" ng-click="update()">บันทึก</button>
+            </div>
+            <hr/>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4>เพิ่มวันหมดอายุให้รถทุกคัน</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>ปี</label>
+                            <input type="number" min="0" placeholder="จำนวนปี" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>เดือน</label>
+                            <input type="number" max="12" min="0" placeholder="จำนวนเดือน" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger setting-btn">เพิ่มทันที</button>
+            </div>
+
+        </div>
+    </div>
+</div>

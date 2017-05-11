@@ -1,5 +1,6 @@
 'use strict';
 var Log = require('../helpers/log');
+
 class BaseApi {
 
     serializer (data) {

@@ -607,6 +607,31 @@ var Report = sequelize.define('reports', {
     }
 });
 
+var Setting = sequelize.define('settings', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        field: 'id'
+    },
+    createdAt: {
+        type: Sequelize.DATE,
+        field: 'createdAt'
+    },
+    updatedAt: {
+        type: Sequelize.DATE,
+        field: 'updatedAt'
+    },
+    exp_year: {
+        type: Sequelize.INTEGER,
+        field: 'expYear',
+        allowNull: true
+    },
+    exp_month: {
+        type: Sequelize.INTEGER,
+        field: 'expMonth'
+    }
+});
+
 User.belongsTo(Role, { foreignKey: 'user_role' });
 User.belongsTo(File, { foreignKey: 'image' });
 User.hasMany(Car, { foreignKey: 'owner' });
@@ -654,3 +679,4 @@ exports.RepairWork = RepairWork;
 exports.RepairImage = RepairImage;
 exports.Contact = Contact;
 exports.Report = Report;
+exports.Setting = Setting;
