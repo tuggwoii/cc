@@ -78,10 +78,10 @@ module.controller('SettingsController', ['$scope', '$rootScope', '$timeout', '$q
     $scope.set = function () {
         $rootScope.$broadcast(Event.Confirm.Display, function () {
             $rootScope.$broadcast(Event.Load.Display);
-            SettingsService.setAllCar($scope.model).then(function () {
+            SettingsService.setAllCar($scope.exp_car).then(function () {
                 $rootScope.$broadcast(Event.Load.Dismiss);
             });
-        });
+        }, 'ยืนยันการเพิ่มวันหมดอายุให้รถทุกคันหรือไม่?');
     };
 
     settingsPage();
