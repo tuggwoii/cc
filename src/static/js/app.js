@@ -33,9 +33,9 @@ var app = {
     dissmissLoad:function () {
         setTimeout(function () {
             $('.fakeLoad').remove();
-        }, 500);
+        }, 0);
     },
-    debug: true
+    debug: false
 };
 $(document).ready(function () {
     app.init();

@@ -5179,9 +5179,9 @@ var app = {
     dissmissLoad:function () {
         setTimeout(function () {
             $('.fakeLoad').remove();
-        }, 500);
+        }, 0);
     },
-    debug: true
+    debug: false
 };
 $(document).ready(function () {
     app.init();
@@ -6798,7 +6798,7 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
 }]);;'use strict';
 module.factory('URLS', function () {
     var base = '/api/v1/';
-    var models = ['cars', 'files', 'workgroup', 'notifications', 'repairs', 'shops', 'works', 'shares', 'pages', 'contacts', 'reports'];
+    var models = ['cars', 'files', 'workgroup', 'notifications', 'repairs', 'shops', 'works', 'shares', 'pages', 'contacts', 'reports', 'settings'];
     var endpoints = {
         accounts: {
             login: base + 'accounts/login',
