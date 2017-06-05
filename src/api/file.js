@@ -41,7 +41,9 @@ class FileApi extends BaseApi {
         }
         var _limit = limits;
         var skip = _limit * (p - 1);
-        var conditions = {};
+        var conditions = {
+            is_delete: false
+        };
 
         if (queries['q']) {
             conditions = { url: { like: '%' + queries['q'] + '%' } };
