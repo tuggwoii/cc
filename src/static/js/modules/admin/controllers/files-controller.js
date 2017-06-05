@@ -68,7 +68,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Even
         }
         else {
             $timeout(function () {
-                $scope.cars();
+                files();
             }, 1000);
         }
     };
