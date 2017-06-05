@@ -159,7 +159,7 @@ class FileApi extends BaseApi {
         var params = url.parse(req.url, true);
         var queries = params.query;
 
-        if (queries.car) {
+        if (queries.car && queries.type) {
             context.getCarById(queries.car).then(function (_car) {
                 if (_car) {
                     var car = CarSerializer.default(_car);
@@ -177,21 +177,29 @@ class FileApi extends BaseApi {
                 context.error(req, res, err, 500);
             });
         }
-        else {
+        else if (queries.type) {
             context.uploading(context, req, res);
+        }
+        else {
+            context.error(req, res, 'TYPE_REQUIRE', 400);
         }
     }
 
     uploading(context, req, res) {
+        var params = url.parse(req.url, true);
+        var queries = params.query;
         var path = '/files/' + req.file.filename;
         var full_path = appRoot + path;
+
         var file = {
             url: path,
             size: req.file.size,
             owner: req.user.id,
-            is_use: false,
-            is_delete: false
+            is_use: true,
+            is_delete: false,
+            type: queries.type
         };
+
         var mb_size = (file.size / (1024 * 1024));
         if (mb_size > 1) {
             Jimp.read(full_path, function (err, image) {
@@ -207,22 +215,22 @@ class FileApi extends BaseApi {
                             file.size = fileSizeInBytes;
                         }
 
-                        File.create(file, { isNewRecord: true }).then(function (_file) {
-                            context.success(req, res, _file);
-                        }).catch(function (err) {
-                            context.error(req, res, err, 500);
-                        });
+                        context.createFile(context, req, res, file);
                     });
                 }
             });
         }
         else {
-            File.create(file, { isNewRecord: true }).then(function (_file) {
-                context.success(req, res, _file);
-            }).catch(function (err) {
-                context.error(req, res, err, 500);
-            });
+            context.createFile(context, req, res, file);
         }
+    }
+
+    createFile(context, req, res, file) {
+        File.create(file, { isNewRecord: true }).then(function (_file) {
+            context.success(req, res, _file);
+        }).catch(function (err) {
+            context.error(req, res, err, 500);
+        });
     }
 
     getCarById(id) {

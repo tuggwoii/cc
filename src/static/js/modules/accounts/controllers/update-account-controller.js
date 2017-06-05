@@ -26,6 +26,8 @@ module.controller('UpdateAccountController', ['$scope', '$rootScope', '$timeout'
                 $scope.updateAccountPage();
             }, 200);
         }
+
+        $rootScope.$broadcast(Event.File.SetType, 1);
     };
 
     $scope.edit = function () {

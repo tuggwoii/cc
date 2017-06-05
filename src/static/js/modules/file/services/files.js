@@ -15,10 +15,10 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
                 });
             });
         },
-        upload: function (file, car) {
+        upload: function (file, car, type) {
             return $q(function (resolve, reject) {
                 var fd = new FormData();
-                var url = URLS.model(service).all + (car ? ('?car=' + car) : '');
+                var url = URLS.model(service).all + ('?type=' + type) + (car ? ('&car=' + car) : '') ;
                 console.log('Send upload reques to: ' + url);
                 fd.append('file', file);
                 $http.post(url, fd, {

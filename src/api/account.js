@@ -20,6 +20,7 @@ var FB = require('fb'),
     fb = new FB.Facebook({version: 'v2.6'});
 var MailHelper = require('../helpers/email');
 var limits = 100;
+var FileHelper = require('../helpers/file-helper')
 
 class AccountApi extends BaseApi {
 
@@ -268,7 +269,11 @@ class AccountApi extends BaseApi {
                             user.image = user.file.id;
                         }
                         context.validateUpdate(user).then(function () {
+                            var imageBeforeUpdate = _user.image;
                             _user.updateAttributes(user).then(function (data) {
+                                if (user.image != imageBeforeUpdate) {
+                                    FileHelper.deleteById(imageBeforeUpdate);
+                                }
                                 context.findByEmail(user.email).then(function (_users) {
                                     if (_users.length) {
                                         var aut_user = Serializer.login(_users[0]);

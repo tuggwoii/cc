@@ -5975,7 +5975,8 @@ module.factory('Event', [function () {
             IDForUpload: 'SEND_ID_FOR_UPLOAD'
         },
         File: {
-            Success: 'UPLOAD_SUCCESS'
+            Success: 'UPLOAD_SUCCESS',
+            SetType:'SET_FILE_UPLOAD_TYPE'
         },
         Share: {
             Ready: 'SHARE_READY'
@@ -6272,10 +6273,10 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
                 });
             });
         },
-        upload: function (file, car) {
+        upload: function (file, car, type) {
             return $q(function (resolve, reject) {
                 var fd = new FormData();
-                var url = URLS.model(service).all + (car ? ('?car=' + car) : '');
+                var url = URLS.model(service).all + ('?type=' + type) + (car ? ('&car=' + car) : '') ;
                 console.log('Send upload reques to: ' + url);
                 fd.append('file', file);
                 $http.post(url, fd, {
@@ -7281,7 +7282,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                 var file = files[0];
                 if (file.type == 'image/jpeg' || file.type == 'image/jpg' || file.type == 'image/png' || file.type == 'image/gif') {
                     console.log($scope.upload_car_id);
-                    FileService.upload(files[0], $scope.upload_car_id).then(function (file) {
+                    FileService.upload(files[0], $scope.upload_car_id, $scope.uploadType).then(function (file) {
                         $rootScope.$broadcast(Event.File.Success, file);
                         $scope.uploading = false;
                         $('#fileUpload').val('');
@@ -7426,6 +7427,12 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         $scope.$on(Event.Car.IDForUpload, function (event, id) {
             $timeout(function () {
                 $scope.upload_car_id = id;
+            }, 500);
+        });
+
+        $scope.$on(Event.File.SetType, function (event, t) {
+            $timeout(function () {
+                $scope.uploadType = t;
             }, 500);
         });
 
@@ -7942,6 +7949,8 @@ module.controller('UpdateAccountController', ['$scope', '$rootScope', '$timeout'
                 $scope.updateAccountPage();
             }, 200);
         }
+
+        $rootScope.$broadcast(Event.File.SetType, 1);
     };
 
     $scope.edit = function () {

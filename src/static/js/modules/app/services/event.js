@@ -25,7 +25,8 @@ module.factory('Event', [function () {
             IDForUpload: 'SEND_ID_FOR_UPLOAD'
         },
         File: {
-            Success: 'UPLOAD_SUCCESS'
+            Success: 'UPLOAD_SUCCESS',
+            SetType:'SET_FILE_UPLOAD_TYPE'
         },
         Share: {
             Ready: 'SHARE_READY'

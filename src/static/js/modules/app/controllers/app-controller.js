@@ -103,7 +103,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
                 var file = files[0];
                 if (file.type == 'image/jpeg' || file.type == 'image/jpg' || file.type == 'image/png' || file.type == 'image/gif') {
                     console.log($scope.upload_car_id);
-                    FileService.upload(files[0], $scope.upload_car_id).then(function (file) {
+                    FileService.upload(files[0], $scope.upload_car_id, $scope.uploadType).then(function (file) {
                         $rootScope.$broadcast(Event.File.Success, file);
                         $scope.uploading = false;
                         $('#fileUpload').val('');
@@ -248,6 +248,12 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         $scope.$on(Event.Car.IDForUpload, function (event, id) {
             $timeout(function () {
                 $scope.upload_car_id = id;
+            }, 500);
+        });
+
+        $scope.$on(Event.File.SetType, function (event, t) {
+            $timeout(function () {
+                $scope.uploadType = t;
             }, 500);
         });
 

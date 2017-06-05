@@ -136,6 +136,10 @@ var File = sequelize.define('files', {
     owner: {
         type: Sequelize.INTEGER,
         field: 'userId'
+    },
+    type: {
+        type: Sequelize.INTEGER,
+        field: 'type'
     }
 });
 
