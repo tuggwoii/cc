@@ -102,7 +102,6 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             if (files && files.length) {
                 var file = files[0];
                 if (file.type == 'image/jpeg' || file.type == 'image/jpg' || file.type == 'image/png' || file.type == 'image/gif') {
-                    console.log($scope.upload_car_id);
                     FileService.upload(files[0], $scope.upload_car_id, $scope.uploadType).then(function (file) {
                         $rootScope.$broadcast(Event.File.Success, file);
                         $scope.uploading = false;
@@ -186,7 +185,8 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             }
         };
 
-        var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarPage', 'isWorksPage', 'isPage', 'isPaymentPage', 'isShopPage'];
+        var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarPage', 'isWorksPage', 'isPage', 'isPaymentPage', 'isShopPage',
+            'isFilesPage', 'isRepairsPage', 'isReportsPage', 'isSettingsPage'];
         $scope.setNavActive = function (active) {
             angular.forEach(navs, function (n) {
                 if (n === active) {
@@ -214,8 +214,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             url = url.replace('http://carcarenote.com', '');
             url = url.split('?')[0];
             url = url.replace('#!/', '');
-
-            if (location.hash == '/#!/' || location.hash == '#!/' && url == '/') {
+            if (location.hash == '/#!/' || location.hash == '#!/' || url == '/') {
                 $scope.setNavActive('isHomePage');
             }
             else if (location.hash.indexOf('shares') > -1 || location.href.indexOf('share') > -1) {
@@ -236,8 +235,20 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             else if (location.href.indexOf('payment') > -1) {
                 $scope.setNavActive('isPaymentPage');
             }
+            else if (location.href.indexOf('files') > -1) {
+                $scope.setNavActive('isFilesPage');
+            }
             else if (location.href.indexOf('shops') > -1) {
                 $scope.setNavActive('isShopPage');
+            }
+            else if (location.href.indexOf('repairs') > -1) {
+                $scope.setNavActive('isRepairsPage');
+            }
+            else if (location.href.indexOf('reports') > -1) {
+                $scope.setNavActive('isReportsPage');
+            }
+            else if (location.href.indexOf('settings') > -1) {
+                $scope.setNavActive('isSettingsPage');
             }
             else {
                 $scope.setNavActive('');

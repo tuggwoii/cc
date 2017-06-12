@@ -77,6 +77,23 @@
                     </div>
                     <div class="form-group">
                         <label class="capital">
+                            จังหวัดของทะเบียนรถ
+                            <span class="required">*</span>
+                        </label>
+                        <select name="province"
+                                class="form-control"
+                                ng-model="model.city"
+                                ng-required="true">
+                            <option value=""></option>
+                            <option ng-repeat="p in provinces" value="{{p.th}}">{{p.th}}</option>
+                        </select>
+                        <p class="error-message margin-top animated fadeIn"
+                           ng-if="form.province.$error.required && form.province.$dirty">
+                            กรุณากรอกจังหวัดของทะเบียนรถ
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="capital">
                             {{strings['engine_size']}}
                         </label>
                         <input type="text"
@@ -168,7 +185,7 @@
 
                 <hr />
                 <div class="btn-container">
-                    <button type="button" class="btn btn-danger" ng-click="update(form)">
+                    <button type="button" class="btn btn-danger" ng-click="update()">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i> {{strings['update']}}
                     </button>
                     <button type="button" class="btn btn-danger btn-delete" ng-click="remove()">

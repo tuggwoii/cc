@@ -5479,6 +5479,7 @@ var ShareWorkSlide = function () {
             callback: '=upload'
         },
         link: function (scope, element, attrs) {
+            element.unbind('change');
             element.bind('change', function (event) {
                 if (scope.callback) {
                     scope.callback(event.target.files);
@@ -5508,6 +5509,16 @@ var ShareWorkSlide = function () {
                         }
                     })
                 });
+            }
+
+            function findCityByName(city) {
+                var _city = 'krung_thep_maha_nakhon';
+                angular.forEach(scope.provinces, function (p) {
+                    if (p.th == city) {
+                        _city = p.key;
+                    }
+                });
+                return _city;
             }
 
             scope.close = function () {
@@ -5576,7 +5587,7 @@ var ShareWorkSlide = function () {
                 scope.callback(shop);
             };
 
-            scope.$on(Event.Shop.DisplayPopup, function (event, prev_shops, callback) {
+            scope.$on(Event.Shop.DisplayPopup, function (event, prev_shops, city, callback) {
                 if (!scope.display) {
                     scope.animation = 'fadeIn';
                     $timeout.cancel(scope.shopSearchTask);
@@ -5591,9 +5602,10 @@ var ShareWorkSlide = function () {
                         selected: ''
                     }
                     scope.search = {
-                        city: 'krung_thep_maha_nakhon'
+                        city: findCityByName(city)
                     };
                     $timeout(scope.setHeight, 200);
+                    console.log(city);
                 }
             });
 
@@ -6079,7 +6091,7 @@ module.factory('Helper', [function () {
             if (sec < 10) {
                 sec = '0' + sec;
             }
-            return hour + ':' + min + ':' + sec + ', ' + date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);
+            return date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543) + ', ' + hour + ':' + min + ':' + sec;
         },
         replaceUrl: function (str) {
             str = str.replaceAll(',', '-');
@@ -7154,7 +7166,9 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
                 $http.patch(URLS.model(service).all, model).then(function (res) {
                     cache = {};
                     resolve(res.data.data);
-                }).catch(reject);
+                }).catch(function (res) {
+                    reject(res.data);
+                });
             });
         },
         updateAdmin: function (model) {
@@ -7281,7 +7295,6 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             if (files && files.length) {
                 var file = files[0];
                 if (file.type == 'image/jpeg' || file.type == 'image/jpg' || file.type == 'image/png' || file.type == 'image/gif') {
-                    console.log($scope.upload_car_id);
                     FileService.upload(files[0], $scope.upload_car_id, $scope.uploadType).then(function (file) {
                         $rootScope.$broadcast(Event.File.Success, file);
                         $scope.uploading = false;
@@ -7365,7 +7378,8 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             }
         };
 
-        var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarPage', 'isWorksPage', 'isPage', 'isPaymentPage', 'isShopPage'];
+        var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarPage', 'isWorksPage', 'isPage', 'isPaymentPage', 'isShopPage',
+            'isFilesPage', 'isRepairsPage', 'isReportsPage', 'isSettingsPage'];
         $scope.setNavActive = function (active) {
             angular.forEach(navs, function (n) {
                 if (n === active) {
@@ -7393,8 +7407,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             url = url.replace('http://carcarenote.com', '');
             url = url.split('?')[0];
             url = url.replace('#!/', '');
-
-            if (location.hash == '/#!/' || location.hash == '#!/' && url == '/') {
+            if (location.hash == '/#!/' || location.hash == '#!/' || url == '/') {
                 $scope.setNavActive('isHomePage');
             }
             else if (location.hash.indexOf('shares') > -1 || location.href.indexOf('share') > -1) {
@@ -7415,8 +7428,20 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             else if (location.href.indexOf('payment') > -1) {
                 $scope.setNavActive('isPaymentPage');
             }
+            else if (location.href.indexOf('files') > -1) {
+                $scope.setNavActive('isFilesPage');
+            }
             else if (location.href.indexOf('shops') > -1) {
                 $scope.setNavActive('isShopPage');
+            }
+            else if (location.href.indexOf('repairs') > -1) {
+                $scope.setNavActive('isRepairsPage');
+            }
+            else if (location.href.indexOf('reports') > -1) {
+                $scope.setNavActive('isReportsPage');
+            }
+            else if (location.href.indexOf('settings') > -1) {
+                $scope.setNavActive('isSettingsPage');
             }
             else {
                 $scope.setNavActive('');
@@ -8447,11 +8472,14 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         }
 
         $scope.openShop = function () {
-            $rootScope.$broadcast(Event.Shop.DisplayPopup, $scope.previous_shops, function (shop) {
-                $scope.model.shop = shop;
-                $timeout(function () {
-                    $scope.save();
-                }, 500);
+            $rootScope.$broadcast(Event.Shop.DisplayPopup,
+                $scope.previous_shops,
+                $scope.model.car.city,
+                function (shop) {
+                    $scope.model.shop = shop;
+                    $timeout(function () {
+                        $scope.save();
+                    }, 500);
             });
         };
 
@@ -8932,6 +8960,10 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             return $scope.user && $scope.user.id && $scope.params.id
         }
 
+        function validateCar() {
+            return $scope.model.id && $scope.model.brand && $scope.model.city && $scope.model.series && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)));
+        }
+
         function setModelDate(model) {
             if (model.date) {
                 model.date = new Date(model.date);
@@ -8943,6 +8975,19 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                     model.month = '';
                 }
             }
+            if (model.year == 0) {
+                model.year = '';
+            }
+        }
+
+        function createProvinces() {
+            $scope.provinces = [];
+            angular.forEach(areas, function (area) {
+                angular.forEach(area.areas, function (p) {
+                    $scope.provinces.push(p);
+                });
+            });
+            $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
         }
 
         $scope.editCarPage = function () {
@@ -8959,17 +9004,21 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                     $scope.editCarPage();
                 }, 200);
             }
+
+            createProvinces();
+            $rootScope.$broadcast(Event.File.SetType, 2);
         };
 
         $scope.setForm = function (form) {
             $scope.form = form;
+            window.currentForm = form;
         };
 
-        $scope.update = function (form) {
-            angular.forEach(form.$error.required, function (field) {
+        $scope.update = function (notRedirect) {
+            angular.forEach(currentForm.$error.required, function (field) {
                 field.$setDirty();
             });
-            if ($scope.model.id && $scope.model.brand && $scope.model.series && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)))) {
+            if (validateCar()) {
                 $rootScope.$broadcast(Event.Load.Display);
                 $scope.status = {};
                 if ($scope.model.year) {
@@ -8982,8 +9031,14 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                     $scope.model.date = 0;
                 }
                 CarService.update($scope.model).then(function (car) {
-                    window.location.href = '/#!/car?id=' + $scope.model.id;
+                    if (notRedirect) {
+                        $rootScope.$broadcast(Event.Load.Dismiss);
+                    }
+                    else {
+                        window.location.href = '/#!/car?id=' + $scope.model.id;
+                    }
                 }).catch(function (res) {
+                    console.log(res);
                     if (res.error.message == 'CAR EXPIRE') {
                         $scope.status.car_expire = true;
                     }
@@ -9017,9 +9072,10 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             });
         };
 
-        $scope.setImage = function (event, file) {
+        $scope.setCarImage = function (event, file) {
             if ($scope.model) {
                 $scope.model.image = file;
+                $scope.update(true);
             }
         };
 
@@ -9027,8 +9083,8 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             $scope.navigateTo('#!/car?id=' + car.id);
         };
 
+        $scope.$on(Event.File.Success, $scope.setCarImage);
         $scope.editCarPage();
-        $scope.$on(Event.File.Success, $scope.setImage);
     }]);
 ;'use strict';
 module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$location', 'CarService', 'Event', 'Helper',
@@ -9037,6 +9093,20 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
         $scope.status = {};
         $scope.dates = Helper.dateArray();
         $scope.months = Helper.monthArray();
+
+        function validateCar() {
+            return $scope.model.brand && $scope.model.series && $scope.model.city && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)))
+        }
+
+        function createProvinces() {
+            $scope.provinces = [];
+            angular.forEach(areas, function (area) {
+                angular.forEach(area.areas, function (p) {
+                    $scope.provinces.push(p);
+                });
+            });
+            $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
+        }
 
         $scope.newCarPage = function () {
             if ($scope.user_ready) {
@@ -9056,6 +9126,9 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
                     $scope.newCarPage();
                 }, 200);
             }
+            
+            createProvinces();
+            $rootScope.$broadcast(Event.File.SetType, 2);
         };
 
         $scope.setForm = function (form) {
@@ -9066,7 +9139,7 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
             angular.forEach(form.$error.required, function (field) {
                 field.$setDirty();
             });
-            if ($scope.model.brand && $scope.model.series && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)))) {
+            if (validateCar()) {
                 $rootScope.$broadcast(Event.Load.Display);
                 $scope.status = {};
                 if ($scope.model.year) {
@@ -9882,7 +9955,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
             }
         }
 
-        function createProvinces(model) {
+        function createProvinces() {
             angular.forEach(areas, function (area) {
                 angular.forEach(area.areas, function (p) {
                     $scope.provinces.push(p);
@@ -9929,7 +10002,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
             return $scope.user && $scope.user.id;
         }
 
-        $scope.editShop = function () {
+        $scope.editShopPage = function () {
             if ($scope.user_ready) {
                 if (isValid()) {
                     loadResource();
@@ -9940,12 +10013,14 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
             }
             else {
                 $timeout(function () {
-                    $scope.editShop();
+                    $scope.editShopPage();
                 }, 200);
             }
+
+            $rootScope.$broadcast(Event.File.SetType, 3);
         };
 
-        $scope.update = function () {
+        $scope.update = function (notReload) {
             $scope.form_submit = true;
             $scope.status = {};
             angular.forEach($scope.form.$error.required, function (field) {
@@ -9954,11 +10029,16 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
             if ($scope.form.$valid) {
                 $rootScope.$broadcast(Event.Load.Display);
                 ShopService.update($scope.model).then(function () {
-                    if ($scope.from_repair) {
-                        $scope.navigateTo('#!/repair?id=' + $scope.repairId + ($scope.carId ? '&car=' + $scope.carId : ''));
+                    if (notReload) {
+                        $rootScope.$broadcast(Event.Load.Dismiss);
                     }
                     else {
-                        window.location.href = '/#!/shop?id=' + $scope.model.id + '&cd=true';
+                        if ($scope.from_repair) {
+                            $scope.navigateTo('#!/repair?id=' + $scope.repairId + ($scope.carId ? '&car=' + $scope.carId : ''));
+                        }
+                        else {
+                            window.location.href = '/#!/shop?id=' + $scope.model.id + '&cd=true';
+                        }
                     }
                 }).catch(function () {
                     $rootScope.$broadcast(Event.Load.Dismiss);
@@ -9981,6 +10061,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         $scope.setImage = function (event, file) {
             if ($scope.model) {
                 $scope.model.image = file;
+                $scope.update(true);
             }
         };
 
@@ -10018,7 +10099,7 @@ module.controller('EditShopController', ['$scope', '$rootScope', '$timeout', '$q
         };
 
         $scope.$on(Event.File.Success, $scope.setImage);
-        $scope.editShop();
+        $scope.editShopPage();
 
         function checkSize() {
             if ($(window).width() <= 750) {

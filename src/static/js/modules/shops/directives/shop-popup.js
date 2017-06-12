@@ -22,6 +22,16 @@
                 });
             }
 
+            function findCityByName(city) {
+                var _city = 'krung_thep_maha_nakhon';
+                angular.forEach(scope.provinces, function (p) {
+                    if (p.th == city) {
+                        _city = p.key;
+                    }
+                });
+                return _city;
+            }
+
             scope.close = function () {
                 if (scope.display) {
                     $timeout(function () {
@@ -88,7 +98,7 @@
                 scope.callback(shop);
             };
 
-            scope.$on(Event.Shop.DisplayPopup, function (event, prev_shops, callback) {
+            scope.$on(Event.Shop.DisplayPopup, function (event, prev_shops, city, callback) {
                 if (!scope.display) {
                     scope.animation = 'fadeIn';
                     $timeout.cancel(scope.shopSearchTask);
@@ -103,9 +113,10 @@
                         selected: ''
                     }
                     scope.search = {
-                        city: 'krung_thep_maha_nakhon'
+                        city: findCityByName(city)
                     };
                     $timeout(scope.setHeight, 200);
+                    console.log(city);
                 }
             });
 

@@ -171,11 +171,14 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
         }
 
         $scope.openShop = function () {
-            $rootScope.$broadcast(Event.Shop.DisplayPopup, $scope.previous_shops, function (shop) {
-                $scope.model.shop = shop;
-                $timeout(function () {
-                    $scope.save();
-                }, 500);
+            $rootScope.$broadcast(Event.Shop.DisplayPopup,
+                $scope.previous_shops,
+                $scope.model.car.city,
+                function (shop) {
+                    $scope.model.shop = shop;
+                    $timeout(function () {
+                        $scope.save();
+                    }, 500);
             });
         };
 

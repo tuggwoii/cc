@@ -4,6 +4,16 @@
     }
 }
 
+@media screen and (max-width: 1320px) {
+    .app.back-office header .navbar-right {
+        width: 60%;
+        right: 0;
+        left: initial;
+        top: -18px;
+        position: relative;
+    }
+}
+
 @media screen and (max-width: 1200px) {
     .app {
 
@@ -32,7 +42,7 @@
         }
 
         header {
-            height: 140px;
+            height: 85px;
 
             .nav {
                 position: absolute;
@@ -43,7 +53,6 @@
                 .login-button-container {
                     position: absolute;
                     right: 15px;
-                    top: -65px;
                 }
 
                 li {
@@ -180,6 +189,10 @@
     .app .wrapper .car-page .repair-filter .form-group {
         width: 43%;
     }
+
+    .app.back-office header .navbar-right {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 940px) {
@@ -200,7 +213,6 @@
         margin-top: 5px;
     }
 }
-
 
 @media screen and (max-width: 767px) {
     .setting-btn {
@@ -738,6 +750,7 @@
         display: block;
     }
 }
+
 @media screen and (max-width: 600px) {
     h2 .edit-repair-shop-button.repair-hot-fix {
         display: block;

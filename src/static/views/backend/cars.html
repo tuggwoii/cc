@@ -63,7 +63,7 @@
                         <tbody>
                             <tr ng-repeat="car in model" ng-click="edit(car)">
                                 <td><a href="/admin#!/edit-car?id={{car.id}}">#{{((query.p - 1) * limits) + ($index + 1)}}</a></td>
-                                <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.serial}}</a></td>
+                                <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.serial}} {{car.city}}</a></td>
                                 <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.brand}}</a></td>
                                 <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.series}}</a></td>
                                 <td><a href="/admin#!/edit-car?id={{car.id}}">{{car.exp_date_str}}</a></td>

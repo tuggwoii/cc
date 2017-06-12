@@ -6,6 +6,20 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
         $scope.dates = Helper.dateArray();
         $scope.months = Helper.monthArray();
 
+        function validateCar() {
+            return $scope.model.brand && $scope.model.series && $scope.model.city && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)))
+        }
+
+        function createProvinces() {
+            $scope.provinces = [];
+            angular.forEach(areas, function (area) {
+                angular.forEach(area.areas, function (p) {
+                    $scope.provinces.push(p);
+                });
+            });
+            $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
+        }
+
         $scope.newCarPage = function () {
             if ($scope.user_ready) {
                 if ($scope.user && $scope.user.id) {
@@ -24,6 +38,9 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
                     $scope.newCarPage();
                 }, 200);
             }
+            
+            createProvinces();
+            $rootScope.$broadcast(Event.File.SetType, 2);
         };
 
         $scope.setForm = function (form) {
@@ -34,7 +51,7 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
             angular.forEach(form.$error.required, function (field) {
                 field.$setDirty();
             });
-            if ($scope.model.brand && $scope.model.series && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)))) {
+            if (validateCar()) {
                 $rootScope.$broadcast(Event.Load.Display);
                 $scope.status = {};
                 if ($scope.model.year) {

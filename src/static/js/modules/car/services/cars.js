@@ -88,7 +88,9 @@ module.factory('CarService', ['$rootScope', '$http', '$q', '$cookies', 'URLS', f
                 $http.patch(URLS.model(service).all, model).then(function (res) {
                     cache = {};
                     resolve(res.data.data);
-                }).catch(reject);
+                }).catch(function (res) {
+                    reject(res.data);
+                });
             });
         },
         updateAdmin: function (model) {

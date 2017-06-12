@@ -180,7 +180,8 @@ var Car = sequelize.define('cars', {
     },
     year: {
         type: Sequelize.INTEGER,
-        field: 'year'
+        field: 'year',
+        allowNull: true
     },
     date: {
         type: Sequelize.DATE,
@@ -205,6 +206,10 @@ var Car = sequelize.define('cars', {
     max_file_size: {
         type: Sequelize.INTEGER,
         field: 'max_file_size'
+    },
+    city: {
+        type: Sequelize.STRING,
+        field: 'city'
     }
 });
 

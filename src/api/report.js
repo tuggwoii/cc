@@ -43,12 +43,6 @@ class ReportApi extends BaseApi {
             if (!data) {
                 reject('INVALID DATA');
             }
-            else if (!data.name) {
-                reject('NAME REQUIRED');
-            }
-            else if (!data.email) {
-                reject('EMAIL REQUIRED');
-            }
             else if (!data.message) {
                 reject('MESSAGE REQUIRED');
             }
@@ -206,7 +200,7 @@ class ReportApi extends BaseApi {
                     else {
                         var update = {
                             count: report.count + 1,
-                            name: report.name + ', ' + data.name
+                            name: report.name + data.name?  (', ' + data.name) : ''
                         };
                         report.updateAttributes(update).then(function (updated) {
                             context.success(req, res, updated);

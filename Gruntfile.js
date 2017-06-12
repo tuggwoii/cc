@@ -124,7 +124,7 @@ module.exports = function (grunt) {
             mangle: false,
             sourceMap: true,
             compress: {
-                drop_console: true
+                drop_console: false
             }
         },
         frontend: {

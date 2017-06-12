@@ -10,7 +10,10 @@ class FileHelper {
                 var fileUrl = _file.url;
                 File.destroy({ where: { id: id } }).then(function () {
                     var file_url = appRoot + fileUrl;
-                    fs.unlinkSync(file_url);
+                    try {
+                        fs.unlinkSync(file_url);
+                    }
+                    catch (ex) { }
                 });
             }
         });

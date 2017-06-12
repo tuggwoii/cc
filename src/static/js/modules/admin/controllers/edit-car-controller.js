@@ -54,6 +54,19 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                     model.month = '';
                 }
             }
+            if (model.year == 0) {
+                model.year = '';
+            }
+        }
+
+        function createProvinces() {
+            $scope.provinces = [];
+            angular.forEach(areas, function (area) {
+                angular.forEach(area.areas, function (p) {
+                    $scope.provinces.push(p);
+                });
+            });
+            $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
         }
 
         $scope.editCarPage = function () {
@@ -70,6 +83,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                     $scope.editCarPage();
                 }, 200);
             }
+            createProvinces();
         };
 
         $scope.setForm = function (form) {
@@ -81,7 +95,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 field.$setDirty();
             });
             if (form.$valid &&
-                $scope.model.id && $scope.model.brand && $scope.model.series && $scope.model.serial
+                $scope.model.id && $scope.model.brand && $scope.model.series && $scope.model.serial && $scope.model.city
                 && (!$scope.model.year || !isNaN(parseInt($scope.model.year)))
                 && (!isNaN(parseInt($scope.model.exp_year)))) {
 

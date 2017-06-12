@@ -32,6 +32,10 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             return $scope.user && $scope.user.id && $scope.params.id
         }
 
+        function validateCar() {
+            return $scope.model.id && $scope.model.brand && $scope.model.city && $scope.model.series && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)));
+        }
+
         function setModelDate(model) {
             if (model.date) {
                 model.date = new Date(model.date);
@@ -43,6 +47,19 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                     model.month = '';
                 }
             }
+            if (model.year == 0) {
+                model.year = '';
+            }
+        }
+
+        function createProvinces() {
+            $scope.provinces = [];
+            angular.forEach(areas, function (area) {
+                angular.forEach(area.areas, function (p) {
+                    $scope.provinces.push(p);
+                });
+            });
+            $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
         }
 
         $scope.editCarPage = function () {
@@ -59,17 +76,21 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                     $scope.editCarPage();
                 }, 200);
             }
+
+            createProvinces();
+            $rootScope.$broadcast(Event.File.SetType, 2);
         };
 
         $scope.setForm = function (form) {
             $scope.form = form;
+            window.currentForm = form;
         };
 
-        $scope.update = function (form) {
-            angular.forEach(form.$error.required, function (field) {
+        $scope.update = function (notRedirect) {
+            angular.forEach(currentForm.$error.required, function (field) {
                 field.$setDirty();
             });
-            if ($scope.model.id && $scope.model.brand && $scope.model.series && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)))) {
+            if (validateCar()) {
                 $rootScope.$broadcast(Event.Load.Display);
                 $scope.status = {};
                 if ($scope.model.year) {
@@ -82,8 +103,14 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                     $scope.model.date = 0;
                 }
                 CarService.update($scope.model).then(function (car) {
-                    window.location.href = '/#!/car?id=' + $scope.model.id;
+                    if (notRedirect) {
+                        $rootScope.$broadcast(Event.Load.Dismiss);
+                    }
+                    else {
+                        window.location.href = '/#!/car?id=' + $scope.model.id;
+                    }
                 }).catch(function (res) {
+                    console.log(res);
                     if (res.error.message == 'CAR EXPIRE') {
                         $scope.status.car_expire = true;
                     }
@@ -117,9 +144,10 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             });
         };
 
-        $scope.setImage = function (event, file) {
+        $scope.setCarImage = function (event, file) {
             if ($scope.model) {
                 $scope.model.image = file;
+                $scope.update(true);
             }
         };
 
@@ -127,6 +155,6 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             $scope.navigateTo('#!/car?id=' + car.id);
         };
 
+        $scope.$on(Event.File.Success, $scope.setCarImage);
         $scope.editCarPage();
-        $scope.$on(Event.File.Success, $scope.setImage);
     }]);

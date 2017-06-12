@@ -20,7 +20,7 @@ var FB = require('fb'),
     fb = new FB.Facebook({version: 'v2.6'});
 var MailHelper = require('../helpers/email');
 var limits = 100;
-var FileHelper = require('../helpers/file-helper')
+var FileHelper = require('../helpers/file-helper');
 
 class AccountApi extends BaseApi {
 

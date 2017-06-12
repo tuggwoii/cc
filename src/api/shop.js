@@ -8,6 +8,7 @@ var Serializer = require('../serializers/shop-serializer');
 var BaseApi = require('./base');
 var url = require('url');
 var limits = 24;
+var FileHelper = require('../helpers/file-helper');
 
 class ShopApi extends BaseApi {
 
@@ -268,6 +269,13 @@ class ShopApi extends BaseApi {
         context.validateUpdate(shop).then(function () {
             context.getShopById(shop.id).then(function (_shop) {
                 if (_shop) {
+
+                    //remove old image if change
+                    var shopImage = _shop.image;
+                    if (shopImage && shop.image != shopImage) {
+                        FileHelper.deleteById(shopImage);
+                    }
+
                     _shop.updateAttributes(shop).then(function (_updated_shop) {
                         context.success(req, res, _updated_shop);
                     }).catch(function (err) {

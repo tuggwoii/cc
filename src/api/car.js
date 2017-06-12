@@ -11,7 +11,7 @@ var shortid = require('shortid');
 var RepairImage = require('../database/models').RepairImage;
 var Setting = require('../database/models').Setting;
 var File = require('../database/models').File;
-
+var FileHelper = require('../helpers/file-helper');
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 var limits = 100;
 
@@ -117,6 +117,9 @@ class CarApi extends BaseApi {
             else if (!data.serial) {
                 reject('SERIAL REQUIRED');
             }
+            else if (!data.city) {
+                reject('CITY REQUIRED');
+            }
             else {
                 me.getCarByUserId(req.user.id).then(function (res) {
                     if (res.length < req.user.max_car) {
@@ -149,6 +152,9 @@ class CarApi extends BaseApi {
             }
             else if (!data.serial) {
                 reject('SERIAL REQUIRED');
+            }
+            else if (!data.city) {
+                reject('CITY REQUIRED');
             }
             else {
                 resolve();
@@ -191,6 +197,7 @@ class CarApi extends BaseApi {
         if (queries['q']) {
             var _or = {
                 serial: { like: '%' + queries['q'] + '%' },
+                city: { like: '%' + queries['q'] + '%' },
                 series: { like: '%' + queries['q'] + '%' },
                 brand: { like: '%' + queries['q'] + '%' },
                 year: { like: '%' + queries['q'] + '%' },
@@ -263,8 +270,12 @@ class CarApi extends BaseApi {
             date: data.date,
             engine: data.engine,
             color: data.color,
-            detail: data.detail
+            detail: data.detail,
+            city: data.city
         };
+        if (!model.year) {
+            model.year = '';
+        }
         if (data.id) {
             model.id = data.id;
         }
@@ -288,8 +299,12 @@ class CarApi extends BaseApi {
             date: data.date,
             engine: data.engine,
             color: data.color,
-            detail: data.detail
+            detail: data.detail,
+            city: data.city
         };
+        if (!model.year) {
+            model.year = '';
+        }
         if (owner.role.id == 1) {
             model.exp_date = data.exp_date;
             model.max_file_size = data.max_file_size;
@@ -312,8 +327,16 @@ class CarApi extends BaseApi {
                     var ownerId = db_car.owner;
                     var car_exp = new Date(db_car.exp_date);
                     var curr_date = new Date();
+                    var carImage = db_car.image;
+
                     if (req.user.id === ownerId) {
                         if (curr_date <= car_exp) {
+
+                            //remove old image
+                            if (car.image != carImage) {
+                                FileHelper.deleteById(carImage);
+                            }
+
                             _car.updateAttributes(car).then(function (_updated_car) {
                                 context.success(req, res, _updated_car, {}, CarSerializer.default);
                             }).catch(function (err) {

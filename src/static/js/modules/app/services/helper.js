@@ -55,7 +55,7 @@ module.factory('Helper', [function () {
             if (sec < 10) {
                 sec = '0' + sec;
             }
-            return hour + ':' + min + ':' + sec + ', ' + date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);
+            return date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543) + ', ' + hour + ':' + min + ':' + sec;
         },
         replaceUrl: function (str) {
             str = str.replaceAll(',', '-');

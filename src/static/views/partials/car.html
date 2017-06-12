@@ -38,7 +38,7 @@
                         </div>
                         <div class="title">
                             <label>ทะเบียน: </label>
-                            <span>{{car.serial}}</span>
+                            <span>{{car.serial}} {{car.city}}</span>
                         </div>
                         <div class="title">
                             <label>สีตัวรถ: </label>
@@ -52,7 +52,7 @@
                     <div class="info-column">
                         <div class="title">
                             <label> ออกรถเมื่อ: </label>
-                            <span>ค.ศ. {{car.year}}</span>
+                            <span>{{car.year ? 'ค.ศ.' + car.year : ''}}</span>
                         </div>
                         <div class="title" ng-if="car.date">
                             <label>วันที่ออกรถ: </label>
