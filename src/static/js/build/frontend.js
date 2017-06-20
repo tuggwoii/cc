@@ -8440,6 +8440,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                     $scope.repairPage();
                 }, 200);
             }
+            $rootScope.$broadcast(Event.File.SetType, 4);
         };
 
         $scope.reload = function () {
