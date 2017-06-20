@@ -30,7 +30,10 @@ app.use('/partials', express.static(__dirname + '/src/static/views/partials'));
 app.use('/static', express.static(__dirname + '/src/static/views/static'));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+app.get('/google45b207d384e8d6ea.html', function (req, res) {
+    res.status(200).render('pages/google45b207d384e8d6ea.html');
+})
 app.post('/api/v1/files', authorize.protectPath, upload.single('file'), function (req, res) { file.upload(file, req, res) });
 app.use('/api/v1/', apis);
 app.use('/', pages);
