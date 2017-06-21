@@ -53,7 +53,15 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
             for (var current_year = 2558; current_year <= final_year; current_year++) {
                 $scope.years.push(current_year + '');
             }
-            
+        }
+
+        function setDateToCurrent() {
+            var date = new Date();
+            $scope.model.h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours() + '';
+            $scope.model.m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes() + '';
+            $scope.model.d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() + '';
+            $scope.model.mo = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1) + '';
+            $scope.model.y = (date.getFullYear() + 543) + '';
         }
 
         function loadResources() {
@@ -71,6 +79,7 @@ module.controller('PaymentController', ['$scope', '$rootScope', '$timeout', '$q'
                     };
                     $scope.model.key = $scope.captcha.key;
                     generateDateTimeDropdown();
+                    setDateToCurrent();
                     $scope.displayView();
                 });
             }

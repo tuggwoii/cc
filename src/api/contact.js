@@ -18,7 +18,6 @@ class ContactApi extends BaseApi {
                 reject('INVALID DATA');
             }
             else if (!captchas[data.key] || (captchas[data.key] && (captchas[data.key] != data.captcha))) {
-                console.log(captchas);
                 reject('INVALID CAPTCHA');
             }
             else {
@@ -152,7 +151,7 @@ class ContactApi extends BaseApi {
         }
     }
 
-    autoExpandCarEpire(ids) {
+    autoExpandCarExpire(ids) {
         var total = ids.length;
         var current = 0;
         var promise = new Promise(function (resolve, reject) {
@@ -160,12 +159,18 @@ class ContactApi extends BaseApi {
                 resolve();
             }
             Setting.all().then(function (_setting) {
+
                 var setting = { y: _setting[0].exp_year, m: _setting[0].exp_month };
+
                 for (var i = 0; i < ids.length; i++) {
                     var id = ids[i];
                     if (id) {
                         Car.findById(id).then(function (_c) {
                             var date = new Date();
+                            var carExpDate = new Date(_c.exp_date);
+                            if (carExpDate > date) {
+                                date = carExpDate;
+                            }
                             date.setMonth(date.getMonth() + setting.m)
                             date.setFullYear(date.getFullYear() + setting.y);
                             var update = { exp_date: date };
@@ -198,11 +203,26 @@ class ContactApi extends BaseApi {
         context.validate(req.body).then(function () {
             var data = context.model(req.body, req.user);
             Contact.create(data, { isNewRecord: true }).then(function (model) {
+
+                //user email
                 context.sendEmail(req.user.email, model['null']);
+
+                //admin email
+                Setting.all().then(function (_setting) {
+                    if (_setting[0].admin_emails) {
+                        var emails = _setting[0].admin_emails.split(',');
+                        for (var i = 0; i < emails.length; i++){
+                            if (emails[i]) {
+                                context.sendAdminEmail(emails[i], req.user.name, model);
+                            }
+                        }
+                    }
+                });
+
+
                 if (data.type == 1) {
                     var ids = model.car_ids.split(',');
-                    console.log(ids);
-                    context.autoExpandCarEpire(ids).then(function () {
+                    context.autoExpandCarExpire(ids).then(function () {
                         context.success(req, res, model);
                     });
                 }
@@ -271,6 +291,28 @@ class ContactApi extends BaseApi {
               '">www.carcarenote.com/payment?id=' + id + '</a></p>' +
               '<p>ทางเราได้รับการแจ้งโอนเรียร้อยแล้ว กรุณาเก็บอีเมลล์ฉบับนี้ไว้หรือ Book mark ลิงค์ไว้เพื่อติดตามการดำเนินการ</p>' +
               '<p>ขอบคุณที่ใช้บริการ www.carcarenote.com</p>';
+            MailHelper.send(subject, email_to, email_body, resolve, reject);
+        });
+        return promise;
+    }
+
+    sendAdminEmail(email_to, user, data) {
+        var promise = new Promise(function (resolve, reject) {
+            var date = new Date();
+            var date_str = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours() + '') + ':' +
+                (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes() + '') + ' ' +
+                (date.getDate() < 10 ? '0' + date.getDate() : date.getDate() + '') + '-' +
+                (date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth() + '') + '-' +
+                (date.getFullYear() + '')
+
+            var subject = 'Payment Received';
+            var email_body = '<p>มีการแจ้งโอนเงินบน www.carcarenote.com โดยมีรายละเอียดดังนี้: </p>' +
+                '<p>โอนมาจาก: ' + user + '</p>' +
+                '<p>จำนวน: ' + (data.price ? data.price : 0) + ' บาท</p>' +
+                '<p>เพื่อทำการ: ' + (data.type == 1 ? 'ต่ออายุรถ' : 'เพิ่มจำนวนรถ') + '</p>' +
+                '<p>เมื่อเวลา: ' + date_str + '</p>' +
+                '<p>Link: <a href="www.carcarenote.com/admin#!/edit-payment?id=' + data['null'] +
+                '">www.carcarenote.com/admin#!/edit-payment?id=' + data['null'] + '</a></p>';
             MailHelper.send(subject, email_to, email_body, resolve, reject);
         });
         return promise;

@@ -31,6 +31,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <h4>Admin Emails</h4>
+                    <div class="row">
+                        <div class="col-md-12" ng-repeat="e in emails">
+                            <div class="form-group admin-email" style="position:relative">
+                                <input type="email" class="form-control" ng-model="e.val" />
+                                <i class="fa fa-remove remove-admin-email-icon" ng-click="removeEmail($index)" style="position:absolute;left:-15px; top: 15px;color:red;font-size: 16px;cursor:pointer"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-success add-email-button" style="margin-bottom:50px;" ng-click="addEmail()">เพิ่ม Email</button>
+                        </div>
+                    </div>
+                </div>
                 <button type="button" class="btn btn-danger setting-btn" ng-click="update()">บันทึก</button>
             </div>
             <hr/>
@@ -50,7 +64,6 @@
                 </div>
                 <button type="button" class="btn btn-danger setting-btn" ng-click="set()">เพิ่มทันที</button>
             </div>
-
         </div>
     </div>
 </div>

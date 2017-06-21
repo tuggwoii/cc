@@ -638,6 +638,10 @@ var Setting = sequelize.define('settings', {
     exp_month: {
         type: Sequelize.INTEGER,
         field: 'expMonth'
+    },
+    admin_emails: {
+        type: Sequelize.STRING,
+        field: 'adminEmails'
     }
 });
 
