@@ -49,6 +49,7 @@
                         <option value="">ทั้งหมด</option>
                         <option value="0">ยังไม่ดำเนินการ</option>
                         <option value="1">ดำเนินการแล้ว</option>
+                        <option value="2">ไม่พบการโอนเงิน</option>
                     </select>
                 </div>
                 <div>
@@ -89,7 +90,9 @@
                                         {{pm.type==1?'ต่ออายุรถ':'เพิ่มรถ'}} 
                                     </a>
                                 </td>
-                                <td>{{pm.status?'ดำเนินการแล้ว':'ยังไม่ดำเนินการ'}}</td>
+                                <td>
+                                    {{pm.status == 1 ? 'ดำเนินการแล้ว': (pm.status == 2 ? 'ไม่พบการโอนเงิน' : 'ยังไม่ดำเนินการ')}}
+                                </td>
                                 <td>{{pm.datetime}}</td>
                                 <td><span>{{pm.price.formatMoney(2, '.', ',')}} บาท</span></td>
                                 <td class="action">

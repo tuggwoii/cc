@@ -109,22 +109,47 @@ class ReportApi extends BaseApi {
         var _limit = limits;
         var skip = limits * (p - 1);
 
-        var conditions = {};
+        var conditions = {
+            $and: []
+        };
         if (queries['q']) {
             var _or = {
                 email: { like: '%' + queries['q'] + '%' },
                 message: { like: '%' + queries['q'] + '%' },
                 name: { like: '%' + queries['q'] + '%' }
             };
-            conditions = {
-                $or: _or
-            };
+            conditions.$and.push({ $or: _or});
+        }
+
+        if (queries['months'] && queries['year']) {
+            var _or = [];
+            var _months = queries['months'].split(',');
+            for (var i = 0; i < _months.length; i++) {
+                var fdate = new Date(parseInt(queries['year']), parseInt(_months[i]), 1);
+                var bdate = new Date(parseInt(queries['year']), parseInt(_months[i]) + 1, 1)
+
+                _or.push({
+                    $and: [
+                        {
+                            createdAt: {
+                                $gte: fdate
+                            }
+                        },
+                        {
+                            createdAt: {
+                                $lte: bdate
+                            }
+                        }
+                    ]
+                });
+            }
+            conditions.$and.push({ $or: _or });
         }
 
         Report.all({
             where: conditions,
             include: [
-                { model: File }
+                { model: File, include: RepairImage }
             ],
             offset: skip,
             limit: limits

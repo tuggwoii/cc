@@ -62,6 +62,7 @@
                         <select name="status" class="form-control" ng-model="model.status" ng-required="true">
                             <option value="0">ยังไม่ได้ดำเนินการ</option>
                             <option value="1">ดำเนินการแล้ว</option>
+                            <option value="2">ไม่พบการโอนเงิน</option>
                         </select>
                         <p class="error-message margin-top animated fadeIn"
                            ng-if="form.status.$error.required && form.status.$dirty">

@@ -215,6 +215,22 @@
 }
 
 @media screen and (max-width: 767px) {
+    #report-filters {
+        .form-group {
+            width: 45%;
+        }
+
+        #sm-margin0 {
+            margin-left: 0;
+        }
+
+        .reports-search-button-container {
+            display: inline-block;
+            width: 50%;
+            margin-top: 53px;
+            margin-left: 3.3%;
+        }
+    } 
     .setting-btn {
         margin-top: 20px;
         height: 40px;
@@ -781,6 +797,11 @@
 }
 
 @media screen and (max-width: 550px) {
+    #report-filters {
+        .reports-search-button-container {
+            margin-top: 31px;
+        }
+    } 
     .app .wrapper {
         margin-top: 50px;
     }
@@ -1203,7 +1224,7 @@
 }
 
 @media screen and (max-width: 500px) {
-
+   
     .app .opacity-theme .breadcrumb {
         padding: 0 15px;
     }

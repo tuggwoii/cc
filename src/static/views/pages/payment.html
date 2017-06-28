@@ -64,7 +64,9 @@
                                     </div>
                                     <div class="title">
                                         <label>สถานะ: </label>
-                                        <span>{{model.status?'ดำเนินการแล้ว':'ยังไม่ได้ดำเนินการ'}}</span>
+                                        <span ng-if="model.status==0">ยังไม่ได้ดำเนินการ</span>
+                                        <span ng-if="model.status==1">ดำเนินการแล้ว</span>
+                                        <span ng-if="model.status==2">ไม่พบการโอนเงิน</span>
                                     </div>
                                 </div>
                             </div>

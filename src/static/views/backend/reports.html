@@ -16,15 +16,22 @@
             <span>Reports</span>
         </h1>
 
-        <div class="user-filter filter-car">
+        <div id="report-filters" class="user-filter filter-car">
             <h2>ค้นหา</h2>
             <div class="filter-field">
                 <div class="form-group search-all">
                     <label>ค้นหาทั้งหมด</label>
                     <input type="text" class="form-control" ng-model="query.q" />
                 </div>
-                <div>
-                    <label class="empty"></label>
+                <div class="form-group">
+                    <label>เดือน</label>
+                    <multiple-select options="months" model="query.months"></multiple-select>
+                </div>
+                <div  id="sm-margin0" class="form-group">
+                    <label>ปี</label>
+                    <input type="number" class="form-control" ng-model="query.year" />
+                </div>
+                <div class="reports-search-button-container">
                     <button class="btn btn-danger" ng-if="!status.loading" ng-click="search()">
                         <i class="fa fa-search"></i>
                     </button>
@@ -32,6 +39,7 @@
                         LOADING...
                     </button>
                 </div>
+               
             </div>
         </div>
 
@@ -68,10 +76,12 @@
                                 <td><a href="javascript:void(0)">{{m.message}}</a></td>
                                 <td><a href="javascript:void(0)">{{m.count}}</a></td>
                                 <td><a href="javascript:void(0)">{{m.image.is_delete?'ลบแล้ว':'ยังไม่ลบ'}}</a></td>
-                                <td class="action">
-                                    <button class="btn btn-danger" ng-click="deleteImage(m.image)" ng-if="!m.image.is_delete">ลบภาพ</button>
+                                <td class="action" style="max-width:130px;">
+                                    <button class="btn btn-danger" ng-click="deleteImage(m.image)" ng-if="!m.image.is_delete">Disable</button>
                                     <button class="btn btn-danger" ng-click="recoverImage(m.image)" ng-if="m.image.is_delete">กู้ภาพคืน</button>
                                     <button class="btn btn-success"  ng-click="delete(m)">ลบรายการ</button>
+                                    <button class="btn btn-danger" ng-click="delete(m)">ลบรูป</button>
+                                    <a class="btn btn-success" href="/admin#!/repair?id={{m.image.repair_images[0].repair_id}}">ดูรายการ</a>
                                 </td>
                             </tr>
                         </tbody>

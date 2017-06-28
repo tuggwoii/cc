@@ -2542,7 +2542,7 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
 .backend-user td img {
     max-width: 120px; 
 }
-.backend-user td button {
+.backend-user td button, .backend-user td a.btn {
     height: 36px;
     margin-top: 10px;
     min-width: 90px;
@@ -2673,4 +2673,9 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
 }
 .app.back-office header .navbar-right a {
     padding: 0 12px;
+}
+.reports-search-button-container {
+    display: block;
+    float: left;
+    width: 100%;
 }

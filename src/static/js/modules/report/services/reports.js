@@ -6,7 +6,13 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
 
     return {
         get: function (query) {
-            var key = URLS.model(service).all + '?p=' + query.p + (query.q ? '&q=' + query.q : '');
+            var key = URLS.model(service).all
+                + '?p=' + query.p
+                + (query.q ? '&q=' + query.q : '')
+                + (query['months'] ? '&months=' + query['months'] : '')
+                + (query['year'] ? '&year=' + query['year'] : '')
+                ;
+
             return $q(function (resolve, reject) {
                 $http.get(key).then(function (res) {
                     cache[key] = res.data;

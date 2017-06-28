@@ -10,8 +10,12 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, ReportService, Ev
     };
 
     $scope.query = {
-        p: 1
+        p: 1,
+        months: '',
+        year: ''
     };
+
+    $scope.months = Helper.getMonthListAsKeyPair();
 
     function loadResources() {
         $q.all([
