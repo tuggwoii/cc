@@ -80,7 +80,7 @@
                                     <button class="btn btn-danger" ng-click="deleteImage(m.image)" ng-if="!m.image.is_delete">Disable</button>
                                     <button class="btn btn-danger" ng-click="recoverImage(m.image)" ng-if="m.image.is_delete">กู้ภาพคืน</button>
                                     <button class="btn btn-success"  ng-click="delete(m)">ลบรายการ</button>
-                                    <button class="btn btn-danger" ng-click="delete(m)">ลบรูป</button>
+                                    <button class="btn btn-danger" ng-click="removeImage(m.image.repair_images[0])">ลบรูป</button>
                                     <a class="btn btn-success" href="/admin#!/repair?id={{m.image.repair_images[0].repair_id}}">ดูรายการ</a>
                                 </td>
                             </tr>

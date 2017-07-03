@@ -5,7 +5,12 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
 
     return {
         get: function (query) {
-            var key = URLS.model(service).all + '?p=' + query.p + (query.q ? '&q=' + query.q : '');
+            var key = URLS.model(service).all + '?p='
+                + query.p + (query.q ? '&q=' + query.q : '')
+                + (query['months'] ? '&months=' + query['months'] : '')
+                + (query['year'] ? '&year=' + query['year'] : '')
+                + (query['type'] ? '&type=' + query['type'] : '')
+                ;
             return $q(function (resolve, reject) {
                 $http.get(key).then(function (res) {
                     resolve(res.data);

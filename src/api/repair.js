@@ -11,6 +11,7 @@ var Notification = require('../database/models').Notification;
 var RepairImage = require('../database/models').RepairImage;
 var RepairWork = require('../database/models').RepairWork;
 var RepairSerializer = require('../serializers/repair-serializer');
+var Report = require('../database/models').Report;
 var BaseApi = require('./base');
 var url = require('url');
 var limits = 10;
@@ -816,12 +817,8 @@ class RepairApi extends BaseApi {
                             Repair.destroy({ where: { id: req.params.id, owner: owner } }).then(function () {
                                 context.updateShopScoreAndService(context, shopId).then(function () {
                                     context.success(req, res, {});
-                                }).catch(function (err) {
-                                    context.error(req, res, err, 500);
-                                });
-                            }).catch(function (err) {
-                                context.error(req, res, err, 500);
-                            });
+                                })
+                            })
                         }).catch(function (err) {
                             context.error(req, res, err, 500);
                         });
@@ -902,14 +899,13 @@ class RepairApi extends BaseApi {
                     var owner = _repair_image.owner;
                     var image_id = _repair_image.image_id;
                     var file_url = appRoot + _repair_image.file.url;
-                    
                     if (req.user.id === owner || req.user.role.id === 1) {
                         RepairImage.destroy({ where: { id: req.params.id, owner: owner } }).then(function () {
-                            File.destroy({ where: { id: image_id, owner: req.user.id } }).then(function () {
-                                fs.unlinkSync(file_url);
-                                context.success(req, res, {});
-                            }).catch(function (err) {
-                                context.error(req, res, err, 500);
+                            Report.destroy({ where: { file_id: image_id } }).then(function () {
+                                File.destroy({ where: { id: image_id, owner: req.user.id } }).then(function () {
+                                    fs.unlinkSync(file_url);
+                                    context.success(req, res, {});
+                                })
                             });
                         }).catch(function (err) {
                             context.error(req, res, err, 500);

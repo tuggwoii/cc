@@ -45,15 +45,68 @@ class FileApi extends BaseApi {
             is_delete: false
         };
 
+        var modelsInclude = [
+            { model: User }
+        ];
+
+        var conditions = {
+            $and: []
+        };
+
+        if (queries['type']) {
+            conditions.$and.push({ type: queries['type'] });
+
+            if (queries['type'] == '2')
+            {
+                modelsInclude.push({ model: Car });
+            }
+
+            if (queries['type'] == '3') {
+                modelsInclude.push({ model: Shop });
+            }
+
+            if (queries['type'] == '4') {
+                modelsInclude.push({ model: RepairImage });
+            }
+        }
+
         if (queries['q']) {
-            conditions = { url: { like: '%' + queries['q'] + '%' } };
+            var _or = {
+                url: { like: '%' + queries['q'] + '%' }
+            };
+            conditions.$and.push({ $or: _or });
+        }
+
+        if (queries['months'] && queries['year']) {
+            var _or = [];
+            var _months = queries['months'].split(',');
+            for (var i = 0; i < _months.length; i++) {
+                var fdate = new Date(parseInt(queries['year']), parseInt(_months[i]), 1);
+                var bdate = new Date(parseInt(queries['year']), parseInt(_months[i]) + 1, 1)
+
+                _or.push({
+                    $and: [
+                        {
+                            createdAt: {
+                                $gte: fdate
+                            }
+                        },
+                        {
+                            createdAt: {
+                                $lte: bdate
+                            }
+                        }
+                    ]
+                });
+            }
+            conditions.$and.push({ $or: _or });
         }
 
         File.all({
             where: conditions,
             offset: skip,
             limit: _limit,
-            include: [{ model: User }]
+            include: modelsInclude
         }).then(function (data) {
             File.count({
                 where: conditions

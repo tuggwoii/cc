@@ -50,19 +50,32 @@
             <hr/>
             <div class="col-md-12">
                 <div class="form-group">
-                    <h4>เพิ่มวันหมดอายุให้รถทุกคันจากวันที่สร้าง หรือวันที่ต่ออายุล่าสุดไปอีก:</h4>
+                    <h4>เพิ่มวันหมดอายุให้รถทุกคันจากวันหมดอายุไปอีก:</h4>
                     <div class="row">
                         <div class="col-md-4">
                             <label>ปี</label>
-                            <input type="number" min="0" placeholder="จำนวนปี" class="form-control" ng-model="exp_car.y" />
+                            <input type="number" placeholder="จำนวนปี" class="form-control" ng-model="exp_car.y" />
                         </div>
                         <div class="col-md-4">
                             <label>เดือน</label>
-                            <input type="number" max="12" min="0" placeholder="จำนวนเดือน" class="form-control" ng-model="exp_car.m" />
+                            <input type="number" placeholder="จำนวนเดือน" class="form-control" ng-model="exp_car.m" />
                         </div>
                     </div>
                 </div>
                 <button type="button" class="btn btn-danger setting-btn" ng-click="set()">เพิ่มทันที</button>
+            </div>
+            <hr />
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4>เพิ่มพื้นที่ให้รถทุกคันไปอีก:</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>จำนวนพื้นที่ MB</label>
+                            <input type="number" placeholder="จำนวนพื้นที่ MB" class="form-control" ng-model="space.size" />
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger setting-btn" ng-click="setSize()">เพิ่มทันที</button>
             </div>
         </div>
     </div>

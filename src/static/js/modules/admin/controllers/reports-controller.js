@@ -1,8 +1,9 @@
 ﻿'use strict';
-module.controller('AdminReportController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'Helper', 'ReportService', 'Event',
-function ($scope, $rootScope, $timeout, $q, $location, Helper, ReportService, Event) {
+module.controller('AdminReportController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'Helper', 'ReportService', 'Event', 'RepairService',
+    function ($scope, $rootScope, $timeout, $q, $location, Helper, ReportService, Event, RepairService) {
 
     var lightbox = lity();
+
     $scope.params = $location.search();
 
     $scope.status = {
@@ -170,6 +171,18 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, ReportService, Ev
             url = file_url_del;
         }
         return url;
+    };
+
+    $scope.removeImage = function (image) {
+        $rootScope.$broadcast(Event.Confirm.Display, function () {
+            $rootScope.$broadcast(Event.Load.Display);
+            RepairService.deleteImage(image).then(function () {
+                $rootScope.$broadcast(Event.Load.Dismiss);
+                $scope.search();
+            }).catch(function () {
+                $rootScope.$broadcast(Event.Message.Display, 'ลบรูปไม่ได้กรุณาลองใหม่');
+            });
+        });
     };
 
     $scope.showImage = function (url) {

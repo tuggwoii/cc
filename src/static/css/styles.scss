@@ -2679,3 +2679,25 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
     float: left;
     width: 100%;
 }
+
+.admin-file {
+
+    label.category-label {
+        color: #f55d22;
+        font-weight: bold;
+    }
+
+    .category {
+        span {
+            cursor: pointer;
+        }
+
+        span.active {
+            color: #5cb85c;
+        }
+
+        margin-top: 50px;
+        display: inline-block;
+        width: 100%;
+    }
+}

@@ -10,8 +10,13 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Even
     };
 
     $scope.query = {
-        p: 1
+        p: 1,
+        months: '',
+        year: '',
+        type: 1
     };
+
+    $scope.months = Helper.getMonthListAsKeyPair();
 
     function loadResources() {
         $q.all([
@@ -20,7 +25,6 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Even
             $scope.displayView();
         });
     }
-
 
     function isValid() {
         return $scope.user
@@ -121,6 +125,11 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Even
                 }, 500);
             });
         });
+    };
+
+    $scope.categoryClick = function (type) {
+        $scope.query.type = type;
+        $scope.search();
     };
 
     files();

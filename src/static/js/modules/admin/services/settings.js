@@ -15,6 +15,17 @@ module.factory('SettingsService', ['$rootScope', '$http', '$q', 'URLS', function
                 });
             });
         },
+        setAllCarSpace: function (data) {
+            var key = URLS.model(service).all;
+            return $q(function (resolve, reject) {
+                $http.post(URLS.model(service).all + '/carsstorage', data)
+                    .then(function (res) {
+                        resolve(res.data.data);
+                    }).catch(function (res) {
+                        reject(res);
+                    });
+            });
+        },
         update: function (model) {
             return $q(function (resolve, reject) {
                 $http.patch(URLS.model(service).all, model).then(function (res) {

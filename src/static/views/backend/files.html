@@ -10,21 +10,29 @@
         </ul>
     </div>
 
-    <div class="subpage" ng-controller="AdminFilesController">
+    <div class="subpage admin-file" ng-controller="AdminFilesController">
         <h1>
             <img src="/img/logo.png" />
             <span>Files</span>
         </h1>
 
-        <div class="user-filter filter-car">
+        <div  id="report-filters" class="user-filter filter-car">
             <h2>ค้นหา</h2>
             <div class="filter-field">
                 <div class="form-group search-all">
                     <label>ค้นหาทั้งหมด</label>
                     <input type="text" class="form-control" ng-model="query.q" />
                 </div>
-                <div>
-                    <label class="empty"></label>
+                <div class="form-group">
+                    <label>เดือน</label>
+                    <multiple-select options="months" model="query.months"></multiple-select>
+                </div>
+                <div id="sm-margin0" class="form-group">
+                    <label>ปี</label>
+                    <input type="number" class="form-control" ng-model="query.year" />
+                </div>
+
+                <div class="reports-search-button-container">
                     <button class="btn btn-danger" ng-if="!status.loading" ng-click="search()">
                         <i class="fa fa-search"></i>
                     </button>
@@ -33,6 +41,17 @@
                     </button>
                 </div>
             </div>
+        </div>
+
+        <div class="category">
+            <label class="category-label">Categories: </label>
+            <span class="category-item {{query.type==1?'active':''}}" ng-click="categoryClick(1)">User</span>
+            <span> | </span>
+            <span class="category-item {{query.type==2?'active':''}}" ng-click="categoryClick(2)">Car</span>
+            <span> | </span>
+            <span class="category-item {{query.type==4?'active':''}}" ng-click="categoryClick(4)">Repair</span>
+            <span> | </span>
+            <span class="category-item {{query.type==3?'active':''}}" ng-click="categoryClick(3)">Shop</span>
         </div>
 
         <div class="users-list">
@@ -64,7 +83,12 @@
                                 <td><a href="javascript:void(0)">{{m.url}}</a></td>
                                 <td><a href="javascript:void(0)">{{m.user.email}}</a></td>
                                 <td><a href="javascript:void(0)">{{(m.size/(1024 * 1024)).toFixed(2)}} MB</a></td>
-                                <td class="action">
+                                <td class="action" style="width:80px;">
+                                    <a class="btn btn-success" href="/admin#!/user?id={{m.user.id}}" ng-if="query.type==1">ดูรายการ</a>
+                                    <a class="btn btn-success" href="/admin#!/edit-car?id={{m.cars[0].id}}" ng-if="query.type==2">ดูรายการ</a>
+                                    <a class="btn btn-success" href="/#!/edit-shop?id={{m.shops[0].id}}&cd=true" ng-if="query.type==3">ดูรายการ</a>
+                                    <a class="btn btn-success" href="/admin#!/repair?id={{m.repair_images[0].repair_id}}" ng-if="query.type==4">ดูรายการ</a>
+
                                     <button class="btn btn-danger" ng-click="delete(m)">ลบไฟล์</button>
                                 </td>
                             </tr>

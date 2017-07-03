@@ -651,6 +651,8 @@ User.hasMany(Car, { foreignKey: 'owner' });
 User.hasMany(Contact, { foreignKey: 'send_by' });
 File.belongsTo(User, { foreignKey: 'owner' });
 File.hasMany(RepairImage, { foreignKey: 'image_id' });
+File.hasMany(Car, { foreignKey: 'image' });
+File.hasMany(Shop, { foreignKey: 'image' });
 Car.belongsTo(User, { foreignKey: 'owner' });
 Car.belongsTo(File, { foreignKey: 'image' })
 Car.hasMany(Notification, { foreignKey: 'for_car' });

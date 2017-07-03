@@ -16,6 +16,10 @@ module.controller('SettingsController', ['$scope', '$rootScope', '$timeout', '$q
         y: 0
     };
 
+    $scope.space = {
+        size: 0
+    };
+
     $scope.emails = [];
 
     function splitEmails(emails) {
@@ -119,6 +123,15 @@ module.controller('SettingsController', ['$scope', '$rootScope', '$timeout', '$q
                 $rootScope.$broadcast(Event.Load.Dismiss);
             });
         }, 'ยืนยันการเพิ่มวันหมดอายุให้รถทุกคันหรือไม่?');
+    };
+
+    $scope.setSize = function () {
+        $rootScope.$broadcast(Event.Confirm.Display, function () {
+            $rootScope.$broadcast(Event.Load.Display);
+            SettingsService.setAllCarSpace($scope.space).then(function () {
+                $rootScope.$broadcast(Event.Load.Dismiss);
+            });
+        }, 'ยืนยันการเพิ่มพื้นที่เก็บไฟล์ให้รถทุกคันหรือไม่?');
     };
 
     settingsPage();
