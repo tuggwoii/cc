@@ -469,8 +469,9 @@ class AccountApi extends BaseApi {
             include: [
                 { model: Role },
                 { model: File },
-                { model: Contact }
-            ]
+                { model: Contact}
+            ],
+            order: [[Contact, 'createdAt', 'DESC']]
         }).then(function (u) {
             context.success(req, res, u, {}, Serializer.me);
         });
