@@ -80,7 +80,7 @@
                             <span>เพื่อ: {{c.type == 1? 'ต่ออายุรถ':'เพิ่มจำนวนรถ'}}</span>
                             <p ng-if="c.cars && c.cars.length && c.type==1">
                                 <span>รถ: </span>
-                                <span ng-repeat="a in c.cars">{{$index != 0 ? ', ':''}}{{a.brand}} {{a.series}} {{a.serial}}</span>
+                                <span ng-repeat="a in c.cars">{{$index != 0 ? ', ':''}}{{a.brand}} {{a.series}} {{a.serial}} {{a.city}}</span>
                             </p>
                         </a>
                     </li>
