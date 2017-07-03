@@ -108,10 +108,10 @@ exports.share = function (data) {
             var f = model.repair_images[i].file;
             if (f) {
                 total += f.size;
-            }
-            if (f.is_delete) {
-                model.repair_images.splice(i, 1);
-                i--;
+                if (f.is_delete) {
+                    model.repair_images.splice(i, 1);
+                    i--;
+                }
             }
         }
         model.using_storage = (total / (1024 * 1024)).toFixed(2);
