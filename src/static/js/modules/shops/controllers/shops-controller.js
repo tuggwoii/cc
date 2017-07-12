@@ -119,6 +119,7 @@ module.controller('ShopsController', ['$scope', '$rootScope', '$timeout', '$q', 
         };
 
         $scope.search = function () {
+            $scope.query.page = 1;
             loadModel();
         };
 
