@@ -18,7 +18,7 @@
     <meta property="og:description" content="<%= title %>, ร้าน<%= shop? shop.name : 'ไม่ระบุ' %>, ราคารวม <%= price ? price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,') : 0 %> บาท, <%= score? score :'ไม่ระบุ' %> ดาว" />
     <meta property="og:type" content="content" />
     <meta property="og:url" content="http://www.carcarenote.com/share/<%= id %>" />
-    <meta property="og:image" content="http://www.carcarenote.com<%= repair_images.length && repair_images[0].file ? repair_images[0].file.url : (car.image.url? car.image.url:'')  %>" />
+    <meta property="og:image" content="http://www.carcarenote.com<%= repair_images.length && repair_images[0].file ? repair_images[0].file.url : (car.image? car.image.url:'')  %>" />
 </head>
 <body class="app" ng-controller="AppController">
     <div class="screen {{viewReady?'fadeIn':''}}">
