@@ -290,22 +290,6 @@ class ReportApi extends BaseApi {
                         context.success(req, res, {});
                     });
                 });
-
-                /*
-                _report.save(['file_id']).then(function (_newReport) {
-                    RepairImage.destroy({ where: { image_id: req.params.id } }).then(function () {
-                        File.destroy({ where: { id: req.params.id } }).then(function () {
-                            fs.unlinkSync(file_url);
-                            context.success(req, res, {});
-                        }).catch(function (err) {
-                            context.error(req, res, err, 500);
-                        });
-                    }).catch(function (err) {
-                        context.error(req, res, err, 500);
-                    });
-                }).catch(function (err) {
-                    context.error(req, res, err, 500);
-                });*/
             }).catch(function (err) {
                 context.error(req, res, err, 500);
             });

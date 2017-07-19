@@ -59,10 +59,12 @@ module.exports = function (req, res) {
                 isFound = false;
             }
         }
+
         if (!isFound) {
             res.status(404).render('pages/404.html');
         }
-    }).catch(function () {
+
+    }).catch(function (err) {
         res.status(500).render('pages/500.html');
     });
 };

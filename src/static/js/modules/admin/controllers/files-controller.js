@@ -13,7 +13,8 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Even
         p: 1,
         months: '',
         year: '',
-        type: 1
+        type: 1,
+        sort: '0'
     };
 
     $scope.months = Helper.getMonthListAsKeyPair();
@@ -39,6 +40,7 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Even
                     console.log('GET REPORTS', res);
                 }
                 $scope.model = res.data;
+                initModel($scope.model);
                 $scope.pagings(res.meta);
                 initScroll();
                 resolve();
@@ -47,6 +49,12 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Even
                 $rootScope.$broadcast(Event.Message.Display, 'โหลดข้อมูลล้มเหลวกรุณาลองอีกครั้ง');
             });
         })
+    }
+
+    function initModel(model) {
+        for (var i = 0; i < model.length; i++) {
+            model[i].upload_date = Helper.shortDate(new Date(model[i].createdAt))
+        }
     }
 
     function initScroll() {

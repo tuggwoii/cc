@@ -52,11 +52,7 @@
                     <div class="info-column">
                         <div class="title">
                             <label> ออกรถเมื่อ: </label>
-                            <span>{{car.year ? 'ค.ศ.' + car.year : ''}}</span>
-                        </div>
-                        <div class="title" ng-if="car.date">
-                            <label>วันที่ออกรถ: </label>
-                            <span>{{car.date_str}}</span>
+                            <span>{{car.year && car.month && car.day ? car.day : ''}} {{car.year && car.month ? car.month : ''}} {{car.year ? 'ค.ศ.' + car.year : ''}} {{car.year ? '(พ.ศ.' + (car.year +543) +')' : ''}}</span>
                         </div>
                         <div class="title">
                             <label>สามารถเพิ่มข้อมูลได้ถึง: </label>

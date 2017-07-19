@@ -1,1 +1,73 @@
-[{"id":"1","name":"Home","url":"","view":"pages/index.html","roles":[],"isSys":true,"isMenu":true},{"id":"2","name":"Share","url":"/share","view":"pages/share.html","roles":[],"params":["id"],"model":"share","isSys":true,"isMenu":true},{"id":"3","name":"Admin","url":"/admin","view":"pages/admin.html","roles":["admin"],"params":[],"isSys":true,"isMenu":false},{"id":"4","name":"Payment","url":"/payment","view":"pages/payment.html","roles":[],"params":[],"isSys":true,"isMenu":false},{"id":"test2","name":"About","title":"เกี่ยวกับเรา","url":"/about","view":"static/About.html","isMenu":true,"isStatic":true},{"id":"test3","isStatic":true,"name":"FAQ","url":"/faq","title":"คำถามที่พบบ่อบ","isMenu":true,"view":"static/FAQ.html","content":"<p>คำถามที่พบบ่อบ</p>","_locals":{}},{"id":"test4","name":"อัตราค่าบริการ","title":"อัตราค่าบริการ","url":"/rate","view":"static/อัตราค่าบริการ.html","isMenu":true,"isStatic":true,"content":"<p>ค่าบริการ</p><p>100 บาท / การบันทึก 2 ปี / รถ 1 คัน<br></p>","_locals":{}}]
+[
+  {
+    "id": "1",
+    "name": "Home",
+    "url": "",
+    "view": "pages/index.html",
+    "roles": [],
+    "isSys": true,
+    "isMenu": true
+  },
+  {
+    "id": "2",
+    "name": "Share",
+    "url": "/share",
+    "view": "pages/share.html",
+    "roles": [],
+    "params": [ "id" ],
+    "model": "share",
+    "isSys": true,
+    "isMenu": true
+  },
+  {
+    "id": "3",
+    "name": "Admin",
+    "url": "/admin",
+    "view": "pages/admin.html",
+    "roles": [ "admin" ],
+    "params": [],
+    "isSys": true,
+    "isMenu": false
+  },
+  {
+    "id": "4",
+    "name": "Payment",
+    "url": "/payment",
+    "view": "pages/payment.html",
+    "roles": [],
+    "params": [],
+    "isSys": true,
+    "isMenu": false
+  },
+  {
+    "id": "test2",
+    "name": "About",
+    "title": "เกี่ยวกับเรา",
+    "url": "/about",
+    "view": "static/About.html",
+    "isMenu": true,
+    "isStatic": true
+  },
+  {
+    "id": "test3",
+    "isStatic": true,
+    "name": "FAQ",
+    "url": "/faq",
+    "title": "คำถามที่พบบ่อบ",
+    "isMenu": true,
+    "view": "static/FAQ.html",
+    "content": "<p>คำถามที่พบบ่อบ</p>",
+    "_locals": {}
+  },
+  {
+    "id": "test4",
+    "name": "อัตราค่าบริการ",
+    "title": "อัตราค่าบริการ",
+    "url": "/rate",
+    "view": "static/อัตราค่าบริการ.html",
+    "isMenu": true,
+    "isStatic": true,
+    "content": "<p>ค่าบริการ</p><p>100 บาท / การบันทึก 2 ปี / รถ 1 คัน<br></p>",
+    "_locals": {}
+  }
+]

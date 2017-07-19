@@ -85,7 +85,13 @@ class BaseApi {
         if (req.user) {
             error.user = req.user.id
         }
-        Log.logToDatabase(error);
+
+        Log.logToDatabase(error).then(function () {
+            console.log('Some error has been logged');
+        }).catch(function (err) {
+            console.log('Can not log the error', err);
+            });
+
         res.status(code).json({
             data: {},
             error: error,

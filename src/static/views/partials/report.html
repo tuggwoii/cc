@@ -1,0 +1,135 @@
+﻿<div class="container payment">
+    <div class="breadcrumb">
+        <ul>
+            <li>
+                <a ng-click="navigateTo('/#!/', true)">{{strings['nav_home']}} ></a>
+            </li>
+            <li>Report Problem</li>
+        </ul>
+    </div>
+    <div class="subpage repair-detail" ng-controller="ProblemReportController">
+        <h1>
+            <img src="/img/logo.png" />
+            <span>แจ้งปัญหาการใช้งาน</span>
+        </h1>
+        <form name="form">
+            <div class="form-group">
+                <label class="capital">
+                    เลือกกลุ่มหัวข้อปัญหา
+                    <span class="required">*</span>
+                </label>
+                <select name="type"
+                        class="form-control"
+                        ng-required="true"
+                        ng-model="model.type">
+                    <option value="การใช้งานระบบ">การใช้งานระบบ</option>
+                </select>
+                <p class="error-message margin-top animated fadeIn"
+                   ng-if="form.type.$error.required && form.type.$dirty">
+                    กรุณาเลือกหัวข้อปัญหา
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="capital">
+                    หัวข้อปัญหา
+                    <span class="required">*</span>
+                </label>
+                <input type="text"
+                       name="title"
+                       ng-required="true"
+                       class="form-control"
+                       placeholder="หัวข้อปัญหา"
+                       ng-model="model.title" />
+                <p class="error-message margin-top animated fadeIn"
+                   ng-if="form.title.$error.required && form.title.$dirty">
+                    กรุณาเลือกหัวข้อปัญหา
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="capital">
+                    ชื่อผู้แจ้ง
+                </label>
+                <input type="text"
+                       name="name"
+                       class="form-control"
+                       placeholder="ชื่อผู้แจ้ง"
+                       ng-model="model.name" />
+            </div>
+
+            <div class="form-group">
+                <label class="capital">
+                    อีเมลล์
+                    <span class="required">*</span>
+                </label>
+                <input type="text"
+                       name="email"
+                        ng-required="true"
+                       class="form-control"
+                       placeholder="อีเมลล์"
+                       ng-model="model.email" />
+                <p class="error-message margin-top animated fadeIn"
+                   ng-if="form.email.$error.required && form.email.$dirty">
+                    กรุณากรอกอีเมลล์
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label class="capital">
+                    เบอร์โทรติดต่อ
+                </label>
+                <input type="text"
+                       name="telephone"
+                       class="form-control"
+                       placeholder="เบอร์โทรติดต่อ"
+                       ng-model="model.telephone" />
+            </div>
+            <div class="form-group">
+                <label class="capital">
+                    รายละเอียด
+                    <span class="required">*</span>
+                </label>
+                <textarea name="detail"
+                          type="text"
+                          ng-required="true"
+                          class="form-control"
+                          placeholder="รายละเอียด"
+                          ng-model="model.detail"></textarea>
+                <p class="error-message margin-top animated fadeIn"
+                   ng-if="form.detail.$error.required && form.detail.$dirty">
+                    กรุณากรอกรายละเอียด
+                </p>
+            </div>
+            <div class="form-group">
+                <label class="capital">
+                    กรอกรหัสความปลอดภัย
+                </label>
+                <div class="captcha">
+                    {{captcha.captcha}}
+                </div>
+                <input type="text"
+                       class="form-control"
+                       placeholder="captcha"
+                       ng-model="model.captcha"
+                       ng-required="true" />
+                <p class="error-message margin-top animated fadeIn"
+                   ng-if="!model.captcha && is_submit">
+                    กรุณากรอกรหัสความปลอดภัย
+                </p>
+                <p class="error-message margin-top animated fadeIn"
+                   ng-if="model.captcha != captcha.captcha  && is_submit">
+                    รหัสความปลอดภัยไม่ถูกต้อง
+                </p>
+            </div>
+            <p class="error-message margin-top animated fadeIn" ng-if="status.error">{{strings['general_error']}}</p>
+            <p class="error-message margin-top animated fadeIn" ng-if="status.invalid">{{strings['invalid_form']}}</p>
+            <hr />
+            <div class="btn-container">
+                <button type="button" class="btn btn-danger" ng-click="submit(form)">
+                    ส่ง
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

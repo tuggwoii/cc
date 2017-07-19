@@ -15,6 +15,8 @@
                 <li class="menu-item {{isShopPage?'active':''}}"><a href="/#!/shops">Shops</a></li>
                 <li class="menu-item {{m.isActive?'active':''}}" ng-repeat="m in menu"><a href="{{m.url}}">{{m.name}}</a></li>
                 <li class="menu-item {{isPaymentPage?'active':''}}" ng-if="user.id"><a href="/payment">Payment</a></li>
+                <li class="menu-item {{isReportPage?'active':''}}"><a href="/#!/report">แจ้งปัญหา</a></li>
+                <li class="menu-item" ng-if="user.id && user.role.id==1"><a href="/admin">Admin</a></li>
                 <li>
                     <div class="login-button-container" ng-if="!user.id" ng-controller="LoginController">
                         <button type="button" class="btn btn-menu btn-default" ng-click="loginToggle()">{{strings['login']}}</button>
@@ -26,6 +28,7 @@
                         <button type="button" class="btn btn-default" ng-click="logout()">{{strings['logout']}}</button>
                     </div>
                 </li>
+                
             </ul>
         </div>
     </div>

@@ -12,6 +12,12 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PaymentService, E
         year: (date.getFullYear() + 543) + ""
     };
 
+    $scope.paymentStatus = [
+        { key: 'ยังไม่ดำเนินการ', value: '0' },
+        { key: 'ดำเนินการแล้ว', value: '1' },
+        { key: 'ไม่พบการโอนเงิน', value: '2' }
+    ];
+
     function genYear() {
         var years = [];
         var now = new Date();
@@ -68,7 +74,14 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, PaymentService, E
     function calculateTotal() {
         $scope.total = 0;
         angular.forEach($scope.model, function (m) {
-            $scope.total += m.price;
+            if ($scope.query.status) {
+                $scope.total += m.price;
+            }
+            else {
+                if (m.status == 1) {
+                    $scope.total += m.price;
+                }
+            }
         });
     }
 

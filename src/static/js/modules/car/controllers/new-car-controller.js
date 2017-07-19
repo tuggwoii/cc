@@ -57,8 +57,11 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
                 if ($scope.model.year) {
                     $scope.model.year = parseInt($scope.model.year);
                 }
-                if ($scope.model.day && $scope.model.month && $scope.model.year) {
-                    $scope.model.date = new Date($scope.model.year, parseInt($scope.model.month) - 1, $scope.model.day);
+                if ($scope.model.day) {
+                    $scope.model.day = parseInt($scope.model.day);
+                }
+                if ($scope.model.month) {
+                    $scope.model.month = parseInt($scope.model.month);
                 }
                 CarService.create($scope.model).then(function (res) {
                     $scope.navigateTo('#!/car?id=' + res.data.id);

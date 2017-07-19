@@ -33,6 +33,9 @@ module.factory('Helper', [function () {
             }
             return months;
         },
+        readableMonth: function (month_number) {
+            return _monthsFull[month_number - 1];
+        },
         readableDate: function (_date) {
             var date = new Date(_date);
             return date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);

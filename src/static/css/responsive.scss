@@ -4,6 +4,12 @@
     }
 }
 
+@media screen and (max-width: 1400px) {
+    .app header .navbar-right a {
+        padding: 0 12px;
+    }
+}
+
 @media screen and (max-width: 1320px) {
     .app.back-office header .navbar-right {
         width: 60%;
@@ -11,6 +17,15 @@
         left: initial;
         top: -18px;
         position: relative;
+    }
+}
+
+@media screen and (max-width: 1235px) {
+    .app header .navbar-right a {
+        padding: 0 7px;
+    }
+    .app header .navbar-right .menu-item a {
+        font-size: 22px;
     }
 }
 
@@ -74,10 +89,6 @@
     .app header nav .navbar-collapse {
         padding: 24px 15px 0;
     }
-
-    .app header .navbar-right a {
-        padding: 0 12px;
-    }
 }
 
 @media screen and (max-width: 1120px) {
@@ -87,6 +98,7 @@
 }
 
 @media screen and (max-width: 992px) {
+     
     .app header nav {
         .navbar-header {
             float: none;
@@ -230,7 +242,16 @@
             margin-top: 53px;
             margin-left: 3.3%;
         }
-    } 
+    }
+    #file-filters {
+        .reports-search-button-container {
+            padding-top: 52px;
+        }
+
+        .form-group {
+            height: 85px;
+        }
+    }
     .setting-btn {
         margin-top: 20px;
         height: 40px;
@@ -780,6 +801,10 @@
     .admin-email {
         margin-top: 5px;
     }
+
+    .files-table-scroll {
+        min-width: 900px;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -1220,6 +1245,12 @@
 
     h2 .see-more, h2 .close-more {
         margin-top: 0px;
+    }
+
+    #file-filters {
+        .reports-search-button-container {
+            padding-top: 30px;
+        }
     }
 }
 

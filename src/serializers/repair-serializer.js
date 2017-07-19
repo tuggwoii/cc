@@ -113,6 +113,10 @@ exports.share = function (data) {
                     i--;
                 }
             }
+            else {
+                model.repair_images.splice(i, 1);
+                i--;
+            }
         }
         model.using_storage = (total / (1024 * 1024)).toFixed(2);
     }

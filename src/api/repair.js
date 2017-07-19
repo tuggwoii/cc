@@ -902,7 +902,7 @@ class RepairApi extends BaseApi {
                     if (req.user.id === owner || req.user.role.id === 1) {
                         RepairImage.destroy({ where: { id: req.params.id, owner: owner } }).then(function () {
                             Report.destroy({ where: { file_id: image_id } }).then(function () {
-                                File.destroy({ where: { id: image_id, owner: req.user.id } }).then(function () {
+                                File.destroy({ where: { id: image_id } }).then(function () {
                                     fs.unlinkSync(file_url);
                                     context.success(req, res, {});
                                 })

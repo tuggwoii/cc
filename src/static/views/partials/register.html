@@ -22,24 +22,24 @@
                        class="form-control"
                        placeholder="ชื่อเรียก"
                        ng-model="model.name"
-                       ng-required="true" 
-                       ng-keypress="keyPress($event, form)"/>
-                <p class="error-message margin-top animated fadeIn" 
+                       ng-required="true"
+                       ng-keypress="keyPress($event, form)" />
+                <p class="error-message margin-top animated fadeIn"
                    ng-if="form.name.$error.required && form.name.$dirty">
                     {{strings['required']}}{{strings['name']}}
                 </p>
             </div>
             <div class="form-group">
                 <label class="capital">
-                   {{strings['email']}}
+                    {{strings['email']}}
                 </label>
                 <input name="email"
                        type="email"
                        class="form-control"
                        placeholder="E-mail"
                        ng-model="model.email"
-                       ng-required="true" 
-                       ng-keypress="keyPress($event, form)"/>
+                       ng-required="true"
+                       ng-keypress="keyPress($event, form)" />
                 <p class="error-message margin-top animated fadeIn"
                    ng-if="form.email.$error.required && form.email.$dirty">
                     {{strings['required']}} {{strings['email']}}
@@ -57,17 +57,18 @@
                        placeholder="Telephone"
                        ng-model="model.telephone"
                        ng-keypress="keyPress($event, form)" />
+            </div>
             <div class="form-group">
                 <label class="capital">
-                   {{strings['password']}}
+                    {{strings['password']}}
                 </label>
                 <input name="password"
                        type="password"
                        class="form-control"
                        placeholder="Password"
                        ng-model="model.password"
-                       ng-required="true" 
-                       ng-keypress="keyPress($event, form)"/>
+                       ng-required="true"
+                       ng-keypress="keyPress($event, form)" />
                 <p class="error-message margin-top animated fadeIn"
                    ng-if="form.password.$error.required && form.password.$dirty">
                     {{strings['required']}} {{strings['password']}}
@@ -81,9 +82,9 @@
                        class="form-control"
                        placeholder="Confirm Password"
                        ng-model="model.confirm_password"
-                       ng-required="true" 
+                       ng-required="true"
                        ng-keypress="keyPress($event, form)" />
-                <p class="error-message margin-top animated fadeIn" 
+                <p class="error-message margin-top animated fadeIn"
                    ng-if="model.password!==model.confirm_password && is_submit">
                     {{strings['password_mismatch']}}
                 </p>
@@ -117,5 +118,4 @@
             </button>
         </form>
     </div>
-    
 </div>

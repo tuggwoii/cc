@@ -183,9 +183,15 @@ var Car = sequelize.define('cars', {
         field: 'year',
         allowNull: true
     },
-    date: {
-        type: Sequelize.DATE,
-        field: 'date'
+    month: {
+        type: Sequelize.INTEGER,
+        field: 'month',
+        allowNull: true
+    },
+    day: {
+        type: Sequelize.INTEGER,
+        field: 'day',
+        allowNull: true
     },
     engine: {
         type: Sequelize.STRING,
@@ -638,6 +644,19 @@ var Setting = sequelize.define('settings', {
     exp_month: {
         type: Sequelize.INTEGER,
         field: 'expMonth'
+    },
+    begin_exp_year: {
+        type: Sequelize.INTEGER,
+        field: 'beginExpYear',
+        allowNull: true
+    },
+    begin_exp_month: {
+        type: Sequelize.INTEGER,
+        field: 'beginExpMonth'
+    },
+    begin_space: {
+        type: Sequelize.INTEGER,
+        field: 'beginSpace'
     },
     admin_emails: {
         type: Sequelize.STRING,

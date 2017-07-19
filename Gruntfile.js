@@ -114,6 +114,8 @@ module.exports = function (grunt) {
                 'src/static/js/modules/report/directives/report-popup.js',
                 'src/static/js/modules/report/services/reports.js',
                 'src/static/resources/areas.js',
+                'src/static/js/modules/problem/controllers/problem-controller.js',
+                'src/static/js/modules/problem/services/problem.js'
             ],
             dest: 'src/static/js/build/frontend.js',
             nonull: true

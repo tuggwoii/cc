@@ -90,24 +90,35 @@ class ContactApi extends BaseApi {
     getAll(context, req, res) {
         var params = url.parse(req.url, true);
         var queries = params.query;
-        var conditions = { };
+        var conditions = {
+            $and: []
+        };
 
         if (queries['status']) {
-            conditions.status = queries['status'];
+            var _or = [];
+            var statuses = queries['status'].split(',');
+            for (var i = 0; i < statuses.length; i++) {
+                _or.push({ status: statuses[i]});
+            }
+            conditions.$and.push({ $or: _or });
         }
 
         if (queries['month']) {
             var lastDaye = DateHelper.getDayNumOfMonth(queries['month'], queries['year']);
-            conditions.createdAt = {
-                $lte: new Date(queries['year'], parseInt(queries['month']) - 1, lastDaye),
-                $gte: new Date(queries['year'], parseInt(queries['month']) - 1, 1)
-            }
+            conditions.$and.push({
+                createdAt: {
+                    $lte: new Date(queries['year'], parseInt(queries['month']) - 1, lastDaye),
+                    $gte: new Date(queries['year'], parseInt(queries['month']) - 1, 1)
+                }
+            })
         }
         else {
-            conditions.createdAt = {
-                $lte: new Date(queries['year'], 11, 31),
-                $gte: new Date(queries['year'],0, 1)
-            }
+            conditions.$and.push({
+                createdAt: {
+                    $lte: new Date(queries['year'], 11, 31),
+                    $gte: new Date(queries['year'], 0, 1)
+                }
+            })
         }
 
         Contact.all({
