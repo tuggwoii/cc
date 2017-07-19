@@ -2674,7 +2674,7 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
 .app.back-office header .navbar-right a {
     padding: 0 12px;
 }
-.reports-search-button-container {
+#files-button-container {
     display: inline-block;
     float: left;
     padding-top: 40px;
@@ -2702,7 +2702,8 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
         width: 100%;
     }
 }
-#file-filters {
+
+#file-filters, #report-filters {
 
     .form-group {
         height: 95px;
