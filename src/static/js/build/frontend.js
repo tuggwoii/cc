@@ -7458,7 +7458,6 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             else if (url == '/' || url == '/admin') {
                 $scope.setNavActive('isHomePage');
             }
-            console.log(url);
             $scope.upload_car_id =''
         });
 
