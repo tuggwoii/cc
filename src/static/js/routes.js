@@ -64,5 +64,8 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('forgot-password', {
           url: "/forgot-password",
           templateUrl: "/partials/forgot-password.html"
-      });
+        }).state('report', {
+            url: "/report",
+            templateUrl: "/partials/report.html"
+        });
 });

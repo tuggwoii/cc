@@ -267,7 +267,8 @@ class CarApi extends BaseApi {
             image: data.image,
             owner: owner.id,
             year: data.year,
-            date: data.date,
+            month: data.month,
+            day: data.day,
             engine: data.engine,
             color: data.color,
             detail: data.detail,
@@ -276,11 +277,17 @@ class CarApi extends BaseApi {
         if (!model.year) {
             model.year = '';
         }
+        if (!model.month) {
+            model.month = '';
+        }
+        if (!model.day) {
+            model.day = '';
+        }
+        if (!model.year) {
+            model.year = '';
+        }
         if (data.id) {
             model.id = data.id;
-        }
-        else {
-            model.max_file_size = 50;
         }
         if (data.image && data.image.id) {
             model.image = data.image.id;
@@ -296,7 +303,8 @@ class CarApi extends BaseApi {
             series: data.series,
             image: data.image,
             year: data.year,
-            date: data.date,
+            month: data.month,
+            day: data.day,
             engine: data.engine,
             color: data.color,
             detail: data.detail,
@@ -421,11 +429,12 @@ class CarApi extends BaseApi {
         var data = context.model(req.body, req.user);
         context.validateCreate(req, data).then(function () {
             Setting.all().then(function (_setting) {
-                var setting = { y: _setting[0].exp_year, m: _setting[0].exp_month};
+                var setting = { y: _setting[0].begin_exp_year, m: _setting[0].begin_exp_month, space: _setting[0].begin_space };
                 var exp_date = new Date();
                 exp_date.setMonth(exp_date.getMonth() + setting.m)
                 exp_date.setFullYear(exp_date.getFullYear() + setting.y);
                 data.exp_date = exp_date;
+                data.max_file_size = setting.space;
                 Car.create(data, { isNewRecord: true }).then(function (model) {
                     context.success(req, res, model, {}, CarSerializer.default);
                 }).catch(function (err) {

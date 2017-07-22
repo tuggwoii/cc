@@ -6069,6 +6069,9 @@ module.factory('Helper', [function () {
             }
             return months;
         },
+        readableMonth: function (month_number) {
+            return _monthsFull[month_number - 1];
+        },
         readableDate: function (_date) {
             var date = new Date(_date);
             return date.getDate() + ' ' + this.monthsFull[date.getMonth()] + ' ' + (date.getFullYear() + 543);
@@ -6280,6 +6283,7 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
                 + (query['months'] ? '&months=' + query['months'] : '')
                 + (query['year'] ? '&year=' + query['year'] : '')
                 + (query['type'] ? '&type=' + query['type'] : '')
+                + (query['sort'] ? '&sort=' + query['sort'] : '')
                 ;
             return $q(function (resolve, reject) {
                 $http.get(key).then(function (res) {
@@ -6543,7 +6547,10 @@ module.config(function ($stateProvider, $urlRouterProvider) {
       }).state('forgot-password', {
           url: "/forgot-password",
           templateUrl: "/partials/forgot-password.html"
-      });
+        }).state('report', {
+            url: "/report",
+            templateUrl: "/partials/report.html"
+        });
 });;'use strict';
 module.factory('PageService', ['$q', '$http', 'URLS', function ($q, $http, URLS) {
 
@@ -6816,7 +6823,7 @@ module.factory('RepairService', ['$rootScope', '$http', '$q', '$cookies', 'URLS'
 }]);;'use strict';
 module.factory('URLS', function () {
     var base = '/api/v1/';
-    var models = ['cars', 'files', 'workgroup', 'notifications', 'repairs', 'shops', 'works', 'shares', 'pages', 'contacts', 'reports', 'settings'];
+    var models = ['cars', 'files', 'workgroup', 'notifications', 'repairs', 'shops', 'works', 'shares', 'pages', 'contacts', 'reports', 'settings', 'problems'];
     var endpoints = {
         accounts: {
             login: base + 'accounts/login',
@@ -7384,7 +7391,7 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
         };
 
         var navs = ['isHomePage', 'isSharePage', 'isUsersPage', 'isCarPage', 'isWorksPage', 'isPage', 'isPaymentPage', 'isShopPage',
-            'isFilesPage', 'isRepairsPage', 'isReportsPage', 'isSettingsPage'];
+            'isFilesPage', 'isRepairsPage', 'isReportsPage', 'isSettingsPage', 'isReportPage'];
         $scope.setNavActive = function (active) {
             angular.forEach(navs, function (n) {
                 if (n === active) {
@@ -7447,6 +7454,9 @@ module.controller('AppController', ['$scope', '$rootScope', '$timeout', '$cookie
             }
             else if (location.href.indexOf('settings') > -1) {
                 $scope.setNavActive('isSettingsPage');
+            }
+            else if (location.href.indexOf('report') > -1) {
+                $scope.setNavActive('isReportPage');
             }
             else {
                 $scope.setNavActive('');
@@ -8156,17 +8166,8 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
         }
 
         function setModelDate(model) {
-            if (model.date) {
-                model.date = new Date(model.date);
-                model.day = model.date.getDate() + '';
-                model.month = (model.date.getMonth() + 1) + '';
-                model.date_str = Helper.readableDate(model.date);
-                if (model.date.getFullYear() == 1970 && model.day == '1' && model.month == '1') {
-                    model.date = undefined;
-                    model.day = '';
-                    model.month = '';
-                }
-               
+            if (model.month) {
+                model.month = Helper.readableMonth(model.month);
             }
             if (model.exp_date) {
                 model.exp_date_str = Helper.readableDate(model.exp_date);
@@ -8971,18 +8972,20 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
         }
 
         function setModelDate(model) {
-            if (model.date) {
-                model.date = new Date(model.date);
-                model.day = model.date.getDate() + '';
-                model.month = (model.date.getMonth() + 1) + '';
-                if (model.date.getFullYear() == 1970 && model.day == '1' && model.month == '1') {
-                    model.date = undefined;
-                    model.day = '';
-                    model.month = '';
-                }
-            }
             if (model.year == 0) {
                 model.year = '';
+            }
+            if (model.month == 0) {
+                model.month = '';
+            }
+            else {
+                model.month = model.month + '';
+            }
+            if (model.day == 0) {
+                model.day = '';
+            }
+            else {
+                model.day = model.day + '';
             }
         }
 
@@ -9030,11 +9033,11 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 if ($scope.model.year) {
                     $scope.model.year = parseInt($scope.model.year);
                 }
-                if ($scope.model.day && $scope.model.month && $scope.model.year) {
-                    $scope.model.date = new Date($scope.model.year, parseInt($scope.model.month) - 1, $scope.model.day);
+                if ($scope.model.day) {
+                    $scope.model.day = parseInt($scope.model.day);
                 }
-                else {
-                    $scope.model.date = 0;
+                if ($scope.model.month) {
+                    $scope.model.month = parseInt($scope.model.month);
                 }
                 CarService.update($scope.model).then(function (car) {
                     if (notRedirect) {
@@ -9151,8 +9154,11 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
                 if ($scope.model.year) {
                     $scope.model.year = parseInt($scope.model.year);
                 }
-                if ($scope.model.day && $scope.model.month && $scope.model.year) {
-                    $scope.model.date = new Date($scope.model.year, parseInt($scope.model.month) - 1, $scope.model.day);
+                if ($scope.model.day) {
+                    $scope.model.day = parseInt($scope.model.day);
+                }
+                if ($scope.model.month) {
+                    $scope.model.month = parseInt($scope.model.month);
                 }
                 CarService.create($scope.model).then(function (res) {
                     $scope.navigateTo('#!/car?id=' + res.data.id);
@@ -10948,7 +10954,7 @@ module.factory('ReportService', ['$rootScope', '$http', '$q', 'URLS', function (
          areas: [
              {
                  key: 'krung_thep_maha_nakhon',
-                 th: 'กรุงเทพมหานครฯ',
+                 th: 'กรุงเทพมหานคร',
                  en: 'Krung Thep Maha Nakhon'
              },
              {
@@ -11228,3 +11234,93 @@ function getProvinceByKey(key) {
     });
     return province;
 }
+;'use strict';
+module.controller('ProblemReportController', ['$scope', '$rootScope', '$timeout', '$q', '$location', 'ProblemService', 'Event', 'Helper',
+    function ($scope, $rootScope, $timeout, $q, $location, ProblemService, Event, Helper) {
+
+        function ProblemReportPage() {
+            if ($scope.user_ready) {
+                loadResources();
+            }
+            else {
+                $timeout(function () {
+                    ProblemReportPage();
+                }, 200);
+            }
+        }
+
+        function loadResources() {
+            $q.all([
+                ProblemService.captcha().then(function (res) {
+                    $scope.captcha = res.data;
+                    $scope.model.key = $scope.captcha.key;
+                }).catch(function () {
+
+                })
+            ]).then(function () {
+                $scope.displayView();
+            });
+        }
+
+        function resetForm(form) {
+            angular.forEach(form.$$controls, function (field) {
+                field.$setPristine();
+            });
+            $scope.is_submit = false;
+            $scope.model = {};
+            loadResources();
+        }
+
+        $scope.model = {
+            captcha: '',
+            key: ''
+        };
+
+        $scope.submit = function (form) {
+            $scope.is_submit = true;
+            angular.forEach(form.$error.required, function (field) {
+                field.$setDirty();
+            });
+            if (form.$valid && $scope.model.captcha === $scope.captcha.captcha) {
+                $rootScope.$broadcast(Event.Load.Display);
+                ProblemService.sendReport($scope.model).then(function () {
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                    $rootScope.$broadcast(Event.Message.Display, 'ทางเราได้รับการแจ้งปัญหาของท่านแล้วและจะรีบดำเนินการตรวจสอบให้เร็วที่สุด');
+                    resetForm(form);
+                }).catch(function () {
+                    $rootScope.$broadcast(Event.Load.Dismiss);
+                    $rootScope.$broadcast(Event.Message.Display, 'การแจ้งล้มเหลวกรุณาลองใหม่อีกครั้งหรือติดต่อผู้ดูแลระบบ');
+                });
+            }
+        }
+
+        ProblemReportPage();
+    }]);
+;'use strict';
+module.factory('ProblemService', ['$rootScope', '$http', '$q', 'URLS', function ($rootScope, $http, $q, URLS) {
+
+    var service = 'problems';
+
+    return {
+        sendReport: function (data) {
+            var key = URLS.model(service).all;
+             
+            return $q(function (resolve, reject) {
+                $http.post(key, data).then(function (res) {
+                    resolve(res.data);
+                }).catch(function (res) {
+                    reject(res.data);
+                });
+            });
+        },
+        captcha: function () {
+            return $q(function (resolve, reject) {
+                $http.get(URLS.model(service).captcha).then(function (res) {
+                    resolve(res.data)
+                }).catch(function (res) {
+                    reject(res.data);
+                });
+            });
+        }
+    };
+}]);

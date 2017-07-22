@@ -12,7 +12,10 @@ class SettingApi extends BaseApi {
         var model = {
             exp_year: data.y,
             exp_month: data.m,
-            admin_emails: data.admin_emails
+            admin_emails: data.admin_emails,
+            begin_exp_year: data.by,
+            begin_exp_month: data.bm,
+            begin_space: data.bmb
         };
         if (data.id) {
             model.id = data.id;

@@ -27,7 +27,7 @@
                     <label>เดือน</label>
                     <multiple-select options="months" model="query.months"></multiple-select>
                 </div>
-                <div  id="sm-margin0" class="form-group">
+                <div id="sm-margin0" class="form-group">
                     <label>ปี</label>
                     <input type="number" class="form-control" ng-model="query.year" />
                 </div>
@@ -39,7 +39,7 @@
                         LOADING...
                     </button>
                 </div>
-               
+
             </div>
         </div>
 
@@ -79,7 +79,7 @@
                                 <td class="action" style="max-width:130px;">
                                     <button class="btn btn-danger" ng-click="deleteImage(m.image)" ng-if="!m.image.is_delete">Disable</button>
                                     <button class="btn btn-danger" ng-click="recoverImage(m.image)" ng-if="m.image.is_delete">กู้ภาพคืน</button>
-                                    <button class="btn btn-success"  ng-click="delete(m)">ลบรายการ</button>
+                                    <button class="btn btn-success" ng-click="delete(m)">ลบรายการ</button>
                                     <button class="btn btn-danger" ng-click="removeImage(m.image.repair_images[0])">ลบรูป</button>
                                     <a class="btn btn-success" href="/admin#!/repair?id={{m.image.repair_images[0].repair_id}}">ดูรายการ</a>
                                 </td>

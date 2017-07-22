@@ -2674,10 +2674,11 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
 .app.back-office header .navbar-right a {
     padding: 0 12px;
 }
-.reports-search-button-container {
-    display: block;
+#files-button-container {
+    display: inline-block;
     float: left;
-    width: 100%;
+    padding-top: 40px;
+    padding-left: 3.34%;
 }
 
 .admin-file {
@@ -2699,5 +2700,16 @@ h2 .edit-repair-info-button, h2 .edit-repair-shop-button {
         margin-top: 50px;
         display: inline-block;
         width: 100%;
+    }
+}
+
+#file-filters, #report-filters {
+
+    .form-group {
+        height: 95px;
+    }
+
+    .form-group:nth-child(4n) {
+        margin-left: 0;
     }
 }

@@ -22,7 +22,7 @@ class Share extends Base {
                     { model: User, include: [{ model: File }] },
                     { model: Shop, include: [{ model: File }] },
                     { model: RepairWork, include: [{ model: Work }] },
-                     { model: RepairImage, include: [{ model: File }] }
+                    { model: RepairImage, include: [{ model: File }] }
                 ]
             }).then(function (_data) {
                 if (_data) {
@@ -34,7 +34,7 @@ class Share extends Base {
                 }
             }).catch(function (err) {
                 context.error(res);
-            })
+            });
         }
         else {
             context.notfound(res);

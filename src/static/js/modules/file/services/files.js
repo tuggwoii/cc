@@ -10,6 +10,7 @@ module.factory('FileService', ['$rootScope', '$http', '$q', 'URLS', function ($r
                 + (query['months'] ? '&months=' + query['months'] : '')
                 + (query['year'] ? '&year=' + query['year'] : '')
                 + (query['type'] ? '&type=' + query['type'] : '')
+                + (query['sort'] ? '&sort=' + query['sort'] : '')
                 ;
             return $q(function (resolve, reject) {
                 $http.get(key).then(function (res) {

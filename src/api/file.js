@@ -20,7 +20,7 @@ shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 
 class FileApi extends BaseApi {
 
-    validate (data) {
+    validate(data) {
         var promise = new Promise(function (resolve, reject) {
             if (!data || !data.name) {
                 reject('INVALID DATA');
@@ -56,8 +56,7 @@ class FileApi extends BaseApi {
         if (queries['type']) {
             conditions.$and.push({ type: queries['type'] });
 
-            if (queries['type'] == '2')
-            {
+            if (queries['type'] == '2') {
                 modelsInclude.push({ model: Car });
             }
 
@@ -81,8 +80,8 @@ class FileApi extends BaseApi {
             var _or = [];
             var _months = queries['months'].split(',');
             for (var i = 0; i < _months.length; i++) {
-                var fdate = new Date(parseInt(queries['year']), parseInt(_months[i]), 1);
-                var bdate = new Date(parseInt(queries['year']), parseInt(_months[i]) + 1, 1)
+                var fdate = new Date(parseInt(queries['year']) - 543, parseInt(_months[i]), 1);
+                var bdate = new Date(parseInt(queries['year']) - 543, parseInt(_months[i]) + 1, 1)
 
                 _or.push({
                     $and: [
@@ -101,12 +100,38 @@ class FileApi extends BaseApi {
             }
             conditions.$and.push({ $or: _or });
         }
+        else if (queries['year']) {
+            var _or = [];
+            var fdate = new Date(parseInt(queries['year']) - 543, 0, 1);
+            var bdate = new Date(parseInt(queries['year']) - 543, 11, 1);
+            _or.push({
+                $and: [
+                    {
+                        createdAt: {
+                            $gte: fdate
+                        }
+                    },
+                    {
+                        createdAt: {
+                            $lte: bdate
+                        }
+                    }
+                ]
+            });
+            conditions.$and.push({ $or: _or });
+        }
+
+        var order = [["createdAt", "DESC"]];
+        if (queries['sort'] == '1') {
+            order = [["createdAt", "ASC"]];
+        }
 
         File.all({
             where: conditions,
             offset: skip,
             limit: _limit,
-            include: modelsInclude
+            include: modelsInclude,
+            order: order
         }).then(function (data) {
             File.count({
                 where: conditions
@@ -124,7 +149,7 @@ class FileApi extends BaseApi {
         });
     }
 
-    model (data) {
+    model(data) {
         return {
             url: data.url
         }
@@ -141,38 +166,53 @@ class FileApi extends BaseApi {
                 }
             }
 
-            function removeImageForEachModel(model, condition, prop) {
-                model.all({
-                    where: condition,
-                    include: [
-                        { model: File }
-                    ]
-                }).then(function (data) {
-                    if (data.length) {
-                        var _data = data[0];
-                        _data[prop] = null;
-                        _data.save([prop]).then(function (_new) {
+            function removeImageForEachModel(model, condition, prop, is_delete) {
+                if (is_delete) {
+                    model.destroy({
+                        where: condition,
+                    }).then(function (data) {
+                        Report.destroy({ where: { file_id: condition.image_id } }).then(function (data) {
+                            increaseAndCheckDone();
+                        }).catch(function (err) {
                             increaseAndCheckDone();
                         });
-                    }
-                    else {
+                    }).catch(function (err) {
                         increaseAndCheckDone();
-                    }
-                }).catch(function (err) {
-                    increaseAndCheckDone();
-                });
+                    });
+                }
+                else {
+                    model.all({
+                        where: condition,
+                        include: [
+                            { model: File }
+                        ]
+                    }).then(function (data) {
+                        if (data.length) {
+                            var _data = data[0];
+                            _data[prop] = null;
+                            _data.save([prop]).then(function (_new) {
+                                increaseAndCheckDone();
+                            });
+                        }
+                        else {
+                            increaseAndCheckDone();
+                        }
+                    }).catch(function (err) {
+                        increaseAndCheckDone();
+                    });
+                }
             }
 
             removeImageForEachModel(Report, { file_id: id }, 'file_id');
             removeImageForEachModel(User, { image: id }, 'image');
             removeImageForEachModel(Car, { image: id }, 'image');
             removeImageForEachModel(Shop, { image: id }, 'image');
-            removeImageForEachModel(RepairImage, { image_id: id }, 'image_id');
+            removeImageForEachModel(RepairImage, { image_id: id }, 'image_id', true);
         });
         return promise;
     }
 
-    delete (context, req, res) {
+    delete(context, req, res) {
         if (req.params.id) {
             File.findById(req.params.id).then(function (_file) {
                 if (_file) {
@@ -193,11 +233,10 @@ class FileApi extends BaseApi {
                     context.notfound(res);
                 }
             });
-            
         }
     }
 
-    config () {
+    config() {
         return multer.diskStorage({
             destination: function (req, file, cb) {
                 cb(null, './files/')
@@ -208,7 +247,7 @@ class FileApi extends BaseApi {
         });
     }
 
-    upload (context, req, res) {
+    upload(context, req, res) {
 
         //car 
         var params = url.parse(req.url, true);
@@ -294,17 +333,17 @@ class FileApi extends BaseApi {
                 include: [
                     { model: User },
                     { model: File },
-                     {
-                         model: Repair,
-                         include: [
-                             {
-                                 model: RepairImage,
-                                 include: [
-                                   { model: File }
-                                 ]
-                             }
-                         ]
-                     }
+                    {
+                        model: Repair,
+                        include: [
+                            {
+                                model: RepairImage,
+                                include: [
+                                    { model: File }
+                                ]
+                            }
+                        ]
+                    }
                 ]
             }).then(function (data) {
                 resolve(data);
@@ -315,9 +354,9 @@ class FileApi extends BaseApi {
         return promise;
     }
 
-    endpoints () {
+    endpoints() {
         return [
-			{ url: '/files', method: 'get', roles: ['admin'], response: this.getAll },
+            { url: '/files', method: 'get', roles: ['admin'], response: this.getAll },
             { url: '/files', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] }
         ];
     }

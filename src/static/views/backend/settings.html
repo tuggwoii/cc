@@ -19,6 +19,26 @@
         <div class="row users-list">
             <div class="col-md-12">
                 <div class="form-group">
+                    <h4>จำนวนวน (เดือน/ปี) เริ่มต้นของการสร้างรถใหม่ (ฟรี)</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>ปี</label>
+                            <input type="number" min="0" placeholder="จำนวนปี" class="form-control" ng-model="model.by" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>เดือน</label>
+                            <input type="number" min="0" placeholder="จำนวนเดือน" class="form-control" ng-model="model.bm" />
+                        </div>
+                    </div>
+                    <hr />
+                    <h4>จำนวนวนพื้นที่เก็บข้อมูล (MB) เริ่มต้นของการสร้างรถใหม่ (ฟรี)</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>จำนวนพื้นที่ MB</label>
+                            <input type="number" min="0" placeholder="จำนวนพื้นที่ MB" class="form-control" ng-model="model.bmb" />
+                        </div>
+                    </div>
+                    <hr />
                     <h4>เพิ่มวันหมดอายุในแต่ละครั้งของการต่ออายุ</h4>
                     <div class="row">
                         <div class="col-md-4">
@@ -31,6 +51,7 @@
                         </div>
                     </div>
                 </div>
+                <hr />
                 <div class="form-group">
                     <h4>Admin Emails</h4>
                     <div class="row">

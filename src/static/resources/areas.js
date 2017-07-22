@@ -165,7 +165,7 @@ var areas = [
          areas: [
              {
                  key: 'krung_thep_maha_nakhon',
-                 th: 'กรุงเทพมหานครฯ',
+                 th: 'กรุงเทพมหานคร',
                  en: 'Krung Thep Maha Nakhon'
              },
              {

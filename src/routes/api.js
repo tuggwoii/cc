@@ -15,7 +15,26 @@ var contactApi = require('../api/contact');
 var reportApi = require('../api/report');
 var settingApi = require('../api/setting');
 var logApi = require('../api/log');
-var routes = [staticApi, roleApi, accountApi, pageApi, fileApi, carApi, workgroupApi, notificationApi, repairApi, shopApi, workApi, contactApi, reportApi, settingApi, logApi];
+var reportProblemApi = require('../api/report-problem');
+
+var routes = [
+    staticApi,
+    roleApi,
+    accountApi,
+    pageApi,
+    fileApi,
+    carApi,
+    workgroupApi,
+    notificationApi,
+    repairApi,
+    shopApi,
+    workApi,
+    contactApi,
+    reportApi,
+    settingApi,
+    logApi,
+    reportProblemApi
+];
 
 module.exports = function (request, response) {
     var isFound = false;
@@ -76,11 +95,11 @@ module.exports = function (request, response) {
     }
     if (!isFound) {
         response.status(404).json({
-            data: [],
+            data: {},
             error: {
                 message: 'NOT FOUND'
             },
-            meta: []
+            meta: {}
         });
     }
 };

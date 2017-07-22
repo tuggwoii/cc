@@ -13,7 +13,10 @@ module.controller('SettingsController', ['$scope', '$rootScope', '$timeout', '$q
 
     $scope.model = {
         m: 0,
-        y: 0
+        y: 0,
+        bm: 0,
+        by: 0,
+        bmb: 0
     };
 
     $scope.space = {
@@ -59,7 +62,10 @@ module.controller('SettingsController', ['$scope', '$rootScope', '$timeout', '$q
             id: data.id,
             m: data.exp_month,
             y: data.exp_year,
-            admin_emails: data.admin_emails
+            admin_emails: data.admin_emails,
+            by: data.begin_exp_year,
+            bm: data.begin_exp_month,
+            bmb: data.begin_space
         };
     }
 

@@ -37,18 +37,20 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
         }
 
         function setModelDate(model) {
-            if (model.date) {
-                model.date = new Date(model.date);
-                model.day = model.date.getDate() + '';
-                model.month = (model.date.getMonth() + 1) + '';
-                if (model.date.getFullYear() == 1970 && model.day == '1' && model.month == '1') {
-                    model.date = undefined;
-                    model.day = '';
-                    model.month = '';
-                }
-            }
             if (model.year == 0) {
                 model.year = '';
+            }
+            if (model.month == 0) {
+                model.month = '';
+            }
+            else {
+                model.month = model.month + '';
+            }
+            if (model.day == 0) {
+                model.day = '';
+            }
+            else {
+                model.day = model.day + '';
             }
         }
 
@@ -96,11 +98,11 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                 if ($scope.model.year) {
                     $scope.model.year = parseInt($scope.model.year);
                 }
-                if ($scope.model.day && $scope.model.month && $scope.model.year) {
-                    $scope.model.date = new Date($scope.model.year, parseInt($scope.model.month) - 1, $scope.model.day);
+                if ($scope.model.day) {
+                    $scope.model.day = parseInt($scope.model.day);
                 }
-                else {
-                    $scope.model.date = 0;
+                if ($scope.model.month) {
+                    $scope.model.month = parseInt($scope.model.month);
                 }
                 CarService.update($scope.model).then(function (car) {
                     if (notRedirect) {
