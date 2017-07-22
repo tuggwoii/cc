@@ -98,7 +98,7 @@ class ReportProblemApi extends BaseApi {
 
     endpoints () {
         return [
-            { url: '/problems', method: 'post', roles: ['admin'], response: this.report },
+            { url: '/problems', method: 'post', roles: [], response: this.report },
             { url: '/problems/captcha', method: 'get', roles: [], response: this.captcha }
         ];
     }

@@ -23,7 +23,19 @@ module.controller('ProblemReportController', ['$scope', '$rootScope', '$timeout'
                 })
             ]).then(function () {
                 $scope.displayView();
-            });
+                });
+
+            if (window.carcare.user) {
+                if (window.carcare.user.name) {
+                    $scope.model.name = window.carcare.user.name;
+                }
+                if (window.carcare.user.email) {
+                    $scope.model.email = window.carcare.user.email;
+                }
+                if (window.carcare.user.telephone) {
+                    $scope.model.telephone = window.carcare.user.telephone;
+                }
+            }
         }
 
         function resetForm(form) {
@@ -37,7 +49,10 @@ module.controller('ProblemReportController', ['$scope', '$rootScope', '$timeout'
 
         $scope.model = {
             captcha: '',
-            key: ''
+            key: '',
+            name: '',
+            email: '',
+            telephone: ''
         };
 
         $scope.submit = function (form) {
