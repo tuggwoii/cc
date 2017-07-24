@@ -21,7 +21,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
         function loadResources() {
             $q.all([
                 CarService.getById($scope.params.id).then(function (data) {
-                    $scope.car = data;
+                    $scope.car = angular.copy(data);
                     $scope.repair_query.car = $scope.car.id;
                     setModelDate($scope.car);
                    

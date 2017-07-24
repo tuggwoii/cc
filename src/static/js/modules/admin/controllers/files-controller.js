@@ -85,6 +85,18 @@ function ($scope, $rootScope, $timeout, $q, $location, Helper, FileService, Even
         }
     };
 
+    function genYear() {
+        var years = [];
+        var now = new Date();
+        var final_year = now.getFullYear() + 543;
+        for (var current_year = 2558; current_year <= final_year; current_year++) {
+            years.push(current_year + '');
+        }
+        return years;
+    }
+
+    $scope.years = genYear();
+
     $scope.pagings = function (meta) {
         $scope.pages = [];
         $scope.total = meta.count;

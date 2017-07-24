@@ -8064,7 +8064,7 @@ module.controller('CarController', ['$scope', '$rootScope', '$timeout', '$q', '$
         function loadResources() {
             $q.all([
                 CarService.getById($scope.params.id).then(function (data) {
-                    $scope.car = data;
+                    $scope.car = angular.copy(data);
                     $scope.repair_query.car = $scope.car.id;
                     setModelDate($scope.car);
                    
@@ -8943,7 +8943,6 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             $q.all([
                 CarService.getById($scope.params.id).then(function (data) {
                     $scope.model = data;
-                    setModelDate($scope.model);
                 }).catch(function () {
                     alert('LOAD CAR ERROR');
                 }),
@@ -8951,6 +8950,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                      $scope.cars = angular.copy(res.data);
                 })
             ]).then(function () {
+                setModelDate($scope.model);
                 $scope.displayView();
                 angular.forEach($scope.cars, function (_car) {
                     if (_car.id == $scope.model.id) {
@@ -11251,12 +11251,13 @@ module.controller('ProblemReportController', ['$scope', '$rootScope', '$timeout'
                 ProblemService.captcha().then(function (res) {
                     $scope.captcha = res.data;
                     $scope.model.key = $scope.captcha.key;
+                    $scope.model.type = 'การใช้งานระบบ';
                 }).catch(function () {
 
                 })
             ]).then(function () {
                 $scope.displayView();
-                });
+            });
 
             if (window.carcare.user) {
                 if (window.carcare.user.name) {

@@ -32,7 +32,10 @@
 
                 <div class="form-group">
                     <label>ปี พ.ศ.</label>
-                    <input type="number" class="form-control" ng-model="query.year" />
+                    <select ng-model="query.year" class="form-control">
+                        <option value=""></option>
+                        <option ng-repeat="y in years" value="{{y}}">{{y}}</option>
+                    </select>
                 </div>
 
                 <div class="form-group">

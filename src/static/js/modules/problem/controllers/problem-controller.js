@@ -18,12 +18,13 @@ module.controller('ProblemReportController', ['$scope', '$rootScope', '$timeout'
                 ProblemService.captcha().then(function (res) {
                     $scope.captcha = res.data;
                     $scope.model.key = $scope.captcha.key;
+                    $scope.model.type = 'การใช้งานระบบ';
                 }).catch(function () {
 
                 })
             ]).then(function () {
                 $scope.displayView();
-                });
+            });
 
             if (window.carcare.user) {
                 if (window.carcare.user.name) {

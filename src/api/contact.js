@@ -58,12 +58,11 @@ class ContactApi extends BaseApi {
         return model;
     }
 
-    modelUpdate(data, user) {
+    modelUpdate(data) {
         var model = {
             id: data.id,
             detail: data.detail,
             type: data.type,
-            send_by: user.id,
             car_ids: data.car,
             datetime: data.datetime,
             status: data.status,
@@ -230,7 +229,6 @@ class ContactApi extends BaseApi {
                     }
                 });
 
-
                 if (data.type == 1) {
                     var ids = model.car_ids.split(',');
                     context.autoExpandCarExpire(ids).then(function () {
@@ -259,7 +257,7 @@ class ContactApi extends BaseApi {
     }
 
     update(context, req, res) {
-        var data = context.modelUpdate(req.body, req.user);
+        var data = context.modelUpdate(req.body);
         context.validateUpdate(data).then(function () {
             context.getById(data.id).then(function (_contact) {
                 if (_contact) {

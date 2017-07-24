@@ -11,7 +11,6 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             $q.all([
                 CarService.getById($scope.params.id).then(function (data) {
                     $scope.model = data;
-                    setModelDate($scope.model);
                 }).catch(function () {
                     alert('LOAD CAR ERROR');
                 }),
@@ -19,6 +18,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
                      $scope.cars = angular.copy(res.data);
                 })
             ]).then(function () {
+                setModelDate($scope.model);
                 $scope.displayView();
                 angular.forEach($scope.cars, function (_car) {
                     if (_car.id == $scope.model.id) {
