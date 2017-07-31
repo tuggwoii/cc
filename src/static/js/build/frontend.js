@@ -6069,6 +6069,16 @@ module.factory('Helper', [function () {
             }
             return months;
         },
+        getMonthListFullAsKeyPair: function () {
+            var months = [];
+            for (var i = 1; i <= 12; i++) {
+                months.push({
+                    key: _monthsFull[i - 1],
+                    value: i
+                });
+            }
+            return months;
+        },
         readableMonth: function (month_number) {
             return _monthsFull[month_number - 1];
         },
@@ -8936,7 +8946,7 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
 
         $scope.status = {};
         $scope.dates = Helper.dateArray();
-        $scope.months = Helper.monthArray();
+        $scope.months = Helper.getMonthListFullAsKeyPair();
         $scope.params = $location.search();
 
         function getById() {
@@ -8972,6 +8982,9 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             if (model.year == 0) {
                 model.year = '';
             }
+            else {
+                model.year = model.year + '';
+            }
             if (model.month == 0) {
                 model.month = '';
             }
@@ -8995,6 +9008,18 @@ module.controller('EditCarController', ['$scope', '$rootScope', '$timeout', '$q'
             });
             $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
         }
+
+        function genYears() {
+            var years = [];
+            var now = new Date();
+            var final_year = now.getFullYear();
+            for (var current_year = 1998; current_year <= final_year; current_year++) {
+                years.push(current_year + '');
+            }
+            return years;
+        }
+
+        $scope.years = genYears();
 
         $scope.editCarPage = function () {
             if ($scope.user_ready) {
@@ -9098,7 +9123,7 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
 
         $scope.status = {};
         $scope.dates = Helper.dateArray();
-        $scope.months = Helper.monthArray();
+        $scope.months = Helper.getMonthListFullAsKeyPair();
 
         function validateCar() {
             return $scope.model.brand && $scope.model.series && $scope.model.city && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)))
@@ -9113,6 +9138,18 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
             });
             $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
         }
+
+        function genYears() {
+            var years = [];
+            var now = new Date();
+            var final_year = now.getFullYear();
+            for (var current_year = 1998; current_year <= final_year; current_year++) {
+                years.push(current_year + '');
+            }
+            return years;
+        }
+
+        $scope.years = genYears();
 
         $scope.newCarPage = function () {
             if ($scope.user_ready) {

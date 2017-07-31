@@ -122,7 +122,23 @@
                            placeholder="สีของรถ"
                            ng-model="model.color" />
                 </div>
-                
+
+                <div class="form-group">
+                    <label class="capital">
+                        {{strings['car_year']}}
+                    </label>
+                    <select class="form-control"
+                            ng-model="model.year"
+                            ng-required="true">
+                        <option value=""></option>
+                        <option ng-repeat="y in years" value="{{y}}">{{y}}</option>
+                    </select>
+                    <p class="error-message margin-top animated fadeIn"
+                       ng-if="status.invalid_year">
+                        ปีที่ออกรถไม่ถูกต้อง
+                    </p>
+                </div>
+
                 <div class="form-group">
                     <div class="short-field">
                         <label class="capital">
@@ -142,23 +158,11 @@
                         <select class="form-control"
                                 ng-model="model.month">
                             <option value=""></option>
-                            <option ng-repeat="month in months" value="{{month}}">{{month}}</option>
+                            <option ng-repeat="month in months" value="{{month.value}}">{{month.key}}</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="capital">
-                        {{strings['car_year']}}
-                    </label>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="ปีที่ออกรถ เป็น ค.ศ."
-                           ng-model="model.year"/>
-                    <p class="error-message margin-top animated fadeIn"
-                       ng-if="status.invalid_year">
-                        ปีที่ออกรถไม่ถูกต้อง
-                    </p>
-                </div>
+                
                 <div class="form-group">
                     <div class="short-field">
                         <label class="capital">
@@ -177,7 +181,7 @@
                         <select class="form-control"
                                 ng-model="model.exp_month"
                                 ng-required="true">
-                            <option ng-repeat="month in months" value="{{month}}">{{month}}</option>
+                            <option ng-repeat="month in months" value="{{month.value}}">{{month.key}}</option>
                         </select>
                     </div>
                 </div>

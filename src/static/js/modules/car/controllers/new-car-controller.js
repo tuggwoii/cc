@@ -4,7 +4,7 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
 
         $scope.status = {};
         $scope.dates = Helper.dateArray();
-        $scope.months = Helper.monthArray();
+        $scope.months = Helper.getMonthListFullAsKeyPair();
 
         function validateCar() {
             return $scope.model.brand && $scope.model.series && $scope.model.city && $scope.model.serial && (!$scope.model.year || !isNaN(parseInt($scope.model.year)))
@@ -19,6 +19,18 @@ module.controller('NewCarController', ['$scope', '$rootScope', '$timeout', '$loc
             });
             $scope.provinces.sort(function (a, b) { return (a.th > b.th) ? 1 : ((b.th > a.th) ? -1 : 0); })
         }
+
+        function genYears() {
+            var years = [];
+            var now = new Date();
+            var final_year = now.getFullYear();
+            for (var current_year = 1998; current_year <= final_year; current_year++) {
+                years.push(current_year + '');
+            }
+            return years;
+        }
+
+        $scope.years = genYears();
 
         $scope.newCarPage = function () {
             if ($scope.user_ready) {

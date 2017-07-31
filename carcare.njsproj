@@ -237,6 +237,8 @@
     <Compile Include="src\static\js\modules\notifications\services\notifications.js" />
     <Compile Include="src\static\js\modules\payment\controllers\payment-controller.js" />
     <Compile Include="src\static\js\modules\payment\services\payment.js" />
+    <Compile Include="src\static\js\modules\problem\controllers\problem-controller.js" />
+    <Compile Include="src\static\js\modules\problem\services\problem.js" />
     <Compile Include="src\static\js\modules\repairs\controllers\edit-repair-controller.js" />
     <Compile Include="src\static\js\modules\repairs\controllers\new-repair-controller.js" />
     <Compile Include="src\static\js\modules\repairs\controllers\repair-controller.js" />
@@ -605,6 +607,7 @@
     <Content Include="src\static\views\pages\404.html" />
     <Content Include="src\static\views\pages\500.html" />
     <Content Include="src\static\views\pages\admin.html" />
+    <Content Include="src\static\views\pages\google45b207d384e8d6ea.html" />
     <Content Include="src\static\views\pages\index.html" />
     <Content Include="src\static\views\pages\payment.html" />
     <Content Include="src\static\views\pages\share.html" />
@@ -781,6 +784,9 @@
     <Folder Include="src\static\js\modules\payment\" />
     <Folder Include="src\static\js\modules\payment\controllers\" />
     <Folder Include="src\static\js\modules\payment\services\" />
+    <Folder Include="src\static\js\modules\problem\" />
+    <Folder Include="src\static\js\modules\problem\controllers\" />
+    <Folder Include="src\static\js\modules\problem\services\" />
     <Folder Include="src\static\js\modules\repairs\" />
     <Folder Include="src\static\js\modules\repairs\controllers\" />
     <Folder Include="src\static\js\modules\repairs\directives\" />

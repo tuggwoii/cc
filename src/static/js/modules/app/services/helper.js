@@ -33,6 +33,16 @@ module.factory('Helper', [function () {
             }
             return months;
         },
+        getMonthListFullAsKeyPair: function () {
+            var months = [];
+            for (var i = 1; i <= 12; i++) {
+                months.push({
+                    key: _monthsFull[i - 1],
+                    value: i
+                });
+            }
+            return months;
+        },
         readableMonth: function (month_number) {
             return _monthsFull[month_number - 1];
         },
