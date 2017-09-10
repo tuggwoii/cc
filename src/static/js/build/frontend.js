@@ -8461,6 +8461,9 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 $scope.model = data;
                 initModel($scope.model);
                 $rootScope.$broadcast(Event.Load.Dismiss);
+                $timeout(function () {
+                    shopExpandCollapse();
+                }, 500);
             }).catch(function () {
                 $timeout(function () {
                     $rootScope.$broadcast(Event.Message.Display, 'โหลดบันทึกการซ่อมไม่ได้กรุณาลองใหม่');
@@ -8492,6 +8495,7 @@ module.controller('RepairController', ['$scope', '$rootScope', '$timeout', '$q',
                 function (shop) {
                     $scope.model.shop = shop;
                     $timeout(function () {
+                        shopExpandCollapse();
                         $scope.save();
                     }, 500);
             });
