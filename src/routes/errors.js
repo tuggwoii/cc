@@ -21,8 +21,7 @@ module.exports = function (err, req, res, next) {
     });
 
     if (req.url.indexOf('/api/v1') > -1) {
-       
-        res.status(code).json({
+        res.status(500).json({
             data: {},
             error: error,
             meta: {}

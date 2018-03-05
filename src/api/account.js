@@ -277,11 +277,7 @@ class AccountApi extends BaseApi {
                                 context.findByEmail(user.email).then(function (_users) {
                                     if (_users.length) {
                                         var aut_user = Serializer.login(_users[0]);
-                                        Authorize.updateAuthorizeUser(aut_user).then(function () {
-                                            context.success(req, res, _users[0], Serializer.me);
-                                        }).catch(function (err) {
-                                            context.error(req, res, err, 500);
-                                        });
+                                        context.success(req, res, _users[0], Serializer.me);
                                     }
                                     else {
                                         context.error(req, res, 'NOT FOUND', 404);
@@ -448,20 +444,6 @@ class AccountApi extends BaseApi {
         }).catch(function (err) {
             context.error(req, res, err, 400);
         });
-    }
-
-    logout (context, req, res) {
-        var user = req.user;
-        if (user) {
-            Authorize.removeUser(user).then(function () {
-                context.success(req, res, {});
-            }).catch(function (err) {
-                context.error(req, res, err, 500);
-            });
-        }
-        else {
-            context.error(req, res, {message:'SESSION NOT FOUND'}, 500);
-        }
     }
 
     me(context, req, res) {
@@ -669,7 +651,6 @@ class AccountApi extends BaseApi {
             { url: '/admin/accounts', method: 'delete', roles: ['admin'], response: this.delete, params: ['id'] },
             { url: '/accounts/me', method: 'get', roles: ['admin', 'user'], response: this.me },
             { url: '/accounts/captcha', method: 'get', roles: [], response: this.captcha },
-            { url: '/accounts/logout', method: 'post', roles: ['admin', 'user'], response: this.logout },
             { url: '/admin/accounts', method: 'patch', roles: ['admin'], response: this.adminUpdate },
             { url: '/admin/accounts', method: 'get', roles: ['admin'], response: this.getById, params: ['id'] },
             { url: '/admin/accounts/hijack', method: 'post', roles: ['admin'], response: this.hijackAccount },

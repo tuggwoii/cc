@@ -65,6 +65,7 @@ module.exports = function (req, res) {
         }
 
     }).catch(function (err) {
+        console.log(err);
         res.status(500).render('pages/500.html');
     });
 };

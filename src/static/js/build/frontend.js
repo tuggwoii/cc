@@ -6980,14 +6980,11 @@ module.factory('AccountService', ['$rootScope', '$http', '$q', '$cookies', 'URLS
                 FB.getLoginStatus(function (crets) {
                     if (crets.authResponse) {
                         FB.logout(function (response) {
-                            //$http.post(URLS.model(service).logout).then(resolve).catch(reject);
+
                         });
-                    } else {
-                        //$http.post(URLS.model(service).logout).then(resolve).catch(reject);
                     }
                 });
-
-                $http.post(URLS.model(service).logout).then(resolve).catch(reject);
+                resolve();
             });
         },
         setAuthenticationToken: function (res) {

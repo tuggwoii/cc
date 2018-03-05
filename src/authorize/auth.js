@@ -1,57 +1,50 @@
 ﻿'use strict';
-var crypto = require('crypto');
 var log = require('../helpers/log.js');
 var fs = require('fs');
-var tokenSession;
-var authoPath = '/src/authorize/authorizeSession.txt';
+var secretKeyPath = '/src/authorize/secret_key.txt';
+var jwt = require('jsonwebtoken');
 
-function readUserSession() {
-    if (tokenSession) {
-        return tokenSession;
-    }
-    else {
-        try {
-            tokenSession = JSON.parse(fs.readFileSync(appRoot + authoPath, 'utf8'));
-            if (!tokenSession) {
-                tokenSession = {};
-            }
-        }
-        catch (err) {
-            var error = {
-                url: 'auth.js',
-                data: tokenSession,
-                params: '',
-                message: err.message ? err.message : err ? err : '',
-                stack: err.stack ? err.stack : '',
-                status: 500
-            }
-            log.logToDatabase(error);
-            tokenSession = {};
-        }
-        return tokenSession;
-    } 
-}
-
-function saveUserSession() {
-    tokenSession = readUserSession();
-    var data = JSON.stringify(tokenSession);
-    if (data) {
-        fs.writeFileSync(appRoot + authoPath, data, 'utf8');
-    }
-}
-
-function generateToken () {
+function generateToken(user) {
     var promise = new Promise(function (resolve, reject) {
-        crypto.randomBytes(48, function (err, buf) {
-            if (err) reject(err);
-            var token = buf.toString('hex');
-            resolve(token);
+        var expiresIn = new Date();
+        expiresIn = expiresIn.setDate(expiresIn.getDate() + 30);
+        user.expiresIn = expiresIn;
+        var secretKey = fs.readFileSync(appRoot + secretKeyPath, 'utf8');
+        jwt.sign(user, secretKey, function (err, token) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(token);
+            }
         });
     });
     return promise;
 }
 
-function permission (res) {
+function decryptUserByTokenAsync(token) {
+    var promise = new Promise(function (resolve, reject) {
+        var secretKey = fs.readFileSync(appRoot + secretKeyPath);
+        jwt.verify(token, secretKey, function (err, user) {
+            if (err) {
+                reject(err);
+            } else {
+                if (user.expiresIn < new Date()) {
+                    reject('token expired');
+                } else {
+                    resolve(user);
+                }
+            }
+        });
+    });
+    return promise;
+}
+function decryptUserByToken(token) {
+    var secretKey = fs.readFileSync(appRoot + secretKeyPath);
+    var user = jwt.verify(token, secretKey);
+    return user;
+}
+
+function rejectPermission (res) {
     res.status(401).json({
         data: [],
         error: {
@@ -62,22 +55,13 @@ function permission (res) {
 }
 
 exports.getUser = function (token) {
-    tokenSession = readUserSession();
-    if (tokenSession[token]) {
-        return tokenSession[token];
-    }
-    else {
-        return null;
-    }
+    return decryptUserByToken(token);
 };
 
 exports.authorizeUser = function (user) {
     var promise = new Promise(function (resolve, reject) {
-        generateToken().then(function (token) {
-            tokenSession = readUserSession();
+        generateToken(user).then(function (token) {
             user.token = token;
-            tokenSession[token] = user;
-            saveUserSession();
             resolve(user);
         }).catch(function (err) {
             reject(err);
@@ -86,95 +70,44 @@ exports.authorizeUser = function (user) {
     return promise;
 };
 
-exports.updateAuthorizeUser = function (user) {
-    var promise = new Promise(function (resolve, reject) {
-        tokenSession = readUserSession();
-        for (var token in tokenSession) {
-            if (tokenSession[token].id === user.id) {
-                tokenSession[token] = user;
-                saveUserSession();
-            }
-        }
-        resolve(user);
-    });
-    return promise;
-};
-
-exports.removeAuthorizeUser = function (user) {
-    var promise = new Promise(function (resolve, reject) {
-        tokenSession = readUserSession();
-        var isAny = false;
-        for (var token in tokenSession) {
-            if (tokenSession[token].id === user.id) {
-                isAny = true;
-                delete tokenSession[token];
-            }
-        }
-        if (isAny) {
-            saveUserSession();
-        }
-        resolve();
-    });
-    return promise;
-};
-
-exports.removeUser = function (user) {
-    var promise = new Promise(function (resolve, reject) {
-        tokenSession = readUserSession();
-        if (tokenSession[user.token]) {
-            delete tokenSession[user.token];
-            saveUserSession();
-            resolve();
-        }
-        else {
-            reject({ message: 'SESSION NOT FOUND' });
-        }
-    });
-    return promise;
-};
-
 exports.isAuthorize = function (request, roles) {
-    tokenSession = readUserSession();
     var token = request.headers['authorization'];
     if (!token) {
         return false;
     }
-    var user = tokenSession[token];
-    request.user = user;
+    var user = decryptUserByToken(token);
     if (!user) {
         return false;
     }
+    request.user = user;
     return roles.indexOf(user.role.name) > -1;
 };
 
-exports.isPageAuthorize = function (req, roles) {
-    tokenSession = readUserSession();
-    var token = req.cookies.Authorization;
+exports.isPageAuthorize = function (request, roles) {
+    var token = request.cookies.Authorization;
     if (!token) {
         return false;
     }
-    var user = tokenSession[token];
-    req.user = user;
+    var user = decryptUserByToken(token);
     if (!user) {
         return false;
     }
+    request.user = user;
     return roles.indexOf(user.role.name) > -1;
 };
 
 exports.protectPath = function (request, response, next) {
-    tokenSession = readUserSession();
     var token = request.headers['authorization'];
     if (!token) {
-        permission(response);
+        rejectPermission(response);
     }
     else {
-        var user = tokenSession[token];
-        if (user) {
+        var user = decryptUserByToken(token);
+        if (!user) {
+            rejectPermission(response);
+        } else {
             request.user = user;
             next();
-        }
-        else {
-            permission(response);
         }
     }    
 };
