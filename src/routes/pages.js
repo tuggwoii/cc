@@ -34,7 +34,7 @@ module.exports = function (req, res) {
                 var permission = true;
                 if (decodeURIComponent(requestUrl.toLowerCase()) === route.url.toLowerCase()) {
                     if (route.roles && route.roles.length) {
-                        if (!authorize.isPageAuthorize(req, route.roles)) {
+                        if (!authorize.isAuthorize(req, route.roles)) {
                             permission = false;
                         }
                     }
