@@ -479,11 +479,11 @@ var Shop = sequelize.define('shops', {
         field: 'province'
     },
     lat: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DOUBLE,
         field: 'lat'
     },
     lon: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DOUBLE,
         field: 'lon'
     },
     map: {

@@ -280,7 +280,6 @@ class FileApi extends BaseApi {
     }
 
     uploading(context, req, res) {
-        console.log('check file', req.file);
         var params = url.parse(req.url, true);
         var queries = params.query;
         var path = '/files/' + req.file.filename;

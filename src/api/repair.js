@@ -41,6 +41,9 @@ class RepairApi extends BaseApi {
                 model.group = data.group;
             }
         }
+        if (!model.for_car) {
+            model.for_car = data.car
+        }
         if (data.shop) {
             model.repair_shop = data.shop.id;
         }
@@ -203,6 +206,30 @@ class RepairApi extends BaseApi {
                     { model: RepairWork, include: [{ model: Work }] },
                     { model: RepairImage, include: [{ model: File }] },
                     { model: Notification }
+                ]
+            }).then(function (data) {
+                resolve(data);
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+        return promise;
+    }
+
+    getShareById(id) {
+        var promise = new Promise(function (resolve, reject) {
+            Repair.all({
+                where: {
+                    id: id,
+                    share: true
+                },
+                include: [
+                    { model: Car, include: [{ model: File }]  },
+                    { model: Work },
+                    { model: User },
+                    { model: Shop, include: [{ model: File }] },
+                    { model: RepairWork, include: [{ model: Work }] },
+                    { model: RepairImage, include: [{ model: File }] }
                 ]
             }).then(function (data) {
                 resolve(data);
@@ -552,7 +579,7 @@ class RepairApi extends BaseApi {
             where: CONDITIONS,
             order: order_by,
             include: [
-                { model: Car}
+                { model: Car, include: [{ model: File }]}
             ],
             offset: skip,
             limit: items
@@ -818,7 +845,9 @@ class RepairApi extends BaseApi {
                                 context.updateShopScoreAndService(context, shopId).then(function () {
                                     context.success(req, res, {});
                                 })
-                            })
+                            }).catch(function (err) {
+                                context.error(req, res, err, 500);
+                            });
                         }).catch(function (err) {
                             context.error(req, res, err, 500);
                         });
@@ -979,8 +1008,27 @@ class RepairApi extends BaseApi {
         }
     }
 
+    getShareDetailById(context, req, res) {
+        if (req.params.id) {
+            context.getShareById(req.params.id).then(function (_repair) {
+                if (_repair && _repair.length) {
+                    context.success(req, res, _repair[0], {}, RepairSerializer.default);
+                }
+                else {
+                    context.notfound(res);
+                }
+            }).catch(function (err) {
+                context.error(req, res, err, 500);
+            });
+        }
+        else {
+            context.notfound(res);
+        }
+    }
+
     endpoints() {
         return [
+            { url: '/shares/details', method: 'get', roles: [], response: this.getShareDetailById, params: ['id'] },
             { url: '/shares', method: 'get', roles: [], response: this.getAll },
             { url: '/repairs/shop', method: 'get', roles: [], response: this.getAllByShop },
             { url: '/repairs', method: 'get', roles: ['admin', 'user'], response: this.getByUser },
